@@ -93,7 +93,8 @@ Art.Hero = {
     s += `<text class="art-txt" transform="translate(${gx0 - 34} ${(gy0 + gy1) / 2}) rotate(-90)" text-anchor="middle" font-size="11.5" font-weight="600">${T('Firmeza (N)', 'Firmness (N)')}</text>`;
     s += `<rect x="${gx0}" y="${f(sy(limit))}" width="${gx1 - gx0}" height="${f(gy0 - sy(limit))}" fill="var(--rojo-fruto)" fill-opacity=".08"/>`;
     s += `<line x1="${gx0}" y1="${f(sy(limit))}" x2="${gx1}" y2="${f(sy(limit))}" stroke="var(--rojo-fruto)" stroke-dasharray="5 3" stroke-width="1.3"/>`;
-    s += `<text class="art-mut" x="${gx1 - 4}" y="${f(sy(limit) - 5)}" text-anchor="end" font-size="10">${T('límite comercial', 'market limit')}</text>`;
+    /* at the left, inside the shaded band: on the right the 13 °C curve runs over the line */
+    s += `<text class="art-mut" x="${gx0 + 6}" y="${f(sy(limit) + 14)}" text-anchor="start" font-size="10">${T('límite comercial', 'market limit')}</text>`;
     Ks.forEach(([k, lab, col], i) => {
       const tl = Math.log(F0 / limit) / k;
       s += `<path class="ph-curve" style="--d:${i}" d="${curve(k)}" fill="none" stroke="${col}" stroke-width="2.6" pathLength="100"/>`;

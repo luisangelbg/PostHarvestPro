@@ -419,19 +419,25 @@ const DataIn = {
       prev.innerHTML = '<table><thead><tr>' + tab.columns.map(c => `<th>${esc(c)}</th>`).join('') + '</tr></thead><tbody>' +
         tab.rows.slice(0, 200).map(r => '<tr>' + tab.columns.map(c => `<td class="${typeof r[c] === 'number' ? 'num' : ''}">${r[c] == null ? '<span class="hint">·</span>' : esc(typeof r[c] === 'number' ? +r[c].toPrecision(10) : r[c])}</td>`).join('') + '</tr>').join('') + '</tbody></table>' +
         (tab.rows.length > 200 ? `<p class="hint" style="padding:6px 10px">${L2('Se muestran las primeras 200 filas.', 'Showing the first 200 rows.')}</p>` : '');
-      fire();
+      fire(true);
     };
-    const fire = () => {
+    /* wait = true when new data arrive (example, file, pasted table, another
+       sheet or column): the analysis runs inside the suite's waiting layer,
+       which only shows when it lasts. A setting that changes (refire) runs
+       at once, so typing in a table never loses the focus to the layer. */
+    const fire = wait => {
       if (!S.table) return;
       const map = {};
       (opts.roles || []).forEach(r => { const s = el(id + 'R_' + r.key); map[r.key] = r.multi ? (s ? [...s.querySelectorAll('input:checked')].map(c => c.value) : []) : (s ? s.value : ''); });
       const miss = (opts.roles || []).filter(r => !r.optional && (r.multi ? !map[r.key].length : !map[r.key]));
       if (miss.length) { showMessage(msg, 'warn', T('Falta elegir la columna de: ', 'Choose the column for: ') + miss.map(r => T(r.es, r.en)).join(', ')); return; }
       state.inputs[id] = { columns: S.table.columns, rows: S.table.rows, map, source: S.source };
-      try { opts.onData({ rows: S.table.rows, columns: S.table.columns, map, source: S.source }); }
-      catch (e) { console.error(e); showMessage(msg, 'error', T('No se pudo analizar: ', 'Could not analyse: ') + esc(e.message || e)); }
+      const run = () => opts.onData({ rows: S.table.rows, columns: S.table.columns, map, source: S.source });
+      const fail = e => showMessage(msg, 'error', T('No se pudo analizar: ', 'Could not analyse: ') + esc((e && e.message) || e));
+      if (wait === true) return afterPaint(T('Analizando los datos…', 'Analyzing the data…'), run).catch(fail);
+      try { run(); } catch (e) { console.error(e); fail(e); }
     };
-    mapHost.addEventListener('change', fire);
+    mapHost.addEventListener('change', () => fire(true));
     host.addEventListener('click', e => {
       const b = e.target.closest('button');
       if (!b) return;
@@ -470,7 +476,7 @@ const DataIn = {
     const api = {
       load(i) { const b = host.querySelector(`[data-ex="${i || 0}"]`); if (b) b.click(); },
       get: () => S.table,
-      refire: fire,
+      refire: () => fire(false),
       /* a table saved in a project file, with its choice of columns */
       restore(saved) { S.restoreMap = saved.map || null; setTable({ columns: saved.columns, rows: saved.rows }, saved.source || 'project'); },
     };
@@ -535,11 +541,13 @@ const Fig = {
     if (!host) return null;
     o = o || {};
     const box = mk('figure', { class: 'fig-box', 'data-fig': o.name || '' });
-    box.innerHTML = (o.title ? `<div class="fig-title">${o.title}</div>` : '') + svg + (o.caption ? `<figcaption>${o.caption}</figcaption>` : '');
+    box.innerHTML = (o.title ? `<div class="fig-title">${Fig.oneTitle(o.title)}</div>` : '') + svg + (o.caption ? `<figcaption>${o.caption}</figcaption>` : '');
     const tools = mk('div', { class: 'fig-tools no-print' });
-    tools.innerHTML = `<button type="button" class="icon-btn" data-svg="1" title="${T('Descargar SVG', 'Download SVG')}" aria-label="${T('Descargar SVG', 'Download SVG')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>` +
-      `<button type="button" class="icon-btn" data-png="1" title="${T('Descargar PNG a 300 ppp', 'Download PNG at 300 ppi')}" aria-label="${T('Descargar PNG a 300 ppp', 'Download PNG at 300 ppi')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M5 17l5-5 4 4 2-2 4 4"/></svg></button>` +
-      (o.data ? `<button type="button" class="icon-btn" data-csv="1" title="${T('Datos de la figura (CSV)', 'Figure data (CSV)')}" aria-label="${T('Datos de la figura (CSV)', 'Figure data (CSV)')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></svg></button>` : '');
+    /* each button carries its name (.fig-tl): hidden under the figure, shown where the
+       figure studio copies the button into its panel («Download (the app's own)») */
+    tools.innerHTML = `<button type="button" class="icon-btn" data-svg="1" title="${T('Descargar SVG', 'Download SVG')}" aria-label="${T('Descargar SVG', 'Download SVG')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span class="fig-tl">SVG</span></button>` +
+      `<button type="button" class="icon-btn" data-png="1" title="${T('Descargar PNG a 300 ppp', 'Download PNG at 300 ppi')}" aria-label="${T('Descargar PNG a 300 ppp', 'Download PNG at 300 ppi')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M5 17l5-5 4 4 2-2 4 4"/></svg><span class="fig-tl">${L2('PNG a 300 ppp', 'PNG at 300 ppi')}</span></button>` +
+      (o.data ? `<button type="button" class="icon-btn" data-csv="1" title="${T('Datos de la figura (CSV)', 'Figure data (CSV)')}" aria-label="${T('Datos de la figura (CSV)', 'Figure data (CSV)')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></svg><span class="fig-tl">${L2('Datos (CSV)', 'Data (CSV)')}</span></button>` : '');
     box.appendChild(tools);
     tools.addEventListener('click', e => {
       const b = e.target.closest('button');
@@ -553,6 +561,16 @@ const Fig = {
     host.appendChild(box);
     if (o.name) state.figures[o.name] = { title: o.titleText || (o.title || '').replace(/<[^>]+>/g, ''), block: o.block || null, at: Date.now() };
     return box;
+  },
+  /* a title built as L2('Cinética de ', 'Kinetics of ') + name leaves the name outside
+     the language spans, and whoever reads one language (the figure editor, the
+     studio) gets «Cinética de». Rebuilt here so each span holds the whole title. */
+  oneTitle(html) {
+    const d = mk('div', null, html), top = [...d.childNodes];
+    const isL = n => n.nodeType === 1 && n.hasAttribute('data-l');
+    if (!top.some(isL) || top.every(isL)) return html;
+    const side = l => top.map(n => (isL(n) ? (n.getAttribute('data-l') === l ? n.innerHTML : '') : n.nodeType === 3 ? esc(n.textContent) : n.outerHTML)).join('');
+    return L2(side('es'), side('en'));
   },
   /* a copy of the SVG with the computed colours and fonts written in (light theme) */
   bake(svg) {
@@ -571,8 +589,12 @@ const Fig = {
       P.forEach(p => {
         let v = cs.getPropertyValue(p);
         if (!v) return;
-        if (p === 'text-transform' && v === 'uppercase' && d.tagName === 'text') { d.textContent = d.textContent.toUpperCase(); return; }
-        if (p === 'text-transform') return;
+        /* capitals written in, text node by text node: a <tspan class="nocase"> (a symbol
+           or a unit) computes to none and keeps its own case */
+        if (p === 'text-transform') {
+          if (v === 'uppercase' && /^(text|tspan)$/.test(d.tagName)) [...d.childNodes].forEach(t => { if (t.nodeType === 3) t.textContent = t.textContent.toUpperCase(); });
+          return;
+        }
         d.style.setProperty(p, v);
       });
       d.removeAttribute('class');
@@ -660,7 +682,71 @@ window.Send = Send;
   if (p && p.id !== 'panel-1' && p.id !== 'panel-9') { state.touched[p.id.replace('panel-', '')] = true; refreshStepMarks(); }
 }, true));
 
+/* ---------------- symbols and units in the labels set in capitals ----------------
+   Field labels, tile labels, figure titles and legend titles are set in capitals
+   by CSS (text-transform: uppercase). Capitals would turn α into «A», ε into «Ε»,
+   µ into «M» (µL → «ML»), a* and b* into «A*» and «B*», Δh° into «ΔH°» (another
+   quantity) and mm into «MM». Every such label is read when it appears and its
+   symbols and units go into <span class="nocase"> (<tspan> in a figure), which
+   keeps their own case; nothing has to be marked label by label. */
+const NoCase = {
+  SEL: '.field > label, .field-label, .stat-label, .fig-title, .f-tag, .eyebrow, .acc-tag, .ex-sim, .pl-legend-title',
+  /* a short group in parentheses without a word of four small letters (the unit of a
+     label, not a phrase such as «(opcional)»), a word with a Greek letter, µ,
+     °, ′, *, a superscript or a subscript, a word with a capital after a small
+     letter (pH, mL, kPa, NaOH) and the units written in small letters */
+  RE: /\((?![^()]*[a-záéíóúüñ]{4})[^()]{1,16}\)|[^\s()]*[α-ωϑϕµ°′″*¹²³⁰-ₜ][^\s()]*|[^\s()]*[a-zµ][A-Z][^\s()]*|(?<![\p{L}\p{N}_])(?:mg|kg|mm|cm|nm|ppm|ppb|kgf|lbf|gf|mmol|kcal|kJ)(?![\p{L}\p{N}_])/gu,
+  wrap(node) {
+    const t = node.nodeValue;
+    NoCase.RE.lastIndex = 0;
+    if (!t || !NoCase.RE.test(t)) return;
+    NoCase.RE.lastIndex = 0;
+    const svg = node.parentNode.namespaceURI === 'http://www.w3.org/2000/svg';
+    const frag = document.createDocumentFragment();
+    let at = 0, m;
+    while ((m = NoCase.RE.exec(t))) {
+      if (m.index > at) frag.appendChild(document.createTextNode(t.slice(at, m.index)));
+      const s = svg ? document.createElementNS('http://www.w3.org/2000/svg', 'tspan') : document.createElement('span');
+      s.setAttribute('class', 'nocase');
+      s.textContent = m[0];
+      frag.appendChild(s);
+      at = m.index + m[0].length;
+    }
+    if (at < t.length) frag.appendChild(document.createTextNode(t.slice(at)));
+    node.parentNode.replaceChild(frag, node);
+  },
+  label(e) {
+    /* a tile named by a unit and nothing more (g, m, Pa, lb, atm in Units) keeps its case whole */
+    const all = e.textContent.trim();
+    if (e.classList.contains('stat-label') && /^[^\s]{1,3}$/.test(all) && /[a-zµ]/.test(all)) { e.classList.add('nocase'); return; }
+    const w =document.createTreeWalker(e, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentNode.closest('.nocase, select, option, textarea, button') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
+    const list = [];
+    while (w.nextNode()) list.push(w.currentNode);
+    list.forEach(NoCase.wrap);
+  },
+  scan(root) {
+    if (!root || root.nodeType !== 1) return;
+    const own = root.closest(NoCase.SEL);
+    if (own) NoCase.label(own);
+    root.querySelectorAll(NoCase.SEL).forEach(NoCase.label);
+  },
+  start() {
+    NoCase.scan(document.body);
+    const todo = new Set();
+    let queued = false;
+    new MutationObserver(ms => {
+      ms.forEach(m => { const n = m.type === 'characterData' ? m.target.parentElement : m.target; if (n && !(n.closest && n.closest('.nocase'))) todo.add(n); });
+      if (queued) return;
+      queued = true;
+      /* before the next frame: the capitals never show */
+      Promise.resolve().then(() => { queued = false; const list = [...todo]; todo.clear(); list.forEach(n => { if (n.isConnected) NoCase.scan(n); }); });
+    }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  },
+};
+window.NoCase = NoCase;
+
 /* ---------------- start ---------------- */
+document.addEventListener('DOMContentLoaded', () => NoCase.start());
 document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
   els('.tool-tabs[role="tablist"]').forEach(l => Tabs.mount(l));
   if (!window.LABG) return;
@@ -684,7 +770,8 @@ document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
 
 /* run a computation after the browser paints, inside the suite's waiting layer */
 function afterPaint(title, fn) {
-  const w = window.LABG && LABG.work ? LABG.work({ title }) : null;
+  /* with a delay: a computation that ends sooner closes without ever showing */
+  const w = window.LABG && LABG.work ? LABG.work({ title, delay: 300 }) : null;
   return (window.LABG ? LABG.nextPaint() : new Promise(r => setTimeout(r, 30)))
     .then(fn)
     .then(r => { if (w && !w.ended) w.done(); return r; }, e => { if (w && !w.ended) w.fail(e && e.message ? e.message : String(e)); console.error(e); throw e; });

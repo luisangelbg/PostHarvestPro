@@ -167,7 +167,8 @@ Q.calibre = function (values, classes) {
     N, counts, out,
     pct: counts.map(c => (N ? 100 * c / N : NaN)),
     mean: N ? Num.mean(x) : NaN, sd: N > 1 ? Num.sd(x) : NaN,
-    mode: classes[counts.indexOf(Math.max(...counts))] ? classes[counts.indexOf(Math.max(...counts))].name : null,
+    /* no unit inside any class: no grade is the most frequent */
+    mode: Math.max(0, ...counts) > 0 ? classes[counts.indexOf(Math.max(...counts))].name : null,
   };
 };
 /* classes for fruit sold by count per box: the count k of a box of B kg

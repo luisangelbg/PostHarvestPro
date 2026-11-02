@@ -180,11 +180,12 @@ Color.dE00 = function (L1, a1, b1, L2, a2, b2, o) {
    Mokrzycki and Tatol 2011, Mach. Graph. Vis. 20:383–411) */
 Color.dEReading = function (dE) {
   if (!(dE >= 0)) return null;
-  if (dE < 1) return { k: 'none', es: 'imperceptible', en: 'not perceptible' };
-  if (dE < 2) return { k: 'expert', es: 'perceptible sólo para un observador entrenado', en: 'perceptible only to a trained observer' };
-  if (dE < 3.5) return { k: 'unskilled', es: 'perceptible para cualquier observador', en: 'perceptible to any observer' };
-  if (dE < 5) return { k: 'clear', es: 'diferencia clara', en: 'clear difference' };
-  return { k: 'different', es: 'se perciben como colores distintos', en: 'perceived as different colours' };
+  /* es, en: the reading on its own (a tile); isEs, isEn: what follows «the difference is» in a sentence */
+  if (dE < 1) return { k: 'none', es: 'imperceptible', en: 'not perceptible', isEs: 'imperceptible', isEn: 'not perceptible' };
+  if (dE < 2) return { k: 'expert', es: 'perceptible sólo para un observador entrenado', en: 'perceptible only to a trained observer', isEs: 'perceptible sólo para un observador entrenado', isEn: 'perceptible only to a trained observer' };
+  if (dE < 3.5) return { k: 'unskilled', es: 'perceptible para cualquier observador', en: 'perceptible to any observer', isEs: 'perceptible para cualquier observador', isEn: 'perceptible to any observer' };
+  if (dE < 5) return { k: 'clear', es: 'diferencia clara', en: 'clear difference', isEs: 'clara', isEn: 'clear' };
+  return { k: 'different', es: 'se perciben como colores distintos', en: 'perceived as different colours', isEs: 'tan grande que se perciben como colores distintos', isEn: 'so large that they are seen as different colors' };
 };
 
 /* ---------------- colour indices of the postharvest literature ----------------
