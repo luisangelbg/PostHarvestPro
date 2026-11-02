@@ -183,4 +183,24 @@ TEST('logistics', 'pallets, vents, conversions, cost, compatibility', a => {
   a.ok(bt.some(x => x.k === 'temp' && x.level === 'bad'), 'banana + lettuce: temperature');
   a.eq(Logi.pairIssues(P('lechuga'), P('brocoli')).length, 0, 'lettuce + broccoli compatible');
 });
+TEST('losses', 'damage curves: shown coefficients are a = e^(ln a) and b; susceptibility in mm³/J', a => {
+  const r = R(); if (!r) { a.ok(false, 'no reference'); return; }
+  const d = r.damage, ms = Loss.damageModels(d.x, d.y), M = id => ms.find(m => m.id === id);
+  a.close(M('power').shown[0], Math.exp(d.power.coef[0]), 1e-9, 'power a'); a.close(M('power').shown[1], d.power.coef[1], 1e-9, 'power b');
+  a.close(M('exponential').shown[0], Math.exp(d.exponential.coef[0]), 1e-9, 'exponential a');
+  a.arr(M('linear').shown, d.linear.coef, 1e-9, 'linear shown = coef');
+  /* the curve passes through its own coefficients: a·1ᵇ = a, a·e⁰ = a */
+  a.close(M('power').predict(1), M('power').shown[0], 1e-12, 'power at x = 1'); a.close(M('exponential').predict(0), M('exponential').shown[0], 1e-12, 'exponential at x = 0');
+  const s = Loss.susceptibilityMean([20, 0, 30, null, 10], [0.2, 0.3, 0.3, 0.4, 0]);
+  a.eq(s.n, 2, 'only bruised fruit with a positive energy'); a.close(s.value, 100, 1e-12, 'mean of 20/0.2 and 30/0.3');
+  a.close(Loss.dropEnergy(0.147, 20), 0.2883, 5e-5, 'm·g·h of the example (energia_J column)');
+});
+TEST('logistics', 'ranges with the true minus sign, one ppm unit', a => {
+  a.eq(Logi.range(0, 0, '°C'), '0 °C', 'equal ends'); a.eq(Logi.range(-1, 4, '°C'), '−1 a 4 °C', 'negative end, es');
+  a.eq(Logi.range(-1, 4, '°C', 1), '−1 to 4 °C', 'negative end, en'); a.eq(Logi.range(85, 90, '%'), '85–90 %', 'en dash');
+  const P = id => Logi.PRODUCTS.find(x => x.id === id);
+  const t = Logi.pairIssues(P('manzana'), P('platano')).find(x => x.k === 'temp');
+  a.ok(t && t.es.includes('−1 a 4 °C') && !/-\d/.test(t.es + t.en), 'apple range in the sentence, no hyphen-minus');
+  a.ok(!('ulL' in Logi.UNITS.concentration), 'µL/L is ppm, listed once');
+});
 })();

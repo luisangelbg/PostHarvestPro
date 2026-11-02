@@ -33,7 +33,7 @@ const tools = [
     <div class="card" id="b5mOut" hidden><h2>${L2('Resultado de la simulación', 'Result of the simulation')}</h2><div id="b5mTiles"></div><div id="b5mRead"></div><div id="b5mFig"></div><div id="b5mTab"></div></div>` },
   { id: 'dano', es: 'Daño mecánico', en: 'Mechanical damage', html: `
     <div class="card"><h2>${L2('Ensayo de impacto o compresión', 'Impact or compression test')}</h2>
-      <p class="hint">${L2('Una fila por fruto: la altura de caída (o la energía, o la fuerza) y el tamaño del daño; opcionalmente si quedó dañado (0/1) y su masa, para calcular la energía del impacto.', 'One row per fruit: the drop height (or the energy, or the force) and the size of the bruise; optionally whether it was bruised (0/1) and its mass, to compute the impact energy.')}</p>
+      <p class="hint">${L2('Una fila por fruto: la altura de caída (o la energía, o la fuerza) y el tamaño del daño; opcionalmente si quedó dañado (0/1), el volumen del daño y la energía del impacto (o la masa, para calcularla como m·g·h), con los que se obtiene la susceptibilidad.', 'One row per fruit: the drop height (or the energy, or the force) and the size of the bruise; optionally whether it was bruised (0/1), the bruise volume and the impact energy (or the mass, to compute it as m·g·h), which give the susceptibility.')}</p>
       <div id="b5dIn"></div></div>
     <div id="b5dOut" hidden><div class="card"><h2>${L2('Curvas de daño', 'Damage curves')}</h2><div id="b5dTiles"></div><div id="b5dRead"></div><div class="figs-2"><div id="b5dFig1"></div><div id="b5dFig2"></div></div><div id="b5dTab"></div><div id="b5dCite"></div></div></div>` },
 ];
@@ -78,7 +78,10 @@ function chainRun() {
 function paintStages() {
   const sel = el('b5mStage'), v = sel.value, st = stages();
   sel.innerHTML = st.map((s, i) => `<option value="${i}">${esc(s.name)}</option>`).join('');
-  sel.value = v && +v < st.length ? v : String(S.ch ? S.ch.ch.byValue[0].i : 0);
+  /* a new chain (other stages) proposes the stage that loses most value; an edit of the same chain keeps the choice */
+  const sig = st.map(s => s.name).join('\n'), same = sig === S.sig;
+  S.sig = sig;
+  sel.value = same && v && +v < st.length ? v : String(S.ch ? S.ch.ch.byValue[0].i : 0);
 }
 function simRun() {
   if (!S.ch) { el('b5mOut').hidden = true; clearMessages('b5mMsg'); showMessage('b5mMsg', 'info', T('Primero arma la cadena en «Pérdidas por etapa».', 'First build the chain in «Losses by stage».')); return; }
@@ -97,16 +100,57 @@ function simRun() {
 }
 
 /* ---------------- mechanical damage ---------------- */
+/* a column name read as a label and a unit: «altura_cm» → «Altura (cm)»;
+   [es, en, es in a sentence, en in a sentence] for the usual names */
+const UNIT_SFX = { mm: 'mm', cm: 'cm', m: 'm', j: 'J', mj: 'mJ', n: 'N', kn: 'kN', g: 'g', kg: 'kg', mm2: 'mm²', cm2: 'cm²', mm3: 'mm³', cm3: 'cm³' };
+const WORDS = {
+  altura: ['Altura', 'Height', 'la altura', 'height'], height: ['Altura', 'Height', 'la altura', 'height'],
+  energia: ['Energía', 'Energy', 'la energía', 'energy'], energy: ['Energía', 'Energy', 'la energía', 'energy'],
+  fuerza: ['Fuerza', 'Force', 'la fuerza', 'force'], force: ['Fuerza', 'Force', 'la fuerza', 'force'],
+  area: ['Área del daño', 'Bruise area', 'el área del daño', 'bruise area'], volumen: ['Volumen del daño', 'Bruise volume', 'el volumen del daño', 'bruise volume'], volume: ['Volumen del daño', 'Bruise volume', 'el volumen del daño', 'bruise volume'],
+  dano: ['Daño', 'Bruise', 'el daño', 'bruise'], profundidad: ['Profundidad del daño', 'Bruise depth', 'la profundidad del daño', 'bruise depth'], diametro: ['Diámetro del daño', 'Bruise diameter', 'el diámetro del daño', 'bruise diameter'],
+  masa: ['Masa', 'Mass', 'la masa', 'mass'], mass: ['Masa', 'Mass', 'la masa', 'mass'],
+};
+function colInfo(c) {
+  const raw = String(c || ''), k = raw.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const parts = k.split(/[_\s]+/).filter(Boolean);
+  const last = parts.length > 1 ? parts[parts.length - 1] : '';
+  const unit = UNIT_SFX[last] || '';
+  const base = (unit ? parts.slice(0, -1) : parts).join(' ');
+  const w = WORDS[base];
+  const own = (unit ? raw.slice(0, raw.length - last.length - 1) : raw).replace(/_/g, ' ');
+  const name = w ? T(w[0], w[1]) : own.charAt(0).toUpperCase() + own.slice(1);
+  return { unit, base, name, label: name + (unit ? ' (' + unit + ')' : ''), inText: w ? T(w[2], w[3]) : '«' + esc(own) + '»' };
+}
+const withUnit = (v, d, u) => Fmt.num(v, d) + (u ? ' ' + u : '');
 function damageRun(D) {
   const m = D.map;
   const rows = D.rows.filter(r => isFinite(r[m.x]) && r[m.x] !== null);
   const x = rows.map(r => +r[m.x]);
-  const res = { models: m.y ? Loss.damageModels(x, colNum(rows, m.y)) : [], logit: null, rows, map: m };
+  const xi = colInfo(m.x), yi = m.y ? colInfo(m.y) : null, u = xi.unit;
+  const xIsEnergy = ['energia', 'energy'].includes(xi.base) || ['J', 'mJ'].includes(u);
+  const xIsHeight = ['altura', 'height'].includes(xi.base) || (!/energ|fuerza|force/.test(xi.base) && ['mm', 'cm', 'm'].includes(u));
+  const res = { models: m.y ? Loss.damageModels(x, colNum(rows, m.y)) : [], logit: null, rows, map: m, bs: null };
   if (m.inc) { const inc = colNum(rows, m.inc); const ok = inc.every(v => v === 0 || v === 1); if (ok) res.logit = Loss.logistic(x, inc); }
-  if (m.mass && m.y) {
-    const E = rows.map(r => Loss.dropEnergy(+r[m.mass] / 1000, +r[m.x]));
-    const pairs = rows.map((r, i) => [E[i], +r[m.y]]).filter(p => p[0] > 0 && p[1] > 0);
-    res.bs = pairs.length ? Num.mean(pairs.map(p => p[1] / p[0])) : NaN;
+  /* susceptibility: the bruise volume when there is a column for it (Bajema and Hyde 1998), else the size of the
+     curves; the energy of its own column, the x axis when it is an energy, or m·g·h from the mass and the drop height */
+  const sizeCol = m.vol || m.y;
+  if (sizeCol) {
+    const si = colInfo(sizeCol);
+    const isVol = !!m.vol || /3$/.test(si.unit) || ['volumen', 'volume'].includes(si.base);
+    const isArea = !isVol && (/2$/.test(si.unit) || si.base === 'area');
+    let E = null, eSrc = '';
+    if (m.en) { const mJ = colInfo(m.en).unit === 'mJ'; E = colNum(rows, m.en).map(v => (v == null ? v : mJ ? v / 1000 : v)); eSrc = 'col'; }
+    else if (xIsEnergy) { E = x.map(v => (u === 'mJ' ? v / 1000 : v)); eSrc = 'x'; }
+    else if (m.mass && xIsHeight) {
+      const kg = colInfo(m.mass).unit === 'kg' ? 1 : 1 / 1000, cm = u === 'm' ? 100 : u === 'mm' ? 0.1 : 1;
+      E = rows.map(r => (r[m.mass] == null ? null : Loss.dropEnergy(+r[m.mass] * kg, +r[m.x] * cm))); eSrc = 'mgh';
+    }
+    if (E) {
+      const q = Loss.susceptibilityMean(colNum(rows, sizeCol), E);
+      const su = isVol ? (si.unit || 'mm³') : isArea ? (si.unit || 'mm²') : '';
+      if (q.n) res.bs = Object.assign(q, { col: sizeCol, isVol, isArea, unit: su ? su + '/J' : '«' + esc(sizeCol) + '»/J', eSrc });
+    }
   }
   S.d = res;
   el('b5dOut').hidden = false;
@@ -114,33 +158,38 @@ function damageRun(D) {
   const lin = res.models.find(q => q.id === 'linear');
   const NAMES = { linear: [T('Lineal', 'Linear'), 'y = a + b·x'], quadratic: [T('Cuadrático', 'Quadratic'), 'y = a + b·x + c·x²'], power: [T('Potencia', 'Power'), 'y = a·xᵇ'], exponential: [T('Exponencial', 'Exponential'), 'y = a·e^(b·x)'] };
   const e50 = res.logit ? res.logit.dose(0.5) : null, e10 = res.logit ? res.logit.dose(0.1) : null;
+  const bs = res.bs;
+  const eTxt = !bs ? '' : bs.eSrc === 'col' ? T('la energía medida («' + esc(m.en) + '»)', 'the measured energy («' + esc(m.en) + '»)') : bs.eSrc === 'x' ? T('la energía del eje x', 'the energy of the x axis') : T('la energía del impacto calculada como m·g·h', 'the impact energy computed as m·g·h');
+  const what = !bs ? '' : bs.isVol ? T('volumen', 'volume') : bs.isArea ? T('área', 'area') : '«' + esc(bs.col) + '»';
   statTiles('b5dTiles', [
     [T('Frutos', 'Fruit'), rows.length],
     best ? [T('Mejor curva (AIC)', 'Best curve (AIC)'), NAMES[best.id][0], 'R² ' + Fmt.num(best.r2, 3)] : null,
-    lin && isFinite(lin.threshold) ? [T('Umbral de daño', 'Damage threshold'), Fmt.num(lin.threshold, 1), esc(m.x) + T(' donde la recta cruza 0', ' where the line crosses 0')] : null,
-    e50 ? [T('Daña al 50 %', 'Bruises 50 %'), Fmt.num(e50.est, 1), 'Fieller ' + Fmt.ci(e50.lo, e50.hi, 1), 'hi'] : null,
-    e10 ? [T('Daña al 10 %', 'Bruises 10 %'), Fmt.num(e10.est, 1), 'Fieller ' + Fmt.ci(e10.lo, e10.hi, 1)] : null,
-    isFinite(res.bs) ? [T('Susceptibilidad', 'Susceptibility'), Fmt.num(res.bs, 0), esc(m.y) + T(' por joule', ' per joule')] : null,
+    lin && isFinite(lin.threshold) ? [T('Umbral de daño', 'Damage threshold'), withUnit(lin.threshold, 1, u), esc(xi.name) + T(' donde la recta cruza 0', ' where the line crosses 0')] : null,
+    e50 ? [T('Daña al 50 %', 'Bruises 50 %'), withUnit(e50.est, 1, u), 'Fieller ' + Fmt.ci(e50.lo, e50.hi, 1), 'hi'] : null,
+    e10 ? [T('Daña al 10 %', 'Bruises 10 %'), withUnit(e10.est, 1, u), 'Fieller ' + Fmt.ci(e10.lo, e10.hi, 1)] : null,
+    bs ? [T('Susceptibilidad al daño', 'Bruise susceptibility'), Fmt.num(bs.value, 0) + ' ' + bs.unit, what + T(' del daño por joule · ', ' of the bruise per joule · ') + bs.n + T(' frutos', ' fruit'), bs.isVol ? '' : 'warn'] : null,
   ]);
-  el('b5dRead').innerHTML = `<div class="reading"><p>${best ? L2(`El daño crece con ${esc(m.x)}; la curva con menor AIC es la <b>${NAMES[best.id][0].toLowerCase()}</b> (${NAMES[best.id][1]}).`, `Damage grows with ${esc(m.x)}; the curve with the lowest AIC is the <b>${NAMES[best.id][0].toLowerCase()}</b> one (${NAMES[best.id][1]}).`) : ''} ${lin && isFinite(lin.threshold) ? L2(`Por la recta, por debajo de ${Fmt.num(lin.threshold, 1)} no se espera daño visible.`, `By the line, below ${Fmt.num(lin.threshold, 1)} no visible damage is expected.`) : ''}</p>${e50 ? `<p>${L2(`La regresión logística dice que la mitad de los frutos se daña a ${Fmt.num(e50.est, 1)} ${Fmt.ci(e50.lo, e50.hi, 1)} y el 10 % a ${Fmt.num(e10.est, 1)}: alturas de caída menores que esa en la línea de empaque mantienen el daño por debajo del 10 %.`, `Logistic regression says half of the fruit bruise at ${Fmt.num(e50.est, 1)} ${Fmt.ci(e50.lo, e50.hi, 1)} and 10 % at ${Fmt.num(e10.est, 1)}: drops lower than that on the packing line keep damage below 10 %.`)}</p>` : ''}</div>`;
+  const bsRead = !bs ? '' : `<p>${L2(`La susceptibilidad al daño es <b>${Fmt.num(bs.value, 0)} ${bs.unit}</b>: la media, en ${bs.n} frutos con daño medido, del ${what} del daño entre ${eTxt}. ${bs.isVol ? 'Es la medida de Bajema y Hyde (1998), que la definen con la energía absorbida; con la del impacto, que es mayor, el valor sale algo menor.' : 'Bajema y Hyde (1998) la definen con el volumen del daño (mm³/J): este valor no se compara con los publicados en mm³/J; elige la columna del volumen si la tienes.'}`, `Bruise susceptibility is <b>${Fmt.num(bs.value, 0)} ${bs.unit}</b>: the mean over ${bs.n} fruit with a measured bruise of the bruise ${what} divided by ${eTxt}. ${bs.isVol ? 'This is the measure of Bajema and Hyde (1998), who define it with the absorbed energy; with the impact energy, which is larger, the value comes out somewhat lower.' : 'Bajema and Hyde (1998) define it with the bruise volume (mm³/J): this value is not comparable with those published in mm³/J; choose the volume column if you have it.'}`)}</p>`;
+  el('b5dRead').innerHTML = `<div class="reading"><p>${best ? L2(`El daño crece con ${xi.inText}; la curva con menor AIC es la <b>${NAMES[best.id][0].toLowerCase()}</b> (${NAMES[best.id][1]}).`, `Damage grows with ${xi.inText}; the curve with the lowest AIC is the <b>${NAMES[best.id][0].toLowerCase()}</b> one (${NAMES[best.id][1]}).`) : ''} ${lin && isFinite(lin.threshold) ? L2(`Por la recta, por debajo de ${withUnit(lin.threshold, 1, u)} no se espera daño visible.`, `By the line, below ${withUnit(lin.threshold, 1, u)} no visible damage is expected.`) : ''}</p>${e50 ? `<p>${L2(`La regresión logística dice que la mitad de los frutos se daña a ${withUnit(e50.est, 1, u)} ${Fmt.ci(e50.lo, e50.hi, 1)} y el 10 % a ${withUnit(e10.est, 1, u)}: ${xIsHeight ? 'alturas de caída menores que esa en la línea de empaque mantienen' : 'valores menores que ese mantienen'} el daño por debajo del 10 %.`, `Logistic regression says half of the fruit bruise at ${withUnit(e50.est, 1, u)} ${Fmt.ci(e50.lo, e50.hi, 1)} and 10 % at ${withUnit(e10.est, 1, u)}: ${xIsHeight ? 'drops lower than that on the packing line keep' : 'values lower than that keep'} damage below 10 %.`)}</p>` : ''}${bsRead}</div>`;
   el('b5dFig1').innerHTML = ''; el('b5dFig2').innerHTML = '';
   if (res.models.length) {
-    const xg = Array.from({ length: 50 }, (_, i) => Math.min(...x) * 0 + (Math.max(...x) * 1.05) * i / 49);
+    const xg = Array.from({ length: 50 }, (_, i) => (Math.max(...x) * 1.05) * i / 49);
     const ser = [{ name: T('frutos', 'fruit'), x, y: colNum(rows, m.y), line: false, alpha: 0.7 }];
     [lin, best].filter((q, i, a) => q && a.indexOf(q) === i).forEach(q => ser.push({ name: NAMES[q.id][0], x: xg.filter(v => !q.logScale || v > 0), y: xg.filter(v => !q.logScale || v > 0).map(q.predict).map(v => Math.max(0, v)), points: false }));
-    Fig.put('b5dFig1', Plot.lines({ name: 'b5-dano', w: 520, h: 340, series: ser, xlab: m.x, ylab: m.y, yZero: true }), { name: 'b5-dano', title: L2('Daño contra ', 'Damage against ') + esc(m.x), block: 5 });
+    Fig.put('b5dFig1', Plot.lines({ name: 'b5-dano', w: 520, h: 340, series: ser, xlab: xi.label, ylab: yi.label, yZero: true }), { name: 'b5-dano', title: L2('Daño contra ', 'Damage against ') + esc(xi.name.toLowerCase()), block: 5 });
   }
   if (res.logit) {
     const lv = [...new Set(x)].sort((a, b) => a - b), inc = colNum(rows, m.inc);
     const prop = lv.map(v => { const k = x.map((xx, i) => (xx === v ? inc[i] : null)).filter(q => q !== null); return k.reduce((s, q) => s + q, 0) / k.length; });
     const xg = Array.from({ length: 60 }, (_, i) => Math.max(...x) * 1.1 * i / 59);
-    Fig.put('b5dFig2', Plot.lines({ name: 'b5-incidencia', w: 520, h: 340, series: [{ name: T('proporción observada', 'observed proportion'), x: lv, y: prop, line: false }, { name: T('logística', 'logistic'), x: xg, y: xg.map(res.logit.predict), points: false }], xlab: m.x, ylab: T('Proporción de frutos dañados', 'Proportion of bruised fruit'), yr: [0, 1.02], hlines: [{ y: 0.5 }, { y: 0.1 }] }), { name: 'b5-incidencia', title: L2('Incidencia de daño', 'Bruise incidence'), block: 5 });
+    Fig.put('b5dFig2', Plot.lines({ name: 'b5-incidencia', w: 520, h: 340, series: [{ name: T('proporción observada', 'observed proportion'), x: lv, y: prop, line: false }, { name: T('logística', 'logistic'), x: xg, y: xg.map(res.logit.predict), points: false }], xlab: xi.label, ylab: T('Proporción de frutos dañados', 'Proportion of bruised fruit'), yr: [0, 1.02], hlines: [{ y: 0.5 }, { y: 0.1 }] }), { name: 'b5-incidencia', title: L2('Incidencia de daño', 'Bruise incidence'), block: 5 });
   }
-  buildTable('b5dTab', [{ key: 'id', label: L2('Curva', 'Curve'), get: q => NAMES[q.id][0] + ' · ' + NAMES[q.id][1] }, { key: 'coef', label: L2('Coeficientes', 'Coefficients'), get: q => q.coef.map(c => Fmt.sig(c, 4)).join(' · ') }, { key: 'r2', label: 'R²', num: true, fmt: v => Fmt.num(v, 4) }, { key: 'aic', label: 'AIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'n', label: 'n', num: true, get: q => q.nUsed || q.n }],
+  /* the coefficients as the curve is written: a, not ln a, in the power and exponential curves */
+  buildTable('b5dTab', [{ key: 'id', label: L2('Curva', 'Curve'), get: q => NAMES[q.id][0] + ' · ' + NAMES[q.id][1] }, { key: 'coef', label: L2('Coeficientes (a · b · c)', 'Coefficients (a · b · c)'), get: q => q.shown.map(c => Fmt.sig(c, 4)).join(' · ') }, { key: 'r2', label: 'R²', num: true, fmt: v => Fmt.num(v, 4) }, { key: 'aic', label: 'AIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'n', label: 'n', num: true, get: q => q.nUsed || q.n }],
     res.models.map(q => Object.assign({ _class: best && q.id === best.id ? 'best' : '' }, q)), { csvName: 'curvas_de_dano' });
   el('b5dCite').innerHTML = '';
   citeMethod('b5dCite', [Refs.short('mohsenin1986'), [T('Susceptibilidad: ', 'Susceptibility: ') + Refs.short('bajema1998'), 'Susceptibility: ' + Refs.short('bajema1998')], [T('Intervalo de Fieller: ', 'Fieller interval: ') + Refs.short('finney1971'), 'Fieller interval: ' + Refs.short('finney1971')]]);
-  state.losses = Object.assign(state.losses || {}, { damage: { e50: e50 ? e50.est : null } });
+  state.losses = Object.assign(state.losses || {}, { damage: { e50: e50 ? e50.est : null, e10: e10 ? e10.est : null, unit: u } });
   Report.set('losses:damage', { order: 52, title: ['Daño mecánico', 'Mechanical damage'], html: () => el('b5dRead').innerHTML + PHRep.fig('b5-dano') + PHRep.fig('b5-incidencia') + PHRep.table('b5dTab') });
 }
 
@@ -171,9 +220,11 @@ document.addEventListener('DOMContentLoaded', () => {
     id: 'b5d',
     roles: [
       { key: 'x', es: 'Altura, energía o fuerza', en: 'Height, energy or force', type: 'num', match: ['altura_cm', 'altura', 'height', 'energia_j', 'energia', 'fuerza'] },
-      { key: 'y', es: 'Tamaño del daño', en: 'Bruise size', optional: true, match: ['area_mm2', 'area', 'volumen_mm3', 'volumen', 'dano_mm', 'bruise'] },
+      { key: 'y', es: 'Tamaño del daño (curvas)', en: 'Bruise size (curves)', optional: true, match: ['area_mm2', 'area', 'volumen_mm3', 'volumen', 'dano_mm', 'bruise'] },
       { key: 'inc', es: 'Dañado (0/1)', en: 'Bruised (0/1)', optional: true, match: ['danado', 'dañado', 'dano', 'bruised', 'incidencia'] },
-      { key: 'mass', es: 'Masa del fruto (g)', en: 'Fruit mass (g)', optional: true, match: ['masa_g', 'masa', 'peso', 'mass'] },
+      { key: 'vol', es: 'Volumen del daño (mm³), para la susceptibilidad', en: 'Bruise volume (mm³), for the susceptibility', optional: true, match: ['volumen_mm3', 'volumen', 'volume', 'bruise_volume'] },
+      { key: 'en', es: 'Energía del impacto (J)', en: 'Impact energy (J)', optional: true, match: ['energia_j', 'energia', 'energy', 'impact_energy'] },
+      { key: 'mass', es: 'Masa del fruto (g), si no hay energía', en: 'Fruit mass (g), if there is no energy', optional: true, match: ['masa_g', 'masa', 'peso', 'mass'] },
     ],
     examples: [{ id: 'jitomateCaidas' }],
     onData: damageRun,

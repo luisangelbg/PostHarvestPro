@@ -18,12 +18,13 @@
 'use strict';
 const S = {};
 const UNIT_KINDS = { temperature: ['Temperatura', 'Temperature'], pressure: ['Presión', 'Pressure'], mass: ['Masa', 'Mass'], force: ['Fuerza (firmeza)', 'Force (firmness)'], length: ['Longitud (espesor)', 'Length (thickness)'], concentration: ['Concentración de gas', 'Gas concentration'] };
-const UNIT_NAMES = { C: '°C', F: '°F', K: 'K', pct: '%', ppm: 'ppm (µL/L)', ppb: 'ppb', ulL: 'µL/L', um: 'µm', mil: 'mil (milésima de pulgada)' };
+const UNIT_NAMES = { C: '°C', F: '°F', K: 'K', pct: '%', ppm: 'ppm (µL/L)', ppb: 'ppb (nL/L)', um: 'µm' };
+const uName = u => (u === 'mil' ? T('mil (milésima de pulgada)', 'mil (thousandth of an inch)') : UNIT_NAMES[u] || u);
 const tools = [
   { id: 'tarima', es: 'Tarima y contenedor', en: 'Pallet and container', html: `
     <div class="card"><h2>${L2('Cajas por tarima', 'Boxes per pallet')}</h2>
       <div class="form-grid tight">${UI.sel('b8pT', 'Tarima', 'Pallet', Logi.PALLETS.map(p => [p.id, p.es, p.en]).concat([['custom', 'Otra medida', 'Other size']]), 'iso')}${UI.num('b8pL', 'Largo de la tarima (cm)', 'Pallet length (cm)', 120)}${UI.num('b8pW', 'Ancho de la tarima (cm)', 'Pallet width (cm)', 100)}${UI.num('b8pH', 'Altura de la tarima (cm)', 'Pallet height (cm)', 15)}</div>
-      <div class="form-grid tight">${UI.num('b8bL', 'Largo de la caja (cm)', 'Box length (cm)', 40)}${UI.num('b8bW', 'Ancho de la caja (cm)', 'Box width (cm)', 30)}${UI.num('b8bH', 'Alto de la caja (cm)', 'Box height (cm)', 20)}${UI.num('b8bKg', 'Peso de la caja llena (kg)', 'Full box weight (kg)', 10)}${UI.num('b8mH', 'Altura máxima de la carga (cm)', 'Maximum load height (cm)', 210)}${UI.num('b8mKg', 'Peso máximo por tarima (kg)', 'Maximum weight per pallet (kg)', 1000)}</div>
+      <div class="form-grid tight">${UI.num('b8bL', 'Largo de la caja (cm)', 'Box length (cm)', 40)}${UI.num('b8bW', 'Ancho de la caja (cm)', 'Box width (cm)', 30)}${UI.num('b8bH', 'Alto de la caja (cm)', 'Box height (cm)', 20)}${UI.num('b8bKg', 'Peso de la caja llena (kg)', 'Full box weight (kg)', 10)}${UI.num('b8mH', 'Altura máxima de la carga (cm)', 'Maximum load height (cm)', 210)}${UI.num('b8mKg', 'Peso máximo de la carga por tarima (kg)', 'Maximum load weight per pallet (kg)', 1000)}${UI.num('b8pKg', 'Peso de la tarima vacía (kg)', 'Empty pallet weight (kg)', 25, { min: 0 })}</div>
       <div id="b8pTiles"></div><div class="figs-2"><div id="b8pFig"></div><div id="b8cFig"></div></div>
       <h3>${L2('Tarimas por contenedor', 'Pallets per container')}</h3>
       <div class="form-grid tight">${UI.sel('b8cT', 'Contenedor', 'Container', Logi.CONTAINERS.map(c => [c.id, c.es, c.en]), 'rf40')}</div>${UI.check('b8cStack', 'Estibar tarimas (dos niveles si caben)', 'Stack pallets (two tiers if they fit)', false)}
@@ -59,10 +60,12 @@ function palletRun() {
   if (![pallet.L, pallet.W, box.l, box.w, box.h].every(v => v > 0)) return;
   const r = Logi.pallet({ pallet, box, maxHeight: UI.v('b8mH'), maxKg: UI.v('b8mKg') });
   const cont = Logi.CONTAINERS.find(c => c.id === UI.s('b8cT'));
-  const c = Logi.container({ container: cont, pallet, palletHeight: r.height, palletKg: r.kg + 25, stack: UI.on('b8cStack'), boxesPerPallet: r.boxes });
+  /* the container carries the load and the pallet itself (wood, about 25 kg; plastic or other sizes weigh otherwise) */
+  const tare = Math.max(0, UI.v('b8pKg') || 0);
+  const c = Logi.container({ container: cont, pallet, palletHeight: r.height, palletKg: r.kg + tare, stack: UI.on('b8cStack'), boxesPerPallet: r.boxes });
   S.p = { r, c };
   statTiles('b8pTiles', [[T('Cajas por cama', 'Boxes per layer'), r.perLayer, T('aprovecha ', 'uses ') + Fmt.pct(r.areaUse) + T(' del área', ' of the area')], [T('Camas', 'Layers'), r.layers, r.limitedByWeight ? T('limitado por peso', 'limited by weight') : T('limitado por altura', 'limited by height'), r.limitedByWeight ? 'warn' : ''], [T('Cajas por tarima', 'Boxes per pallet'), r.boxes, '', 'hi'], [T('Peso de la carga', 'Load weight'), Fmt.num(r.kg, 0) + ' kg', T('altura ', 'height ') + Fmt.num(r.height, 0) + ' cm']]);
-  statTiles('b8cTiles', [[T('Tarimas por contenedor', 'Pallets per container'), c.pallets, c.limitedByWeight ? T('limitado por peso', 'limited by weight') : c.perFloor + T(' por piso', ' per floor'), 'hi'], [T('Cajas por contenedor', 'Boxes per container'), Fmt.num(c.boxes, 0)], [T('Carga', 'Payload'), Fmt.num(c.kg, 0) + ' kg'], [T('Piso aprovechado', 'Floor used'), Fmt.pct(c.areaUse)]]);
+  statTiles('b8cTiles', [[T('Tarimas por contenedor', 'Pallets per container'), c.pallets, c.limitedByWeight ? T('limitado por peso', 'limited by weight') : c.perFloor + T(' por piso', ' per floor'), 'hi'], [T('Cajas por contenedor', 'Boxes per container'), Fmt.num(c.boxes, 0)], [T('Carga', 'Payload'), Fmt.num(c.kg, 0) + ' kg', T('producto y cajas, más ', 'produce and boxes, plus ') + Fmt.num(tare, 0) + T(' kg por tarima vacía', ' kg per empty pallet')], [T('Piso aprovechado', 'Floor used'), Fmt.pct(c.areaUse)]]);
   el('b8pRead').innerHTML = `<div class="reading"><p>${L2(`El mejor acomodo pone <b>${r.perLayer}</b> cajas por cama${r.blocks.length > 1 ? ' combinando dos orientaciones' : ''}, con ${Fmt.pct(r.areaUse)} del área de la tarima. Un aprovechamiento bajo (menos de 85 %) sugiere cambiar la medida de la caja; las cajas no deben sobresalir de la tarima. Deja pasillos para el aire entre las tarimas y la pared del contenedor.`, `The best arrangement puts <b>${r.perLayer}</b> boxes per layer${r.blocks.length > 1 ? ' combining two orientations' : ''}, using ${Fmt.pct(r.areaUse)} of the pallet area. A low use (below 85 %) suggests changing the box size; boxes must not overhang the pallet. Leave air channels between pallets and the container wall.`)}</p></div>`;
   el('b8pFig').innerHTML = ''; el('b8cFig').innerHTML = '';
   Fig.put('b8pFig', Plot.layout({ name: 'b8-tarima', L: pallet.L, W: pallet.W, blocks: r.blocks, caption: pallet.L + ' × ' + pallet.W + ' cm · ' + r.perLayer + T(' cajas por cama', ' boxes per layer'), w: 460, h: 380 }), { name: 'b8-tarima', title: L2('Una cama vista desde arriba', 'One layer seen from above'), block: 8 });
@@ -96,13 +99,17 @@ function airRun() {
   const vpdP = Logi.productVPD(UI.v('b8aTp'), UI.v('b8aT'), UI.v('b8aRH'));
   const loss = Logi.waterLoss(k, Math.max(0, vpdP));
   S.a = { A, O, kPa, loss };
+  /* what raising the humidity to 95 % would do, from the humidity written (the deficit falls with 100 − HR) */
+  const rh = UI.v('b8aRH'), v95 = Logi.productVPD(UI.v('b8aTp'), UI.v('b8aT'), 95), l95 = Logi.waterLoss(k, Math.max(0, v95));
+  const hiRH = rh < 95 ? `Con la HR en 95 % en lugar de ${Fmt.num(rh, 0)} %, el déficit producto–aire bajaría a ${Fmt.num(v95 / 1000, 3)} kPa y la pérdida a ${Fmt.num(l95 * 7, 2)} % por semana.` : 'La HR ya es de 95 % o más: subirla todavía acerca el aire a la saturación y al agua condensada sobre el producto.';
+  const hiRHen = rh < 95 ? `With RH at 95 % instead of ${Fmt.num(rh, 0)} %, the produce–air deficit would fall to ${Fmt.num(v95 / 1000, 3)} kPa and the loss to ${Fmt.num(l95 * 7, 2)} % per week.` : 'RH is already 95 % or more: raising it further brings the air close to saturation and to water condensing on the produce.';
   statTiles('b8aTiles', [
     [T('Presión', 'Pressure'), Fmt.num(kPa, 1) + ' kPa', T('por la altitud', 'from the altitude')], [T('Humedad absoluta', 'Absolute humidity'), Fmt.num(A.absHum, 2) + ' g/m³', Fmt.num(A.Wg, 2) + T(' g/kg de aire seco', ' g/kg dry air')],
     [T('Punto de rocío', 'Dew point'), Fmt.num(A.dew, 1) + ' °C', A.dew > UI.v('b8aTp') ? T('el producto se condensará', 'the produce will sweat') : '', A.dew > UI.v('b8aTp') ? 'warn' : ''], [T('Bulbo húmedo', 'Wet bulb'), Fmt.num(A.wet, 1) + ' °C'], [T('Entalpía', 'Enthalpy'), Fmt.num(A.h, 1) + ' kJ/kg'],
     [T('Déficit del aire', 'Air deficit'), Fmt.num(A.vpd / 1000, 3) + ' kPa'], [T('Déficit producto–aire', 'Produce–air deficit'), Fmt.num(vpdP / 1000, 3) + ' kPa', '', 'hi'],
     [T('Pérdida de agua', 'Water loss'), Fmt.num(loss, 3) + ' % d⁻¹', Fmt.num(loss * 7, 2) + T(' % por semana', ' % per week'), loss * 7 > 3 ? 'warn' : 'good'],
   ]);
-  el('b8aRead').innerHTML = `<div class="reading"><p>${L2(`A ${Fmt.num(UI.v('b8aT'), 1)} °C y ${Fmt.num(UI.v('b8aRH'), 0)} % de HR, con el producto a ${Fmt.num(UI.v('b8aTp'), 1)} °C, el déficit que impulsa la pérdida de agua es ${Fmt.num(vpdP / 1000, 3)} kPa: se pierde alrededor de <b>${Fmt.num(loss * 7, 2)} % del peso por semana</b>. ${vpdP > A.vpd ? 'El producto está más caliente que el aire: terminar el preenfriamiento antes de almacenar reduce mucho la pérdida.' : ''} Subir la HR de 85 a 95 % reduce el déficit del aire a un tercio.`, `At ${Fmt.num(UI.v('b8aT'), 1)} °C and ${Fmt.num(UI.v('b8aRH'), 0)} % RH, with the produce at ${Fmt.num(UI.v('b8aTp'), 1)} °C, the deficit that drives water loss is ${Fmt.num(vpdP / 1000, 3)} kPa: about <b>${Fmt.num(loss * 7, 2)} % of the weight is lost per week</b>. ${vpdP > A.vpd ? 'The produce is warmer than the air: finishing precooling before storage greatly reduces the loss.' : ''} Raising RH from 85 to 95 % cuts the air deficit to a third.`)}</p></div>`;
+  el('b8aRead').innerHTML = `<div class="reading"><p>${L2(`A ${Fmt.num(UI.v('b8aT'), 1)} °C y ${Fmt.num(UI.v('b8aRH'), 0)} % de HR, con el producto a ${Fmt.num(UI.v('b8aTp'), 1)} °C, el déficit que impulsa la pérdida de agua es ${Fmt.num(vpdP / 1000, 3)} kPa: se pierde alrededor de <b>${Fmt.num(loss * 7, 2)} % del peso por semana</b>. ${vpdP > A.vpd ? 'El producto está más caliente que el aire: terminar el preenfriamiento antes de almacenar reduce mucho la pérdida.' : ''} ${hiRH}`, `At ${Fmt.num(UI.v('b8aT'), 1)} °C and ${Fmt.num(UI.v('b8aRH'), 0)} % RH, with the produce at ${Fmt.num(UI.v('b8aTp'), 1)} °C, the deficit that drives water loss is ${Fmt.num(vpdP / 1000, 3)} kPa: about <b>${Fmt.num(loss * 7, 2)} % of the weight is lost per week</b>. ${vpdP > A.vpd ? 'The produce is warmer than the air: finishing precooling before storage greatly reduces the loss.' : ''} ${hiRHen}`)}</p></div>`;
   el('b8aFig').innerHTML = '';
   Fig.put('b8aFig', Plot.psychro({ name: 'b8-psicrometrica', pws: Logi.pws, p: kPa * 1000, tRange: [Math.min(-2, UI.v('b8aT') - 3), Math.max(35, UI.v('b8aOT') + 3)], points: [{ t: A.t, W: A.W, label: T('cámara', 'room'), dew: A.dew }, { t: O.t, W: O.W, label: T('exterior', 'outside') }], xlab: T('Temperatura de bulbo seco (°C)', 'Dry-bulb temperature (°C)'), ylab: T('Razón de humedad (g/kg de aire seco)', 'Humidity ratio (g/kg dry air)') }),
     { name: 'b8-psicrometrica', title: L2('Carta psicrométrica', 'Psychrometric chart'), caption: L2('Curvas de humedad relativa del 10 al 100 % a la presión del sitio; la raya va del punto al rocío.', 'Relative humidity curves from 10 to 100 % at the site pressure; the dash runs from the point to its dew point.'), block: 8 });
@@ -130,13 +137,16 @@ function compatRun() {
   const C = Logi.compatibility(list);
   S.x = { C, list };
   el('b8xOut').hidden = false;
-  const nBad = C.pairs.filter(p => p.issues.some(i => i.level === 'bad')).length, nWarn = C.pairs.filter(p => p.issues.length && !p.issues.some(i => i.level === 'bad')).length;
-  statTiles('b8xTiles', [[T('Productos', 'Products'), list.length], [T('Pares incompatibles', 'Incompatible pairs'), nBad, '', nBad ? 'bad' : 'good'], [T('Pares con riesgo', 'Pairs at risk'), nWarn, '', nWarn ? 'warn' : ''], [T('Temperatura común', 'Shared temperature'), C.shared.tOk ? Fmt.num(C.shared.tLo, 1) + '–' + Fmt.num(C.shared.tHi, 1) + ' °C' : T('no hay', 'none'), '', C.shared.tOk ? 'good' : 'bad'], [T('HR común', 'Shared RH'), C.shared.hOk ? C.shared.hLo + '–' + C.shared.hHi + ' %' : T('no hay', 'none')]]);
+  /* a pair can be incompatible (temperature, strong ethylene) and at risk (some ethylene, humidity, odour) at once: each tile counts every pair with that kind of issue, as the list below names them */
+  const isBad = p => p.issues.some(i => i.level === 'bad'), isWarn = p => p.issues.some(i => i.level === 'warn');
+  const nBad = C.pairs.filter(isBad).length, nWarn = C.pairs.filter(isWarn).length, nBoth = C.pairs.filter(p => isBad(p) && isWarn(p)).length;
+  statTiles('b8xTiles', [[T('Productos', 'Products'), list.length], [T('Pares incompatibles', 'Incompatible pairs'), nBad, '', nBad ? 'bad' : 'good'], [T('Pares con riesgo', 'Pairs at risk'), nWarn, nBoth ? nBoth + T(nBoth === 1 ? ' también incompatible' : ' también incompatibles', nBoth === 1 ? ' also incompatible' : ' also incompatible') : '', nWarn ? 'warn' : ''], [T('Temperatura común', 'Shared temperature'), C.shared.tOk ? Logi.range(C.shared.tLo, C.shared.tHi, '°C', T(0, 1)) : T('no hay', 'none'), '', C.shared.tOk ? 'good' : 'bad'], [T('HR común', 'Shared RH'), C.shared.hOk ? Logi.range(C.shared.hLo, C.shared.hHi, '%', T(0, 1)) : T('no hay', 'none')]]);
   const issues = C.pairs.flatMap(p => p.issues.map(i => ({ i, a: list[p.i], b: list[p.j] })));
   el('b8xRead').innerHTML = `<div class="reading">${issues.length ? '<ul style="margin:0;padding-left:18px">' + issues.map(x => `<li><b>${x.i.level === 'bad' ? T('Incompatible', 'Incompatible') : T('Riesgo', 'Risk')}</b>: ${esc(T(x.i.es, x.i.en))}</li>`).join('') + '</ul>' : `<p>${L2('Estos productos pueden compartir la cámara.', 'These products can share the room.')}</p>`}${C.bad ? `<p>${L2('Sepáralos en cámaras distintas o, para el etileno, ventila o usa un absorbedor; para las temperaturas no hay arreglo: la que protege a uno daña al otro.', 'Separate them into different rooms or, for ethylene, ventilate or use a scrubber; for temperatures there is no fix: what protects one harms the other.')}</p>` : ''}</div>`;
   /* the matrix of pairs */
   const n = list.length, cell = 34, lab = 150, W = lab + n * cell + 20, H = lab + n * cell + 20;
-  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="pl" data-name="b8-compatibilidad" role="img" aria-label="${esc(T('Matriz de compatibilidad', 'Compatibility matrix'))}"><rect class="pl-bg" x="0" y="0" width="${W}" height="${H}"/>`;
+  /* drawn at most about its natural size: with few products the matrix would otherwise fill the whole width */
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" style="max-width:${Math.round(W * 1.3)}px;margin:0 auto" class="pl" data-name="b8-compatibilidad" role="img" aria-label="${esc(T('Matriz de compatibilidad', 'Compatibility matrix'))}"><rect class="pl-bg" x="0" y="0" width="${W}" height="${H}"/>`;
   list.forEach((p, i) => {
     s += `<text class="pl-txt" x="${lab - 6}" y="${lab + i * cell + cell / 2 + 4}" text-anchor="end">${esc(T(p.es, p.en))}</text>`;
     s += `<text class="pl-txt" transform="translate(${lab + i * cell + cell / 2 + 4} ${lab - 6}) rotate(-50)">${esc(T(p.es, p.en))}</text>`;
@@ -160,16 +170,16 @@ function compatRun() {
 /* ---------------- units ---------------- */
 function unitsPaint(rebuild) {
   const k = UI.s('b8uK'), U = Logi.UNITS[k], sel = el('b8uF');
-  if (rebuild) { sel.innerHTML = Object.keys(U).map(u => `<option value="${u}">${esc(UNIT_NAMES[u] || u)}</option>`).join(''); }
+  if (rebuild) { sel.innerHTML = Object.keys(U).map(u => `<option value="${u}">${esc(uName(u))}</option>`).join(''); }
   const v = UI.v('b8uV'), from = sel.value;
-  statTiles('b8uOut', Object.keys(U).filter(u => u !== from).map(u => [UNIT_NAMES[u] || u, Fmt.sig(Logi.convert(k, v, from, u), 6)]));
+  statTiles('b8uOut', Object.keys(U).filter(u => u !== from).map(u => [uName(u), Fmt.sig(Logi.convert(k, v, from, u), 6)]));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const P = el('panel-8');
   P.innerHTML = UI.panel(8, 'Empaque y logística', 'Packaging and logistics', 'Carga, ventilación, ambiente de la cámara, costos, compatibilidad y unidades', 'Loads, venting, room environment, costs, compatibility and units', tools);
   if (window.I18N) I18N.apply(P);
-  ['b8pT', 'b8pL', 'b8pW', 'b8pH', 'b8bL', 'b8bW', 'b8bH', 'b8bKg', 'b8mH', 'b8mKg', 'b8cT', 'b8cStack'].forEach(id => { el(id).addEventListener('change', palletRun); el(id).addEventListener('input', () => { if (id !== 'b8pT' && ['b8pL', 'b8pW', 'b8pH'].includes(id)) el('b8pT').value = 'custom'; palletRun(); }); });
+  ['b8pT', 'b8pL', 'b8pW', 'b8pH', 'b8bL', 'b8bW', 'b8bH', 'b8bKg', 'b8mH', 'b8mKg', 'b8pKg', 'b8cT', 'b8cStack'].forEach(id => { el(id).addEventListener('change', palletRun); el(id).addEventListener('input', () => { if (id !== 'b8pT' && ['b8pL', 'b8pW', 'b8pH'].includes(id)) el('b8pT').value = 'custom'; palletRun(); }); });
   palletRun();
   vTable = EditTable.mount('b8vTable', { id: 'b8v', columns: [{ key: 'face', es: 'Cara', en: 'Face', type: 'select', options: [['long', 'Larga', 'Long'], ['short', 'Corta', 'Short']] }, { key: 'shape', es: 'Forma', en: 'Shape', type: 'select', options: [['oblong', 'Ranura redondeada', 'Rounded slot'], ['rect', 'Rectángulo', 'Rectangle'], ['circle', 'Círculo', 'Circle']] }, { key: 'a', es: 'Largo o diámetro (cm)', en: 'Length or diameter (cm)', type: 'num' }, { key: 'b', es: 'Ancho (cm)', en: 'Width (cm)', type: 'num' }, { key: 'count', es: 'Cantidad', en: 'Count', type: 'num', step: 1 }],
     rows: [{ face: 'long', shape: 'oblong', a: 8, b: 2.5, count: 4 }, { face: 'short', shape: 'oblong', a: 7, b: 2.5, count: 2 }, { face: 'short', shape: 'circle', a: 3, b: null, count: 2 }], blank: () => ({ face: 'long', shape: 'oblong', a: null, b: null, count: 1 }), onChange: ventRun });

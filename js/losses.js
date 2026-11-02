@@ -115,7 +115,10 @@ L.sankey = function (ch, W, H, o) {
    x: drop height (cm) or energy (J); y: bruise size (area mm², volume mm³,
    depth mm…). Models by least squares on the original scale except the
    power and exponential curves, fitted on the log scale (their usual form
-   in the impact literature). */
+   in the impact literature). Their `coef` is the fit on that scale
+   [ln a, b] (the one the validation compares); `shown` gives the
+   coefficients of the curve as it is written, y = a·xᵇ or y = a·e^(b·x),
+   with a = e^(ln a). */
 L.damageModels = function (x, y) {
   const pts = x.map((v, i) => [+v, +y[i]]).filter(p => isFinite(p[0]) && isFinite(p[1]));
   const X = pts.map(p => p[0]), Y = pts.map(p => p[1]), n = pts.length;
@@ -137,16 +140,27 @@ L.damageModels = function (x, y) {
   const pos = pts.filter(p => p[0] > 0 && p[1] > 0);
   if (pos.length >= 3) {
     const fp = Num.lm(pos.map(p => [1, Math.log(p[0])]), pos.map(p => Math.log(p[1])));
-    add('power', fp, v => Math.exp(fp.coef[0]) * Math.pow(v, fp.coef[1]), 2, { logScale: true, nUsed: pos.length });
+    add('power', fp, v => Math.exp(fp.coef[0]) * Math.pow(v, fp.coef[1]), 2, { logScale: true, nUsed: pos.length, shown: [Math.exp(fp.coef[0]), fp.coef[1]] });
     const fe = Num.lm(pos.map(p => [1, p[0]]), pos.map(p => Math.log(p[1])));
-    add('exponential', fe, v => Math.exp(fe.coef[0] + fe.coef[1] * v), 2, { logScale: true, nUsed: pos.length });
+    add('exponential', fe, v => Math.exp(fe.coef[0] + fe.coef[1] * v), 2, { logScale: true, nUsed: pos.length, shown: [Math.exp(fe.coef[0]), fe.coef[1]] });
   }
+  out.forEach(m => { if (!m.shown) m.shown = m.coef.slice(); });
   return out;
 };
 /* impact energy of a drop: E = m·g·h (m in kg, h in m) */
 L.dropEnergy = (massKg, heightCm) => massKg * 9.80665 * heightCm / 100;
-/* bruise susceptibility: bruise volume (mm³) per joule */
+/* bruise susceptibility: bruise volume (mm³) per joule (Bajema and Hyde 1998
+   define it with the energy absorbed; a drop test usually gives the impact
+   energy, m·g·h, or a measured one). With the bruise area instead of the
+   volume the same ratio is in mm² per joule, a variant that cannot be
+   compared with values in mm³/J. */
 L.susceptibility = (volMm3, energyJ) => volMm3 / energyJ;
+/* the mean of size/energy over the fruit with a measured bruise (size > 0)
+   and a positive energy; n: the fruit used */
+L.susceptibilityMean = function (size, energy) {
+  const r = size.map((v, i) => [v, energy[i]]).filter(p => p[0] != null && p[1] != null && isFinite(p[0]) && isFinite(p[1]) && +p[0] > 0 && +p[1] > 0).map(p => L.susceptibility(+p[0], +p[1]));
+  return { value: r.length ? Num.mean(r) : NaN, n: r.length };
+};
 /* bruise volume of a spherical cap (Mohsenin 1986): V = πh(3w²/4 + h²)/6 with
    w the bruise width and h its depth (mm) */
 L.capVolume = (w, h) => Math.PI * h * (3 * w * w / 4 + h * h) / 6;

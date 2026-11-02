@@ -172,7 +172,8 @@ Lg.UNITS = {
   mass: { kg: 1, g: 0.001, lb: 0.45359237, t: 1000, oz: 0.028349523125 },
   force: { N: 1, kgf: 9.80665, lbf: 4.4482216152605, gf: 0.00980665 },
   length: { mm: 1, cm: 10, m: 1000, in: 25.4, ft: 304.8, mil: 0.0254, um: 0.001 },
-  concentration: { pct: 10000, ppm: 1, ppb: 0.001, ulL: 1 },
+  /* ppm by volume is µL/L: one unit, listed once */
+  concentration: { pct: 10000, ppm: 1, ppb: 0.001 },
 };
 Lg.convert = function (kind, v, from, to) {
   const U = Lg.UNITS[kind];
@@ -229,6 +230,11 @@ Lg.PRODUCTS = [
   ['camote', 'Camote', 'Sweet potato', 13, 15, 85, 90, 'VL', 'L', 2, ''],
 ].map(r => ({ id: r[0], es: r[1], en: r[2], tMin: r[3], tMax: r[4], rhMin: r[5], rhMax: r[6], eth: r[7], sens: r[8], chill: r[9], odor: r[10] }));
 const ETH = { VL: 0, L: 1, M: 2, H: 3, VH: 4 }, SENS = { L: 0, M: 1, H: 2 };
+/* a recommended range for a sentence, with the true minus sign: «0 °C» when both ends are equal,
+   «85–90 %» with an en dash, and «−1 a 4 °C» (« to ») when an end is negative, where a dash would
+   read as a minus sign */
+const sNum = v => (+v < 0 ? '−' + String(-v) : String(+v));
+Lg.range = (lo, hi, unit, en) => (+lo === +hi ? sNum(lo) : +lo < 0 || +hi < 0 ? sNum(lo) + (en ? ' to ' : ' a ') + sNum(hi) : sNum(lo) + '–' + sNum(hi)) + ' ' + unit;
 /* issues between two products: [{level: 'bad'|'warn', k, es, en}] */
 Lg.pairIssues = function (a, b, o) {
   o = Object.assign({ tTol: 0, rhTol: 5 }, o || {});
@@ -236,10 +242,10 @@ Lg.pairIssues = function (a, b, o) {
   const tLo = max(a.tMin, b.tMin), tHi = min(a.tMax, b.tMax);
   if (tLo > tHi + o.tTol) {
     const cold = a.tMax < b.tMin ? a : b, warm = cold === a ? b : a;
-    out.push({ level: 'bad', k: 'temp', es: `Temperaturas incompatibles: ${cold.es} pide ${cold.tMin}–${cold.tMax} °C y ${warm.es} ${warm.tMin}–${warm.tMax} °C` + (warm.chill === 2 ? `; ${warm.es} sufre daño por frío.` : '.'), en: `Incompatible temperatures: ${cold.en} needs ${cold.tMin}–${cold.tMax} °C and ${warm.en} ${warm.tMin}–${warm.tMax} °C` + (warm.chill === 2 ? `; ${warm.en} suffers chilling injury.` : '.') });
+    out.push({ level: 'bad', k: 'temp', es: `Temperaturas incompatibles: ${cold.es} pide ${Lg.range(cold.tMin, cold.tMax, '°C')} y ${warm.es} ${Lg.range(warm.tMin, warm.tMax, '°C')}` + (warm.chill === 2 ? `; ${warm.es} sufre daño por frío.` : '.'), en: `Incompatible temperatures: ${cold.en} needs ${Lg.range(cold.tMin, cold.tMax, '°C', 1)} and ${warm.en} ${Lg.range(warm.tMin, warm.tMax, '°C', 1)}` + (warm.chill === 2 ? `; ${warm.en} suffers chilling injury.` : '.') });
   }
   const hLo = max(a.rhMin, b.rhMin), hHi = min(a.rhMax, b.rhMax);
-  if (hLo > hHi + o.rhTol) out.push({ level: 'warn', k: 'rh', es: `Humedad relativa distinta: ${a.es} ${a.rhMin}–${a.rhMax} % y ${b.es} ${b.rhMin}–${b.rhMax} %.`, en: `Different relative humidity: ${a.en} ${a.rhMin}–${a.rhMax}% and ${b.en} ${b.rhMin}–${b.rhMax}%.` });
+  if (hLo > hHi + o.rhTol) out.push({ level: 'warn', k: 'rh', es: `Humedad relativa distinta: ${a.es} ${Lg.range(a.rhMin, a.rhMax, '%')} y ${b.es} ${Lg.range(b.rhMin, b.rhMax, '%')}.`, en: `Different relative humidity: ${a.en} ${Lg.range(a.rhMin, a.rhMax, '%', 1)} and ${b.en} ${Lg.range(b.rhMin, b.rhMax, '%', 1)}.` });
   [[a, b], [b, a]].forEach(([p, s]) => {
     const prod = ETH[p.eth], sens = SENS[s.sens];
     if (prod >= 3 && sens === 2) out.push({ level: 'bad', k: 'eth', es: `${p.es} produce mucho etileno y ${s.es} es muy sensible a él.`, en: `${p.en} produces much ethylene and ${s.en} is very sensitive to it.` });

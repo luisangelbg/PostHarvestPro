@@ -133,8 +133,10 @@ Plot.lines = function (o) {
   const W = o.w || 620, H = o.h || 360;
   const S = o.series.filter(s => s && s.x && s.x.length);
   const hasLeg = o.legend !== false && S.length > 1 || o.legend === true;
-  const items = S.map((s, i) => ({ name: s.name, color: s.color || Plot.color(i), shape: s.points === false ? null : (s.shape || SHAPES[i % 6]), dash: s.dash != null ? s.dash : '', kind: s.line === false ? 'pt' : 'line' }));
-  const legW = hasLeg ? Math.min(190, legendWidth(items)) : 0;
+  const items = S.map((s, i) => ({ name: s.name, color: s.color || Plot.color(i), shape: s.points === false ? null : (s.shape || SHAPES[i % 6]), dash: s.dash != null ? s.dash : '', kind: s.legendKind || (s.line === false ? 'pt' : 'line') }));
+  /* a series with noLegend (a fitted line next to its points) is drawn but not listed */
+  const legItems = items.filter((it, i) => !S[i].noLegend);
+  const legW = hasLeg ? Math.min(190, legendWidth(legItems)) : 0;
   const x0 = 62, x1 = W - 16 - legW, y1 = o.title ? 32 : 18, y0 = H - 46;
   const xs = [], ys = [];
   S.forEach(s => { xs.push(s.x); ys.push(s.y, s.lo, s.hi); if (s.band) { xs.push(s.band.x); ys.push(s.band.lo, s.band.hi); } });
@@ -170,7 +172,7 @@ Plot.lines = function (o) {
     if (ser.points !== false) ser.x.forEach((x, k) => { if (isFinite(x) && isFinite(ser.y[k])) s += Plot.marker(items[i].shape, sx(x), sy(ser.y[k]), ser.r || 3.6, c, ser.alpha ? ` fill-opacity="${ser.alpha}"` : ''); });
   });
   s += `</g>`;
-  if (hasLeg) s += Plot.legend(items, x1 + 14, y1 + 10, { title: o.legendTitle });
+  if (hasLeg) s += Plot.legend(legItems, x1 + 14, y1 + 10, { title: o.legendTitle });
   return s + `</svg>`;
 };
 
@@ -391,9 +393,16 @@ Plot.psychro = function (o) {
     let d = '';
     for (let k = 0; k <= 60; k++) { const t = t0 + (t1 - t0) * k / 60, w = Wof(t, rh); if (w <= wMax) d += (d ? 'L' : 'M') + f(sx(t)) + ' ' + f(sy(w)); }
     s += `<path d="${d}" fill="none" stroke="${rh === 100 ? 'var(--s2)' : 'var(--fig-muted)'}" stroke-width="${rh === 100 ? 2 : 0.8}" stroke-opacity="${rh === 100 ? 1 : 0.55}"/>`;
-    const tl = Math.min(t1, t0 + (t1 - t0) * 0.96);
-    const wl = Wof(tl, rh);
-    if (wl <= wMax) s += `<text class="pl-note" x="${f(sx(tl) + 3)}" y="${f(sy(wl) + 3)}">${rh} %</text>`;
+    /* the label at the end of its curve: in the right margin when the curve reaches the last temperature,
+       else just under the top where the curve leaves the chart (beside a curve, the steep upper ones
+       would put it next to the curve below) */
+    const wl = Wof(t1, rh);
+    if (wl <= wMax) s += `<text class="pl-note" x="${f(x1 + 4)}" y="${f(sy(wl) + 3)}">${rh} %</text>`;
+    else {
+      let a = t0, b = t1;
+      for (let k = 0; k < 40; k++) { const mid = (a + b) / 2; if (Wof(mid, rh) > wMax) b = mid; else a = mid; }
+      s += `<text class="pl-note" x="${f(sx(a))}" y="${f(y1 - 3)}" text-anchor="middle">${rh} %</text>`;
+    }
   });
   (o.points || []).forEach((q, i) => {
     const X = sx(q.t), Y = sy(q.W * 1000);
@@ -406,8 +415,10 @@ Plot.psychro = function (o) {
 /* ---------------- the O₂–CO₂ plane of a package ----------------
    lines: [{name, beta, rq}], window: {o2:[lo,hi], co2:[lo,hi]}, point: {o2, co2, label} */
 Plot.mapPlane = function (o) {
-  const W = o.w || 560, H = o.h || 400;
-  const x0 = 56, x1 = W - 18, y1 = o.title ? 32 : 18, y0 = H - 46;
+  /* the legend of the films goes in its own column at the right, outside the plane, so neither is cut nor covered */
+  const legW = (o.lines || []).length ? Math.ceil(legendWidth(o.lines)) + 10 : 0;
+  const W = (o.w || 560) + legW, H = o.h || 400;
+  const x0 = 56, x1 = W - 18 - legW, y1 = o.title ? 32 : 18, y0 = H - 46;
   const ex = [0, 21], ey = [0, o.co2Max || 20];
   const sx = Plot.scale(0, 21, x0, x1), sy = Plot.scale(0, ey[1], y0, y1);
   let s = Plot.open(W, H, o, { x0, x1, y0, y1, ex, ey }, o.label);
@@ -424,9 +435,12 @@ Plot.mapPlane = function (o) {
     items.push({ name: l.name, color: c, dash: DASH[i % 6], kind: 'line' });
   });
   if (o.point && isFinite(o.point.o2) && isFinite(o.point.co2)) {
-    s += Plot.marker('diamond', sx(Math.max(0, o.point.o2)), sy(Math.min(ey[1], o.point.co2)), 6, 'var(--s1)') + `<text class="pl-txt-b" x="${f(sx(Math.max(0, o.point.o2)) + 9)}" y="${f(sy(Math.min(ey[1], o.point.co2)) - 7)}">${esc(o.point.label || '')}</text>`;
+    /* the label goes on the side away from the film lines (they fan out from air, at the right) and
+       with a halo of the background, so the lines and the window frame do not cross it */
+    const X = sx(Math.max(0, o.point.o2)), Y = sy(Math.min(ey[1], o.point.co2)), left = o.point.o2 > 6;
+    s += Plot.marker('diamond', X, Y, 6, 'var(--s1)') + `<text class="pl-txt-b" x="${f(X + (left ? -10 : 10))}" y="${f(Y < y1 + 16 ? Y + 16 : Y - 9)}" text-anchor="${left ? 'end' : 'start'}" style="paint-order:stroke;stroke:var(--fig-bg);stroke-width:4px;stroke-linejoin:round">${esc(o.point.label || '')}</text>`;
   }
-  if (items.length) s += Plot.legend(items, x1 - 200, y1 + 12, {});
+  if (items.length) s += Plot.legend(items, x1 + 14, y1 + 10, {});
   return s + `</svg>`;
 };
 
