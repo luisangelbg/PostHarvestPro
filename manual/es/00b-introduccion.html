@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Introducción</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+</style>
+</head>
+<body>
+
+<!-- ====================================================================== CRÉDITOS -->
+<section class="preliminares creditos" id="creditos">
+  <div class="cred-titulo">PostHarvestPro</div>
+  <div class="cred-sub">Manual de usuario · Mide la calidad, predice la vida de anaquel y decide con datos</div>
+
+  <dl>
+    <dt>Autor</dt><dd><b>Luis Ángel Barrera-Guzmán</b><br><span class="small">ORCID 0000-0001-8057-2583</span></dd>
+    <dt>Programa</dt><dd>PostHarvestPro, versión 1.0.0 (octubre de 2026)</dd>
+    <dt>Manual</dt><dd>Primera edición en español, 2026. Describe la versión 1.0 del programa.</dd>
+    <dt>Licencia del programa</dt><dd>Licencia Pública General de GNU, versión 3 o posterior (GPL-3.0-or-later).</dd>
+    <dt>Derechos del manual</dt><dd>© 2026 Luis Ángel Barrera-Guzmán. Todos los derechos reservados.</dd>
+    <dt>Idioma de la interfaz</dt><dd>Español o inglés, con el selector <span class="ui">ES</span> · <span class="ui">EN</span> de la barra superior. En este manual los nombres de botones, campos y menús se escriben como aparecen en pantalla en español, por ejemplo <span class="ui">Llevar las k al análisis de temperatura →</span>.</dd>
+  </dl>
+
+  <h4>Cómo citar el programa</h4>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro: fisiología y tecnología poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador</i> (versión 1.0.0) [Programa de cómputo]. https://luisangelbg.github.io/PostHarvestPro/</div>
+  <h4>Cómo citar este manual</h4>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro. Manual de usuario</i> (1.ª ed.). Distribuido con PostHarvestPro, versión 1.0.0. https://luisangelbg.github.io/PostHarvestPro/</div>
+  <p class="small">La cita del programa es la que da la propia app, lista para copiarse, en la sección <span class="ui">Cómo citar</span> de su portada y al pie del Bloque 9. El identificador digital (DOI) se añadirá a las dos citas cuando el programa se publique con uno.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Privacidad</div>
+    <p>PostHarvestPro funciona por completo dentro de tu navegador. Las tablas que abres o pegas se leen en tu computadora y <b>nunca se envían a ningún servidor</b>: puedes trabajar con los datos de un ensayo en curso, de una empresa o de una tesis sin que salgan de tu equipo. El programa no usa cuentas, no carga nada de internet y no necesita conexión para calcular.</p>
+  </div>
+
+  <p class="small" style="margin-top:0.35in;color:var(--gris)">Las ilustraciones, los diagramas y las capturas de pantalla de este manual son originales: se generaron con el propio programa o con código escrito para el manual. Todas las cifras salen de los <b>datos de ejemplo simulados</b> de la app —mango, chayote, aguacate, jitomate y café generados con modelos y parámetros del orden de los publicados—. No son mediciones de ningún lote, huerto ni panel reales.</p>
+</section>
+
+<!-- ====================================================================== ÍNDICE -->
+<!-- Índice general: un renglón por capítulo (su h1) y, debajo, sus secciones (los h2).
+     Los títulos y los id (cap-N, sN-M, ap-x) son la propuesta para los capítulos; quien escriba un capítulo
+     ajusta aquí sus renglones si cambia un título o el número de secciones. Los números de página los pone
+     paginar.js al unir el manual. -->
+<section class="preliminares indice" id="indice" data-nueva-hoja>
+  <h1>Índice</h1>
+  <div class="indice-sub">Contenido general del manual</div>
+
+  <ol class="toc">
+    <li><div class="toc-cap"><span class="chip k0">P</span><a href="#como-leer">Cómo leer este manual</a><a class="pag" href="#como-leer"></a></div></li>
+    <li>
+      <div class="toc-cap"><span class="chip k0">In</span><a href="#cap-intro">Introducción a PostHarvestPro</a><a class="pag" href="#cap-intro"></a></div>
+      <ul>
+        <li><span class="n">I.1</span><a href="#si-1"><span class="t">¿Qué es PostHarvestPro?</span></a></li>
+        <li><span class="n">I.2</span><a href="#si-2"><span class="t">Preguntas que responde</span></a></li>
+        <li><span class="n">I.3</span><a href="#si-3"><span class="t">Seis ideas que sostienen el manual</span></a></li>
+        <li><span class="n">I.4</span><a href="#si-4"><span class="t">Datos que acepta y qué entrega</span></a></li>
+        <li><span class="n">I.5</span><a href="#si-5"><span class="t">Qué necesitas y cómo abrirlo</span></a></li>
+        <li><span class="n">I.6</span><a href="#si-6"><span class="t">Recorrido por la interfaz</span></a></li>
+        <li><span class="n">I.7</span><a href="#si-7"><span class="t">Los datos de ejemplo</span></a></li>
+        <li><span class="n">I.8</span><a href="#si-8"><span class="t">Cómo se recorre un estudio</span></a></li>
+        <li><span class="n">I.9</span><a href="#si-9"><span class="t">Cómo se comprobó</span></a></li>
+        <li><span class="n">I.10</span><a href="#si-10"><span class="t">Lo que el programa no hace</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k1">1</span><a href="#cap-1">Inicio: la ruta, los ejemplos y los métodos</a><a class="pag" href="#cap-1"></a></div>
+      <ul>
+        <li><span class="n">1.1</span><a href="#s1-1"><span class="t">La portada</span></a></li>
+        <li><span class="n">1.2</span><a href="#s1-2"><span class="t">Cómo funciona: la ruta en siete pasos</span></a></li>
+        <li><span class="n">1.3</span><a href="#s1-3"><span class="t">Los nueve bloques</span></a></li>
+        <li><span class="n">1.4</span><a href="#s1-4"><span class="t">Datos de ejemplo</span></a></li>
+        <li><span class="n">1.5</span><a href="#s1-5"><span class="t">Métodos y fuentes</span></a></li>
+        <li><span class="n">1.6</span><a href="#s1-6"><span class="t">La poscosecha en breve</span></a></li>
+        <li><span class="n">1.7</span><a href="#s1-7"><span class="t">Lo que no hace</span></a></li>
+        <li><span class="n">1.8</span><a href="#s1-8"><span class="t">Referencias y cómo citar</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k2">2</span><a href="#cap-2">Calidad y madurez</a><a class="pag" href="#cap-2"></a></div>
+      <ul>
+        <li><span class="n">2.1</span><a href="#s2-1"><span class="t">La entrada de datos de cada herramienta</span></a></li>
+        <li><span class="n">2.2</span><a href="#s2-2"><span class="t">Resumen de calidad</span></a></li>
+        <li><span class="n">2.3</span><a href="#s2-3"><span class="t">Color: conversor e índices</span></a></li>
+        <li><span class="n">2.4</span><a href="#s2-4"><span class="t">Diferencia entre dos colores y el color de tus datos</span></a></li>
+        <li><span class="n">2.5</span><a href="#s2-5"><span class="t">Acidez, humedad, firmeza y pérdida de peso</span></a></li>
+        <li><span class="n">2.6</span><a href="#s2-6"><span class="t">Escalas de madurez y daño</span></a></li>
+        <li><span class="n">2.7</span><a href="#s2-7"><span class="t">Calibres</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k3">3</span><a href="#cap-3">Cinética y vida de anaquel</a><a class="pag" href="#cap-3"></a></div>
+      <ul>
+        <li><span class="n">3.1</span><a href="#s3-1"><span class="t">Modelos cinéticos: los tres órdenes</span></a></li>
+        <li><span class="n">3.2</span><a href="#s3-2"><span class="t">Ajuste y vida al límite</span></a></li>
+        <li><span class="n">3.3</span><a href="#s3-3"><span class="t">Temperatura: Arrhenius, Q10 y raíz cuadrada</span></a></li>
+        <li><span class="n">3.4</span><a href="#s3-4"><span class="t">Vida de anaquel a cualquier temperatura</span></a></li>
+        <li><span class="n">3.5</span><a href="#s3-5"><span class="t">Prueba acelerada</span></a></li>
+        <li><span class="n">3.6</span><a href="#s3-6"><span class="t">Tiempo hasta el rechazo: Kaplan–Meier</span></a></li>
+        <li><span class="n">3.7</span><a href="#s3-7"><span class="t">Modelos paramétricos y razones de tiempos</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k4">4</span><a href="#cap-4">Respiración, etileno y atmósferas</a><a class="pag" href="#cap-4"></a></div>
+      <ul>
+        <li><span class="n">4.1</span><a href="#s4-1"><span class="t">Sistema estático</span></a></li>
+        <li><span class="n">4.2</span><a href="#s4-2"><span class="t">Flujo continuo</span></a></li>
+        <li><span class="n">4.3</span><a href="#s4-3"><span class="t">Climaterio</span></a></li>
+        <li><span class="n">4.4</span><a href="#s4-4"><span class="t">Atmósfera modificada: producto y empaque</span></a></li>
+        <li><span class="n">4.5</span><a href="#s4-5"><span class="t">La atmósfera de equilibrio y el espesor de la película</span></a></li>
+        <li><span class="n">4.6</span><a href="#s4-6"><span class="t">Preenfriamiento</span></a></li>
+        <li><span class="n">4.7</span><a href="#s4-7"><span class="t">Carga de refrigeración</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k5">5</span><a href="#cap-5">Pérdidas y cadena de valor</a><a class="pag" href="#cap-5"></a></div>
+      <ul>
+        <li><span class="n">5.1</span><a href="#s5-1"><span class="t">La cadena: etapas, pérdida y precio</span></a></li>
+        <li><span class="n">5.2</span><a href="#s5-2"><span class="t">Pérdidas en cantidad y valor</span></a></li>
+        <li><span class="n">5.3</span><a href="#s5-3"><span class="t">Puntos críticos</span></a></li>
+        <li><span class="n">5.4</span><a href="#s5-4"><span class="t">Simular mejoras</span></a></li>
+        <li><span class="n">5.5</span><a href="#s5-5"><span class="t">Daño mecánico: curvas y umbral</span></a></li>
+        <li><span class="n">5.6</span><a href="#s5-6"><span class="t">Incidencia y regresión logística</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k6">6</span><a href="#cap-6">Evaluación sensorial</a><a class="pag" href="#cap-6"></a></div>
+      <ul>
+        <li><span class="n">6.1</span><a href="#s6-1"><span class="t">Pruebas discriminativas y d′</span></a></li>
+        <li><span class="n">6.2</span><a href="#s6-2"><span class="t">Planear: jueces y potencia</span></a></li>
+        <li><span class="n">6.3</span><a href="#s6-3"><span class="t">A–no A y preferencia pareada</span></a></li>
+        <li><span class="n">6.4</span><a href="#s6-4"><span class="t">Hedónica</span></a></li>
+        <li><span class="n">6.5</span><a href="#s6-5"><span class="t">Punto justo y penalidades</span></a></li>
+        <li><span class="n">6.6</span><a href="#s6-6"><span class="t">CATA</span></a></li>
+        <li><span class="n">6.7</span><a href="#s6-7"><span class="t">Perfil descriptivo</span></a></li>
+        <li><span class="n">6.8</span><a href="#s6-8"><span class="t">Desempeño del panel</span></a></li>
+        <li><span class="n">6.9</span><a href="#s6-9"><span class="t">Fichas de cata</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k7">7</span><a href="#cap-7">Ensayos poscosecha</a><a class="pag" href="#cap-7"></a></div>
+      <ul>
+        <li><span class="n">7.1</span><a href="#s7-1"><span class="t">Factorial tratamiento × tiempo</span></a></li>
+        <li><span class="n">7.2</span><a href="#s7-2"><span class="t">Comparar los tratamientos dentro de cada tiempo</span></a></li>
+        <li><span class="n">7.3</span><a href="#s7-3"><span class="t">Medidas repetidas</span></a></li>
+        <li><span class="n">7.4</span><a href="#s7-4"><span class="t">Esfericidad y correcciones</span></a></li>
+        <li><span class="n">7.5</span><a href="#s7-5"><span class="t">Pendientes</span></a></li>
+        <li><span class="n">7.6</span><a href="#s7-6"><span class="t">Aleatorización y libro de campo</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k8">8</span><a href="#cap-8">Empaque y logística</a><a class="pag" href="#cap-8"></a></div>
+      <ul>
+        <li><span class="n">8.1</span><a href="#s8-1"><span class="t">Tarima y contenedor</span></a></li>
+        <li><span class="n">8.2</span><a href="#s8-2"><span class="t">Ventilación de cajas</span></a></li>
+        <li><span class="n">8.3</span><a href="#s8-3"><span class="t">Ambiente del almacén</span></a></li>
+        <li><span class="n">8.4</span><a href="#s8-4"><span class="t">La carta psicrométrica y la pérdida de agua</span></a></li>
+        <li><span class="n">8.5</span><a href="#s8-5"><span class="t">Costo de almacenamiento</span></a></li>
+        <li><span class="n">8.6</span><a href="#s8-6"><span class="t">Compatibilidad</span></a></li>
+        <li><span class="n">8.7</span><a href="#s8-7"><span class="t">Unidades</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k9">9</span><a href="#cap-9">Informe y proyecto</a><a class="pag" href="#cap-9"></a></div>
+      <ul>
+        <li><span class="n">9.1</span><a href="#s9-1"><span class="t">Datos del informe y secciones</span></a></li>
+        <li><span class="n">9.2</span><a href="#s9-2"><span class="t">Generar, descargar e imprimir</span></a></li>
+        <li><span class="n">9.3</span><a href="#s9-3"><span class="t">Lo que lleva el informe</span></a></li>
+        <li><span class="n">9.4</span><a href="#s9-4"><span class="t">Recomendaciones de manejo</span></a></li>
+        <li><span class="n">9.5</span><a href="#s9-5"><span class="t">Las figuras, el estudio y el editor</span></a></li>
+        <li><span class="n">9.6</span><a href="#s9-6"><span class="t">Guardar y abrir el proyecto</span></a></li>
+        <li><span class="n">9.7</span><a href="#s9-7"><span class="t">Cómo citar PostHarvestPro</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip kx">A</span><a href="#apendices">Apéndices</a><a class="pag" href="#apendices"></a></div>
+      <ul>
+        <li><span class="n">A</span><a href="#ap-a"><span class="t">Los archivos que la app lee y escribe</span></a></li>
+        <li><span class="n">B</span><a href="#ap-b"><span class="t">Las reglas y las fórmulas, reunidas</span></a></li>
+        <li><span class="n">C</span><a href="#ap-c"><span class="t">Glosario</span></a></li>
+        <li><span class="n">D</span><a href="#ap-d"><span class="t">Cuando algo no sale</span></a></li>
+        <li><span class="n">E</span><a href="#ap-e"><span class="t">La herramienta: licencia y cómo citarla</span></a></li>
+        <li><span class="n">F</span><a href="#ap-f"><span class="t">Referencias</span></a></li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<!-- ====================================================================== CÓMO LEER ESTE MANUAL -->
+<section class="preliminares" id="como-leer" data-nueva-hoja style="--acento: var(--b0)">
+  <h2 style="margin-top:0.2in">Cómo leer este manual</h2>
+  <p class="lead">El manual sigue el mismo orden que la app: nueve bloques numerados que se recorren de arriba abajo en la barra de la izquierda. Cada capítulo explica un bloque y lleva su mismo número —el capítulo 4 es el Bloque 4, y sus secciones y figuras se numeran 4.1, 4.2…—. La introducción no lleva número: sus secciones son I.1, I.2…</p>
+  <p>Cada capítulo empieza con lo que el bloque resuelve en el manejo de un producto después de la cosecha, sigue con sus herramientas en el orden de sus pestañas y cierra con las reglas para leer el resultado y los errores más comunes. No hace falta leerlo de corrido: si sólo necesitas la vida de anaquel de un lote, basta el capítulo 3; si vas a diseñar un empaque, el 4 y el 8; si preparas una cata, el 6. El apéndice B reúne las reglas y las fórmulas de todos los bloques.</p>
+
+  <h3>Un color para cada bloque</h3>
+  <p>El color del bloque aparece en la apertura de su capítulo, en el número de cada sección, en la pestaña del borde de la hoja y en el índice, y es el mismo de la franja de la portada. La barra de la app nombra algunos bloques con una forma corta (<span class="ui">Vida de anaquel</span>, <span class="ui">Pérdidas</span>, <span class="ui">Sensorial</span>, <span class="ui">Ensayos</span>); el título del bloque, arriba de sus pestañas, da el nombre completo.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:0.55in">Bloque</th><th style="width:1.9in">Nombre en la app</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k1">1</span></td><td><span class="ui">Inicio</span></td><td>La ruta de trabajo, los nueve bloques, los diez conjuntos de ejemplo, los métodos con su fuente, la poscosecha en lenguaje llano, las referencias y cómo citar</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td><span class="ui">Calidad y madurez</span></td><td>Índices de calidad, color CIELAB, calculadoras de laboratorio, escalas y calibres</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><span class="ui">Cinética y vida de anaquel</span></td><td>Órdenes de reacción, temperatura, pruebas aceleradas y tiempo hasta el rechazo</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><span class="ui">Respiración, etileno y atmósferas</span></td><td>Tasas de respiración, climaterio, empaque en atmósfera modificada y preenfriamiento</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><span class="ui">Pérdidas y cadena de valor</span></td><td>Cantidad y valor perdidos por etapa, puntos críticos, simulación y daño mecánico</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><span class="ui">Evaluación sensorial</span></td><td>Pruebas discriminativas, afectivas y descriptivas, con el diseño de las catas</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><span class="ui">Ensayos poscosecha</span></td><td>Factoriales tratamiento × tiempo, medidas repetidas, pendientes y aleatorización</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td><span class="ui">Empaque y logística</span></td><td>Carga, ventilación, ambiente de la cámara, costos, compatibilidad y unidades</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><span class="ui">Informe y proyecto</span></td><td>Todo lo que calculaste en un documento para compartir, y tu trabajo en un archivo para seguir después</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tipos de recuadros</h3>
+  <div class="dos">
+    <div class="caja nota" style="margin:0"><div class="caja-t"><span class="ico">i</span>Nota</div><p>Aclaraciones y consejos prácticos que ahorran tiempo.</p></div>
+    <div class="caja importante" style="margin:0"><div class="caja-t"><span class="ico">!</span>Importante</div><p>Lo que puede cambiar tus conclusiones si se pasa por alto.</p></div>
+    <div class="caja teoria" style="margin:0"><div class="caja-t"><span class="ico">θ</span>Teoría en breve</div><p>La idea detrás de un cálculo, sin fórmulas innecesarias.</p></div>
+    <div class="caja ejemplo" style="margin:0"><div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto</div><p>Un caso con los datos de ejemplo del programa, con los números que da la app.</p></div>
+  </div>
+  <div class="caja regla" style="margin-top:0.18in">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> el resultado cae en este caso…</td><td><b>entonces</b> esta es la lectura recomendada.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Son guías para interpretar, no leyes: lo que sabes del cultivo, del cultivar y de cómo se condujo el ensayo siempre manda.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p>Lo que suele fallar al usar el bloque —una columna mal elegida, una tabla en formato ancho, una temperatura fuera del intervalo medido— y cómo se arregla.</p>
+  </div>
+  <div class="caja dato">
+    <div class="dato-cifra">10.7</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>Una cifra o un hecho que conviene recordar; por ejemplo, los joules de calor que libera un producto por cada miligramo de CO₂ que respira.</div>
+  </div>
+
+  <h3>Convenciones de escritura</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:38%">Así se escribe</th><th>Significa</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Cargar ejemplo</span></td><td>Un botón, campo o menú de la app, con su texto tal como aparece en pantalla en español.</td></tr>
+      <tr><td><span class="ruta">Bloque 3<span class="sep">›</span>Temperatura</span></td><td>Una ruta: abre el bloque y, dentro, la pestaña o la tarjeta que sigue.</td></tr>
+      <tr><td><code>Ctrl + K</code>, <code>mango_temperaturas.csv</code>, <code>firmeza_N</code></td><td>Una tecla, un nombre de archivo o de columna, o un valor que se escribe tal cual.</td></tr>
+      <tr><td>vida de anaquel, límite</td><td>El tiempo que un producto se conserva aceptable; el valor de un atributo (25 N de firmeza, por ejemplo) a partir del cual deja de serlo. El apéndice C define todos los términos.</td></tr>
+      <tr><td>k, Eₐ, Q10</td><td>La constante de velocidad del deterioro, la energía de activación y el factor por el que se acelera con 10 °C más (capítulo 3).</td></tr>
+      <tr><td>25.9 d · 59.4 mg CO₂ kg⁻¹ h⁻¹</td><td>Los números se escriben con punto decimal, como los escribe la app, y con la unidad separada por un espacio.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ====================================================================== INTRODUCCIÓN -->
+<section class="capitulo" id="cap-intro" data-pestana="In" data-orden="0" style="--acento: var(--b0)">
+  <div class="cap-apertura">
+    <div class="cap-num">I</div>
+    <div class="cap-etiqueta">Introducción</div>
+    <h1 data-corto="Introducción">Introducción a PostHarvestPro</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Entre la cosecha y el consumidor un fruto respira, pierde agua, se ablanda, cambia de color y, tarde o temprano, se rechaza. Medir esos cambios es sólo la mitad del trabajo; la otra mitad es convertirlos en decisiones: cuánto dura un lote, a qué temperatura guardarlo, qué empaque usar, dónde se pierde más y si el consumidor nota la diferencia. PostHarvestPro hace esa segunda mitad.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>I.1</b>¿Qué es PostHarvestPro?</li>
+      <li><b>I.2</b>Preguntas que responde</li>
+      <li><b>I.3</b>Seis ideas que sostienen el manual</li>
+      <li><b>I.4</b>Datos que acepta y qué entrega</li>
+      <li><b>I.5</b>Qué necesitas y cómo abrirlo</li>
+      <li><b>I.6</b>Recorrido por la interfaz</li>
+      <li><b>I.7</b>Los datos de ejemplo</li>
+      <li><b>I.8</b>Cómo se recorre un estudio</li>
+      <li><b>I.9</b>Cómo se comprobó</li>
+      <li><b>I.10</b>Lo que el programa no hace</li>
+    </ul>
+  </div>
+
+  <!-- I.1 -->
+  <h2 id="si-1"><span class="num">I.1</span>¿Qué es PostHarvestPro?</h2>
+  <p class="lead">Es un programa de fisiología y tecnología poscosecha que corre en el navegador, sin instalar nada. Reúne en un solo lugar los cálculos que acompañan a un producto hortofrutícola desde la cosecha hasta el consumidor, y cada resultado lo explica en palabras y dice de qué método y de qué fuente sale.</p>
+  <p>Calcula los índices de <b>calidad y madurez</b> y el <b>color</b> en CIELAB con sus diferencias; ajusta la <b>cinética del deterioro</b> y predice la <b>vida de anaquel</b> a una temperatura o a cualquiera, incluido el tiempo hasta el rechazo con frutos que siguen sanos al terminar el ensayo; mide la <b>respiración</b> y el <b>etileno</b>, reconoce el climaterio y diseña <b>atmósferas modificadas</b>, el preenfriamiento y su carga térmica; cuantifica las <b>pérdidas</b> de una cadena en kilos y en dinero y el <b>daño mecánico</b>; analiza la <b>evaluación sensorial</b> discriminativa, afectiva y descriptiva y diseña las catas; analiza los <b>ensayos</b> poscosecha con muestreo destructivo o con los mismos frutos en el tiempo; resuelve las cuentas de <b>empaque, almacén y transporte</b>; y al final arma un <b>informe</b> con recomendaciones de manejo.</p>
+  <p>Está pensado para la docencia y la investigación en poscosecha, para el control de calidad de empacadoras y comercializadoras, y para quien asesora a productores. Todo se calcula con motores escritos desde cero para este programa, sin bibliotecas de otros, y cada método cita el trabajo que lo define: en la portada de la app, al pie de cada resultado y en los métodos del informe.</p>
+
+  <figure class="w80">
+    <div class="marco"><img src="../img/i-inicio.png" alt="La portada de la app: el lema, los botones para empezar y la ilustración de cinco frutos que maduran y la firmeza de tres lotes a tres temperaturas"></div>
+    <figcaption><b>Figura I.1.</b> La portada de PostHarvestPro al abrirla. A la izquierda, la barra de los nueve bloques; al centro, el lema, los botones para empezar y la ilustración: un fruto en cinco estados de madurez y la firmeza de tres lotes guardados a 13, 20 y 25 °C con su límite comercial; a la derecha, las secciones de la portada.</figcaption>
+  </figure>
+
+  <!-- I.2 -->
+  <h2 id="si-2"><span class="num">I.2</span>Preguntas que responde</h2>
+  <p>Una buena manera de saber si el programa te sirve es ver qué preguntas contesta, y en qué bloque.</p>
+  <table class="compacta">
+    <thead><tr><th>Pregunta</th><th style="width:0.75in" class="c">Bloque</th></tr></thead>
+    <tbody>
+      <tr><td>¿Cómo cambian la firmeza, los sólidos solubles, la acidez y el color de cada lote en el tiempo? ¿Cuál es su SST/AT?</td><td class="c"><span class="chip k2">2</span></td></tr>
+      <tr><td>¿Qué tan distintos son dos colores, y cuál es el índice de daño o la fruta comercializable de cada lote?</td><td class="c"><span class="chip k2">2</span></td></tr>
+      <tr><td>¿Con qué orden de reacción se pierde la calidad, y cuántos días tarda en llegar al límite aceptable?</td><td class="c"><span class="chip k3">3</span></td></tr>
+      <tr><td>¿Cuánto dura el producto a 5 °C si sólo lo medí a 13, 20 y 25 °C? ¿Cuánto acelera el deterioro cada 10 °C?</td><td class="c"><span class="chip k3">3</span></td></tr>
+      <tr><td>¿Qué recubrimiento retrasa más el rechazo, contando los frutos que seguían sanos al final?</td><td class="c"><span class="chip k3">3</span></td></tr>
+      <tr><td>¿Cuánto respira el producto y cuánto calor libera? ¿Es climatérico?</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>¿Qué película y qué espesor llevan la atmósfera del empaque a la ventana recomendada? ¿Cuánto tarda en enfriarse y qué equipo hace falta?</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>¿En qué etapa de la cadena se pierden más kilos y más dinero, y dónde rinde más invertir?</td><td class="c"><span class="chip k5">5</span></td></tr>
+      <tr><td>¿Desde qué altura de caída se daña el fruto?</td><td class="c"><span class="chip k5">5</span></td></tr>
+      <tr><td>¿Notan los jueces la diferencia, cuántos jueces necesito, qué producto gusta más y qué atributo lo penaliza?</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>¿Difieren los tratamientos, en qué tiempos, y cuál cambia más rápido?</td><td class="c"><span class="chip k7">7</span></td></tr>
+      <tr><td>¿Cuántas cajas caben por tarima y por contenedor? ¿Cuánta agua pierde el producto en la cámara? ¿Pueden ir juntos dos productos?</td><td class="c"><span class="chip k8">8</span></td></tr>
+      <tr><td>¿Cómo entrego los resultados, con sus métodos y unas recomendaciones de manejo?</td><td class="c"><span class="chip k9">9</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- I.3 -->
+  <h2 id="si-3"><span class="num">I.3</span>Seis ideas que sostienen el manual</h2>
+  <p>Todo lo que sigue descansa en seis ideas. Si te quedas con ellas, buena parte de los errores que se cometen al analizar datos de poscosecha ya no son posibles.</p>
+  <ol class="pasos">
+    <li><b>La temperatura manda.</b> Casi todo el deterioro se acelera con la temperatura, y no en línea recta: con una energía de activación típica, cada 10 °C más multiplican la velocidad por tres o cuatro. Por eso el capítulo 3 no se queda en «el lote duró 10 días»: lleva las constantes a Arrhenius y predice la vida a la temperatura del almacén.</li>
+    <li><b>El orden de reacción se elige en la escala original.</b> Linealizar una curva y comparar los R² cambia la escala del error y engaña. La app ajusta los tres órdenes por mínimos cuadrados no lineales y los compara por su AIC.</li>
+    <li><b>Un fruto todavía sano al final no es un dato perdido.</b> Si el ensayo termina antes de que todos los frutos se rechacen, los sobrevivientes están <i>censurados</i>: aportan información mientras estuvieron en observación. Descartarlos acorta la vida estimada.</li>
+    <li><b>Una pérdida se mide en kilos y en dinero.</b> Lo que se pierde al principio de la cadena pesa más; lo que se pierde al final vale más. La mejor inversión no siempre está donde más kilos se pierden.</li>
+    <li><b>La unidad del análisis es la que se aleatorizó.</b> Si cada día se muestrean frutos distintos, el ensayo es un factorial; si se pesan los mismos frutos cada día, es de medidas repetidas y sus valores p deben corregirse. En la cata, cada consumidor es un bloque.</li>
+    <li><b>Un modelo resume lo medido; no lo reemplaza.</b> Las predicciones fuera de las temperaturas, los tiempos o los cultivares medidos son extrapolaciones, y la app lo dice cuando ocurre. Las tablas de permeabilidades, calibres y compatibilidad son orientativas: usa las de tu película, tu norma y tu cultivar.</li>
+  </ol>
+
+  <!-- I.4 -->
+  <h2 id="si-4"><span class="num">I.4</span>Datos que acepta y qué entrega</h2>
+  <p>Cada herramienta que analiza una tabla tiene la misma entrada de datos: <span class="ui">Cargar ejemplo</span>, <span class="ui">Abrir archivo (CSV, TXT, XLSX, ODS)</span>, <span class="ui">Pegar una tabla</span> o soltar el archivo en el recuadro. Después, la app propone qué columna cumple cada papel —tiempo, grupo, atributo, consumidor, producto…— por su nombre, y tú confirmas o cambias la propuesta. Las herramientas de cálculo directo (las calculadoras de laboratorio, la temperatura, la atmósfera modificada, todo el Bloque 8) se llenan escribiendo en sus campos o en tablas editables, donde <span class="ui">+ Agregar fila</span> añade una línea y <span class="ui">×</span> la quita.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.6in">Entra</th><th>Formato y dónde</th></tr></thead>
+    <tbody>
+      <tr><td>Tablas de datos</td><td>CSV, TSV o TXT separados por coma, punto y coma o tabulador (con punto y coma o tabulador se entiende la coma decimal), y libros XLSX, XLSM u ODS; si el libro tiene varias hojas, aparece un selector. Siempre en <b>formato largo</b>: una fila por unidad observada (fruto, frasco, consumidor por producto) y una columna por variable</td></tr>
+      <tr><td>Celdas pegadas</td><td>Copiadas de una hoja de cálculo, con los nombres de las columnas en la primera fila</td></tr>
+      <tr><td>Faltantes</td><td>Las celdas vacías, <code>NA</code> o <code>—</code> se toman como faltantes</td></tr>
+      <tr><td>Proyectos</td><td>Un <code>.json</code> guardado antes por la propia app (Bloque 9)</td></tr>
+    </tbody>
+  </table>
+  <table class="compacta">
+    <thead><tr><th style="width:1.6in">Sale</th><th>Formato</th></tr></thead>
+    <tbody>
+      <tr><td>Figuras</td><td>Evolución de los atributos, color, curvas cinéticas, Arrhenius, Kaplan–Meier, respiración, plano O₂–CO₂, Sankey, curvas de daño, psicométricas, penalidades, araña, mapas, perfiles de los tratamientos, tarima y carta psicrométrica, entre otras: en SVG o en PNG a 300 ppp, y en el estudio de figuras de la suite</td></tr>
+      <tr><td>Tablas</td><td>Cada tabla de resultados en CSV o XLSX, lista para una hoja de cálculo</td></tr>
+      <tr><td>Informe</td><td>Un solo archivo HTML con portada, resumen, una sección por análisis con sus figuras, tablas e interpretación, recomendaciones de manejo, métodos, referencias y cita; se imprime a PDF desde el navegador</td></tr>
+      <tr><td>Planes de trabajo</td><td>El plan de servicio de una cata (CSV) con sus fichas para imprimir, y el libro de campo aleatorizado de un ensayo (CSV o XLSX)</td></tr>
+      <tr><td>Para otras apps</td><td>La cadena de pérdidas para EconomicsPro, las medias de un perfil descriptivo para PCAPro y el libro de campo para AgriDesign, de la misma suite</td></tr>
+    </tbody>
+  </table>
+
+  <!-- I.5 -->
+  <h2 id="si-5"><span class="num">I.5</span>Qué necesitas y cómo abrirlo</h2>
+  <p>Sólo un navegador moderno, en una versión de los últimos años, en una computadora, una tableta o un teléfono. No hace falta instalar nada ni tener internet; el programa entero cabe en una carpeta.</p>
+  <ol class="pasos">
+    <li><b>Doble clic en <code>index.html</code>.</b> Es lo más sencillo y funciona igual que todo lo demás: los cálculos y los diez conjuntos de ejemplo están dentro del programa.</li>
+    <li><b>O doble clic en <code>Open PostHarvestPro.bat</code>.</b> Abre un servidor local mínimo en el puerto 9970 y la app en <code>http://localhost:9970</code>. Sólo hace falta para abrirla desde otro equipo o una tableta de la misma red; el archivo <code>server.ps1</code> explica cómo.</li>
+    <li><b>O en línea</b>, en la dirección de la app en la LABG Suite, cuando se publique.</li>
+  </ol>
+  <p>Las preferencias —el idioma, el tema claro u oscuro y la última pestaña que abriste en cada bloque— se guardan en el propio navegador y se recuerdan la siguiente vez. Los datos no: cada vez que abres la app empieza vacía. Para retomar un trabajo está el proyecto <code>.json</code> del Bloque 9, que guarda las tablas que cargaste, las columnas que elegiste, las tablas editadas y los ajustes, y al abrirlo recalcula todo. Si intentas cerrar la pestaña después de haber trabajado, la app te lo advierte.</p>
+
+  <!-- I.6 -->
+  <h2 id="si-6"><span class="num">I.6</span>Recorrido por la interfaz</h2>
+  <p>Todas las aplicaciones de la suite comparten la misma barra, la misma navegación y las mismas herramientas de figuras, así que lo que aprendas aquí te sirve en las demás.</p>
+
+  <figure class="w80">
+    <div class="marco"><img src="../img/i-interfaz.png" alt="La pantalla del Bloque 3, pestaña Modelos cinéticos, con el mango de ejemplo cargado y sus partes numeradas">
+      <span class="marca" style="left:26.1%;top:3.1%">1</span>
+      <span class="marca" style="left:71.7%;top:3.1%">2</span>
+      <span class="marca" style="left:80.8%;top:5.3%">3</span>
+      <span class="marca" style="left:91.4%;top:5.3%">4</span>
+      <span class="marca" style="left:13%;top:45.3%">5</span>
+      <span class="marca" style="left:18.6%;top:8.4%">6</span>
+      <span class="marca" style="left:56.6%;top:8.4%">7</span>
+      <span class="marca" style="left:74.2%;top:8.4%">8</span>
+      <span class="marca" style="left:82.3%;top:14.3%">9</span>
+      <span class="marca" style="left:18.3%;top:16.4%">10</span>
+      <span class="marca" style="left:18.3%;top:23.4%">11</span>
+      <span class="marca" style="left:20.2%;top:45.6%">12</span>
+    </div>
+    <figcaption><b>Figura I.2.</b> <span class="ruta">Bloque 3<span class="sep">›</span>Modelos cinéticos</span> con el mango de ejemplo recién cargado. Los números corresponden a la lista de abajo.</figcaption>
+  </figure>
+  <ul class="leyenda-marcas">
+    <li><span class="n">1</span><b>Nombre de la app y su lema.</b> El nombre lleva a la portada (Bloque 1).</li>
+    <li><span class="n">2</span><b>LABG Suite.</b> Vuelve al portal con las demás aplicaciones.</li>
+    <li><span class="n">3</span><b>ES · EN.</b> Cambia el idioma de toda la interfaz, también el de las figuras y el del informe.</li>
+    <li><span class="n">4</span><b>Tema, animaciones, reportar y ayuda.</b> El sol cambia entre el tema claro y el oscuro; el botón de destellos apaga o enciende las animaciones; el globo abre «Reportar un problema»; el signo de interrogación, la lista de atajos (tecla <code>?</code>).</li>
+    <li><span class="n">5</span><b>La barra de los nueve bloques.</b> El número se vuelve una palomita cuando el bloque ya tiene un resultado, y arriba se cuenta cuántos van (1/9 en la figura).</li>
+    <li><span class="n">6</span><b>La ruta.</b> La app, el bloque, la pestaña y la tarjeta en la que estás.</li>
+    <li><span class="n">7</span><b>Documento · Enfocado.</b> Todas las tarjetas del bloque una tras otra, o una sola a la vez; el botón de al lado contrae o expande todas.</li>
+    <li><span class="n">8</span><b>Buscar</b> (<code>Ctrl + K</code>). Un bloque, una sección, un control o una figura, por su nombre.</li>
+    <li><span class="n">9</span><b>En este bloque.</b> Las pestañas del bloque abierto y, dentro de la actual, sus tarjetas; la que estás viendo va resaltada.</li>
+    <li><span class="n">10</span><b>El título del bloque,</b> con su número y lo que hace en una línea.</li>
+    <li><span class="n">11</span><b>Las pestañas.</b> Cada bloque reparte sus herramientas en pestañas; la app recuerda la última que abriste en cada uno.</li>
+    <li><span class="n">12</span><b>La entrada de datos.</b> El conjunto de ejemplo con su descripción y su sello <span class="ui">SIMULADO</span>, los botones para cargarlo o abrir tu archivo y, debajo, la columna de cada papel.</li>
+  </ul>
+
+  <h3>Navegar sin perderse</h3>
+  <p>Al pie de cada bloque dos botones llevan al anterior y al siguiente. Cuando cambias un control y los resultados se recalculan más abajo, aparece un botón flotante que te regresa al control que tocaste, y otro para volver arriba. Los cálculos son inmediatos: al cargar los datos o cambiar un ajuste, el resultado se rehace solo. Casi todo se puede hacer también desde el teclado:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.55in">Tecla</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><code>Alt + ←</code> · <code>Alt + →</code></td><td>El bloque anterior o el siguiente; en el modo enfocado, la tarjeta anterior o la siguiente</td></tr>
+      <tr><td><code>Ctrl + K</code></td><td>Buscar un bloque, una sección, un control o una figura</td></tr>
+      <tr><td><code>[</code></td><td>Contraer o abrir la barra de los bloques</td></tr>
+      <tr><td><code>←</code> · <code>→</code> sobre las pestañas</td><td>La pestaña anterior o la siguiente del bloque</td></tr>
+      <tr><td><code>?</code></td><td>Ver la lista de atajos</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/i-buscar.png" alt="La ventana de búsqueda con vida de anaquel escrito: un bloque, cuatro secciones, dos figuras y varios controles"></div>
+    <figcaption><b>Figura I.3.</b> La búsqueda (<code>Ctrl + K</code>) con «vida de anaquel» escrito: encuentra el Bloque 3, las tarjetas que tratan de la vida de anaquel, dos figuras —que se abren en el estudio de figuras— y los campos de la prueba acelerada. <code>Enter</code> lleva al resultado elegido.</figcaption>
+  </figure>
+
+  <h3>Cada resultado se explica</h3>
+  <p>Debajo de cada análisis hay tres cosas además de las figuras y las tablas: unos <b>mosaicos</b> con las cifras que importan (el orden elegido, la vida al límite, el valor p), una <b>lectura en palabras</b> de lo que significan para el producto, y la línea <span class="ui">Método y fuente:</span> con el método y la cita. Cuando algo merece cuidado —una extrapolación, una recta con R² bajo, un tiempo que no tienen todos los tratamientos— un aviso lo dice en el mismo lugar.</p>
+
+  <h3>Las figuras</h3>
+  <p>Todas las figuras de la app se pueden abrir en el <b>estudio de figuras</b>, una ventana común a la suite donde se cambian los textos, el tamaño de la letra, la leyenda y los colores sin tocar los datos, y se exporta a PNG, SVG, PDF o TIFF a 300, 600 o 1200 ppp. Junto a cada figura, el botón <span class="ui">✎</span> abre el editor de la figura, y dos botones rápidos la descargan en SVG o en PNG de 170 mm a 300 ppp. Las descargas y el informe escriben siempre los colores del tema claro, aunque estés trabajando en el oscuro. El capítulo 9 lo explica a fondo.</p>
+
+  <!-- I.7 -->
+  <h2 id="si-7"><span class="num">I.7</span>Los datos de ejemplo</h2>
+  <p>Para aprender sin datos propios, la app trae diez tablas <b>simuladas</b>: se generaron con modelos y parámetros del orden de los publicados para cada cultivo, con una semilla fija, así que siempre son las mismas. <b>No son mediciones</b>: sirven para aprender la app y para ver que cada análisis responde como se espera. Cada herramienta las ofrece con <span class="ui">Cargar ejemplo</span> y las marca con el sello <span class="ui">SIMULADO</span>, y la sección <span class="ui">Datos de ejemplo</span> de la portada las reúne con un botón para abrir cada herramienta con su ejemplo cargado y otro para descargar el CSV.</p>
+  <figure class="w70">
+    <div class="marco"><img src="../img/i-ejemplo.png" alt="La sección Datos de ejemplo de la portada: las seis primeras tarjetas, cada una con su descripción, su archivo, su número de filas y los botones Abrir en"></div>
+    <figcaption><b>Figura I.4.</b> <span class="ruta">Bloque 1<span class="sep">›</span>Datos de ejemplo</span>: las seis primeras de las diez tablas simuladas, con el archivo de <code>data/</code> de donde salen, su número de filas y los botones <span class="ui">Abrir en …</span> que llevan a cada herramienta con el ejemplo cargado.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Los diez conjuntos de ejemplo</b>, todos simulados</caption>
+    <thead><tr><th style="width:1.9in">Archivo</th><th>Contenido</th><th class="num" style="width:0.5in">Filas</th><th style="width:0.75in">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td><code>mango_temperaturas.csv</code></td><td>Mango «Ataulfo» a 13, 20 y 25 °C; 4 frutos por temperatura y día: firmeza, L*a*b*, sólidos solubles, acidez, pH, pérdida de peso y antracnosis</td><td class="num">72</td><td><span class="chip k2">2</span> <span class="chip k3">3</span> <span class="chip k7">7</span></td></tr>
+      <tr><td><code>chayote_rechazo.csv</code></td><td>Chayote con testigo, cera vegetal y quitosano a 10 °C, 30 frutos cada uno: días hasta el rechazo; el ensayo terminó a los 35 días</td><td class="num">90</td><td><span class="chip k3">3</span></td></tr>
+      <tr><td><code>chayote_peso.csv</code></td><td>Los mismos tratamientos: 6 frutos marcados por tratamiento, pesados cada 5 días hasta el día 25</td><td class="num">108</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td><code>aguacate_estatico.csv</code></td><td>Aguacate «Hass» en 3 frascos de 3.8 L a 20 °C: CO₂, O₂ y etileno cada 30 minutos</td><td class="num">15</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td><code>aguacate_climaterico.csv</code></td><td>Respiración y etileno diarios durante 12 días a 20 °C</td><td class="num">13</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td><code>jitomate_cadena.csv</code></td><td>Seis etapas de una cadena de jitomate saladette, de la cosecha al menudeo: pérdida y precio</td><td class="num">6</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td><code>jitomate_caidas.csv</code></td><td>10 frutos por altura de caída, de 10 a 60 cm: masa, energía, área y volumen del daño, y si se dañó</td><td class="num">60</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td><code>cafe_discriminativas.csv</code></td><td>Triangular, dúo-trío y 2-AFC entre dos cafés: aciertos y jueces</td><td class="num">3</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><code>cafe_consumidores.csv</code></td><td>80 consumidores × 4 cafés: agrado de 9 puntos, punto justo de acidez, amargor y cuerpo, y 10 términos CATA</td><td class="num">320</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><code>cafe_descriptivo.csv</code></td><td>8 jueces × 4 cafés × 2 sesiones, 7 atributos de 0 a 10</td><td class="num">64</td><td><span class="chip k6">6</span></td></tr>
+    </tbody>
+  </table>
+  <p>Las herramientas que no leen una tabla —las calculadoras, la temperatura, la prueba acelerada, el flujo continuo, la atmósfera modificada, el preenfriamiento, la simulación de mejoras, las fichas de cata, la aleatorización y todo el Bloque 8— abren con valores de ejemplo ya escritos en sus campos, para que el resultado se vea desde el principio.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>El hilo del manual: el mango</div>
+    <p>La firmeza del mango de ejemplo baja de unos 116 N a 32 N en 21 días a 13 °C, y de 122 N a menos de 5 N en 12 días a 25 °C. En el Bloque 3 la app elige el primer orden en las tres temperaturas, con k = 0.0612, 0.1569 y 0.2508 por día, y calcula que la firmeza llega al límite de 25 N a los 25.9, 10.4 y 6.3 días. Con esas tres constantes, Arrhenius da una energía de activación de unos 84 kJ/mol. Es el ejemplo que dibuja la portada de este manual.</p>
+  </div>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Todo el manual sale de estos ejemplos</div>
+    <p>Todas las capturas y todas las cifras de este manual salen de los datos de ejemplo simulados, con los valores por omisión de cada control salvo que el texto diga qué se cambió. Se dice «el mango del ejemplo», nunca como si fuera un lote real.</p>
+  </div>
+
+  <!-- I.8 -->
+  <h2 id="si-8"><span class="num">I.8</span>Cómo se recorre un estudio</h2>
+  <p>Los bloques siguen al producto desde la cosecha hasta el consumidor. No hace falta pasar por todos ni en orden: cada pestaña trabaja con sus propios datos, y lo que calcules deja su sección en el informe. La sección <span class="ui">Cómo funciona</span> de la portada resume la ruta en siete pasos.</p>
+  <figure>
+    <div class="marco"><img src="../img/i-flujo.png" alt="Los siete pasos de Cómo funciona: medir, modelar, respirar, cuantificar, evaluar, comparar y publicar"></div>
+    <figcaption><b>Figura I.5.</b> <span class="ui">Cómo funciona</span>: los siete pasos de la ruta, de la medición al informe.</figcaption>
+  </figure>
+  <ol class="pasos">
+    <li><b>Medir</b> (Bloque 2). Resume la calidad de cada lote en el tiempo, convierte y compara colores, calcula la acidez, la humedad y la firmeza, y lleva las escalas de daño y los calibres a índices.</li>
+    <li><b>Modelar</b> (Bloque 3). Ajusta la cinética de un atributo, lleva sus constantes a la temperatura y predice la vida de anaquel; o, si lo que tienes es el día en que se rechazó cada fruto, estima las curvas de supervivencia.</li>
+    <li><b>Respirar</b> (Bloque 4). Mide la respiración y el etileno, reconoce el climaterio y diseña el empaque, el preenfriamiento y la refrigeración.</li>
+    <li><b>Cuantificar</b> (Bloque 5). Las pérdidas de la cadena en kilos y en dinero, dónde conviene mejorar y desde qué altura se daña el fruto.</li>
+    <li><b>Evaluar</b> (Bloque 6). Con jueces y consumidores: si se nota la diferencia, cuánto gusta, qué lo penaliza y cómo lo describe un panel.</li>
+    <li><b>Comparar</b> (Bloque 7). Los tratamientos de un ensayo a lo largo del almacenamiento, con el análisis que corresponde a cómo se muestreó. El Bloque 8 añade las cuentas de empaque, almacén y transporte.</li>
+    <li><b>Publicar</b> (Bloque 9). El informe con todo lo anterior y las recomendaciones de manejo, y el proyecto para seguir otro día.</li>
+  </ol>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Algunos resultados pasan de una pestaña a otra</div>
+    <p><span class="ui">Llevar las k al análisis de temperatura →</span> copia las constantes de los modelos cinéticos a la pestaña <span class="ui">Temperatura</span> cuando el grupo es la temperatura; la pestaña <span class="ui">Simular mejoras</span> trabaja sobre la cadena de <span class="ui">Pérdidas por etapa</span>; y el Bloque 9 junta las secciones que dejaron todos los demás. La palomita de un bloque en la barra se enciende cuando ya tiene un resultado.</p>
+  </div>
+
+  <!-- I.9 -->
+  <h2 id="si-9"><span class="num">I.9</span>Cómo se comprobó</h2>
+  <p>Un programa de cálculo vale lo que valen sus números. Cada motor de PostHarvestPro se programó desde la fórmula publicada y se comparó, número por número, con una implementación independiente: el entorno estadístico R (versión 4.4.2) y sus paquetes de referencia para la cinética no lineal, el análisis de supervivencia, la evaluación sensorial y el análisis de ensayos; tablas publicadas para el color y la psicrometría; y cálculos a mano escritos en las propias pruebas para las calculadoras. Cada comparación lleva escrita su tolerancia.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">71&nbsp;042</div>
+    <div class="dato-txt"><div class="caja-t">Comparaciones sin fallas</div>En 431 pruebas automáticas, que corren en el navegador con doble clic en <code>tests/run.html</code> y en la consola con <code>node tests/run-node.js</code>. La tabla de abajo las reparte por motor.</div>
+  </div>
+  <table class="compacta">
+    <caption><b>La validación por área</b> (<code>tests/validacion/VALIDACION.md</code>)</caption>
+    <thead><tr><th>Área</th><th class="num">Pruebas</th><th class="num">Comparaciones</th><th>Referencia</th></tr></thead>
+    <tbody>
+      <tr><td>Núcleo numérico</td><td class="num">6</td><td class="num">534</td><td>Distribuciones, regresión, valores propios, ajuste no lineal y ajuste de valores p de R</td></tr>
+      <tr><td>Color</td><td class="num">4</td><td class="num">1 100</td><td>Conversiones y ΔE de un paquete de color de R; los 22 pares publicados de Sharma, Wu y Dalal (2005)</td></tr>
+      <tr><td>Calidad</td><td class="num">2</td><td class="num">22</td><td>Cálculos a mano (acidez, humedad, McKinney, calibres)</td></tr>
+      <tr><td>Respiración y atmósferas</td><td class="num">3</td><td class="num">19</td><td>Cálculos a mano (balances de gas, estado estacionario, enfriamiento)</td></tr>
+      <tr><td>Pérdidas y daño</td><td class="num">2</td><td class="num">35</td><td>Regresión lineal y logística de R e intervalo de Fieller</td></tr>
+      <tr><td>Logística</td><td class="num">2</td><td class="num">27</td><td>Tablas de saturación de ASHRAE (2017) e identidades psicrométricas</td></tr>
+      <tr><td>Cinética</td><td class="num">233</td><td class="num">18 932</td><td>Mínimos cuadrados no lineales de R con dos algoritmos y regresión lineal</td></tr>
+      <tr><td>Tiempo de falla</td><td class="num">143</td><td class="num">38 488</td><td>Kaplan–Meier, rango logarítmico y modelos paramétricos de dos paquetes de supervivencia de R</td></tr>
+      <tr><td>Sensorial</td><td class="num">30</td><td class="num">11 657</td><td>Paquetes de R de análisis sensorial, análisis factorial y comparaciones múltiples</td></tr>
+      <tr><td>Ensayos</td><td class="num">6</td><td class="num">228</td><td>Análisis de varianza de tipos I y III, Tukey, Dunnett, medidas repetidas con Mauchly y comparación de pendientes en R</td></tr>
+      <tr class="total"><td><b>Total</b></td><td class="num"><b>431</b></td><td class="num"><b>71 042</b></td><td>0 fallas</td></tr>
+    </tbody>
+  </table>
+  <p>La comparación también sirvió para corregir. Atrapó, entre otros, un corte del rango estudentizado que anulaba probabilidades con cinco o más medias, unos errores estándar de la regresión logística calculados con los pesos de la penúltima iteración y un optimizador que se daba por convergido junto al polo de una curva de segundo orden; los tres se corrigieron antes de la versión 1.0. Los detalles, con las tolerancias de cada prueba, están en la carpeta <code>tests/validacion/</code>, que es la única parte del programa que nombra paquetes de software: la app y el resto de este manual describen los métodos y citan los artículos.</p>
+
+  <!-- I.10 -->
+  <h2 id="si-10"><span class="num">I.10</span>Lo que el programa no hace</h2>
+  <p>Saber dónde termina una herramienta es tan útil como saber qué hace. La portada de la app lo dice en <span class="ui">Lo que no hace</span>, y los capítulos lo repiten donde importa:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">No hace</th><th>Por qué, y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><b>Reemplazar la medición</b></td><td>Los modelos resumen los datos; extrapolar lejos de las temperaturas, los tiempos o los cultivares medidos queda bajo tu responsabilidad, y la app avisa cuando ocurre.</td></tr>
+      <tr><td><b>Traer normas comerciales</b></td><td>Las tablas de calibres, permeabilidades de películas, ventanas de atmósfera y compatibilidad son orientativas y editables: usa las de tu norma, tu película y tu cultivar.</td></tr>
+      <tr><td><b>Modelar la cinética no isotérmica</b></td><td>Las predicciones son a temperatura constante; para una historia de temperaturas variable hay que integrar k(T(t)) en el tiempo.</td></tr>
+      <tr><td><b>Simular la dinámica del empaque</b></td><td>La atmósfera modificada se calcula en estado estacionario, con película sin perforaciones y sello perfecto; no el tiempo que tarda en llegar a él.</td></tr>
+      <tr><td><b>Leer instrumentos</b></td><td>No se conecta a texturómetros, colorímetros ni cromatógrafos: trabaja con las tablas que exportan.</td></tr>
+      <tr><td><b>Subir tus datos</b></td><td>No hay servidor, cuentas ni conexión: lo que guardas es un archivo de proyecto en tu equipo.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>
