@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-7" data-pestana="7" data-orden="7" style="--acento: var(--b7)">
+  <div class="cap-apertura">
+    <div class="cap-num">7</div>
+    <div class="cap-etiqueta">Capítulo siete · Bloque 7</div>
+    <h1 data-corto="Ensayos poscosecha">Ensayos poscosecha</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un ensayo poscosecha casi siempre cruza tratamientos con tiempos de almacenamiento: recubrimientos, temperaturas o atmósferas, medidos cada tantos días. Cómo se analiza depende de una sola pregunta: ¿cada día se miden frutos distintos o los mismos? Este bloque analiza los dos casos —el factorial con muestreo destructivo y las medidas repetidas—, compara la velocidad de cambio de cada tratamiento y, antes de empezar, sortea el ensayo y escribe su libro de campo.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k7"></span><span class="k7"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>7.1</b>Factorial tratamiento × tiempo</li>
+      <li><b>7.2</b>Comparar los tratamientos dentro de cada tiempo</li>
+      <li><b>7.3</b>Medidas repetidas</li>
+      <li><b>7.4</b>Esfericidad y correcciones</li>
+      <li><b>7.5</b>Pendientes</li>
+      <li><b>7.6</b>Aleatorización y libro de campo</li>
+    </ul>
+  </div>
+
+  <p class="lead">El bloque se llama <span class="ui">Ensayos poscosecha</span> (en la barra, <span class="ui">Ensayos</span>) y se presenta así: «Factoriales tratamiento × tiempo, medidas repetidas, pendientes y aleatorización». Tiene cuatro pestañas: <span class="ui">Factorial tratamiento × tiempo</span>, <span class="ui">Medidas repetidas</span>, <span class="ui">Pendientes</span> y <span class="ui">Aleatorización</span>.</p>
+  <p>Las tres primeras reciben una tabla en formato largo —una fila por fruto y tiempo, con la respuesta, el tratamiento y el tiempo en columnas— y calculan en cuanto la tabla está cargada. Los ejemplos son dos conjuntos simulados que ya aparecieron en los capítulos 2 y 3: el <b>mango del ejemplo</b> a 13, 20 y 25 °C, que se muestreó de forma destructiva (cada día se midieron cuatro frutos nuevos), y el <b>chayote del ejemplo</b> con dos recubrimientos, cuyos dieciocho frutos marcados se pesaron cada cinco días.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Elige la pestaña por cómo se tomaron los datos</div>
+    <p>Si cada fruto se midió una sola vez (se cortó, se exprimió, se destruyó), usa el <b>factorial</b>. Si los mismos frutos se midieron en todos los tiempos (peso, color con colorímetro, firmeza no destructiva), usa <b>medidas repetidas</b>: las mediciones de un fruto se parecen entre sí y un factorial las trataría como independientes, con valores p demasiado pequeños. La unidad del análisis es la que se aleatorizó.</p>
+  </div>
+
+  <!-- 7.1 -->
+  <h2 id="s7-1"><span class="num">7.1</span>Factorial tratamiento × tiempo</h2>
+  <p class="lead">La tarjeta <span class="ui">Muestreo destructivo</span> lo explica: «Cada tiempo de muestreo usa frutos distintos (se destruyen al medirlos): el ensayo es un factorial tratamiento × tiempo, completamente al azar o en bloques.»</p>
+  <p>Los papeles son <span class="ui">Variable de respuesta</span>, <span class="ui">Tratamiento</span>, <span class="ui">Tiempo</span> y <span class="ui">Bloque (opcional)</span>; con un bloque, el diseño es de bloques completos al azar y el bloque entra en el modelo como un efecto más. El tiempo se trata como factor (cada día es un nivel), no como número: eso permite que la respuesta cambie de cualquier forma con el tiempo. Con el mango del ejemplo la app elige <code>firmeza_N</code>, <code>temperatura</code> como tratamiento y <code>dia</code>; puedes cambiar la respuesta por cualquier otra columna de la tabla (<code>sst</code>, <code>at</code>, <code>L</code>…).</p>
+  <table class="compacta">
+    <caption><b>Tabla 7.1.</b> Los controles del factorial</caption>
+    <thead><tr><th style="width:1.9in">Control</th><th style="width:1.45in">Por omisión</th><th>Qué decide</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Sumas de cuadrados</span></td><td><span class="ui">Tipo III (cada efecto al final)</span></td><td>Cómo se reparten las sumas de cuadrados cuando el ensayo está desbalanceado. <span class="ui">Tipo I (secuenciales)</span> las asigna en el orden tratamiento, tiempo, interacción. Con datos balanceados las dos dan lo mismo</td></tr>
+      <tr><td>«Usar sólo los tiempos medidos en todos los tratamientos»</td><td>marcada</td><td>Deja fuera los tiempos en que falta algún tratamiento, para que el factorial esté completo</td></tr>
+      <tr><td><span class="ui">Comparación de medias</span></td><td><span class="ui">Tukey (HSD)</span></td><td>Cómo se comparan los tratamientos dentro de cada tiempo: <span class="ui">Tukey (HSD)</span>, <span class="ui">LSD de Fisher</span>, <span class="ui">Bonferroni</span> o <span class="ui">Dunnett (contra el testigo)</span></td></tr>
+      <tr><td><span class="ui">Testigo (Dunnett)</span></td><td>el nivel que se llame «testigo» o «control»; si no hay, el primero</td><td>Contra qué tratamiento compara Dunnett. Con el mango, 13 °C</td></tr>
+      <tr><td>α</td><td>0.05</td><td>El nivel de significancia de las comparaciones (0.05, 0.01 o 0.10)</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b7-datos.png" alt="La tarjeta Muestreo destructivo con el mango de ejemplo: papeles firmeza_N, temperatura, dia y bloque ninguno, sumas de cuadrados tipo III, la casilla de tiempos comunes marcada y la comparación de medias"></div>
+    <figcaption><b>Figura 7.1.</b> La tarjeta <span class="ui">Muestreo destructivo</span> con el mango del ejemplo y los controles por omisión. El rótulo del último control aparece como «A» porque la app escribe los rótulos en versalitas y la α griega minúscula se vuelve mayúscula.</figcaption>
+  </figure>
+
+  <h3>El análisis de varianza</h3>
+  <p>La app ajusta el modelo y<sub>ijk</sub> = μ + τ<sub>i</sub> + δ<sub>j</sub> + (τδ)<sub>ij</sub> + ε<sub>ijk</sub> (más el bloque, si lo hay), con τ el tratamiento, δ el tiempo y (τδ) su interacción (Steel et al. 1997). En el mango, la temperatura de 13 °C se midió hasta el día 21 y las de 20 y 25 °C sólo hasta el 12; con la casilla marcada, la lectura avisa «Se dejaron fuera los tiempos que no tienen todos los tratamientos: 15, 18, 21.» y el análisis usa 60 frutos (3 temperaturas × 5 días × 4 frutos).</p>
+  <p>La tarjeta <span class="ui">Análisis de varianza</span> abre con cinco mosaicos —la F y el valor p del <span class="ui">Tratamiento</span>, del <span class="ui">Tiempo</span> y de la <span class="ui">Interacción</span>, el CV y el R²— y sigue con la lectura, la tabla del análisis y la figura <span class="ui">Evolución por tratamiento</span>:</p>
+  <table class="compacta">
+    <caption><b>Tabla 7.2.</b> Análisis de varianza de la firmeza del mango del ejemplo (días 0 a 12, tipo III)</caption>
+    <thead><tr><th>Fuente</th><th class="num">gl</th><th class="num">SC</th><th class="num">CM</th><th class="num">F</th><th class="num">p</th></tr></thead>
+    <tbody>
+      <tr><td>temperatura</td><td class="num">2</td><td class="num">18 863.90</td><td class="num">9431.949</td><td class="num">211.21</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>dia</td><td class="num">4</td><td class="num">68 825.82</td><td class="num">17 206.455</td><td class="num">385.30</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>temperatura:dia</td><td class="num">8</td><td class="num">7112.76</td><td class="num">889.095</td><td class="num">19.91</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>Error</td><td class="num">45</td><td class="num">2009.60</td><td class="num">44.658</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr class="total"><td>Total</td><td class="num">59</td><td class="num">96 812.07</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+    </tbody>
+  </table>
+  <p>El CV es 10.3 % y el R², 0.979. Las tres fuentes son significativas, y la que manda en la lectura es la interacción: «La <b>interacción es significativa</b> (p &lt; 0.001): el efecto de temperatura cambia con el tiempo de almacenamiento, así que los tratamientos se comparan dentro de cada tiempo (tabla de abajo) y no con sus promedios generales.» El mosaico de la interacción se pinta de ámbar cuando es significativa, como aviso.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b7-factorial.png" alt="Mosaicos, lectura, tabla del análisis de varianza y la figura de la firmeza media del mango por temperatura y día con barras de error estándar"></div>
+    <figcaption><b>Figura 7.2.</b> <span class="ui">Análisis de varianza</span> del mango del ejemplo. En la figura, la media ± error estándar de cada temperatura en cada día: las tres parten de 116 a 129 N y se separan desde el día 3, cuando la de 25 °C ya cayó a la mitad. Las líneas no son paralelas: eso es la interacción.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Qué quiere decir la interacción en poscosecha</div>
+    <p>En un ensayo de almacenamiento, el efecto del tiempo casi siempre es enorme (los frutos maduran) y no interesa probarlo. La pregunta es si los tratamientos cambian <b>la forma</b> en que el atributo evoluciona, y eso lo responde la interacción. Si es significativa, el «efecto del tratamiento» no es un número: el día 0 las temperaturas no difieren en lo que importa y el día 12 la firmeza a 13 °C es más de diez veces la de 25 °C. Un promedio general de cada temperatura sobre todos los días mezclaría situaciones distintas. Para resumir la diferencia en un solo número por tratamiento, usa su velocidad de cambio (sección 7.5) o su constante cinética (capítulo 3).</p>
+  </div>
+
+  <!-- 7.2 -->
+  <h2 id="s7-2"><span class="num">7.2</span>Comparar los tratamientos dentro de cada tiempo</h2>
+  <p class="lead">La tabla <span class="ui">Tratamientos dentro de cada tiempo</span> pone un renglón por tiempo y una columna por tratamiento, con la media de cada celda y sus letras: «En cada tiempo, tratamientos con la misma letra no difieren».</p>
+  <p>Las comparaciones usan el cuadrado medio del error del análisis completo (44.658 con 45 gl en el mango), no sólo los frutos de ese día, y las letras se asignan con el algoritmo de inserción y absorción de Piepho (2004). Tukey usa la versión de Tukey–Kramer para celdas de distinto tamaño (Kramer 1956); Bonferroni divide α entre el número de pares; LSD no corrige nada y sólo se recomienda cuando hay pocos tratamientos y la F ya fue significativa.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b7-letras.png" alt="La tabla de medias de firmeza del mango por día y temperatura con las letras de Tukey"></div>
+    <figcaption><b>Figura 7.3.</b> Las medias de firmeza (N) del mango del ejemplo dentro de cada día, con las letras de Tukey. El día 0 las tres temperaturas se traslapan (13 °C <b>b</b>, 20 °C <b>a</b>, 25 °C <b>ab</b>); del día 3 en adelante las tres difieren entre sí, siempre en el orden 13 &gt; 20 &gt; 25 °C.</figcaption>
+  </figure>
+  <p>Con <span class="ui">Dunnett (contra el testigo)</span>, las letras se cambian por un asterisco junto a cada tratamiento que difiere del testigo («* difiere del testigo (Dunnett, α = 0.05).»). Con el mango y el testigo en 13 °C, 20 °C difiere ya desde el día 0 (129.43 contra 115.83 N) y 25 °C desde el día 3 (60.33 contra 107.65 N). Dunnett tiene más potencia que Tukey cuando lo único que importa es cada tratamiento contra el testigo (Dunnett 1955), como en un ensayo de recubrimientos. La tabla se descarga con <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span> (<code>medias_por_tiempo</code>).</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Cuándo sí resumir con promedios</div>
+    <p>Si la interacción no es significativa, la lectura cambia: «La interacción no es significativa (…): el efecto de … es parecido en todos los tiempos y puede resumirse con sus promedios.» Entonces sí tiene sentido decir que un tratamiento conserva, en promedio, tantos newtons más que otro. Aun así, la tabla dentro de cada tiempo sigue disponible, y en un informe conviene mostrarla junto con la figura.</p>
+  </div>
+
+  <!-- 7.3 -->
+  <h2 id="s7-3"><span class="num">7.3</span>Medidas repetidas</h2>
+  <p class="lead">La pestaña <span class="ui">Medidas repetidas</span> analiza los ensayos en que se mide siempre a los mismos frutos. Su tarjeta, <span class="ui">Los mismos frutos a lo largo del tiempo</span>, lo resume: «Peso, color u otra medida no destructiva tomada en los mismos frutos (unidades) en cada tiempo: parcelas divididas en el tiempo, con la corrección de los grados de libertad cuando las mediciones de una unidad no tienen la misma correlación entre sí.»</p>
+  <p>A los papeles del factorial se suma uno: <span class="ui">Unidad (fruto)</span>, el identificador de cada fruto, que debe repetirse en todos sus tiempos. El ejemplo es la pérdida de peso del chayote: 6 frutos marcados por tratamiento (testigo, cera vegetal y quitosano), pesados cada 5 días hasta el día 25 (<span class="ui">Ver los datos (108 × 4)</span>); la app elige <code>perdida_peso</code>, <code>tratamiento</code>, <code>dia</code> y <code>fruto</code>. Los controles de comparación son los mismos del factorial: <span class="ui">Comparación de medias</span>, <span class="ui">Testigo (Dunnett)</span> (aquí, <span class="ui">Testigo</span>) y α.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Parcelas divididas en el tiempo</div>
+    <p>El análisis clásico (Steel et al. 1997) trata al fruto como una parcela grande que recibió el tratamiento, y a cada tiempo como una subparcela dentro de ella. Por eso hay dos errores: el <b>error a</b>, la variación entre frutos del mismo tratamiento, contra el que se prueba el tratamiento; y el <b>error b</b>, la variación dentro de cada fruto, contra el que se prueban el tiempo y la interacción. El error a suele ser mucho mayor: dos frutos del mismo tratamiento difieren más entre sí que un mismo fruto de un día al siguiente. Probar el tratamiento contra el error b, como haría un factorial, exageraría su significancia.</p>
+  </div>
+  <p>Antes de analizar, la app quita los tiempos en que todas las unidades valen lo mismo, porque no aportan información; con la pérdida de peso es el día 0, en que todos los frutos valen cero, y la lectura lo avisa: «Se dejaron fuera los tiempos en que todas las unidades valen lo mismo (no aportan información): 0.» Las unidades a las que les falta algún tiempo también se dejan fuera, y el mosaico <span class="ui">Unidades</span> dice cuántas.</p>
+  <table class="compacta">
+    <caption><b>Tabla 7.3.</b> Parcelas divididas en el tiempo: la pérdida de peso (%) del chayote del ejemplo, días 5 a 25</caption>
+    <thead><tr><th>Fuente</th><th class="num">gl</th><th class="num">SC</th><th class="num">CM</th><th class="num">F</th><th class="num">p</th><th class="num">p (GG)</th><th class="num">p (HF)</th></tr></thead>
+    <tbody>
+      <tr><td>Tratamiento</td><td class="num">2</td><td class="num">94.881</td><td class="num">47.4406</td><td class="num">18.09</td><td class="num">&lt; 0.001</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr><td>Error a (unidades)</td><td class="num">15</td><td class="num">39.336</td><td class="num">2.6224</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr><td>Tiempo</td><td class="num">4</td><td class="num">545.484</td><td class="num">136.3711</td><td class="num">795.45</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>Tratamiento × tiempo</td><td class="num">8</td><td class="num">22.619</td><td class="num">2.8274</td><td class="num">16.49</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>Error b</td><td class="num">60</td><td class="num">10.286</td><td class="num">0.1714</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr class="total"><td>Total</td><td class="num">89</td><td class="num">712.607</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+    </tbody>
+  </table>
+  <p>El error a (2.6224) es quince veces el error b (0.1714): ésa es la razón de probar el tratamiento contra las unidades, como dice su mosaico, «p &lt; 0.001 (contra las unidades)». Aun así el tratamiento es significativo (F = 18.09 con 2 y 15 gl), igual que el tiempo (F = 795.45) y la interacción (F = 16.49).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b7-repetidas.png" alt="Mosaicos, lectura, tabla de parcelas divididas en el tiempo con p corregidas y la figura de perfiles de pérdida de peso por tratamiento"></div>
+    <figcaption><b>Figura 7.4.</b> <span class="ui">Parcelas divididas en el tiempo</span> con el chayote del ejemplo. Los mosaicos dan la F de cada fuente con su p corregida (GG) y los épsilones; la figura <span class="ui">Perfiles de los tratamientos</span> muestra que el testigo pierde peso más rápido y que la cera vegetal y el quitosano casi se superponen. El mosaico de los épsilones aparece rotulado «E GG / HF» por las versalitas, que convierten la ε en mayúscula.</figcaption>
+  </figure>
+
+  <!-- 7.4 -->
+  <h2 id="s7-4"><span class="num">7.4</span>Esfericidad y correcciones</h2>
+  <p class="lead">El análisis de parcelas divididas supone que todas las diferencias entre dos tiempos de un mismo fruto tienen la misma varianza (<b>esfericidad</b>). En el almacenamiento casi nunca se cumple: dos pesadas seguidas se parecen más que la primera y la última.</p>
+  <p>La app revisa el supuesto con la <b>prueba de Mauchly</b> (1940) y calcula dos factores de corrección, los épsilones de <b>Greenhouse–Geisser</b> (1959) y de <b>Huynh–Feldt</b> (1976, con la corrección de Lecoutre 1991). Un ε de 1 indica esfericidad perfecta; el menor posible es 1/(t − 1), con t tiempos. Los grados de libertad del tiempo y de la interacción se multiplican por ε, y con ellos se recalculan sus valores p: las columnas <span class="ui">p (GG)</span> y <span class="ui">p (HF)</span> de la tabla.</p>
+  <div class="formula">ε<sub>GG</sub> = (Σ λ)² / [(t − 1)·Σ λ²] &nbsp;·&nbsp; gl corregidos = ε·gl</div>
+  <p>Con el chayote, Mauchly rechaza la esfericidad (p &lt; 0.001) y los épsilones son <b>0.280</b> (GG) y <b>0.286</b> (HF), cerca del mínimo de 0.25 para cinco tiempos: la correlación entre pesadas es muy desigual, como era de esperar en una pérdida acumulada. La lectura lo dice: «la prueba de Mauchly <b>rechaza la esfericidad</b> (p &lt; 0.001), así que conviene leer los valores p corregidos de Greenhouse–Geisser (ε = 0.280) o de Huynh–Feldt.» Aun corregidos, el tiempo y la interacción siguen siendo significativos (p &lt; 0.001), y la lectura remite a la pestaña <span class="ui">Pendientes</span> para comparar las velocidades.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Cuál de las dos correcciones leer</div>
+    <p>Greenhouse–Geisser es conservadora: corrige de más cuando la violación es leve. Huynh–Feldt corrige menos y es la preferida cuando ε pasa de 0.75. Con ε cerca del mínimo, como aquí, las dos coinciden. Si la conclusión cambia según la que leas, repórtalo así.</p>
+  </div>
+
+  <h3>Los tratamientos dentro de cada tiempo</h3>
+  <p>La tabla de medias por tiempo es la misma del factorial, con una diferencia que la app anota al pie: «Dentro de cada tiempo se usa el error combinado de las dos estratas, con los grados de libertad de Satterthwaite.» Comparar tratamientos en un día fijo mezcla la variación entre frutos y la de dentro de cada fruto, así que el error es la combinación (Ea + (t − 1)·Eb)/t, con unos grados de libertad aproximados por el método de Satterthwaite (1946).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b7-repetidas-medias.png" alt="La tabla de pérdida de peso media del chayote por día y tratamiento con letras de Tukey"></div>
+    <figcaption><b>Figura 7.5.</b> La pérdida de peso media (%) del chayote del ejemplo dentro de cada día. El día 5 los tres tratamientos comparten la letra <b>a</b>; del día 10 en adelante, el testigo (<b>a</b>) pierde más peso que la cera vegetal y el quitosano, que no difieren entre sí (<b>b</b>). El día 25, 11.22 % contra 7.29 y 7.66 %.</figcaption>
+  </figure>
+  <p>Con Dunnett contra el testigo, la cera vegetal y el quitosano difieren del testigo desde el día 10 (asterisco) y no el día 5. Los métodos citados son Steel et al. (1997), Greenhouse y Geisser (1959), Huynh y Feldt (1976), Lecoutre (1991), Mauchly (1940) y Satterthwaite (1946).</p>
+
+  <!-- 7.5 -->
+  <h2 id="s7-5"><span class="num">7.5</span>Pendientes</h2>
+  <p class="lead">Cuando el atributo cambia casi en línea recta con el tiempo, la manera más directa de comparar los tratamientos es comparar sus velocidades. La pestaña <span class="ui">Pendientes</span>, con la tarjeta <span class="ui">Velocidad de cambio por tratamiento</span>, ajusta «Una recta del atributo contra el tiempo para cada tratamiento y la prueba de si las pendientes (las velocidades) son iguales: análisis de covarianza.»</p>
+  <p>Los papeles son <span class="ui">Atributo</span>, <span class="ui">Tiempo (numérico)</span> —aquí el tiempo sí es un número— y <span class="ui">Tratamiento</span>. El ejemplo es otra vez la pérdida de peso del chayote, ahora con el día 0 incluido (las rectas parten de cero). La tarjeta <span class="ui">Rectas y comparación de pendientes</span> da tres mosaicos: <span class="ui">Pendientes iguales</span> (la F de la prueba), <span class="ui">Más rápido</span> y <span class="ui">Más lento</span>.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Análisis de covarianza en dos pasos</div>
+    <p>Primero se prueba si las rectas son paralelas: un modelo con una pendiente por tratamiento contra otro con una pendiente común (Snedecor y Cochran 1989). Si las pendientes difieren, ésa es la conclusión y los tratamientos se comparan por pares, con valores p ajustados por Holm (1979). Si no se demuestra que difieran, se ajusta la pendiente común y se prueba si los niveles (los interceptos) difieren, y la lectura lo dice: «No se demuestra que las velocidades difieran (…); con una pendiente común (…), los niveles sí/no difieren».</p>
+  </div>
+  <p>Con el chayote, las velocidades difieren (F = 39.05, p &lt; 0.001): el testigo pierde 0.4473 % de su peso por día, la cera vegetal 0.2924 % y el quitosano 0.3078 %. La lectura lo resume: «Testigo cambia 1.53 veces más rápido que Cera vegetal.» Los pares con Holm confirman lo que mostraba la tabla de medias: el testigo difiere de los dos recubrimientos (p &lt; 0.001 en los dos pares) y la cera vegetal y el quitosano no difieren entre sí (diferencia −0.01536 % por día, p = 0.428). Las filas significativas se pintan de verde.</p>
+  <table class="compacta">
+    <caption><b>Tabla 7.4.</b> Las rectas de pérdida de peso (%) contra el día, chayote del ejemplo</caption>
+    <thead><tr><th>Tratamiento</th><th class="num">n</th><th class="num">Intercepto</th><th class="num">Pendiente (% d⁻¹)</th><th class="num">IC 95 %</th><th class="num">R²</th></tr></thead>
+    <tbody>
+      <tr><td>Testigo</td><td class="num">36</td><td class="num">−0.005556</td><td class="num">0.4473 ± 0.021</td><td class="num">[0.4049, 0.4896]</td><td class="num">0.931</td></tr>
+      <tr><td>Cera vegetal</td><td class="num">36</td><td class="num">0.02071</td><td class="num">0.2924 ± 0.0050</td><td class="num">[0.2822, 0.3026]</td><td class="num">0.990</td></tr>
+      <tr><td>Quitosano</td><td class="num">36</td><td class="num">0.03508</td><td class="num">0.3078 ± 0.010</td><td class="num">[0.2874, 0.3281]</td><td class="num">0.965</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b7-pendientes.png" alt="Mosaicos, lectura, figura de rectas de pérdida de peso por tratamiento, tabla de pendientes y pares con ajuste de Holm"></div>
+    <figcaption><b>Figura 7.6.</b> <span class="ui">Rectas y comparación de pendientes</span> con el chayote del ejemplo: los puntos son los frutos y las líneas la recta de cada tratamiento. La recta del testigo se abre desde el día 5; las de la cera vegetal y el quitosano casi se superponen.</figcaption>
+  </figure>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Con los mismos frutos, estas pruebas son optimistas</div>
+    <p>La lectura lo advierte siempre: «Si las mismas unidades se midieron en cada tiempo, las observaciones no son independientes: estas pruebas son optimistas y la de medidas repetidas es la referencia.» En el chayote, las 36 observaciones de cada tratamiento son sólo 6 frutos pesados seis veces, y los errores estándar de las pendientes salen más chicos de lo que son. Usa las pendientes para describir y resumir (cuánto más rápido pierde peso el testigo) y la sección 7.3 para decidir si los tratamientos difieren.</p>
+  </div>
+
+  <!-- 7.6 -->
+  <h2 id="s7-6"><span class="num">7.6</span>Aleatorización y libro de campo</h2>
+  <p class="lead">La pestaña <span class="ui">Aleatorización</span> se usa antes del ensayo: «Genera la asignación al azar de los tratamientos (y de los tiempos de muestreo) a las unidades, con una semilla para repetirla.» Su tarjeta es <span class="ui">Libro de campo del ensayo</span>.</p>
+  <table class="compacta">
+    <caption><b>Tabla 7.5.</b> Los campos de <span class="ui">Aleatorización</span> y sus valores escritos</caption>
+    <thead><tr><th style="width:2.1in">Campo</th><th style="width:1.8in">Valor escrito</th><th>Para qué</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Tratamientos (separados por coma)</span></td><td>Testigo, Cera vegetal, Quitosano</td><td>Los niveles del tratamiento</td></tr>
+      <tr><td><span class="ui">Tiempos de muestreo</span></td><td>0, 5, 10, 15, 20</td><td>Los días (u horas, o semanas) en que se mide</td></tr>
+      <tr><td><span class="ui">Repeticiones</span></td><td>4</td><td>Unidades por tratamiento y tiempo (destructivo) o por tratamiento (repetidas)</td></tr>
+      <tr><td><span class="ui">Diseño</span></td><td><span class="ui">Completamente al azar</span></td><td>O <span class="ui">Bloques completos al azar</span>: cada repetición es un bloque y el sorteo se hace dentro de él</td></tr>
+      <tr><td><span class="ui">Semilla</span></td><td>2026</td><td>La misma semilla da siempre el mismo sorteo</td></tr>
+      <tr><td><span class="ui">Variables a medir</span></td><td>firmeza_N, perdida_peso, sst</td><td>Columnas vacías del libro, para anotar en campo</td></tr>
+      <tr><td>«Medidas repetidas: la misma unidad se mide en todos los tiempos»</td><td>sin marcar</td><td>Cambia la unidad: una por tratamiento y repetición, medida en todos los tiempos</td></tr>
+    </tbody>
+  </table>
+  <p>El botón <span class="ui">Generar</span> sortea y muestra la tarjeta <span class="ui">Libro de campo</span>, con tres mosaicos (<span class="ui">Unidades</span>, <span class="ui">Mediciones</span> y <span class="ui">Diseño</span>) y la tabla, de la que se ven hasta 300 renglones. Con los valores escritos, el muestreo destructivo da 60 unidades y 60 mediciones (3 tratamientos × 5 tiempos × 4 repeticiones, cada fruto se mide una vez); con la casilla de medidas repetidas, 12 unidades y 60 mediciones (cada uno de los 12 frutos, 3 × 4, se mide en los 5 tiempos).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b7-libro.png" alt="La tarjeta Libro de campo del ensayo con sus campos y la tabla generada con las primeras diez unidades"></div>
+    <figcaption><b>Figura 7.7.</b> El libro de campo con los valores escritos y la semilla 2026 (muestreo destructivo, completamente al azar): las diez primeras de 60 unidades. La parcela 1 es un testigo del día 0, la 2 un quitosano del día 15, la 3 otro quitosano del día 20. Los campos de texto de arriba son angostos y no muestran todo su contenido; al hacer clic se ve completo.</figcaption>
+  </figure>
+  <p>Las columnas son <code>Parcela</code>, <code>Repeticion</code> (o <code>Bloque</code> en bloques completos), <code>Tratamiento</code>, <code>Tiempo</code> y las variables a medir. En bloques, las parcelas se numeran por bloque (101, 102… en el bloque 1). En medidas repetidas, cada parcela aparece en tantos renglones como tiempos, ya ordenados: así se pesa cada fruto en su fecha. <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span> descargan el libro completo (<code>libro_de_campo</code>), y <span class="ui">Abrir el programa de diseño experimental →</span> abre, en otra pestaña, el programa de diseño de experimentos de la suite LABG, cuyo bloque de datos reconoce esas columnas. Una vez medido, el mismo archivo con las columnas llenas se carga en la pestaña <span class="ui">Factorial tratamiento × tiempo</span> o en <span class="ui">Medidas repetidas</span> (con <code>Parcela</code> como unidad).</p>
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Anota la semilla</div>
+    <p>Escribe la semilla en el protocolo del ensayo. Con ella, cualquiera puede rehacer el mismo sorteo y comprobar que la asignación fue al azar; sin ella, el sorteo no se puede reproducir.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> cada fruto se midió una sola vez</td><td><b>entonces</b> el ensayo es un factorial: pestaña <span class="ui">Factorial tratamiento × tiempo</span>.</td></tr>
+      <tr><td><b>Si</b> los mismos frutos se midieron en todos los tiempos</td><td><b>entonces</b> es de medidas repetidas: el tratamiento se prueba contra las unidades y el tiempo y la interacción con p corregidas.</td></tr>
+      <tr><td><b>Si</b> la interacción es significativa</td><td><b>entonces</b> compara los tratamientos dentro de cada tiempo, o sus velocidades; no con promedios generales.</td></tr>
+      <tr><td><b>Si</b> la interacción no es significativa</td><td><b>entonces</b> el efecto del tratamiento puede resumirse con sus promedios.</td></tr>
+      <tr><td><b>Si</b> Mauchly rechaza la esfericidad (p &lt; 0.05)</td><td><b>entonces</b> lee <span class="ui">p (GG)</span>, o <span class="ui">p (HF)</span> si ε pasa de 0.75.</td></tr>
+      <tr><td><b>Si</b> sólo importa cada tratamiento contra el testigo</td><td><b>entonces</b> usa <span class="ui">Dunnett (contra el testigo)</span>; si importan todos los pares, Tukey.</td></tr>
+      <tr><td><b>Si</b> las pendientes difieren pero los frutos fueron los mismos</td><td><b>entonces</b> úsalas para describir cuánto más rápido cambia un tratamiento y confirma con medidas repetidas.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Son guías para interpretar, no leyes: lo que sabes del cultivo, del cultivar y de cómo se condujo el ensayo siempre manda.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p><b>El tratamiento sale con gl 0 y F «—».</b> Desmarcaste «Usar sólo los tiempos medidos en todos los tratamientos» y faltan celdas (en el mango, 20 y 25 °C no tienen los días 15, 18 y 21): con celdas vacías las sumas de tipo III no pueden probar el tratamiento, y la app no lo avisa. Vuelve a marcar la casilla. <b>La tabla de medias tiene rayas.</b> Ese tratamiento no se midió en ese tiempo. <b>En medidas repetidas el mosaico de unidades dice «incompletas fuera».</b> A esas unidades les falta algún tiempo; revisa que el identificador del fruto sea el mismo en todas sus fechas («F1» y «f1» son distintos). <b>En Pendientes no aparece nada.</b> El tiempo debe ser un número; «día 5» o «5 d» no lo son. <b>Generar no cambia el sorteo.</b> Es lo esperado con la misma semilla; cambia la semilla para otro sorteo.</p>
+  </div>
+</section>
+
+</body>
+</html>

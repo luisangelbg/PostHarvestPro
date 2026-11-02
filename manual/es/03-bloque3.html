@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-3" data-pestana="3" data-orden="3" style="--acento: var(--b3)">
+  <div class="cap-apertura">
+    <div class="cap-num">3</div>
+    <div class="cap-etiqueta">Capítulo tres · Bloque 3</div>
+    <h1 data-corto="Cinética y vida de anaquel">Cinética y vida de anaquel</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Saber que un lote se ablanda no basta: hace falta saber a qué velocidad, cuántos días tarda en llegar al límite que el mercado acepta y cuánto cambia esa velocidad con la temperatura. Este bloque ajusta la cinética del deterioro, la lleva a Arrhenius para predecir la vida de anaquel a la temperatura del almacén, extrapola una prueba acelerada y, cuando lo que se mide es el día en que cada fruto se rechaza, estima el tiempo hasta el rechazo contando los frutos que seguían sanos al terminar.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k3"></span><span class="k7"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>3.1</b>Modelos cinéticos: los tres órdenes</li>
+      <li><b>3.2</b>Ajuste y vida al límite</li>
+      <li><b>3.3</b>Temperatura: Arrhenius, Q10 y raíz cuadrada</li>
+      <li><b>3.4</b>Vida de anaquel a cualquier temperatura</li>
+      <li><b>3.5</b>Prueba acelerada</li>
+      <li><b>3.6</b>Tiempo hasta el rechazo: Kaplan–Meier</li>
+      <li><b>3.7</b>Modelos paramétricos y razones de tiempos</li>
+    </ul>
+  </div>
+
+  <p class="lead">El bloque se llama <span class="ui">Cinética y vida de anaquel</span> (en la barra, <span class="ui">Vida de anaquel</span>) y se presenta así: «Órdenes de reacción, temperatura, pruebas aceleradas y tiempo hasta el rechazo». Tiene cuatro pestañas: <span class="ui">Modelos cinéticos</span>, <span class="ui">Temperatura</span>, <span class="ui">Prueba acelerada</span> y <span class="ui">Tiempo hasta rechazo</span>. Como en todo el programa, no hay botón de calcular: en cuanto hay datos, cada cambio de un control rehace las cuentas que dependen de él.</p>
+  <p>Las cuatro pestañas forman una ruta. En <span class="ui">Modelos cinéticos</span> se ajusta un atributo (la firmeza, el color, la vitamina C) contra el tiempo en cada temperatura; el botón <span class="ui">Llevar las k al análisis de temperatura →</span> pasa las constantes a <span class="ui">Temperatura</span>, que las ajusta a Arrhenius y predice la vida a cualquier temperatura. <span class="ui">Prueba acelerada</span> hace lo mismo cuando lo que tienes no son constantes sino vidas de anaquel observadas a temperaturas altas. <span class="ui">Tiempo hasta rechazo</span> es otro enfoque: no modela un atributo, sino el día en que cada fruto deja de ser aceptable. El capítulo usa dos ejemplos simulados: el <b>mango del ejemplo</b> (la firmeza de 72 frutos a 13, 20 y 25 °C) y el <b>chayote del ejemplo</b> con dos recubrimientos (los días hasta el rechazo de 90 frutos).</p>
+
+  <!-- 3.1 -->
+  <h2 id="s3-1"><span class="num">3.1</span>Modelos cinéticos: los tres órdenes</h2>
+  <p class="lead">La tarjeta <span class="ui">Datos</span> pide un atributo medido en el tiempo y, si quieres, un grupo. Su texto lo resume: «Cada grupo se ajusta por separado con los tres órdenes, por mínimos cuadrados en la escala original.»</p>
+  <p>Los papeles de las columnas son <span class="ui">Tiempo</span> (en días, horas o semanas: la app no convierte unidades, y la vida de anaquel sale en la unidad que uses), <span class="ui">Atributo</span> y <span class="ui">Grupo (opcional)</span>, que puede ser la temperatura o el tratamiento. Con el mango del ejemplo (<span class="ui">Cargar ejemplo</span> en la franja, o <span class="ruta">Inicio<span class="sep">›</span>Datos de ejemplo</span>) la app elige sola <code>dia</code>, <code>firmeza_N</code> y <code>temperatura</code>. La tabla trae trece columnas (<span class="ui">Ver los datos (72 × 13)</span>): puedes cambiar el atributo por el color (<code>L</code>, <code>a</code>, <code>b</code>), los sólidos solubles (<code>sst</code>) o la pérdida de peso sin volver a cargar nada.</p>
+  <p>Debajo están cuatro controles:</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.1.</b> Los controles de <span class="ui">Modelos cinéticos</span></caption>
+    <thead><tr><th style="width:1.45in">Control</th><th style="width:1.5in">Por omisión</th><th>Qué decide</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Orden</span></td><td><span class="ui">El de menor AIC</span></td><td>Qué orden se reporta en cada grupo; también puedes fijar <span class="ui">Orden cero</span>, <span class="ui">Primer orden</span> o <span class="ui">Segundo orden</span> para todos</td></tr>
+      <tr><td><span class="ui">Método</span></td><td><span class="ui">No lineal (escala original)</span></td><td>Cómo se estiman C₀ y k. <span class="ui">Linealizado</span> ajusta la recta clásica (C, ln C o 1/C contra t) y sólo se recomienda para comparar con trabajos viejos</td></tr>
+      <tr><td><span class="ui">Límite de aceptación</span></td><td>25 (<span class="ui">vacío: sin límite</span>)</td><td>El valor del atributo a partir del cual el producto deja de ser aceptable; con él se calcula el tiempo al límite</td></tr>
+      <tr><td><span class="ui">Confianza</span></td><td><span class="ui">95 %</span></td><td>El nivel de todos los intervalos (90, 95 o 99 %)</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b3-datos.png" alt="La tarjeta Datos de Modelos cinéticos con el mango de ejemplo cargado: franja del ejemplo, papeles dia, firmeza_N y temperatura, y los controles Orden, Método, Límite de aceptación y Confianza"></div>
+    <figcaption><b>Figura 3.1.</b> La tarjeta <span class="ui">Datos</span> con el mango del ejemplo: el tiempo es <code>dia</code>, el atributo <code>firmeza_N</code> y el grupo <code>temperatura</code>. Abajo, los cuatro controles con sus valores por omisión; el límite de 25 N es el que trae escrito la app.</figcaption>
+  </figure>
+
+  <h3>Los tres órdenes de reacción</h3>
+  <p>Casi todo el deterioro de calidad se describe con una de tres formas, que se distinguen por cómo depende la velocidad del valor que queda. La app ajusta las tres en cada grupo:</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.2.</b> Los tres órdenes, su vida media y su tiempo al límite <i>L</i></caption>
+    <thead><tr><th style="width:1.1in">Orden</th><th style="width:1.55in">Modelo</th><th style="width:1.1in">Vida media</th><th style="width:1.2in">Tiempo al límite</th><th>Cuándo aparece</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Orden cero</span></td><td>C = C₀ − k·t</td><td>C₀ / (2k)</td><td>(C₀ − L) / k</td><td>Cambios a velocidad constante: pardeamiento no enzimático, algunas pérdidas de agua</td></tr>
+      <tr><td><span class="ui">Primer orden</span></td><td>C = C₀·e^(−k·t)</td><td>ln 2 / k</td><td>ln(C₀/L) / k</td><td>La velocidad es proporcional a lo que queda: firmeza, vitaminas, clorofila</td></tr>
+      <tr><td><span class="ui">Segundo orden</span></td><td>1/C = 1/C₀ + k·t</td><td>1 / (C₀·k)</td><td>(1/L − 1/C₀) / k</td><td>Caídas muy rápidas al principio que luego se frenan</td></tr>
+    </tbody>
+  </table>
+  <p>Una k positiva quiere decir que el atributo baja; una negativa, que sube (la formación de un pigmento, por ejemplo), y la lectura lo avisa con «k negativa: el atributo aumenta con el tiempo (formación).»</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Por qué en la escala original y por qué con AIC</div>
+    <p>La costumbre de comparar órdenes por el R² de rectas linealizadas (C, ln C y 1/C contra el tiempo) tiene un defecto: cada transformación cambia la escala del error, así que los tres R² no se miden con la misma vara, y el logaritmo o el recíproco dan un peso enorme a los valores pequeños del final del ensayo. La app ajusta los tres modelos por <b>mínimos cuadrados no lineales sobre el atributo tal como se midió</b> (Bates y Watts 1988), así que los tres comparten los mismos residuos y pueden compararse con el <b>criterio de información de Akaike</b> (AIC; Burnham y Anderson 2002). El AIC premia el buen ajuste y castiga los parámetros; aquí los tres modelos tienen dos parámetros (C₀ y k), de modo que gana el de menor suma de cuadrados del error. La diferencia con el mejor, ΔAIC, se convierte en el <b>peso de Akaike</b>, la probabilidad relativa de que ese orden sea el mejor de los tres.</p>
+  </div>
+  <p>La tabla <span class="ui">Los tres órdenes</span> (figura 3.2, abajo) muestra para cada grupo y cada orden su ecuación, k, la suma de cuadrados del error (<span class="ui">SCE</span>), el <span class="ui">AIC</span>, el <span class="ui">ΔAIC</span>, el <span class="ui">Peso de Akaike</span> y, sólo como referencia clásica, el <span class="ui">R² linealizado</span>; la fila del orden elegido se pinta de verde. Con el mango, el primer orden gana en las tres temperaturas: a 13 °C con un peso de 0.971 (ΔAIC 7.02 sobre el orden cero), a 20 °C con 0.762 (el segundo orden queda a 2.33 y conserva un peso de 0.238) y a 25 °C con 1.000.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/b3-ordenes.png" alt="La tabla de ajustes por temperatura del mango y la tabla Los tres órdenes con k, SCE, AIC, ΔAIC, peso de Akaike y R² linealizado"></div>
+    <figcaption><b>Figura 3.2.</b> Arriba, el ajuste elegido en cada temperatura, con C₀ y k (± su error estándar), el intervalo de k, la vida media, el R², el número de frutos y el tiempo al límite con su intervalo. Abajo, la comparación de los tres órdenes: el primer orden (en verde) tiene el menor AIC en las tres temperaturas. Al pie, el botón que lleva las k a la pestaña <span class="ui">Temperatura</span> y la línea de métodos.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Los R² linealizados engañan</div>
+    <p>Mira la columna <span class="ui">R² linealizado</span> a 13 °C: 0.9455 para el orden cero y 0.9686 para el primero. La diferencia parece pequeña, pero el AIC le da al primer orden un peso de 0.971. Y a 20 °C el segundo orden linealizado tiene un R² (0.9361) mayor que el del orden cero (0.8709) pese a que ninguno de los dos se acerca al primero. Si eliges <span class="ui">Linealizado</span> en <span class="ui">Método</span>, el mosaico <span class="ui">R² medio</span> lo avisa con <span class="ui">en la escala linealizada</span> y las vidas cambian: 25.1, 10.9 y 6.0 días en lugar de 25.9, 10.4 y 6.3.</p>
+  </div>
+
+  <!-- 3.2 -->
+  <h2 id="s3-2"><span class="num">3.2</span>Ajuste y vida al límite</h2>
+  <p class="lead">La tarjeta de resultados se llama <span class="ui">Ajuste y vida de anaquel</span>. Sus mosaicos dicen cuántos grupos se ajustaron, qué orden se eligió y cómo (<span class="ui">por AIC</span> o <span class="ui">fijado por ti</span>), el <span class="ui">R² medio</span> y, si hay límite, la <span class="ui">Vida al límite</span> de cada grupo.</p>
+  <p>Con el mango del ejemplo: 3 grupos de <code>temperatura</code>, <span class="ui">Primer orden</span> por AIC, R² medio 0.969 y vida al límite <b>25.9 · 10.4 · 6.3</b> días (límite 25). La lectura en palabras da, para cada grupo, el orden, k con su intervalo, la vida media y el día en que el atributo llega al límite, también con su intervalo:</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.3.</b> La firmeza del mango del ejemplo, primer orden, límite 25 N</caption>
+    <thead><tr><th>Temperatura</th><th class="num">C₀ (N)</th><th class="num">k (d⁻¹)</th><th class="num">IC 95 % de k</th><th class="num">Vida media (d)</th><th class="num">Días a 25 N</th><th class="num">IC 95 %</th></tr></thead>
+    <tbody>
+      <tr><td>13 °C</td><td class="num">121.9</td><td class="num">0.06119</td><td class="num">[0.0557, 0.0666]</td><td class="num">11.33</td><td class="num">25.89</td><td class="num">[24.00, 27.78]</td></tr>
+      <tr><td>20 °C</td><td class="num">127.0</td><td class="num">0.1569</td><td class="num">[0.1374, 0.1764]</td><td class="num">4.42</td><td class="num">10.36</td><td class="num">[9.24, 11.47]</td></tr>
+      <tr><td>25 °C</td><td class="num">122.3</td><td class="num">0.2508</td><td class="num">[0.2321, 0.2696]</td><td class="num">2.76</td><td class="num">6.33</td><td class="num">[5.90, 6.76]</td></tr>
+    </tbody>
+  </table>
+  <p>La lectura cierra con dos comprobaciones: si el AIC eligió el mismo orden en todos los grupos («El AIC elige el mismo orden en todos los grupos.») y cuántas veces la constante más rápida es la más lenta (aquí, 4.1). Si los grupos no coinciden en el orden, la lectura recomienda fijar uno solo: las k de órdenes distintos no tienen las mismas unidades y no se pueden comparar ni llevar a Arrhenius.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b3-cinetica.png" alt="Mosaicos, lectura y la figura de la firmeza del mango contra el día a 13, 20 y 25 grados, con las curvas de primer orden, sus bandas y la línea del límite"></div>
+    <figcaption><b>Figura 3.3.</b> <span class="ui">Ajuste y vida de anaquel</span> con el mango del ejemplo. En la figura, los puntos son los frutos y las líneas el modelo de primer orden de cada temperatura con la banda de confianza de la media; la línea de guiones es el límite de 25 N. La curva de 25 °C lo cruza hacia el día 6, la de 20 °C hacia el 10 y la de 13 °C, que sigue por encima al terminar las mediciones (día 21), lo cruzaría hacia el día 26.</figcaption>
+  </figure>
+  <h3>Cómo se calculan los intervalos</h3>
+  <p>Los intervalos de C₀ y k son de Wald con la t de Student y los grados de libertad del ajuste (n − 2), como dice la lectura: «Los intervalos son de Wald con la t de Student (95 %).» El del tiempo al límite se obtiene por el <b>método delta</b>: el tiempo es una función de C₀ y k (tabla 3.2), y su varianza combina las de los dos parámetros y su covarianza.</p>
+  <div class="formula">t<sub>L</sub> = g(C₀, L) / k &nbsp;·&nbsp; Var(t<sub>L</sub>) ≈ (∂t/∂C₀)²·Var(C₀) + 2·(∂t/∂C₀)(∂t/∂k)·Cov(C₀, k) + (∂t/∂k)²·Var(k) &nbsp;·&nbsp; ∂t/∂k = −t<sub>L</sub>/k</div>
+  <p>El tiempo a 13 °C (25.9 días) cae <b>después</b> del último día medido (21): es una extrapolación corta dentro del mismo modelo. Si el atributo nunca alcanza el límite con el modelo elegido —un orden cero con k negativa y un límite inferior, por ejemplo—, la lectura dice <span class="ui">no alcanza el límite</span> y el mosaico pone una raya.</p>
+  <p>Debajo de la figura, la tabla del ajuste (figura 3.2, arriba) repite estos números con C₀ y k ± su error estándar, el R² en la escala original y el número de frutos de cada grupo (32 a 13 °C, porque ahí se midió hasta el día 21; 20 a 20 y 25 °C). Las dos tablas se descargan con <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span>, y la figura, con los botones de su recuadro (capítulo 2, sección 2.1). Los métodos son los de Labuza (1984) y van Boekel (2008), con mínimos cuadrados no lineales de Bates y Watts (1988) y el AIC de Burnham y Anderson (2002).</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto: ¿y si fijo el orden cero?</div>
+    <p>Con <span class="ui">Orden</span> en <span class="ui">Orden cero</span>, el mosaico dice <span class="ui">fijado por ti</span>, el R² medio baja a 0.892 y las vidas al límite pasan a 21.1, 10.3 y 8.1 días. A 13 °C la recta subestima la vida casi cinco días, porque no se curva cuando la firmeza baja; a 25 °C la sobreestima casi dos. El AIC (tabla 3.2) ya decía que el orden cero era peor en las tres temperaturas: fijar un orden sirve para comparar con un trabajo publicado, no para mejorar la predicción.</p>
+  </div>
+
+  <!-- 3.3 -->
+  <h2 id="s3-3"><span class="num">3.3</span>Temperatura: Arrhenius, Q10 y raíz cuadrada</h2>
+  <p class="lead">La pestaña <span class="ui">Temperatura</span> ajusta la dependencia de k con la temperatura con tres modelos y, con ella, predice la vida de anaquel a cualquier temperatura. Su tarjeta de entrada, «Constantes de velocidad a varias temperaturas», es una tabla editable: «Escribe k (con su error estándar, si lo tienes, para ponderar) o llévalas desde los modelos cinéticos.»</p>
+  <p>La tabla tiene las columnas <span class="ui">Temperatura (°C)</span>, <span class="ui">k</span> y <span class="ui">EE de k (opcional)</span>; <span class="ui">+ Agregar fila</span> añade una y la × de cada fila la quita. Hacen falta al menos dos temperaturas distintas con k positiva (tres para la raíz cuadrada). Debajo, la casilla <span class="ui">Ponderar por el error estándar de k</span> (sin marcar) y la <span class="ui">Temperatura de referencia (°C)</span> (20), a la que se reporta k.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>La pestaña abre con otras k</div>
+    <p>Al abrir <span class="ui">Temperatura</span> sin pasar por <span class="ui">Modelos cinéticos</span>, la tabla trae escritas tres constantes de ejemplo: 0.0622, 0.1494 y 0.2765 a 13, 20 y 25 °C. <b>No son las del mango del ejemplo</b> (0.06119, 0.1569 y 0.2508) y dan otros resultados: Eₐ 88.1 kJ/mol [80.6, 95.7], Q10 de 3.50 y 3.43 entre las temperaturas medidas y Tmín 2.4 °C. Para analizar el mango, usa <span class="ui">Llevar las k al análisis de temperatura →</span>, como en el resto de esta sección.</p>
+  </div>
+  <p>El botón <span class="ui">Llevar las k al análisis de temperatura →</span>, al pie de <span class="ui">Ajuste y vida de anaquel</span>, copia a la tabla la k y el error estándar de cada grupo, lleva a la sección de vida de anaquel el orden elegido, la media de los C₀ (123.736 con el mango) y el límite, y abre la pestaña. Sólo funciona si el grupo es la temperatura escrita como número; si no, avisa «Para Arrhenius el grupo debe ser la temperatura (números).» Las k llegan con todos sus decimales (0.06119234438672582…): es lo esperado, la tabla guarda el valor completo.</p>
+
+  <h3>Los tres modelos</h3>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Arrhenius, Q10 y raíz cuadrada</div>
+    <p><b>Arrhenius</b> (1889) supone que ln k cae en línea recta contra el inverso de la temperatura absoluta, con una pendiente que da la <b>energía de activación</b> Eₐ: cuanto mayor es Eₐ, más se acelera el deterioro al subir la temperatura. La app ajusta la recta por mínimos cuadrados sobre ln k, ponderada por (k/EE)² si marcas la casilla. El <b>Q10</b> es el factor por el que se multiplica k con 10 °C más; se calcula entre pares de temperaturas medidas y, desde Eₐ, a cualquier temperatura (Taoukis y Labuza 1989): con la misma Eₐ, Q10 es mayor en frío que en caliente. El modelo de <b>raíz cuadrada</b> de Ratkowsky et al. (1982) supone que √k crece en línea recta con la temperatura y corta el cero en una temperatura mínima biológica, Tmín, debajo de la cual el proceso se detendría.</p>
+  </div>
+  <div class="formula">ln k = ln k<sub>ref</sub> − (Eₐ/R)·(1/T − 1/T<sub>ref</sub>) &nbsp;·&nbsp; Q10 = (k₂/k₁)<sup>10/(T₂ − T₁)</sup> &nbsp;·&nbsp; Q10(T) = exp[10·Eₐ / (R·T·(T + 10))] &nbsp;·&nbsp; √k = b·(T − Tmín)</div>
+  <p>Con las k del mango, la tarjeta <span class="ui">Arrhenius, Q10 y raíz cuadrada</span> da:</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.4.</b> Los mosaicos de <span class="ui">Temperatura</span> con las k del mango del ejemplo</caption>
+    <thead><tr><th style="width:1.9in">Mosaico</th><th class="num" style="width:1.3in">Valor</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Energía de activación</span></td><td class="num">84.2 kJ/mol</td><td>Con su intervalo, [−5.5, 173.8]</td></tr>
+      <tr><td>k (20.0 °C)</td><td class="num">0.1465</td><td>k a la temperatura de referencia, [0.0780, 0.2749]</td></tr>
+      <tr><td>Q10 (20–30 °C)</td><td class="num">3.12</td><td>Q10 entre 20 y 30 °C calculado <span class="ui">desde Eₐ</span></td></tr>
+      <tr><td>R² Arrhenius</td><td class="num">0.9930</td><td>De la recta de ln k contra 1/T</td></tr>
+      <tr><td>Tmín (raíz cuadrada)</td><td class="num">1.3 °C</td><td>Con R² 1.0000; intervalo [0.3, 2.2] en la lectura</td></tr>
+    </tbody>
+  </table>
+  <p>La lectura lo pone en palabras: «Con Eₐ = 84.2 kJ/mol, cada 10 °C más multiplican la velocidad de deterioro por 3.54 cerca de 5 °C y por 3.01 cerca de 25 °C: Q10 no es constante.» Entre las temperaturas medidas, Q10 vale 3.84 de 13 a 20 °C y 2.56 de 20 a 25 °C. Debajo, la tabla compara cada k medida con la que predice Arrhenius (0.06119 frente a 0.06293 a 13 °C, por ejemplo) y da Q10 a cada temperatura (3.30, 3.12 y 3.01).</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b3-arrhenius.png" alt="Los mosaicos de Arrhenius, la lectura y las dos figuras: ln k contra 1000/T y k contra la temperatura"></div>
+    <figcaption><b>Figura 3.4.</b> La tarjeta <span class="ui">Arrhenius, Q10 y raíz cuadrada</span> después de llevar las k del mango. A la izquierda, la <span class="ui">Gráfica de Arrhenius</span>: ln k contra 1000/T, cuya pendiente es −Eₐ/R, con la banda de confianza de la recta. A la derecha, <span class="ui">k contra la temperatura</span>: la curva de Arrhenius y la de raíz cuadrada (guiones) pasan casi por los mismos puntos entre 13 y 25 °C y se separan fuera de ellos.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Tres temperaturas dan un solo grado de libertad</div>
+    <p>El intervalo de Eₐ, de −5.5 a 173.8 kJ/mol, parece absurdo, pero es honesto: con tres temperaturas la recta de Arrhenius tiene un solo grado de libertad y la t de Student vale 12.7. La estimación puntual es razonable (y coincide con el Q10 de 3 a 4 típico de la firmeza); su precisión no lo es. Si vas a predecir lejos de las temperaturas medidas, mide al menos cuatro, o pondera por el error estándar de k, que aprovecha la precisión de cada ajuste. El R² de 1.0000 de la raíz cuadrada tampoco es una virtud: con tres puntos y dos parámetros, casi cualquier curva suave pasa por ellos.</p>
+  </div>
+
+  <!-- 3.4 -->
+  <h2 id="s3-4"><span class="num">3.4</span>Vida de anaquel a cualquier temperatura</h2>
+  <p class="lead">La parte de abajo de la misma tarjeta, <span class="ui">Vida de anaquel a cualquier temperatura</span>, combina la recta de Arrhenius con el orden, el valor inicial y el límite para predecir cuántos días dura el producto a la temperatura que elijas.</p>
+  <p>Los controles son <span class="ui">Orden</span> (<span class="ui">Cero</span>, <span class="ui">Uno</span> o <span class="ui">Dos</span>; por omisión, <span class="ui">Uno</span>), <span class="ui">Valor inicial C₀</span> (125), <span class="ui">Límite</span> (25), <span class="ui">Temperatura de almacén (°C)</span> (10) e <span class="ui">Intervalo</span>: <span class="ui">De la media</span> (la vida esperada de un lote típico) o <span class="ui">De predicción</span> (la de un lote nuevo, que suma la dispersión de los puntos alrededor de la recta y es más ancho). Si el límite es mayor que C₀, la app entiende que el atributo sube.</p>
+  <div class="formula">θ(T) = g(C₀, L) / k(T) &nbsp;·&nbsp; con k(T) de Arrhenius y g = C₀ − L, ln(C₀/L) o 1/L − 1/C₀ según el orden</div>
+  <p>El intervalo de la vida se obtiene al pasar el de k(T) por la fórmula de θ; la incertidumbre de C₀ no se propaga. Los mosaicos dan la <span class="ui">Vida de anaquel a</span> esa temperatura con su intervalo y la k que le corresponde; si la temperatura está fuera de las medidas, aparece un tercer mosaico ámbar, <span class="ui">Cuidado</span> · <span class="ui">extrapolación</span> · <span class="ui">fuera de 13–25 °C</span>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b3-vida-temperatura.png" alt="Los controles de la vida de anaquel a cualquier temperatura, los mosaicos a 10 grados con el aviso de extrapolación y la curva de vida de anaquel contra temperatura"></div>
+    <figcaption><b>Figura 3.5.</b> La vida del mango del ejemplo a 10 °C con las k llevadas desde <span class="ui">Modelos cinéticos</span> (primer orden, C₀ = 123.736 N, límite 25 N): 37.0 días [9.5, 143.4], con el aviso de extrapolación. La figura <span class="ui">Vida de anaquel predicha</span> marca con líneas punteadas las temperaturas medidas (13 y 25 °C): fuera de ellas, la banda se abre muy rápido.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 3.5.</b> La vida predicha del mango del ejemplo a varias temperaturas (intervalo de la media)</caption>
+    <thead><tr><th>Temperatura de almacén</th><th class="num">Vida (días)</th><th class="num">IC 95 %</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>5 °C</td><td class="num">70.3</td><td class="num">[9.6, 513.6]</td><td>extrapolación</td></tr>
+      <tr><td>10 °C</td><td class="num">37.0</td><td class="num">[9.5, 143.4]</td><td>extrapolación; de predicción, [6.5, 209.0]</td></tr>
+      <tr><td>13 °C</td><td class="num">25.4</td><td class="num">[9.2, 70.3]</td><td>el ajuste directo dio 25.9</td></tr>
+      <tr><td>15 °C</td><td class="num">19.9</td><td class="num">[8.7, 45.4]</td><td></td></tr>
+      <tr><td>20 °C</td><td class="num">10.9</td><td class="num">[5.8, 20.5]</td><td>el ajuste directo dio 10.4</td></tr>
+    </tbody>
+  </table>
+  <p>A 13 y 20 °C la predicción no repite exactamente la vida del ajuste directo (25.4 frente a 25.9, 10.9 frente a 10.4), porque usa la k suavizada por Arrhenius y un solo C₀, la media de los tres. Es la forma correcta de leerlo: la recta resume las tres temperaturas a la vez.</p>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Después de llevar las k, toca un campo</div>
+    <p>En la versión 1.0, al usar <span class="ui">Llevar las k al análisis de temperatura →</span>, los campos <span class="ui">Orden</span>, <span class="ui">Valor inicial C₀</span> y <span class="ui">Límite</span> se llenan, pero los mosaicos y la curva de la vida siguen calculados con los valores anteriores hasta que cambias cualquiera de los cinco controles. Con el mango, el mosaico muestra 37.2 días (con C₀ = 125) aunque el campo diga 123.736; al tocar el campo (o cambiar la temperatura y regresarla) pasa a 37.0. La figura 3.5 está tomada después de ese paso.</p>
+  </div>
+
+  <!-- 3.5 -->
+  <h2 id="s3-5"><span class="num">3.5</span>Prueba acelerada</h2>
+  <p class="lead">Una prueba acelerada guarda el producto a temperaturas más altas que las de su almacén para que se deteriore en días en lugar de semanas, y extrapola la vida a la temperatura real. La pestaña <span class="ui">Prueba acelerada</span> hace esa extrapolación desde las vidas observadas, sin pasar por las constantes.</p>
+  <p>La tarjeta <span class="ui">Vidas de anaquel a temperaturas altas</span> es una tabla editable con <span class="ui">Temperatura (°C)</span> y <span class="ui">Vida de anaquel observada</span> (en días, semanas o la unidad que uses: <span class="ui">El ejemplo es ilustrativo.</span>). Trae escritas seis pruebas, dos en cada temperatura: 4.8 y 5.3 días a 30 °C, 3.1 y 2.8 a 35 °C, 2.1 y 1.9 a 40 °C. Hacen falta al menos tres vidas en dos temperaturas distintas. Los controles son <span class="ui">Modelo</span> —<span class="ui">Arrhenius (ln θ contra 1/T)</span> o <span class="ui">Q10 (ln θ contra T)</span>— y <span class="ui">Temperatura de almacén (°C)</span> (20).</p>
+  <div class="formula">Arrhenius: ln θ = a + b·(1/T), Eₐ = R·b &nbsp;·&nbsp; Q10: ln θ = a + b·T(°C), Q10 = e<sup>−10·b</sup></div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b3-aslt.png" alt="Los mosaicos de la predicción a 20 grados, la lectura y la figura de vida contra temperatura con la predicción y su intervalo"></div>
+    <figcaption><b>Figura 3.6.</b> La tarjeta <span class="ui">Predicción</span> con las seis vidas que trae escritas la pestaña y el modelo de Arrhenius: a 20 °C predice 13.3 días con un intervalo de predicción de [9.0, 19.5]; Q10 2.69 a la temperatura de almacén, Eₐ 73.2 kJ/mol y R² 0.9761. En la figura, el rombo es la predicción y la banda, el intervalo de predicción.</figcaption>
+  </figure>
+  <p>La tarjeta <span class="ui">Predicción</span> da la vida a la temperatura de almacén (la media geométrica que predice la recta) con su <b>intervalo de predicción</b>, que es el que corresponde a una prueba nueva a esa temperatura y casi siempre es ancho. Con el modelo <span class="ui">Q10 (ln θ contra T)</span> la vida a 20 °C pasa a 12.4 días [8.5, 18.3], con Q10 2.53 (<span class="ui">constante en el modelo</span>), Eₐ 68.4 kJ/mol y R² 0.9744: los dos modelos se parecen entre 30 y 40 °C y se separan al extrapolar. La lectura avisa en negritas «Extrapolación fuera de las temperaturas ensayadas.» cuando la temperatura de almacén está fuera de las de la prueba, que en una prueba acelerada es siempre.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>El supuesto que sostiene la prueba</div>
+    <p>La extrapolación vale sólo si <b>el mecanismo de deterioro es el mismo</b> a las temperaturas altas y a la del almacén (Mizrahi 2004; Labuza 1984). En un fruto fresco esto rara vez se cumple: a 35 o 40 °C el fruto puede dejar de madurar normalmente, sufrir daño por calor o pudrirse por otros hongos, y a la temperatura del almacén puede aparecer daño por frío, que ninguna prueba caliente anticipa. Las pruebas aceleradas son más seguras en productos procesados (deshidratados, jugos, pulpas) que en frutos enteros.</p>
+  </div>
+
+  <!-- 3.6 -->
+  <h2 id="s3-6"><span class="num">3.6</span>Tiempo hasta el rechazo: Kaplan–Meier</h2>
+  <p class="lead">Hay ensayos en que no se mide un atributo continuo, sino el día en que cada fruto deja de ser aceptable: aparece una pudrición, se arruga, el panel lo rechaza. La pestaña <span class="ui">Tiempo hasta rechazo</span> los analiza como datos de supervivencia: «Una fila por fruto: el tiempo hasta que se rechazó (o hasta el último día que se observó sano) y si se rechazó (1) o seguía aceptable al terminar (0, censurado).»</p>
+  <p>Los papeles son <span class="ui">Tiempo hasta el rechazo o la censura</span>, <span class="ui">Rechazado (1) o censurado (0)</span> y <span class="ui">Tratamiento (opcional)</span>. El ejemplo es el chayote con dos recubrimientos: 30 frutos por tratamiento (testigo, cera vegetal y quitosano) a 10 °C, en un ensayo que terminó a los 35 días; la app elige sola <code>dias</code>, <code>rechazado</code> y <code>tratamiento</code>. Los controles son <span class="ui">Intervalo de Kaplan–Meier</span> (<span class="ui">Logarítmico</span>, <span class="ui">Log-log</span> o <span class="ui">Lineal</span>), <span class="ui">Modelo paramétrico</span> (<span class="ui">El de menor AIC</span>, <span class="ui">Weibull</span>, <span class="ui">Log-normal</span>, <span class="ui">Log-logística</span> o <span class="ui">Exponencial</span>) y <span class="ui">Rechazo tolerado (%)</span> (10, de 1 a 99).</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>La censura y el estimador de Kaplan–Meier</div>
+    <p>Un fruto que seguía sano el día 35 no tiene un «día de rechazo», pero sí aporta información: sabemos que duró <i>al menos</i> 35 días. Está <b>censurado por la derecha</b>. Descartarlo, o ponerle 35 como si se hubiera rechazado ese día, acorta la vida estimada. El estimador de <b>Kaplan–Meier</b> (Kaplan y Meier 1958) resuelve esto: en cada día con rechazos multiplica la fracción que sobrevive, 1 − dᵢ/nᵢ, donde nᵢ son los frutos que todavía estaban en observación; los censurados cuentan en nᵢ hasta que salen. Los intervalos usan la varianza de Greenwood (1926) en la escala elegida; el logarítmico, que es el de omisión, nunca se sale de 0 a 1.</p>
+  </div>
+  <div class="formula">Ŝ(t) = Π<sub>tᵢ ≤ t</sub> (1 − dᵢ/nᵢ) &nbsp;·&nbsp; Var[ln Ŝ(t)] = Σ dᵢ / [nᵢ·(nᵢ − dᵢ)]</div>
+  <p>La tarjeta <span class="ui">Curvas de supervivencia</span> abre con cinco mosaicos: <span class="ui">Frutos</span> 90, <span class="ui">Rechazados</span> 75 (83.3 %), <span class="ui">Censurados</span> 15 (<span class="ui">aún aceptables al terminar</span>), <span class="ui">Rango logarítmico</span> χ² = 22.48, p &lt; 0.001 (gl 2), y <span class="ui">Mejor modelo</span> Weibull por AIC. La prueba de <b>rango logarítmico</b> (Mantel 1966) compara las curvas completas de los tratamientos; si difieren, la lectura nombra al que conserva los frutos aceptables por más tiempo: <span class="ui">Quitosano</span>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b3-kaplan-meier.png" alt="Los mosaicos y la lectura del tiempo hasta el rechazo del chayote y la figura de Kaplan–Meier por tratamiento con el modelo de Weibull punteado y la línea del rechazo tolerado"></div>
+    <figcaption><b>Figura 3.7.</b> <span class="ui">Curvas de supervivencia</span> del chayote del ejemplo. Los escalones gruesos son Kaplan–Meier por tratamiento, con su banda de confianza en líneas finas; el punteado fino, el modelo de Weibull; la línea de guiones horizontal, el 90 % aceptable (10 % de rechazo tolerado). El testigo baja primero y se rechaza completo hacia el día 35; el quitosano termina con cerca de un tercio de los frutos aceptables.</figcaption>
+  </figure>
+  <p>Debajo, la tabla por tratamiento (figura 3.8, arriba) da la <span class="ui">Mediana (KM)</span> —el día en que la curva cruza el 50 %— con su intervalo, la <span class="ui">Media restringida</span> (el área bajo la curva hasta el último día observado, ± su error), el <span class="ui">Tiempo al 10 %</span> y la <span class="ui">Mediana (modelo)</span>, estos dos del modelo paramétrico:</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.6.</b> El chayote del ejemplo por tratamiento (días; Weibull)</caption>
+    <thead><tr><th>Tratamiento</th><th class="num">n</th><th class="num">Rechazos</th><th class="num">Mediana (KM)</th><th class="num">IC</th><th class="num">Media restringida</th><th class="num">Tiempo al 10 %</th></tr></thead>
+    <tbody>
+      <tr><td>Testigo</td><td class="num">30</td><td class="num">30</td><td class="num">18.0</td><td class="num">[15.0, 21.0]</td><td class="num">17.9 ± 1.4</td><td class="num">8.4 [6.6, 10.7]</td></tr>
+      <tr><td>Cera vegetal</td><td class="num">30</td><td class="num">25</td><td class="num">26.5</td><td class="num">[22.0, 30.0]</td><td class="num">23.8 ± 1.7</td><td class="num">11.7 [9.3, 14.7]</td></tr>
+      <tr><td>Quitosano</td><td class="num">30</td><td class="num">20</td><td class="num">29.5</td><td class="num">[23.0, ∞]</td><td class="num">27.2 ± 1.5</td><td class="num">14.0 [11.2, 17.6]</td></tr>
+    </tbody>
+  </table>
+  <p>El intervalo de la mediana del quitosano no tiene límite superior (∞): su curva de confianza superior nunca baja del 50 % antes de que termine el ensayo. No es un error, sino la forma de decir que el ensayo no duró lo suficiente para acotar esa mediana. La media restringida sirve justamente en esos casos, porque siempre existe; pero depende del día en que se cortó el ensayo y sólo se compara entre tratamientos observados el mismo tiempo.</p>
+
+  <!-- 3.7 -->
+  <h2 id="s3-7"><span class="num">3.7</span>Modelos paramétricos y razones de tiempos</h2>
+  <p class="lead">Kaplan–Meier describe sin suponer una forma; un modelo paramétrico supone una distribución del tiempo hasta el rechazo y, a cambio, da el tiempo de cualquier porcentaje de rechazo, incluso fuera de los días observados, y una medida única del efecto de cada tratamiento.</p>
+  <p>La app ajusta cuatro modelos de tiempo de falla con censura (Lawless 2003), todos con un parámetro por tratamiento: <b>Weibull</b> (el riesgo de rechazo crece o decrece con el tiempo), <b>log-normal</b> y <b>log-logístico</b> (el riesgo sube y luego baja) y <b>exponencial</b> (riesgo constante, el caso particular de Weibull con forma 1). La tabla <span class="ui">Modelos paramétricos</span> los compara por su log-verosimilitud y su AIC:</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.7.</b> Los cuatro modelos con el chayote del ejemplo</caption>
+    <thead><tr><th>Distribución</th><th class="num">Log-verosimilitud</th><th class="num">Parámetros</th><th class="num">AIC</th><th class="num">ΔAIC</th><th class="num">Peso</th></tr></thead>
+    <tbody>
+      <tr><td><b>Weibull</b></td><td class="num">−286.96</td><td class="num">4</td><td class="num">581.92</td><td class="num">0.00</td><td class="num">0.916</td></tr>
+      <tr><td>Log-normal</td><td class="num">−290.03</td><td class="num">4</td><td class="num">588.07</td><td class="num">6.15</td><td class="num">0.042</td></tr>
+      <tr><td>Log-logística</td><td class="num">−290.06</td><td class="num">4</td><td class="num">588.12</td><td class="num">6.20</td><td class="num">0.041</td></tr>
+      <tr><td>Exponencial</td><td class="num">−319.44</td><td class="num">3</td><td class="num">644.87</td><td class="num">62.96</td><td class="num">0.000</td></tr>
+    </tbody>
+  </table>
+  <p>Con el modelo elegido, la lectura da el día en que se rechaza el porcentaje tolerado: «Con el modelo Weibull, el 10 % de los frutos se rechaza hacia el día Testigo 8.4 [6.6, 10.7], Cera vegetal 11.7 [9.3, 14.7], Quitosano 14.0 [11.2, 17.6].» Con <span class="ui">Rechazo tolerado (%)</span> en 50, son las medianas del modelo: 17.5, 24.4 y 29.3 días, muy cerca de las de Kaplan–Meier (18.0, 26.5 y 29.5). Si fijas otro modelo, los números cambian poco con el log-normal (8.3, 11.6 y 14.9 días) o el log-logístico (8.7, 12.4 y 15.1), y mucho con el exponencial (1.9, 3.0 y 4.3): un riesgo constante predice rechazos desde el primer día, que en el chayote no ocurrieron (el primero fue hacia el día 6).</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b3-parametricos.png" alt="La tabla por tratamiento del chayote, la comparación de los cuatro modelos paramétricos por AIC y las razones de tiempos de cera vegetal y quitosano contra el testigo"></div>
+    <figcaption><b>Figura 3.8.</b> Las tablas de abajo de <span class="ui">Curvas de supervivencia</span> con el chayote del ejemplo: los resultados por tratamiento, los cuatro modelos paramétricos (Weibull, en verde, tiene el menor AIC) y las razones de tiempos contra el testigo.</figcaption>
+  </figure>
+  <h3>Razones de tiempos</h3>
+  <p>Los cuatro modelos son de <b>tiempo de falla acelerado</b>: el tratamiento estira o encoge la escala del tiempo. Su efecto se resume en una <b>razón de tiempos</b> contra el primer tratamiento (el de referencia); la app lo explica así: «Una razón de tiempos de 1.4 quiere decir que ese tratamiento alarga en 40 % el tiempo hasta el rechazo respecto al grupo de referencia.» Con Weibull, la cera vegetal alarga el tiempo hasta el rechazo 1.391 veces [1.129, 1.714] y el quitosano 1.671 veces [1.333, 2.094]: un 39 % y un 67 % más que el testigo, y ninguno de los dos intervalos incluye el 1. Los métodos citados son Kaplan y Meier (1958), Greenwood (1926), Mantel (1966), Lawless (2003) y Hough et al. (2003), que aplica estas ideas a la vida de anaquel sensorial.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">1.67</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>La razón de tiempos del quitosano contra el testigo en el chayote del ejemplo: el recubrimiento alarga 67 % el tiempo hasta el rechazo, con un intervalo de 33 % a 109 %.</div>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> el AIC elige órdenes distintos en los grupos</td><td><b>entonces</b> fija uno solo (el que gana en más grupos o el de mayor peso total) antes de comparar las k o llevarlas a Arrhenius.</td></tr>
+      <tr><td><b>Si</b> el peso de Akaike del mejor orden es menor de 0.9</td><td><b>entonces</b> el segundo orden también es plausible; compara sus vidas al límite antes de reportar una.</td></tr>
+      <tr><td><b>Si</b> el tiempo al límite cae después del último día medido</td><td><b>entonces</b> es una extrapolación del modelo; reporta su intervalo y, si puedes, alarga el ensayo.</td></tr>
+      <tr><td><b>Si</b> el intervalo de Eₐ es muy ancho (pocas temperaturas)</td><td><b>entonces</b> no predigas lejos de las temperaturas medidas; pondera por el error estándar de k o mide otra temperatura.</td></tr>
+      <tr><td><b>Si</b> aparece el mosaico <span class="ui">Cuidado</span> · <span class="ui">extrapolación</span></td><td><b>entonces</b> lee el intervalo de predicción, no sólo la vida, y no extrapoles debajo de la temperatura de daño por frío del producto.</td></tr>
+      <tr><td><b>Si</b> el rango logarítmico da p &lt; 0.05</td><td><b>entonces</b> los tratamientos difieren en el tiempo hasta el rechazo; las razones de tiempos dicen cuánto.</td></tr>
+      <tr><td><b>Si</b> una razón de tiempos tiene un intervalo que incluye el 1</td><td><b>entonces</b> ese tratamiento no alarga la vida con claridad respecto a la referencia.</td></tr>
+      <tr><td><b>Si</b> el exponencial queda muy lejos por AIC</td><td><b>entonces</b> el riesgo de rechazo no es constante (lo normal en frutos): no lo uses aunque sea el más simple.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Son guías para interpretar, no leyes: lo que sabes del cultivo, del cultivar y de cómo se condujo el ensayo siempre manda.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p><b>La vida al límite sale con una raya.</b> El modelo nunca alcanza el límite: revisa que el límite esté del lado correcto (debajo de C₀ si el atributo baja) o deja el campo vacío para no calcularla. <b>«Para Arrhenius el grupo debe ser la temperatura (números)».</b> El grupo es un tratamiento o la temperatura viene escrita con texto («13 °C»); escribe las k a mano en <span class="ui">Temperatura</span>. <b>La pestaña Temperatura da Eₐ 88.1 kJ/mol y no 84.2.</b> Estás viendo las k que trae escritas, no las del mango: usa <span class="ui">Llevar las k al análisis de temperatura →</span>. <b>La vida a la temperatura de almacén no cambia después de llevar las k.</b> Toca cualquiera de los cinco controles de esa sección (sección 3.4). <b>No sale la tarjeta de Arrhenius.</b> Hacen falta dos temperaturas distintas con k positiva (tres para la raíz cuadrada); las k negativas se omiten, con aviso. <b>La prueba acelerada no da resultado.</b> Necesita al menos tres vidas en dos temperaturas distintas. <b>Los mosaicos de rechazados y censurados no cuadran con tu ensayo.</b> La columna de estado debe valer 1 para rechazado y 0 para censurado; códigos como «sí/no», «R/C» o 2 no se interpretan como rechazo.</p>
+  </div>
+</section>
+
+</body>
+</html>
