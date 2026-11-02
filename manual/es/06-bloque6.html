@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-6" data-pestana="6" data-orden="6" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">6</div>
+    <div class="cap-etiqueta">Capítulo seis · Bloque 6</div>
+    <h1 data-corto="Evaluación sensorial">Evaluación sensorial</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un tratamiento poscosecha sólo vale si el consumidor no lo castiga. El bloque contesta las cuatro preguntas de una cata: ¿notan los jueces la diferencia, y de qué tamaño es? ¿Qué producto gusta más? ¿Qué atributo le quita agrado y en qué sentido? ¿Cómo describe un panel entrenado cada producto? Y antes de todo, cuántos jueces hacen falta y en qué orden servir las muestras.</p>
+    <div class="cap-franja"><span class="k6"></span><span class="k6"></span><span class="k6"></span><span class="k7"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>6.1</b>Pruebas discriminativas y d′</li>
+      <li><b>6.2</b>Planear: jueces y potencia</li>
+      <li><b>6.3</b>A–no A y preferencia pareada</li>
+      <li><b>6.4</b>Hedónica</li>
+      <li><b>6.5</b>Punto justo y penalidades</li>
+      <li><b>6.6</b>CATA</li>
+      <li><b>6.7</b>Perfil descriptivo</li>
+      <li><b>6.8</b>Desempeño del panel</li>
+      <li><b>6.9</b>Fichas de cata</li>
+    </ul>
+  </div>
+
+  <p>Bajo el título, la app resume el bloque: «Pruebas discriminativas, afectivas y descriptivas, con el diseño de las catas». Una línea más abajo remite a <b>SensorialPro</b>, de la misma suite, para pruebas avanzadas, paneles y mapas de preferencia, y avisa que esa app abre sin cambios los CSV que se exportan aquí. Las herramientas están en seis pestañas: <span class="ui">Discriminativas</span>, <span class="ui">Hedónica</span>, <span class="ui">Punto justo (JAR)</span>, <span class="ui">CATA</span>, <span class="ui">Perfil descriptivo</span> y <span class="ui">Fichas de cata</span>.</p>
+  <p>Los ejemplos son tres tablas de café <b>simuladas</b>: <code>cafe_discriminativas.csv</code> (tres pruebas entre el café «Altura lavado» y el «Honey»), <code>cafe_consumidores.csv</code> (80 consumidores que califican cuatro cafés —Altura lavado, Natural, Honey y Comercial— con la escala hedónica, tres escalas de punto justo y diez términos CATA; la misma tabla alimenta las pestañas <span class="ui">Hedónica</span>, <span class="ui">Punto justo (JAR)</span> y <span class="ui">CATA</span>) y <code>cafe_descriptivo.csv</code> (un panel de ocho jueces). La entrada de datos y lo común de los resultados —mosaicos, lectura, figuras con SVG, PNG y ✎, tablas con <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span>, y la línea <span class="ui">Método y fuente:</span>— se explican en la sección 2.1.</p>
+
+  <!-- 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>Pruebas discriminativas y d′</h2>
+  <p class="lead">Una prueba discriminativa pregunta si los jueces distinguen dos muestras: el café con y sin un tratamiento, el fruto de dos atmósferas. La app no se queda en el valor p: traduce los aciertos al <b>d′ de Thurstone</b>, que dice <i>qué tan grande</i> es la diferencia en una escala común a todos los métodos.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b6-discriminativas.png" alt="La tarjeta Resultados de las pruebas con las tres filas del café de ejemplo, el botón Cargar ejemplo y los selectores Confianza y Estadístico"></div>
+    <figcaption><b>Figura 6.1.</b> <span class="ruta">Bloque 6<span class="sep">›</span>Discriminativas</span> con el ejemplo cargado: la tabla editable de las tres pruebas, la <span class="ui">Confianza</span> y el <span class="ui">Estadístico</span>. La columna <span class="ui">pd₀ (similitud)</span> queda a la derecha, fuera de la vista.</figcaption>
+  </figure>
+
+  <h3>La tabla de las pruebas</h3>
+  <p>La tarjeta <span class="ui">Resultados de las pruebas</span> no lee un archivo: es una tabla editable, una fila por prueba, que ya abre con una fila de partida («Prueba 1», triangular, 21 de 42). <span class="ui">Cargar ejemplo</span> la reemplaza por las tres pruebas del café; <span class="ui">+ Agregar fila</span> añade otra y <span class="ui">×</span> la quita. Cada cambio recalcula.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Columna</th><th>Qué se escribe</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Prueba</span></td><td>Un nombre libre («Altura lavado vs Honey»).</td></tr>
+      <tr><td><span class="ui">Método</span></td><td><span class="ui">Triangular</span>, <span class="ui">Dúo-trío</span>, <span class="ui">2-AFC (dos alternativas)</span>, <span class="ui">3-AFC (tres alternativas)</span> o <span class="ui">Tétrada</span>.</td></tr>
+      <tr><td><span class="ui">Correctas</span> · <span class="ui">Total</span></td><td>Los aciertos y el número de respuestas (jueces), enteros, con 0 ≤ correctas ≤ total.</td></tr>
+      <tr><td><span class="ui">Tipo</span></td><td><span class="ui">Diferencia</span> (¿se distinguen?) o <span class="ui">Similitud</span> (¿la proporción de discriminadores es menor que pd₀?).</td></tr>
+      <tr><td><span class="ui">pd₀ (similitud)</span></td><td>Sólo para la similitud: la mayor proporción de discriminadores que consideras despreciable; 0.2 por omisión. A la anchura normal de la ventana esta columna queda a la derecha de la tabla y hay que desplazarla para verla.</td></tr>
+    </tbody>
+  </table>
+  <p>Debajo, <span class="ui">Confianza</span> (90, 95 o 99 %; 95 % por omisión) fija el nivel de los intervalos y también el α de la prueba (α = 1 − confianza). <span class="ui">Estadístico</span> elige la prueba: <span class="ui">Binomial exacto</span> (por omisión, con el intervalo de Clopper–Pearson), <span class="ui">Razón de verosimilitudes</span> (con el intervalo de verosimilitud perfilada), <span class="ui">Puntuación</span> (la de Wilson, con corrección por continuidad) o <span class="ui">Wald</span>. Con pocos jueces quédate con el exacto.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: pc, pd y d′</div>
+    <p>Cada método tiene una probabilidad de acertar <b>adivinando</b>, p<sub>g</sub>: 1/3 en la triangular, la 3-AFC y la tétrada, y 1/2 en el dúo-trío y la 2-AFC. La proporción de aciertos, <b>pc</b>, mezcla a quienes notan la diferencia con quienes adivinan; la proporción de <b>discriminadores</b> los separa: pd = (pc − p<sub>g</sub>) / (1 − p<sub>g</sub>). Pero pd depende del método: la misma diferencia produce más aciertos en una 3-AFC, donde se pregunta «¿cuál es más ácida?», que en una triangular, donde se pregunta «¿cuál es distinta?». El modelo de Thurstone supone que cada muestra produce una sensación normal y mide la distancia entre las dos en desviaciones estándar: ese es <b>d′</b>. Cada método tiene su función psicométrica, pc = f(d′), y la app la invierte. Por eso d′ sí se puede comparar entre métodos: 21 aciertos de 42 son d′ = 1.47 en una triangular y sólo d′ = 1.02 en una tétrada.</p>
+  </div>
+
+  <h3>Diferencia y su tamaño (d′)</h3>
+  <figure class="w70">
+    <div class="marco"><img src="../img/b6-diferencia.png" alt="La tarjeta Diferencia y su tamaño con la lectura de las tres pruebas y la tabla de pc, pd, d′, su intervalo y p"></div>
+    <figcaption><b>Figura 6.2.</b> <span class="ui">Diferencia y su tamaño (d′)</span> con el ejemplo: la triangular, 21 de 42 aciertos, da d′ = 1.47 [0.31, 2.28] y p = 0.019.</figcaption>
+  </figure>
+  <p>La tarjeta de resultados escribe, para cada prueba de diferencia, los aciertos, si las muestras <b>se distinguen</b> (p &lt; α) o si <b>no se demuestra</b> diferencia, el valor p con los aciertos que hacían falta (el mínimo con el que la prueba es significativa con ese total), d′ con su intervalo y pd. Una nota recuerda la escala: «un d′ cercano a 1 es una diferencia pequeña que pocos notan; mayor de 2, clara». La tabla, que se descarga como <code>discriminativas.csv</code>, trae pc y pd con su intervalo, d′ con su error estándar (por el método delta) y el intervalo de d′, que es el de pc llevado por la misma función.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto: el café Altura lavado contra el Honey</div>
+    <p>Las tres pruebas del ejemplo dicen que las muestras <b>se distinguen</b>, pero con matices. La triangular, 21 de 42 (hacían falta 20): p = 0.019, pc = 0.500 [0.342, 0.658], pd = 25 % y d′ = 1.47 [0.31, 2.28]. El dúo-trío, 27 de 40 (hacían falta 26): p = 0.019, pd = 35 % y d′ = 1.57 [0.31, 2.46]. La 2-AFC, que preguntó cuál era <i>más ácido</i>, 31 de 40: p &lt; 0.001, pd = 55 % y d′ = 1.07 [0.42, 1.75]. Los pd son muy distintos (25, 35 y 55 %) y, sin embargo, los tres d′ caen entre 1 y 1.6, con intervalos que se traslapan: es la misma diferencia, pequeña, medida con tres métodos. Los intervalos son anchos porque 40 jueces son pocos para una d′ así (sección 6.2).</p>
+  </div>
+
+  <h3>La prueba de similitud</h3>
+  <p>Si lo que quieres demostrar es que un cambio de proceso <i>no</i> se nota, cambia el <span class="ui">Tipo</span> a <span class="ui">Similitud</span> y fija pd₀. La hipótesis se invierte: la prueba es significativa cuando los aciertos son <b>pocos</b>, y la lectura dice «se demuestra similitud: la proporción de discriminadores es menor que 0.20» o «no se puede afirmar la similitud con pd₀ = 0.20». No demostrar diferencia <b>no</b> es demostrar similitud: con los 21 aciertos de 42 de la triangular, la prueba de similitud con pd₀ = 0.2 da p = 0.722; con 16 aciertos de 60, p = 0.001.</p>
+  <p>La línea <span class="ui">Método y fuente:</span> cita los modelos de Thurstone (Ennis 1993; Brockhoff y Christensen 2010), a Bi (2006) y el intervalo de Clopper–Pearson.</p>
+
+  <!-- 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>Planear: jueces y potencia</h2>
+  <p class="lead">La pregunta que conviene hacerse antes de la cata, no después: con la diferencia que me importa detectar, ¿cuántos jueces necesito y qué método rinde más? La tarjeta <span class="ui">Planear: número de jueces y potencia</span> no necesita datos.</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/b6-planear.png" alt="La tarjeta Planear con método triangular, d′ 1.5, alfa 0.05, potencia 0.8 y 30 jueces: hacen falta 53 jueces; con 30 la potencia es 0.600; funciones psicométricas, potencia contra jueces y la tabla de los cinco métodos"></div>
+    <figcaption><b>Figura 6.3.</b> <span class="ui">Planear: número de jueces y potencia</span> con sus valores de partida. Para detectar d′ = 1.5 con una triangular hacen falta 53 jueces; con los 30 disponibles la potencia es sólo 0.600. La 3-AFC lo logra con 9.</figcaption>
+  </figure>
+  <p>Los campos son <span class="ui">Método</span> (Triangular), <span class="ui">d′ que quieres detectar</span> (1.5), <span class="ui">α</span> (0.05; la etiqueta, escrita en mayúsculas por el estilo de la app, se ve como «A»), <span class="ui">Potencia deseada</span> (0.8) y <span class="ui">Jueces disponibles</span> (30). Los cuatro mosaicos dan los <span class="ui">Jueces necesarios</span> (53, «para potencia 0.80»), la <span class="ui">Potencia con 30</span> (0.600, marcada «baja» por quedar bajo 0.8), los <span class="ui">Aciertos críticos con 30</span> (15: los que tendrían que acertar 30 jueces para que la prueba saliera significativa) y <span class="ui">pc / pd</span> (0.506 / 0.260: la proporción de aciertos y de discriminadores que corresponde a d′ = 1.5 en ese método).</p>
+  <p>La tabla compara los cinco métodos con la misma d′, el mismo α y la misma potencia:</p>
+  <table class="compacta">
+    <caption><b>Tabla 6.1.</b> Jueces para detectar d′ = 1.5 (α = 0.05, potencia 0.8) y potencia con 30 jueces</caption>
+    <thead><tr><th>Método</th><th class="num">Jueces para la potencia deseada</th><th class="num">Potencia con 30</th></tr></thead>
+    <tbody>
+      <tr><td>Triangular</td><td class="num">53</td><td class="num">0.600</td></tr>
+      <tr><td>Dúo-trío</td><td class="num">60</td><td class="num">0.570</td></tr>
+      <tr><td>2-AFC (dos alternativas)</td><td class="num">13</td><td class="num">0.998</td></tr>
+      <tr><td>3-AFC (tres alternativas)</td><td class="num">9</td><td class="num">1.000</td></tr>
+      <tr><td>Tétrada</td><td class="num">16</td><td class="num">0.962</td></tr>
+    </tbody>
+  </table>
+  <p>La lectura lo resume: con la triangular hacen falta 53 jueces y «el método más eficiente para esta diferencia es 3-afc (tres alternativas) (9 jueces)». Las dos figuras muestran por qué. <span class="ui">Funciones psicométricas</span> dibuja pc contra d′ para los cinco métodos, con una línea en la d′ elegida: la 2-AFC y la 3-AFC suben mucho más rápido que la triangular y el dúo-trío. <span class="ui">Potencia contra número de jueces</span> dibuja la potencia exacta de 6 a 123 jueces, con una línea en la potencia deseada.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: la potencia en dientes de sierra</div>
+    <p>La potencia es la probabilidad de que la prueba salga significativa si la diferencia es la que supusiste. Con la prueba binomial exacta, el número crítico de aciertos sube a saltos: al añadir un juez, a veces hace falta un acierto más y la potencia <b>baja</b>. Por eso la curva sube en dientes de sierra y la app busca el primer número de jueces que supera la potencia deseada, partiendo de una aproximación normal (Ennis 1993; Ennis y Jesionka 2011). Los métodos dirigidos (2-AFC, 3-AFC) son más potentes porque preguntan por un atributo concreto, pero sólo sirven si sabes de antemano en qué atributo difieren las muestras; la triangular, el dúo-trío y la tétrada no lo necesitan.</p>
+  </div>
+
+  <!-- 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>A–no A y preferencia pareada</h2>
+  <p class="lead">Dos tarjetas pequeñas al pie de la pestaña, con campos escritos y resultado inmediato: la prueba A–no A, para cuando no se pueden servir las muestras juntas, y la preferencia pareada.</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/b6-anoa.png" alt="Las tarjetas A–no A y Preferencia pareada con sus valores de partida: d′ 1.060, aciertos y falsas alarmas 0.825 y 0.450, p menor que 0.001; prefieren A 63.3 por ciento, p 0.052"></div>
+    <figcaption><b>Figura 6.4.</b> <span class="ui">A–no A</span> y <span class="ui">Preferencia pareada</span> con los valores que traen escritos.</figcaption>
+  </figure>
+  <h3>A–no A</h3>
+  <p>Los jueces aprenden primero cómo es la muestra «A» y luego, ante cada muestra, dicen si es «A» o «no A». Los campos son <span class="ui">«A» ante muestras A</span> (33), <span class="ui">Muestras A</span> (40), <span class="ui">«A» ante muestras no A</span> (18) y <span class="ui">Muestras no A</span> (40). Los aciertos son H = 33/40 = 0.825 y las falsas alarmas F = 18/40 = 0.450; d′ = z(H) − z(F) = 1.060 [0.460, 1.661], y el valor p (&lt; 0.001) es el de la prueba exacta de Fisher, unilateral, de que las muestras A reciben más respuestas «A». Ninguna proporción puede ser 0 ni 1: con ellas el modelo no tiene una estimación finita y la app no da resultado.</p>
+  <h3>Preferencia pareada</h3>
+  <p>Con <span class="ui">Prefieren A</span> (38), <span class="ui">Prefieren B</span> (22) y <span class="ui">Sin preferencia</span> (5), la app hace una prueba binomial <b>bilateral</b> de que la mitad prefiere cada producto. <span class="ui">Los «sin preferencia»</span> pueden <span class="ui">se excluyen</span> (por omisión: 38 de 60, 63.3 % [49.9, 75.4] %, p = 0.052) o <span class="ui">se reparten mitad y mitad</span> (40 de 64, 62.5 % [49.5, 74.3] %, p = 0.060; con un número impar, uno se descarta). Con los valores de partida la preferencia por A no llega a demostrarse.</p>
+
+  <!-- 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>Hedónica</h2>
+  <p class="lead">La prueba afectiva por excelencia: cada consumidor califica cada producto en la escala hedónica de nueve puntos, de 1 «me disgusta muchísimo» a 9 «me gusta muchísimo». La app compara los productos tratando a cada consumidor como un bloque.</p>
+  <p>La tarjeta <span class="ui">Agrado de los consumidores</span> pide una fila por consumidor y producto con tres papeles: <span class="ui">Consumidor</span>, <span class="ui">Producto</span> y <span class="ui">Agrado</span>. El ejemplo, «Café: 80 consumidores (agrado, punto justo y CATA)», tiene 320 filas y 16 columnas (<code>consumidor</code>, <code>cafe</code>, <code>agrado</code>, tres columnas <code>jar_…</code> y diez términos); aquí sólo se usan las tres primeras.</p>
+  <figure class="w50">
+    <div class="marco"><img src="../img/b6-hedonica.png" alt="La tarjeta Análisis de varianza y comparación de productos con cinco mosaicos, la lectura y la gráfica de barras del agrado medio de los cuatro cafés con sus letras a, b, ab y c"></div>
+    <figcaption><b>Figura 6.5.</b> <span class="ui">Análisis de varianza y comparación de productos</span> con los 80 consumidores del ejemplo: los cafés difieren (F = 56.31, p &lt; 0.001); Altura lavado gusta más (6.51) y el Comercial menos (4.31).</figcaption>
+  </figure>
+  <p>Los mosaicos dan los <span class="ui">Consumidores</span> (80), los <span class="ui">Productos</span> (4), el <span class="ui">Efecto de producto</span> (F = 56.31, p &lt; 0.001), el <span class="ui">Más agradable</span> (Altura lavado, 6.51 · a) y el <span class="ui">CV</span> (21.1 %). La lectura traduce las medias extremas a palabras de la escala —6.51 es «me gusta moderadamente», 4.31 «me disgusta un poco»— redondeando la media al punto más cercano. La figura <span class="ui">Agrado por producto</span> muestra la media de cada producto con su error estándar y sus letras.</p>
+  <figure class="w55">
+    <div class="marco"><img src="../img/b6-hedonica-tablas.png" alt="Las tablas del análisis de varianza, de las medias con sus letras de Tukey y de la prueba de Friedman"></div>
+    <figcaption><b>Figura 6.6.</b> Las tablas de la misma tarjeta: el ANOVA con el consumidor como bloque, las medias con sus letras de Tukey y la alternativa por rangos de Friedman.</figcaption>
+  </figure>
+  <p>El ANOVA es de dos vías sin interacción, agrado = media + producto + consumidor + error: el producto (3 gl, F = 56.31), el consumidor (79 gl, F = 2.70) y el error (237 gl, CM 1.505). Quitar la variación entre consumidores —unos califican todo alto, otros todo bajo— es lo que hace sensible la prueba. La tabla de medias, que se descarga como <code>hedonica.csv</code>, trae n, la media, la DE, el EE (√(CM<sub>error</sub>/n) = 0.137) y el <span class="ui">Grupo</span> de Tukey–Kramer al 5 %: Altura lavado 6.51 a, Honey 6.45 ab, Natural 5.99 b y Comercial 4.31 c. Productos con una letra en común no difieren: Honey no se distingue ni de Altura lavado ni de Natural, pero estos dos sí entre sí.</p>
+  <p>Debajo, <span class="ui">Alternativa por rangos (Friedman)</span> ordena los productos dentro de cada consumidor y compara las sumas de rangos (χ² = 90.87, p &lt; 0.001), con sus propias letras: Altura lavado y Honey a (rango medio 2.99), Natural b (2.61) y Comercial c (1.41). Úsala si no aceptas que la escala hedónica sea de intervalo, es decir, que de «me gusta un poco» a «me gusta moderadamente» haya la misma distancia que de «moderadamente» a «mucho». Friedman sólo usa a los consumidores que calificaron todos los productos.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Si no todos probaron todo</div>
+    <p>Cuando hay consumidores que no calificaron algún producto, el diseño queda desbalanceado y la app lo avisa bajo la lectura: la tabla de ANOVA es secuencial (producto primero), el efecto de producto de los mosaicos y de la lectura se toma ajustado por consumidor, y las comparaciones usan las medias observadas. Con el ejemplo, balanceado, el aviso no aparece.</p>
+  </div>
+
+  <!-- 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>Punto justo y penalidades</h2>
+  <p class="lead">Saber que un café gusta menos no dice qué cambiar. Las escalas de punto justo (JAR, del inglés <i>just about right</i>) preguntan por cada atributo si está «muy poco», «justo» o «demasiado», y el análisis de penalidades cuenta cuánto agrado se pierde por cada desvío.</p>
+  <p>La tarjeta <span class="ui">Escalas de punto justo</span> pide una fila por consumidor y producto con <span class="ui">Consumidor</span>, <span class="ui">Producto</span>, <span class="ui">Agrado</span> y los <span class="ui">Atributos de punto justo</span>, que la app propone sola con las columnas cuyo nombre empieza por <code>jar_</code> (en el ejemplo, <code>jar_acidez</code>, <code>jar_amargor</code> y <code>jar_cuerpo</code>; el prefijo se quita en los resultados). Debajo hay dos campos: <span class="ui">Niveles de la escala</span> (5: 1 = muy poco, 3 = justo, 5 = demasiado) y <span class="ui">Umbral de consumidores (%)</span> (20). La escala tiene que tener centro: con 3, 5, 7 o 9 niveles. Con un número par, la app avisa «Con un número par de niveles no hay centro: usa 3, 5, 7 o 9.».</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/b6-penalidades.png" alt="La tarjeta Análisis de penalidades con la lectura de las seis penalidades que importan y la gráfica de penalidades: porcentaje de consumidores contra caída del agrado, con triángulos por producto y atributo"></div>
+    <figcaption><b>Figura 6.7.</b> <span class="ui">Análisis de penalidades</span> con el café del ejemplo. Cada punto es un producto, un atributo y un sentido (▲ demasiado, ▼ muy poco); las líneas punteadas marcan el umbral de 20 % y una caída de un punto, y la zona sombreada, lo que más urge corregir.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: la caída y la penalidad ponderada</div>
+    <p>Para cada producto y atributo, los consumidores se reparten en tres grupos: debajo del centro (muy poco), en el centro (justo) y arriba (demasiado). La <b>caída</b> de un grupo es el agrado medio del grupo «justo» menos el del grupo fuera de él, y se prueba con una t de dos muestras con varianza combinada. La <b>penalidad ponderada</b> multiplica la caída por la proporción de consumidores en ese grupo: una caída de un punto en el 40 % de la gente pesa más que una de dos puntos en el 5 %. Un desvío «importa» cuando reúne al menos el umbral de consumidores (20 %) y tiene caída positiva (Xiong y Meullenet 2006; Lawless y Heymann 2010).</p>
+  </div>
+  <p>La lectura enumera hasta seis penalidades que importan, ordenadas por la penalidad ponderada, con el porcentaje, la caída y su p. La tabla (<code>penalidades_jar.csv</code>) trae, por producto y atributo, el % de «poco», «justo» y «mucho», las dos caídas con su p y la mayor de las dos penalidades ponderadas. La segunda figura, <span class="ui">Distribución de las respuestas de punto justo</span>, apila los tres porcentajes de cada producto y atributo.</p>
+  <figure class="w50">
+    <div class="marco"><img src="../img/b6-jar-dist.png" alt="Barras horizontales apiladas de muy poco, justo y demasiado para los doce pares producto y atributo"></div>
+    <figcaption><b>Figura 6.8.</b> <span class="ui">Distribución de las respuestas de punto justo</span>. Salta a la vista el amargor del Comercial: 66.3 % lo encuentra demasiado amargo y sólo 27.5 % justo.</figcaption>
+  </figure>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto: qué ajustar en cada café</div>
+    <p>La mayor penalidad es la acidez del Natural, que al 41 % le parece poca (caída de 0.72 puntos, p = 0.051, penalidad 0.298). Siguen el amargor de Altura lavado, poco para el 31 % (−0.83 puntos, p = 0.008), el amargor del Natural, poco para el 23 % (−0.95, p = 0.035), y la acidez de Altura lavado, poca para el 21 % (−0.94, p = 0.009). Del Comercial aparecen la acidez, poca para el 30 % (−0.61, p = 0.110), y el amargor, excesivo para el 66 % pero con una caída de sólo 0.27 puntos (p = 0.483): mucha gente lo nota, y sin embargo quienes lo encuentran justo no lo califican mucho mejor. Ningún punto entra en la zona sombreada, que pide además una caída de más de un punto. Al revés, el amargor de Altura lavado excesivo cuesta 1.32 puntos (p = 0.003), pero sólo al 13.8 %: queda bajo el umbral y la lectura no lo menciona.</p>
+  </div>
+  <p>La lectura marca por el porcentaje y la caída, no por el valor p: una penalidad con p = 0.483 aparece si reúne al 20 % de los consumidores. Mira la p en la tabla antes de recomendar un cambio.</p>
+
+  <!-- 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>CATA</h2>
+  <p class="lead">En la pregunta «marque todo lo que aplique» (CATA, <i>check all that apply</i>) el consumidor marca, de una lista de términos, los que describen cada producto. Es rápida y no requiere entrenamiento; la app dice qué términos separan a los productos y dibuja el mapa que los relaciona.</p>
+  <p>La tarjeta <span class="ui">Marque todo lo que aplique</span> pide una fila por consumidor y producto, con <span class="ui">Consumidor</span>, <span class="ui">Producto</span> y <span class="ui">Términos (0/1)</span>: la app propone sola las columnas que sólo tienen 0 y 1 (y al menos un 1) y no empiezan por <code>jar_</code>. En el ejemplo son diez: Afrutado, Chocolate, Floral, Nuez, Tostado, Quemado, Ácido, Amargo, Dulce y Astringente.</p>
+  <figure class="w55">
+    <div class="marco"><img src="../img/b6-cata.png" alt="La tarjeta Frecuencias, diferencias y mapa con cuatro mosaicos, la lectura y el análisis de correspondencias con los cuatro cafés y los diez términos"></div>
+    <figcaption><b>Figura 6.9.</b> <span class="ui">Frecuencias, diferencias y mapa</span> con el ejemplo. La primera dimensión (82.6 %) separa al Comercial —amargo, quemado, astringente, tostado— de los otros tres; la segunda (12.0 %), a Altura lavado —ácido, floral— de Natural y Honey —dulce, chocolate—.</figcaption>
+  </figure>
+  <p>Los mosaicos dan los <span class="ui">Consumidores completos</span> (80: los que evaluaron todos los productos, los únicos que entran en las pruebas), los <span class="ui">Términos</span> (10), cuántos <span class="ui">Discriminan productos</span> (10, por la Q de Cochran con p &lt; 0.05) y la <span class="ui">Inercia en el plano</span> (94.6 %, con el χ² de la tabla, 295.1). La lectura nombra los términos que discriminan y los tres más marcados de cada producto: Altura lavado, Afrutado 68 %, Ácido 58 % y Floral 43 %; el Comercial, Amargo 74 %, Tostado 64 % y Quemado 53 %.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: Cochran, McNemar y las correspondencias</div>
+    <p>Como cada consumidor evalúa todos los productos, las respuestas a un término están <b>pareadas</b>: no se comparan como proporciones independientes. La <b>Q de Cochran</b> prueba, término por término, si la proporción de marcas difiere entre los productos, con cada consumidor como bloque. Si difiere, la prueba de <b>McNemar</b> compara cada par de productos y los valores p se ajustan por <b>Holm</b>, porque con cuatro productos son seis pares. El <b>análisis de correspondencias</b> resume la tabla de frecuencias producto × término en un mapa simétrico: un producto cerca de un término se describe con él más que el promedio (Meyners et al. 2013; Greenacre 2007).</p>
+  </div>
+  <p>La tabla (<code>cata.csv</code>) trae el porcentaje de cada término en cada producto, Q, su p y los <span class="ui">Pares que difieren (Holm)</span>; las filas de los términos que discriminan van resaltadas. La segunda figura, <span class="ui">Frecuencia de cada término</span>, dibuja esos porcentajes en barras agrupadas. Un término puede discriminar en conjunto sin que ningún par difiera tras el ajuste: es el caso de Chocolate (Q = 11.16, p = 0.011), entre 25.0 % en el Comercial y 47.5 % en el Honey, cuya columna de pares dice «—». El Dulce, en cambio, separa cinco de los seis pares.</p>
+
+  <!-- 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>Perfil descriptivo</h2>
+  <p class="lead">Un panel entrenado califica la intensidad de cada atributo en una escala continua, varias veces. Es la herramienta para describir con precisión qué cambia un tratamiento: no si gusta, sino cuánto más ácido, más amargo o con más cuerpo queda el producto.</p>
+  <p>La tarjeta <span class="ui">Panel entrenado</span> pide una fila por juez, producto y sesión, con <span class="ui">Juez</span>, <span class="ui">Producto</span>, <span class="ui">Sesión o repetición (opcional)</span> y los <span class="ui">Atributos</span>. El ejemplo, «Café: perfil descriptivo cuantitativo» (64 filas, 10 columnas), tiene ocho jueces que evalúan los cuatro cafés en dos sesiones, con siete atributos de 0 a 10: Fragancia, Acidez, Amargor, Cuerpo, Dulzor, Astringencia y Residual. <span class="ui">Comparación de medias</span> elige entre <span class="ui">LSD de Fisher</span> (por omisión) y <span class="ui">Tukey</span>.</p>
+  <figure class="w70">
+    <div class="marco"><img src="../img/b6-perfil.png" alt="La tarjeta Perfil de los productos con cuatro mosaicos, la lectura, la gráfica de araña de los cuatro cafés y el mapa de productos del ACP con las flechas de los atributos"></div>
+    <figcaption><b>Figura 6.10.</b> <span class="ui">Perfil de los productos</span> con el panel del ejemplo. Los siete atributos discriminan; en el mapa (97.3 % de la variación en dos componentes), el Comercial queda del lado del amargor y la astringencia, Altura lavado hacia la acidez y Natural hacia el cuerpo.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: contra la interacción</div>
+    <p>Para cada atributo, la app ajusta el ANOVA intensidad = producto + juez + [sesión] + producto × juez + error. Los jueces no se escogieron por sí mismos: son una muestra de los jueces que podrían haber estado. Por eso, cuando hay repeticiones, el efecto de producto se prueba <b>contra la interacción producto × juez</b> (modelo mixto), no contra el error: así la conclusión vale para el panel y no sólo para esos ocho. Si cada juez evaluó cada producto una sola vez, la interacción no se puede separar del error y la prueba es la usual (Stone et al. 1974; Næs et al. 2010).</p>
+  </div>
+  <p>Los mosaicos dan los <span class="ui">Jueces</span> (8), los <span class="ui">Productos</span> (4), los <span class="ui">Atributos que discriminan</span> (7 / 7, «producto contra la interacción») y la variación que retienen las <span class="ui">ACP: dos primeras dimensiones</span> (97.3 %). La tabla (<code>perfil_descriptivo.csv</code>) trae, por atributo, la F de producto contra la interacción, su p y la media de cada producto con sus letras, calculadas con el mismo error de la interacción:</p>
+  <table class="compacta">
+    <caption><b>Tabla 6.2.</b> Medias del perfil del ejemplo con letras de LSD de Fisher (α = 0.05)</caption>
+    <thead><tr><th>Atributo</th><th class="num">F</th><th class="num">Altura lavado</th><th class="num">Natural</th><th class="num">Honey</th><th class="num">Comercial</th></tr></thead>
+    <tbody>
+      <tr><td>Fragancia</td><td class="num">33.45</td><td class="num">7.36 a</td><td class="num">7.39 a</td><td class="num">6.76 a</td><td class="num">4.29 b</td></tr>
+      <tr><td>Acidez</td><td class="num">37.94</td><td class="num">7.04 a</td><td class="num">4.54 c</td><td class="num">5.84 b</td><td class="num">3.43 d</td></tr>
+      <tr><td>Amargor</td><td class="num">26.63</td><td class="num">4.11 c</td><td class="num">5.19 b</td><td class="num">3.87 c</td><td class="num">7.17 a</td></tr>
+      <tr><td>Cuerpo</td><td class="num">6.65</td><td class="num">5.96 b</td><td class="num">6.90 a</td><td class="num">6.57 a</td><td class="num">5.86 b</td></tr>
+      <tr><td>Dulzor</td><td class="num">25.51</td><td class="num">5.95 a</td><td class="num">6.12 a</td><td class="num">6.69 a</td><td class="num">3.61 b</td></tr>
+      <tr><td>Astringencia</td><td class="num">12.20</td><td class="num">3.60 b</td><td class="num">3.47 b</td><td class="num">2.85 b</td><td class="num">5.29 a</td></tr>
+      <tr><td>Residual</td><td class="num">17.71</td><td class="num">6.47 a</td><td class="num">6.58 a</td><td class="num">6.46 a</td><td class="num">4.39 b</td></tr>
+    </tbody>
+  </table>
+  <p>Todas las p son &lt; 0.001 salvo la del Cuerpo (0.002). Con <span class="ui">Tukey</span>, más estricto, cambian dos letras: el amargor de Altura lavado pasa a «bc» y el cuerpo del Honey a «ab». La LSD protege poco cuando hay muchos productos; con cuatro, las dos suelen coincidir.</p>
+  <p>Las figuras son la <span class="ui">Perfil sensorial (gráfica de araña)</span>, con un eje por atributo y una línea por producto, y el <span class="ui">Mapa de productos (ACP de las medias)</span>: el análisis de componentes principales de la tabla de medias producto × atributo, con los productos como puntos y los atributos como flechas (su correlación con los componentes, reescalada). En el ejemplo, CP1 (81.3 %) opone el Comercial a los otros tres, y CP2 (16.0 %) separa la acidez de Altura lavado del cuerpo del Natural. El botón <span class="ui">Enviar a PCAPro (mapa de preferencias) →</span> pasa esas medias a PCAPro, de la misma suite, como <code>perfil_medias_productos</code>, para cruzarlas con el agrado de los consumidores.</p>
+
+  <!-- 6.8 -->
+  <h2 id="s6-8"><span class="num">6.8</span>Desempeño del panel</h2>
+  <p class="lead">Un perfil vale lo que vale el panel. La segunda tarjeta revisa a cada juez con tres preguntas: ¿distingue los productos?, ¿repite su calificación?, ¿coincide con los demás?</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/b6-panel.png" alt="La tarjeta Desempeño del panel con la lectura y la tabla de los ocho jueces: atributos que discrimina, p mediano, repetibilidad, acuerdo y la columna Revisar, que señala a J4, J6 y J8"></div>
+    <figcaption><b>Figura 6.11.</b> <span class="ui">Desempeño del panel</span> con el ejemplo: la app sugiere revisar a J4, J6 y J8. Debajo, el selector <span class="ui">Detalle del atributo</span>.</figcaption>
+  </figure>
+  <p>Para cada juez y atributo, la app ajusta un ANOVA de una vía con sus propias calificaciones (producto, usando sus repeticiones) y resume los siete atributos en la tabla (<code>desempeno_panel.csv</code>):</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Columna</th><th>Qué mide</th><th style="width:1.6in">Se señala si…</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Atributos que discrimina</span></td><td>En cuántos atributos su ANOVA por producto da p &lt; 0.05.</td><td>—</td></tr>
+      <tr><td><span class="ui">p mediano</span></td><td><b>Discriminación</b>: la mediana de esas p.</td><td>&gt; 0.20: «discrimina poco»</td></tr>
+      <tr><td><span class="ui">Repetibilidad (DE residual)</span></td><td><b>Repetibilidad</b>: la desviación residual media de su ANOVA; más baja, mejor.</td><td>&gt; 1.5 veces la mediana del panel: «repite poco»</td></tr>
+      <tr><td><span class="ui">Acuerdo (r mediano)</span></td><td><b>Acuerdo</b>: la correlación de Pearson entre sus medias por producto y las del panel, mediana sobre los atributos.</td><td>&lt; 0.5: «no coincide con el panel»</td></tr>
+      <tr><td><span class="ui">Revisar</span></td><td>Las señales que le tocan, o «—».</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>Los umbrales son permisivos a propósito: con dos sesiones, el ANOVA de un solo juez tiene muy pocos grados de libertad y poca potencia. En el ejemplo, la lectura dice: «Conviene reentrenar o revisar a: J4 (discrimina poco, repite poco); J6 (discrimina poco, repite poco); J8 (discrimina poco). El menos repetible es J6 (DE residual media 2.30).». J4 y J6 no discriminan en ningún atributo (p mediano 0.268 y 0.460), y su DE residual (1.40 y 2.30) supera 1.5 veces la mediana del panel; J8 repite bien (0.60) y coincide con el panel (0.85), pero discrimina en un solo atributo. Los ocho coinciden con el panel (r mediano entre 0.84 y 0.97).</p>
+  <p><span class="ui">Detalle del atributo</span> elige un atributo y muestra dos tablas: su ANOVA completo y el desempeño de cada juez en él. Con la Fragancia, el ANOVA da Producto F = 17.20 contra el error, Juez 2.00 (p = 0.088), Sesión 0.75 (p = 0.393) y Producto × juez 0.51 (p = 0.942); la F de 33.45 de la tabla 6.2 es el CM de producto (34.385) entre el de la interacción (1.028). En la segunda tabla, J6 tiene la mayor DE residual en Fragancia (3.19).</p>
+
+  <!-- 6.9 -->
+  <h2 id="s6-9"><span class="num">6.9</span>Fichas de cata</h2>
+  <p class="lead">La última pestaña prepara la sesión: en qué orden recibe cada juez las muestras, con qué código de tres dígitos, y las fichas impresas para que conteste. Un orden mal balanceado mete en los resultados el efecto de la posición y el de la muestra anterior.</p>
+  <figure class="w55">
+    <div class="marco"><img src="../img/b6-fichas.png" alt="La tarjeta Diseño de la sesión con sus campos y botones, y la tarjeta Plan de servicio con la lectura, la tabla de los doce jueces con el código y el producto de cada posición y la vista previa de cuatro fichas"></div>
+    <figcaption><b>Figura 6.12.</b> <span class="ui">Fichas de cata</span> después de <span class="ui">Generar el plan</span> con los valores de partida: cuatro cafés, doce jueces y la semilla 2026. El plan está balanceado y cada café lleva un código fijo (910, 846, 815 y 346); el recorte muestra los cinco primeros jueces de los doce.</figcaption>
+  </figure>
+  <h3>Diseño de la sesión</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">Campo</th><th style="width:1.35in">Por omisión</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Prueba</span></td><td>Hedónica de 9 puntos</td><td>El tipo de ficha: <span class="ui">Hedónica de 9 puntos</span>, <span class="ui">Perfil (atributos)</span> o <span class="ui">Triangular</span>.</td></tr>
+      <tr><td><span class="ui">Productos (separados por coma)</span></td><td>Altura lavado, Natural, Honey, Comercial</td><td>Los productos. En la triangular sólo cuentan los dos primeros.</td></tr>
+      <tr><td><span class="ui">Jueces</span></td><td>12</td><td>Cuántos jueces.</td></tr>
+      <tr><td><span class="ui">Semilla</span></td><td>2026</td><td>La semilla de los códigos y del orden de las triadas: la misma semilla da siempre el mismo plan.</td></tr>
+      <tr><td><span class="ui">Atributos (perfil)</span></td><td>Fragancia, Acidez, Amargor, Cuerpo, Dulzor</td><td>Las escalas de línea de la ficha de perfil.</td></tr>
+      <tr><td><span class="ui">Título de la ficha</span></td><td>Evaluación de café</td><td>El encabezado de cada ficha.</td></tr>
+      <tr><td><span class="ui">Un código distinto por juez para cada producto</span></td><td>sin marcar</td><td>Sin marcar, cada producto lleva un solo código en toda la sesión; marcada, cada juez recibe códigos propios (hasta 900 en total).</td></tr>
+    </tbody>
+  </table>
+  <p><span class="ui">Generar el plan</span> arma el plan y enciende los otros dos botones. <span class="ui">Imprimir las fichas</span> abre una ventana con una ficha por juez, en hoja carta, y la manda a imprimir: la hedónica pide marcar la escala de nueve puntos para cada código, en el orden indicado, con la instrucción de enjuagarse entre muestras; la de perfil, una escala de línea de «poco» a «mucho» por atributo; la triangular, encerrar el código de la muestra diferente. Todas llevan el juez, una línea para la fecha y otra para comentarios. Si el navegador bloquea la ventana, la app avisa «El navegador bloqueó la ventana: permite ventanas emergentes para imprimir.». <span class="ui">⤓ Plan de servicio (CSV)</span> descarga <code>plan_de_servicio.csv</code>, con las columnas <code>juez</code>, <code>posicion</code>, <code>producto</code> y <code>codigo</code>, una fila por muestra servida.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: los cuadrados de Williams</div>
+    <p>Un cuadrado de Williams es un cuadrado latino en el que, además de que cada producto aparece una vez en cada posición, cada producto va <b>precedido</b> por cada uno de los demás el mismo número de veces: balancea la posición y el arrastre de primer orden. Con un número par de productos basta un cuadrado (4 productos, 4 órdenes); con uno impar hacen falta dos, el segundo con las filas al revés (3 productos, 6 órdenes). El juez <i>a</i> recibe la fila <i>a</i> del diseño, así que el balance es completo sólo si el número de jueces es múltiplo del número de órdenes (Williams 1949; MacFie et al. 1989). En la triangular, los órdenes son las seis combinaciones AAB, ABA, BAA, BBA, BAB y ABB, mezcladas con la semilla, y cada juez recibe tres códigos distintos.</p>
+  </div>
+  <p>La tarjeta <span class="ui">Plan de servicio</span> lo dice en la lectura —«El plan está balanceado: 12 jueces es múltiplo de los 4 órdenes.», o, con 10 jueces, «Con 10 jueces el balance no es completo: usa un múltiplo de 4 (por ejemplo 12).»—, muestra la tabla con el código y el producto de cada posición para cada juez (que también se descarga en CSV y XLSX) y una vista previa de las cuatro primeras fichas, sólo con los códigos.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>Si</b> una prueba de diferencia sale significativa…</td><td>lee d′ y su intervalo: cerca de 1, una diferencia pequeña que pocos notan; mayor de 2, clara. Compara métodos por d′, nunca por pd.</td></tr>
+      <tr><td><b>Si</b> no sale significativa…</td><td>no concluyas que son iguales: mira la potencia de la sección 6.2 o haz una prueba de <span class="ui">Similitud</span> con un pd₀ decidido de antemano.</td></tr>
+      <tr><td><b>Si</b> la potencia con tus jueces es baja…</td><td>consigue más jueces o usa un método dirigido (2-AFC, 3-AFC) si sabes en qué atributo difieren.</td></tr>
+      <tr><td><b>Si</b> la hedónica sale significativa…</td><td>compara por las letras; si dudas de la escala de intervalo, confirma con Friedman.</td></tr>
+      <tr><td><b>Si</b> un desvío de punto justo reúne ≥ 20 % de los consumidores con caída ≥ 1 punto y p &lt; 0.05…</td><td>es el primer ajuste por hacer; con caída pequeña o p alta, es una molestia que no cuesta agrado.</td></tr>
+      <tr><td><b>Si</b> un término CATA discrimina pero ningún par difiere…</td><td>la diferencia es difusa: no la atribuyas a un par concreto.</td></tr>
+      <tr><td><b>Si</b> un juez sale señalado…</td><td>reentrénalo en esos atributos; si la señal se repite en varias sesiones, considera sacarlo del panel.</td></tr>
+      <tr><td><b>Si</b> el plan de servicio no está balanceado…</td><td>usa el múltiplo de órdenes que propone la app.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Son guías para interpretar, no leyes: lo que sabes del producto, del panel y de cómo se condujo la cata siempre manda.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p><b>La tarjeta de resultados de las discriminativas no aparece:</b> ninguna fila tiene un método válido y correctas y total enteros con total &gt; 0. <b>d′ = 0:</b> los aciertos no superan los de la adivinanza. <b>d′ infinito o sin intervalo:</b> todos acertaron. <b>A–no A sin resultado:</b> alguna proporción es 0 o 1. <b>«Con un número par de niveles no hay centro…»:</b> escribe 3, 5, 7 o 9 en <span class="ui">Niveles de la escala</span>. <b>CATA sin términos propuestos:</b> las columnas de términos deben tener sólo 0 y 1 (no «sí»/«no» ni casillas vacías en todo). <b>Pocos «consumidores completos»:</b> en CATA y Friedman sólo cuentan quienes evaluaron todos los productos. <b>El perfil no tiene la prueba contra la interacción:</b> cada juez evaluó cada producto una sola vez; la sesión es opcional, pero las repeticiones (dos o más filas del mismo juez y producto) no. <b>Las fichas no se imprimen:</b> permite las ventanas emergentes para la página de la app.</p>
+  </div>
+</section>
+
+</body>
+</html>
