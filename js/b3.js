@@ -20,7 +20,24 @@ const S = { k: null, t: null, a: null, s: null };
 const ORD = [['Orden cero', 'Zero order'], ['Primer orden', 'First order'], ['Segundo orden', 'Second order']];
 const ordName = o => T(ORD[o][0], ORD[o][1]);
 const EQ = ['C = C₀ − k·t', 'C = C₀·e^(−k·t)', '1/C = 1/C₀ + k·t'];
-const DISTS = { weibull: ['Weibull', 'Weibull'], lognormal: ['Log-normal', 'Log-normal'], loglogistic: ['Log-logística', 'Log-logistic'], exponential: ['Exponencial', 'Exponential'] };
+/* the parametric models as they read inside a sentence («el modelo log-logístico»,
+   «the log-logistic model»); distName(d, true) capitalises them for a label */
+const DISTS = { weibull: ['Weibull', 'Weibull'], lognormal: ['log-normal', 'log-normal'], loglogistic: ['log-logístico', 'log-logistic'], exponential: ['exponencial', 'exponential'] };
+const distName = (d, cap) => { const s = T(DISTS[d][0], DISTS[d][1]); return cap ? s.charAt(0).toUpperCase() + s.slice(1) : s; };
+/* an interval with n (3) significant figures of its larger bound: a k near 4
+   does not carry four decimals and one near 0.06 keeps its digits */
+const ciSig = (lo, hi, n) => {
+  const m = Math.max(Math.abs(lo), Math.abs(hi));
+  return Fmt.ci(lo, hi, isFinite(m) && m > 0 ? Math.min(8, Math.max(0, (n || 3) - 1 - Math.floor(Math.log10(m)))) : 4);
+};
+/* the engines' notes (non-convergence, omitted rows, limits never reached…), shown
+   under the reading as the hedonic test of Block 6 shows its own; repeated ones once */
+const notesHTML = list => {
+  const seen = new Set();
+  return list.filter(x => x && x.n && !seen.has(x.pre + x.n.es) && seen.add(x.pre + x.n.es)).map(x => `<p class="hint">${x.pre ? '<b>' + x.pre + '</b>: ' : ''}${L2(x.n.es, x.n.en)}</p>`).join('');
+};
+/* the k of each numeric group (the temperature), as the temperature table takes them */
+const kRows = res => res.filter(r => isFinite(+r.group) && isFinite(r.fit.k)).map(r => ({ T: +r.group, k: Math.abs(r.fit.k), se: r.fit.se.k }));
 
 const tools = [
   { id: 'cinetica', es: 'Modelos cinéticos', en: 'Kinetic models', html: `
@@ -48,7 +65,7 @@ const tools = [
     <div class="card"><h2>${L2('Datos', 'Data')}</h2>
       <p class="hint">${L2('Una fila por fruto: el tiempo hasta que se rechazó (o hasta el último día que se observó sano) y si se rechazó (1) o seguía aceptable al terminar (0, censurado).', 'One row per fruit: the time until it was rejected (or until the last day it was seen sound) and whether it was rejected (1) or still acceptable at the end (0, censored).')}</p>
       <div id="b3sIn"></div>
-      <div class="form-grid tight">${UI.sel('b3sCI', 'Intervalo de Kaplan–Meier', 'Kaplan–Meier interval', [['log', 'Logarítmico', 'Log'], ['log-log', 'Log-log', 'Log-log'], ['plain', 'Lineal', 'Plain']], 'log')}${UI.sel('b3sDist', 'Modelo paramétrico', 'Parametric model', [['auto', 'El de menor AIC', 'The one with the lowest AIC'], ['weibull', 'Weibull', 'Weibull'], ['lognormal', 'Log-normal', 'Log-normal'], ['loglogistic', 'Log-logística', 'Log-logistic'], ['exponential', 'Exponencial', 'Exponential']], 'auto')}${UI.num('b3sP', 'Rechazo tolerado (%)', 'Tolerated rejection (%)', 10, { min: 1, max: 99 })}</div></div>
+      <div class="form-grid tight">${UI.sel('b3sCI', 'Intervalo de Kaplan–Meier', 'Kaplan–Meier interval', [['log', 'Logarítmico', 'Log'], ['log-log', 'Log-log', 'Log-log'], ['plain', 'Lineal', 'Plain']], 'log')}${UI.sel('b3sDist', 'Modelo paramétrico', 'Parametric model', [['auto', 'El de menor AIC', 'The one with the lowest AIC'], ['weibull', 'Weibull', 'Weibull'], ['lognormal', 'Log-normal', 'Log-normal'], ['loglogistic', 'Log-logístico', 'Log-logistic'], ['exponential', 'Exponencial', 'Exponential']], 'auto')}${UI.num('b3sP', 'Rechazo tolerado (%)', 'Tolerated rejection (%)', 10, { min: 1, max: 99 })}</div></div>
     <div id="b3sOut" hidden><div class="card"><h2>${L2('Curvas de supervivencia', 'Survival curves')}</h2><div id="b3sTiles"></div><div id="b3sRead"></div><div id="b3sFig"></div><div id="b3sTab"></div><h3>${L2('Modelos paramétricos', 'Parametric models')}</h3><div id="b3sAIC"></div><div id="b3sPar"></div><div id="b3sCite"></div></div></div>` },
 ];
 
@@ -82,12 +99,12 @@ function kinRun(D) {
     const f = r.fit, nm = keyG ? esc(keyG + ' ' + r.group) : '';
     const hl = isFinite(f.halfLife) ? L2(`; vida media ${Fmt.num(f.halfLife, 1)}`, `; half-life ${Fmt.num(f.halfLife, 1)}`) : '';
     const tl = r.tl ? (isFinite(r.tl.t) ? L2(`; llega a ${Fmt.num(lim)} en <b>${Fmt.num(r.tl.t, 1)}</b> ${Fmt.ci(r.tl.lo, r.tl.hi, 1)}`, `; reaches ${Fmt.num(lim)} at <b>${Fmt.num(r.tl.t, 1)}</b> ${Fmt.ci(r.tl.lo, r.tl.hi, 1)}`) : L2('; no alcanza el límite', '; does not reach the limit')) : '';
-    return `<li>${nm ? '<b>' + nm + '</b>: ' : ''}${ordName(r.order)}, k = ${Fmt.sig(r.fit.k, 4)} ${Fmt.ci(f.ci.k[0], f.ci.k[1], 4)}${hl}${tl}.</li>`;
+    return `<li>${nm ? '<b>' + nm + '</b>: ' : ''}${ordName(r.order)}, k = ${Fmt.sig(r.fit.k, 4)} ${ciSig(f.ci.k[0], f.ci.k[1])}${hl}${tl}.</li>`;
   }).join('');
   const ks = res.map(r => r.fit.k).filter(v => isFinite(v) && v !== 0);
   const ratio = ks.length > 1 ? Math.max(...ks.map(Math.abs)) / Math.min(...ks.map(Math.abs)) : NaN;
   const agreeOrder = new Set(res.map(r => r.cmp.best)).size === 1;
-  el('b3kRead').innerHTML = `<div class="reading"><ul style="margin:0 0 6px;padding-left:18px">${lines}</ul><p>${L2(`${agreeOrder ? 'El AIC elige el mismo orden en todos los grupos.' : 'El AIC no elige el mismo orden en todos los grupos: conviene usar uno solo para comparar sus k.'}${isFinite(ratio) ? ` La constante más rápida es ${Fmt.num(ratio, 1)} veces la más lenta.` : ''} Los intervalos son de Wald con la t de Student (${Math.round(S.k.conf * 100)} %).`, `${agreeOrder ? 'AIC picks the same order in every group.' : 'AIC does not pick the same order in every group: better use a single one to compare their k.'}${isFinite(ratio) ? ` The fastest constant is ${Fmt.num(ratio, 1)} times the slowest.` : ''} The intervals are Wald intervals with Student's t (${Math.round(S.k.conf * 100)} %).`)}</p>${res.some(r => r.fit.k < 0) ? `<p>${L2('k negativa: el atributo aumenta con el tiempo (formación).', 'Negative k: the attribute increases with time (formation).')}</p>` : ''}</div>`;
+  el('b3kRead').innerHTML = `<div class="reading"><ul style="margin:0 0 6px;padding-left:18px">${lines}</ul><p>${L2(`${agreeOrder ? 'El AIC elige el mismo orden en todos los grupos.' : 'El AIC no elige el mismo orden en todos los grupos: conviene usar uno solo para comparar sus k.'}${isFinite(ratio) ? ` La constante más rápida es ${Fmt.num(ratio, 1)} veces la más lenta.` : ''} Los intervalos son de Wald con la t de Student (${Math.round(S.k.conf * 100)} %).`, `${agreeOrder ? 'AIC picks the same order in every group.' : 'AIC does not pick the same order in every group: better use a single one to compare their k.'}${isFinite(ratio) ? ` The fastest constant is ${Fmt.num(ratio, 1)} times the slowest.` : ''} The intervals are Wald intervals with Student's t (${Math.round(S.k.conf * 100)} %).`)}</p>${res.some(r => r.fit.k < 0) ? `<p>${L2('k negativa: el atributo aumenta con el tiempo (formación).', 'Negative k: the attribute increases with time (formation).')}</p>` : ''}${kinNotes(res, keyG)}</div>`;
   /* figure */
   const tMax = Math.max(...res.flatMap(r => r.t));
   const grid = Array.from({ length: 61 }, (_, i) => tMax * i / 60);
@@ -98,7 +115,7 @@ function kinRun(D) {
     series.push({ name: (keyG ? keyG + ' ' + r.group : '') + ' · ' + T('modelo', 'model'), x: pr.map(p => p.t), y: pr.map(p => p.fit), points: false, color: Plot.color(i), band: { x: pr.map(p => p.t), lo: pr.map(p => p.lo), hi: pr.map(p => p.hi) } });
   });
   el('b3kFig').innerHTML = '';
-  Fig.put('b3kFig', Plot.lines({ name: 'b3-cinetica', series, xlab: m.t, ylab: m.y, hlines: isFinite(lim) ? [{ y: lim, label: T('límite', 'limit') }] : [], legend: true }),
+  Fig.put('b3kFig', Plot.lines({ name: 'b3-cinetica', series, xlab: m.t, ylab: m.y, hlines: isFinite(lim) ? [{ y: lim, label: T('límite', 'limit'), at: 'start' }] : [], legend: true }),
     { name: 'b3-cinetica', title: L2('Cinética de ', 'Kinetics of ') + esc(m.y), caption: L2('Puntos: datos; líneas: modelo ajustado con su banda de confianza de la media.', 'Points: data; lines: fitted model with the confidence band of the mean.'), block: 3,
       data: { header: ['grupo', 't', 'y'], rows: res.flatMap(r => r.t.map((t, i) => [r.group, t, r.y[i]])) } });
   buildTable('b3kTab', [
@@ -106,12 +123,12 @@ function kinRun(D) {
     { key: 'order', label: L2('Orden', 'Order'), get: r => ordName(r.order) },
     { key: 'C0', label: 'C₀', num: true, get: r => Fmt.sig(r.fit.C0, 4) + ' ± ' + Fmt.sig(r.fit.se.C0, 2) },
     { key: 'k', label: 'k', num: true, get: r => Fmt.sig(r.fit.k, 4) + ' ± ' + Fmt.sig(r.fit.se.k, 2) },
-    { key: 'kci', label: L2('IC de k', 'CI of k'), num: true, get: r => Fmt.ci(r.fit.ci.k[0], r.fit.ci.k[1], 4) },
-    { key: 'hl', label: L2('Vida media', 'Half-life'), num: true, get: r => Fmt.num(r.fit.halfLife, 2) },
+    { key: 'kci', label: L2('IC de k', 'CI of k'), num: true, get: r => ciSig(r.fit.ci.k[0], r.fit.ci.k[1]) },
+    { key: 'hl', label: L2('Vida media', 'Half-life'), num: true, get: r => Fmt.num(r.fit.halfLife, 1) },
     { key: 'r2', label: 'R²', num: true, get: r => Fmt.num(r.fit.r2, 4) },
     { key: 'n', label: 'n', num: true, get: r => r.fit.n },
-    { key: 'tl', label: L2('Tiempo al límite', 'Time to limit'), num: true, get: r => (r.tl ? Fmt.num(r.tl.t, 2) : '—') },
-    { key: 'tlci', label: L2('IC', 'CI'), num: true, get: r => (r.tl && isFinite(r.tl.t) ? Fmt.ci(r.tl.lo, r.tl.hi, 2) : '—') },
+    { key: 'tl', label: L2('Tiempo al límite', 'Time to limit'), num: true, get: r => (r.tl ? Fmt.num(r.tl.t, 1) : '—') },
+    { key: 'tlci', label: L2('IC', 'CI'), num: true, get: r => (r.tl && isFinite(r.tl.t) ? Fmt.ci(r.tl.lo, r.tl.hi, 1) : '—') },
   ].filter(Boolean), res, { csvName: 'cinetica' });
   const cmpRows = [];
   res.forEach(r => r.cmp.fits.forEach((f, o) => cmpRows.push({ group: r.group, o, f, d: r.cmp.deltaAIC[o], w: r.cmp.weights[o], lin: r.cmp.linearR2[o], _class: o === r.cmp.best ? 'best' : '' })));
@@ -119,7 +136,7 @@ function kinRun(D) {
     keyG ? { key: 'group', label: esc(keyG) } : null,
     { key: 'o', label: L2('Orden', 'Order'), get: r => ordName(r.o) + ' · ' + EQ[r.o] },
     { key: 'k', label: 'k', num: true, get: r => Fmt.sig(r.f.k, 4) },
-    { key: 'rss', label: 'SCE', num: true, get: r => Fmt.sig(r.f.rss, 4) },
+    { key: 'rss', label: L2('SCE', 'RSS'), num: true, get: r => Fmt.sig(r.f.rss, 4) },
     { key: 'aic', label: 'AIC', num: true, get: r => Fmt.num(r.f.aic, 2) },
     { key: 'd', label: 'ΔAIC', num: true, get: r => Fmt.num(r.d, 2) },
     { key: 'w', label: L2('Peso de Akaike', 'Akaike weight'), num: true, get: r => Fmt.num(r.w, 3) },
@@ -129,6 +146,18 @@ function kinRun(D) {
   citeMethod('b3kCite', [Refs.short('labuza1984'), Refs.short('vanboekel2008'), [T('Mínimos cuadrados no lineales: ', 'Nonlinear least squares: ') + Refs.short('bates1988'), T('Nonlinear least squares: ', 'Nonlinear least squares: ') + Refs.short('bates1988')], 'AIC: ' + Refs.short('burnham2002')]);
   state.kinetics = Object.assign(state.kinetics || {}, { fits: res.map(r => ({ group: r.group, order: r.order, C0: r.fit.C0, k: r.fit.k, se: r.fit.se.k, t: r.tl ? r.tl.t : null })) });
   Report.set('kinetics:fit', { order: 30, title: ['Cinética de deterioro', 'Deterioration kinetics'], html: () => el('b3kRead').innerHTML + PHRep.fig('b3-cinetica') + PHRep.table('b3kTab') + PHRep.table('b3kCmp') });
+}
+
+/* the notes of the chosen fit in every group (the reading already says when the limit is
+   never reached) and the orders that could not be fitted for the comparison */
+function kinNotes(res, keyG) {
+  const list = [];
+  res.forEach(r => {
+    const pre = keyG ? esc(keyG + ' ' + r.group) : '';
+    r.fit.notes.filter(n => !/^k < 0/.test(n.es)).forEach(n => list.push({ pre, n }));
+    r.cmp.fits.forEach((f, o) => { if (o !== r.order && !isFinite(f.aic)) list.push({ pre, n: { es: ORD[o][0] + ': no se pudo ajustar y queda fuera de la comparación.', en: ORD[o][1] + ': could not be fitted and is left out of the comparison.' } }); });
+  });
+  return notesHTML(list);
 }
 
 /* ---------------- temperature ---------------- */
@@ -149,12 +178,12 @@ function tempRun() {
   const q20 = Kin.q10FromEa(A.Ea, 20);
   statTiles('b3tTiles', [
     [T('Energía de activación', 'Activation energy'), Fmt.num(A.EaKJ, 1) + ' kJ/mol', Fmt.ci(A.ci.Ea[0] / 1000, A.ci.Ea[1] / 1000, 1), 'hi'],
-    ['k (' + Fmt.num(A.TrefC, 1) + ' °C)', Fmt.sig(A.kRef, 4), Fmt.ci(A.ci.kRef[0], A.ci.kRef[1], 4)],
+    ['k (' + Fmt.num(A.TrefC, 1) + ' °C)', Fmt.sig(A.kRef, 4), ciSig(A.ci.kRef[0], A.ci.kRef[1])],
     ['Q10 (20–30 °C)', Fmt.num(q20, 2), T('desde Eₐ', 'from Eₐ')],
     ['R² Arrhenius', Fmt.num(A.r2, 4), A.weighted ? T('ponderado', 'weighted') : ''],
     B ? [T('Tmín (raíz cuadrada)', 'Tmin (square root)'), Fmt.num(B.Tmin, 1) + ' °C', 'R² ' + Fmt.num(B.r2, 4)] : null,
   ]);
-  el('b3tRead').innerHTML = `<div class="reading"><p>${L2(`Con Eₐ = <b>${Fmt.num(A.EaKJ, 1)} kJ/mol</b>, cada 10 °C más multiplican la velocidad de deterioro por ${Fmt.num(Kin.q10FromEa(A.Ea, 5), 2)} cerca de 5 °C y por ${Fmt.num(Kin.q10FromEa(A.Ea, 25), 2)} cerca de 25 °C: Q10 no es constante.${q10s.length ? ' Entre las temperaturas medidas: ' + q10s.map(q => `${q.T1}→${q.T2} °C Q10 = ${Fmt.num(q.q, 2)}`).join('; ') + '.' : ''}${B ? ` El modelo de raíz cuadrada pone la temperatura mínima biológica en ${Fmt.num(B.Tmin, 1)} °C ${Fmt.ci(B.ci.Tmin[0], B.ci.Tmin[1], 1)}.` : ''}`, `With Eₐ = <b>${Fmt.num(A.EaKJ, 1)} kJ/mol</b>, every 10 °C more multiplies the deterioration rate by ${Fmt.num(Kin.q10FromEa(A.Ea, 5), 2)} near 5 °C and by ${Fmt.num(Kin.q10FromEa(A.Ea, 25), 2)} near 25 °C: Q10 is not constant.${q10s.length ? ' Between the measured temperatures: ' + q10s.map(q => `${q.T1}→${q.T2} °C Q10 = ${Fmt.num(q.q, 2)}`).join('; ') + '.' : ''}${B ? ` The square-root model puts the minimum biological temperature at ${Fmt.num(B.Tmin, 1)} °C ${Fmt.ci(B.ci.Tmin[0], B.ci.Tmin[1], 1)}.` : ''}`)}</p>${A.notes.map(n => `<p>${L2(n.es, n.en)}</p>`).join('')}</div>`;
+  el('b3tRead').innerHTML = `<div class="reading"><p>${L2(`Con Eₐ = <b>${Fmt.num(A.EaKJ, 1)} kJ/mol</b>, cada 10 °C más multiplican la velocidad de deterioro por ${Fmt.num(Kin.q10FromEa(A.Ea, 5), 2)} cerca de 5 °C y por ${Fmt.num(Kin.q10FromEa(A.Ea, 25), 2)} cerca de 25 °C: Q10 no es constante.${q10s.length ? ' Entre las temperaturas medidas: ' + q10s.map(q => `${q.T1}→${q.T2} °C Q10 = ${Fmt.num(q.q, 2)}`).join('; ') + '.' : ''}${B ? ` El modelo de raíz cuadrada pone la temperatura mínima biológica en ${Fmt.num(B.Tmin, 1)} °C ${Fmt.ci(B.ci.Tmin[0], B.ci.Tmin[1], 1)}.` : ''}`, `With Eₐ = <b>${Fmt.num(A.EaKJ, 1)} kJ/mol</b>, every 10 °C more multiplies the deterioration rate by ${Fmt.num(Kin.q10FromEa(A.Ea, 5), 2)} near 5 °C and by ${Fmt.num(Kin.q10FromEa(A.Ea, 25), 2)} near 25 °C: Q10 is not constant.${q10s.length ? ' Between the measured temperatures: ' + q10s.map(q => `${q.T1}→${q.T2} °C Q10 = ${Fmt.num(q.q, 2)}`).join('; ') + '.' : ''}${B ? ` The square-root model puts the minimum biological temperature at ${Fmt.num(B.Tmin, 1)} °C ${Fmt.ci(B.ci.Tmin[0], B.ci.Tmin[1], 1)}.` : ''}`)}</p>${A.notes.map(n => `<p>${L2(n.es, n.en)}</p>`).join('')}${B ? notesHTML(B.notes.map(n => ({ pre: T('Raíz cuadrada', 'Square root'), n }))) : ''}</div>`;
   /* Arrhenius plot: ln k against 1000/T */
   const lo = Math.min(...Tc) - 3, hi = Math.max(...Tc) + 3;
   const tg = Array.from({ length: 41 }, (_, i) => lo + (hi - lo) * i / 40);
@@ -181,8 +210,8 @@ function shelfPaint() {
   const extra = Tt < tmin || Tt > tmax;
   statTiles('b3tSL', [
     [T('Vida de anaquel a ', 'Shelf life at ') + Fmt.num(Tt, 1) + ' °C', Fmt.num(one.t, 1), Fmt.ci(one.lo, one.hi, 1), extra ? 'warn' : 'good'],
-    ['k (' + Fmt.num(Tt, 1) + ' °C)', Fmt.sig(one.k, 4), Fmt.ci(one.kLo, one.kHi, 4)],
-    extra ? [T('Cuidado', 'Caution'), T('extrapolación', 'extrapolation'), T('fuera de ', 'outside ') + tmin + '–' + tmax + ' °C', 'warn'] : null,
+    ['k (' + Fmt.num(Tt, 1) + ' °C)', Fmt.sig(one.k, 4), ciSig(one.kLo, one.kHi)],
+    extra ? [T('Cuidado', 'Caution'), `<span class="sv-word">${T('extrapolación', 'extrapolation')}</span>`, T('fuera de ', 'outside ') + tmin + '–' + tmax + ' °C', 'warn'] : null,
   ]);
   const grid = Array.from({ length: 31 }, (_, i) => Math.max(-1, tmin - 8) + (tmax + 5 - Math.max(-1, tmin - 8)) * i / 30);
   const rr = Kin.shelfLifeAt(A, grid, L, { order: ord, C0, sign, interval: intv }).result.filter(r => isFinite(r.t));
@@ -238,10 +267,22 @@ function survRun(D) {
   S.s = { K, cmp, dist, fit, levels, keyG, p };
   el('b3sOut').hidden = false;
   const ev = status.filter(v => v === 1).length;
+  /* the notes of Kaplan–Meier in each group, of the chosen model and the models that did not converge */
+  const sNotes = notesHTML(K.groups.flatMap((g0, i) => (g0.notes || []).map(n => ({ pre: keyG ? esc(keyG + ' ' + K.levels[i]) : '', n }))).concat(
+    fit ? fit.notes.map(n => ({ pre: esc(distName(dist, true)), n })) : [],
+    cmp.fits.filter(f => f !== fit && isFinite(f.aic) && !f.converged).map(f => ({ pre: esc(distName(f.dist, true)), n: { es: 'la máxima verosimilitud no convergió; su AIC es aproximado.', en: 'maximum likelihood did not converge; its AIC is approximate.' } }))));
+  if (!fit || !cmp.best) {
+    /* no model could be fitted (no rejections, or too few): only the counts and why */
+    statTiles('b3sTiles', [[T('Frutos', 'Fruit'), time.length], [T('Rechazados', 'Rejected'), ev], [T('Censurados', 'Censored'), time.length - ev]]);
+    el('b3sRead').innerHTML = `<div class="reading"><p>${L2('Ningún modelo paramétrico pudo ajustarse: hacen falta frutos rechazados (estado 1).', 'No parametric model could be fitted: rejected fruit (status 1) are needed.')}</p>${notesHTML((cmp.fits[0] ? cmp.fits[0].notes : []).map(n => ({ pre: '', n })))}</div>`;
+    ['b3sFig', 'b3sTab', 'b3sAIC', 'b3sPar', 'b3sCite'].forEach(id => { el(id).innerHTML = ''; });
+    delete Report.sections['kinetics:survival'];
+    return;
+  }
   statTiles('b3sTiles', [
     [T('Frutos', 'Fruit'), time.length], [T('Rechazados', 'Rejected'), ev, Fmt.pct(100 * ev / time.length) ], [T('Censurados', 'Censored'), time.length - ev, T('aún aceptables al terminar', 'still acceptable at the end')],
-    K.logrank ? [T('Rango logarítmico', 'Log-rank'), 'χ² = ' + Fmt.num(K.logrank.chisq, 2), Fmt.pEq(K.logrank.p) + ' (gl ' + K.logrank.df + ')', K.logrank.p < 0.05 ? 'hi' : ''] : null,
-    [T('Mejor modelo', 'Best model'), T(DISTS[cmp.best][0], DISTS[cmp.best][1]), 'AIC'],
+    K.logrank ? [T('Rango logarítmico', 'Log-rank'), 'χ² = ' + Fmt.num(K.logrank.chisq, 2), Fmt.pEq(K.logrank.p) + T(' (gl ', ' (df ') + K.logrank.df + ')', K.logrank.p < 0.05 ? 'hi' : ''] : null,
+    [T('Mejor modelo', 'Best model'), distName(cmp.best, true), 'AIC'],
   ]);
   const grp = K.groups.map((g0, i) => {
     const lv = K.levels[i], q = fit.quantile(p, keyG ? lv : undefined), md = fit.quantile(0.5, keyG ? lv : undefined);
@@ -250,7 +291,7 @@ function survRun(D) {
   const bestG = grp.slice().sort((a, b) => b.q.est - a.q.est)[0];
   el('b3sRead').innerHTML = `<div class="reading"><p>${L2(`Con el modelo ${DISTS[dist][0]}, el ${Fmt.num(p * 100, 0)} % de los frutos se rechaza hacia el día ` + grp.map(g0 => `${keyG ? '<b>' + esc(g0.name) + '</b> ' : ''}${Fmt.num(g0.q.est, 1)} ${Fmt.ci(g0.q.lo, g0.q.hi, 1)}`).join(', ') + '.', `With the ${DISTS[dist][1]} model, ${Fmt.num(p * 100, 0)} % of the fruit are rejected around day ` + grp.map(g0 => `${keyG ? '<b>' + esc(g0.name) + '</b> ' : ''}${Fmt.num(g0.q.est, 1)} ${Fmt.ci(g0.q.lo, g0.q.hi, 1)}`).join(', ') + '.')}</p>` +
     (K.logrank ? `<p>${K.logrank.p < 0.05 ? L2(`Las curvas difieren (rango logarítmico ${Fmt.pEq(K.logrank.p)}): <b>${esc(bestG.name)}</b> conserva los frutos aceptables por más tiempo.`, `The curves differ (log-rank ${Fmt.pEq(K.logrank.p)}): <b>${esc(bestG.name)}</b> keeps the fruit acceptable longest.`) : L2(`Las curvas no difieren con claridad (rango logarítmico ${Fmt.pEq(K.logrank.p)}).`, `The curves do not clearly differ (log-rank ${Fmt.pEq(K.logrank.p)}).`)}</p>` : '') +
-    `<p>${L2('Los frutos censurados cuentan mientras estuvieron en observación; descartarlos acortaría la vida estimada.', 'Censored fruit count while they were observed; discarding them would shorten the estimated life.')}</p></div>`;
+    `<p>${L2('Los frutos censurados cuentan mientras estuvieron en observación; descartarlos acortaría la vida estimada.', 'Censored fruit count while they were observed; discarding them would shorten the estimated life.')}</p>${sNotes}</div>`;
   /* figure: KM steps with censor marks and the parametric curves */
   const curves = K.groups.map((g0, i) => {
     const ev = g0.time.map((t, j) => [t, g0.surv[j], g0.lower[j], g0.upper[j], g0.nEvent[j], g0.nCensor[j]]).filter(r => r[4] > 0);
@@ -268,7 +309,7 @@ function survRun(D) {
     over += `<path d="${d}" fill="none" stroke="${Plot.color(i)}" stroke-width="1.3" stroke-dasharray="1.5 3" opacity=".9"/>`;
   });
   svg = svg.replace('</svg>', over + '</svg>');
-  Fig.put('b3sFig', svg, { name: 'b3-kaplan-meier', title: L2('Kaplan–Meier y modelo ', 'Kaplan–Meier and the ') + esc(T(DISTS[dist][0], DISTS[dist][1])) + L2('', ' model'), caption: L2('Escalones: Kaplan–Meier; marcas verticales: censuras; punteado fino: modelo paramétrico; línea de guiones: el rechazo tolerado.', 'Steps: Kaplan–Meier; vertical ticks: censorings; fine dots: parametric model; dashed line: the tolerated rejection.'), block: 3 });
+  Fig.put('b3sFig', svg, { name: 'b3-kaplan-meier', title: L2('Kaplan–Meier y modelo ' + esc(DISTS[dist][0]), 'Kaplan–Meier and the ' + esc(DISTS[dist][1]) + ' model'), caption: L2('Escalones: Kaplan–Meier; marcas verticales: censuras; punteado fino: modelo paramétrico; línea de guiones: el rechazo tolerado.', 'Steps: Kaplan–Meier; vertical ticks: censorings; fine dots: parametric model; dashed line: the tolerated rejection.'), block: 3 });
   buildTable('b3sTab', [
     { key: 'name', label: keyG ? esc(keyG) : L2('Grupo', 'Group') }, { key: 'n', label: 'n', num: true }, { key: 'events', label: L2('Rechazos', 'Rejections'), num: true },
     { key: 'median', label: L2('Mediana (KM)', 'Median (KM)'), num: true, get: r => Fmt.num(r.median, 1) }, { key: 'mci', label: L2('IC', 'CI'), num: true, get: r => (isFinite(r.mlo) || isFinite(r.mhi) ? Fmt.ci(r.mlo, r.mhi, 1).replace('—', '∞') : '—') },
@@ -276,7 +317,7 @@ function survRun(D) {
     { key: 'q', label: L2('Tiempo al ', 'Time to ') + Fmt.num(p * 100, 0) + ' %', num: true, get: r => Fmt.num(r.q.est, 1) + ' ' + Fmt.ci(r.q.lo, r.q.hi, 1) },
     { key: 'md', label: L2('Mediana (modelo)', 'Median (model)'), num: true, get: r => Fmt.num(r.md.est, 1) + ' ' + Fmt.ci(r.md.lo, r.md.hi, 1) },
   ], grp, { csvName: 'tiempo_hasta_rechazo' });
-  buildTable('b3sAIC', [{ key: 'dist', label: L2('Distribución', 'Distribution'), get: r => T(DISTS[r.dist][0], DISTS[r.dist][1]) }, { key: 'loglik', label: L2('Log-verosimilitud', 'Log-likelihood'), num: true, fmt: v => Fmt.num(v, 2) }, { key: 'df', label: L2('Parámetros', 'Parameters'), num: true }, { key: 'aic', label: 'AIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'deltaAIC', label: 'ΔAIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'weight', label: L2('Peso', 'Weight'), num: true, fmt: v => Fmt.num(v, 3) }],
+  buildTable('b3sAIC', [{ key: 'dist', label: L2('Modelo', 'Model'), get: r => distName(r.dist, true) }, { key: 'loglik', label: L2('Log-verosimilitud', 'Log-likelihood'), num: true, fmt: v => Fmt.num(v, 2) }, { key: 'df', label: L2('Parámetros', 'Parameters'), num: true }, { key: 'aic', label: 'AIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'deltaAIC', label: 'ΔAIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'weight', label: L2('Peso', 'Weight'), num: true, fmt: v => Fmt.num(v, 3) }],
     cmp.rows.map(r => Object.assign({ _class: r.dist === cmp.best ? 'best' : '' }, r)), { csvName: 'modelos_supervivencia' });
   if (fit.timeRatio && fit.timeRatio.length) {
     buildTable('b3sPar', [{ key: 'name', label: L2('Contra la referencia', 'Against the reference'), get: r => esc(String(r.name).replace(/^group:?/, '')) + ' / ' + esc(levels[0]) }, { key: 'est', label: L2('Razón de tiempos', 'Time ratio'), num: true, fmt: v => Fmt.num(v, 3) }, { key: 'ci', label: L2('IC 95 %', '95 % CI'), num: true, get: r => Fmt.ci(r.lo, r.hi, 3) }], fit.timeRatio);
@@ -286,6 +327,17 @@ function survRun(D) {
   citeMethod('b3sCite', ['Kaplan–Meier: ' + Refs.short('kaplan1958') + '; Greenwood 1926', [T('Rango logarítmico: ', 'Log-rank: ') + Refs.short('mantel1966'), 'Log-rank: ' + Refs.short('mantel1966')], [T('Modelos de tiempo de falla: ', 'Failure-time models: ') + Refs.short('lawless2003'), 'Failure-time models: ' + Refs.short('lawless2003')], Refs.short('hough2003')]);
   state.kinetics = Object.assign(state.kinetics || {}, { survival: { n: time.length, best: cmp.best } });
   Report.set('kinetics:survival', { order: 33, title: ['Tiempo hasta el rechazo', 'Time to rejection'], html: () => el('b3sRead').innerHTML + PHRep.fig('b3-kaplan-meier') + PHRep.table('b3sTab') + PHRep.table('b3sAIC') });
+}
+
+/* the k of the mango example (firmness against day by temperature) */
+function exampleK() {
+  const R = Datasets.rows('mango'), ok = r => r.dia != null && r.firmeza_N != null && isFinite(r.dia) && isFinite(r.firmeza_N);
+  const res = Trial.levelsOf(R.filter(ok), 'temperatura').map(g => {
+    const sub = R.filter(r => ok(r) && String(r.temperatura) === g);
+    const cmp = Kin.compare(sub.map(r => +r.dia), sub.map(r => +r.firmeza_N), { conf: 0.95 }), order = cmp.best >= 0 ? cmp.best : 1;
+    return { group: g, order, fit: cmp.fits[order] };
+  });
+  return { rows: kRows(res), order: res.length ? res[0].order : 1, C0: res.length ? +Num.mean(res.map(r => r.fit.C0)).toFixed(3) : 125 };
 }
 
 /* ---------------- start ---------------- */
@@ -307,22 +359,28 @@ document.addEventListener('DOMContentLoaded', () => {
   ['b3kOrder', 'b3kMeth', 'b3kLim', 'b3kConf'].forEach(id => el(id).addEventListener('change', () => k.refire()));
   el('b3kToT').addEventListener('click', () => {
     if (!S.k) return;
-    const rows = S.k.res.filter(r => isFinite(+r.group)).map(r => ({ T: +r.group, k: Math.abs(r.fit.k), se: r.fit.se.k }));
+    const rows = kRows(S.k.res);
     if (rows.length < 2) { if (window.LABG) LABG.toast(T('Para Arrhenius el grupo debe ser la temperatura (números).', 'For Arrhenius the group must be the temperature (numbers).'), { type: 'warning' }); return; }
-    tTable.set(rows);
-    const f = S.k.res[0].fit;
+    /* the order, C₀ and limit first: setting the table recomputes everything, shelf life included */
     el('b3tOrd').value = String(S.k.res[0].order); el('b3tC0').value = +Num.mean(S.k.res.map(r => r.fit.C0)).toFixed(3);
     if (UI.s('b3kLim') !== '') el('b3tLim').value = UI.s('b3kLim');
-    void f;
+    tTable.set(rows);
     Tabs.go(3, 'temperatura');
   });
+  /* the temperature tab opens with the k of the mango example, fitted as «Kinetic
+     models» fits it by default (order by AIC, nonlinear, 95 %): the same rows,
+     order and C₀ that «Take the k values…» brings, so both roads give one Eₐ */
+  const ex = exampleK();
   tTable = EditTable.mount('b3tTable', {
     id: 'b3t',
-    columns: [{ key: 'T', es: 'Temperatura (°C)', en: 'Temperature (°C)', type: 'num' }, { key: 'k', es: 'k', en: 'k', type: 'num' }, { key: 'se', es: 'EE de k (opcional)', en: 'SE of k (optional)', type: 'num' }],
-    rows: [{ T: 13, k: 0.0622, se: 0.0031 }, { T: 20, k: 0.1494, se: 0.0068 }, { T: 25, k: 0.2765, se: 0.0124 }],
+    /* k and its SE are shown with the digits of the kinetic table (4 and 2 significant);
+       the full values stay in the rows and go into the fit */
+    columns: [{ key: 'T', es: 'Temperatura (°C)', en: 'Temperature (°C)', type: 'num' }, { key: 'k', es: 'k', en: 'k', type: 'num', show: v => +(+v).toPrecision(4) }, { key: 'se', es: 'EE de k (opcional)', en: 'SE of k (optional)', type: 'num', show: v => +(+v).toPrecision(2) }],
+    rows: ex.rows,
     blank: () => ({ T: null, k: null, se: null }),
     onChange: tempRun,
   });
+  el('b3tOrd').value = String(ex.order); el('b3tC0').value = ex.C0;
   ['b3tW', 'b3tTref'].forEach(id => el(id).addEventListener('change', tempRun));
   ['b3tOrd', 'b3tC0', 'b3tLim', 'b3tT', 'b3tInt'].forEach(id => { el(id).addEventListener('input', shelfPaint); el(id).addEventListener('change', shelfPaint); });
   tempRun();

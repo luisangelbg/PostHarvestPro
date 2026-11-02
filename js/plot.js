@@ -128,7 +128,7 @@ function legendWidth(items) { return 34 + Math.max(...items.map(it => String(it.
 /* ---------------- curves over a numeric x ----------------
    o: { series: [{name, x[], y[], lo?[], hi?[], color?, dash?, shape?, line?:bool, points?:bool,
                   band?:{x[], lo[], hi[]}}], xlab, ylab, w, h, title, name, label,
-        hlines?: [{y, label}], vlines?: [{x, label}], zones?: [{y0, y1, cls}], yZero?, xMin?, legend?:bool } */
+        hlines?: [{y, label, at?: 'start'|'end' (where the label goes; end by default)}], vlines?: [{x, label}], zones?: [{y0, y1, cls}], yZero?, xMin?, legend?:bool } */
 Plot.lines = function (o) {
   const W = o.w || 620, H = o.h || 360;
   const S = o.series.filter(s => s && s.x && s.x.length);
@@ -157,7 +157,7 @@ Plot.lines = function (o) {
       s += `<path d="${d}Z" fill="${c}" fill-opacity="0.13" stroke="none"/>`;
     }
   });
-  (o.hlines || []).forEach(h => { const Y = sy(h.y); s += `<line class="pl-ref" x1="${f(x0)}" y1="${f(Y)}" x2="${f(x1)}" y2="${f(Y)}"/>${h.label ? `<text class="pl-note" x="${f(x1 - 4)}" y="${f(Y - 4)}" text-anchor="end">${esc(h.label)}</text>` : ''}`; });
+  (o.hlines || []).forEach(h => { const Y = sy(h.y); s += `<line class="pl-ref" x1="${f(x0)}" y1="${f(Y)}" x2="${f(x1)}" y2="${f(Y)}"/>${h.label ? `<text class="pl-note" x="${f(h.at === 'start' ? x0 + 4 : x1 - 4)}" y="${f(Y - 4)}" text-anchor="${h.at === 'start' ? 'start' : 'end'}">${esc(h.label)}</text>` : ''}`; });
   (o.vlines || []).forEach(v => { const X = sx(v.x); s += `<line class="pl-ref" x1="${f(X)}" y1="${f(y0)}" x2="${f(X)}" y2="${f(y1)}"/>${v.label ? `<text class="pl-note" x="${f(X + 4)}" y="${f(y1 + 12)}">${esc(v.label)}</text>` : ''}`; });
   S.forEach((ser, i) => {
     const c = items[i].color;

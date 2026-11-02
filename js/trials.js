@@ -67,7 +67,13 @@ function rssOf(rows, y, terms, LV) {
 /* ---------------- ANOVA of a factorial (CRD or RCBD) ----------------
    o: { y: key, factors: [keyA, keyB?], block?: key, type: 1|3 }
    Terms: block (if any), A, B, A:B. Sequential (type I) or each term last
-   (type III, with the block always in the model). */
+   (type III, with the block always in the model).
+   Empty cells (combinations of A and B without data) are listed in `empty`.
+   With them and the interaction in the model, the type III hypotheses of A
+   and of B (each averaged over every level of the other, empty ones
+   included) are not estimable: dropping A or B leaves the fit unchanged or
+   only partly changed (0 or too few degrees of freedom), so those rows carry
+   estimable: false and no F or p. The interaction and type I are unaffected. */
 Tr.factorial = function (rows0, o) {
   const rows = rows0.filter(r => isFinite(r[o.y]) && r[o.y] !== '' && r[o.y] !== null && o.factors.every(f => r[f] != null && r[f] !== '') && (!o.block || (r[o.block] != null && r[o.block] !== '')));
   const y = rows.map(r => +r[o.y]);
@@ -81,6 +87,12 @@ Tr.factorial = function (rows0, o) {
   const full = rssOf(rows, y, terms, LV);
   const dfe = rows.length - full.rank, mse = full.rss / dfe;
   const type = o.type || 3;
+  const empty = [];
+  if (o.factors.length === 2) {
+    const [fa, fb] = o.factors, seen = new Set(rows.map(r => String(r[fa]) + '\u0001' + String(r[fb])));
+    LV[fa].forEach(a => LV[fb].forEach(b => { if (!seen.has(a + '\u0001' + b)) empty.push([a, b]); }));
+  }
+  const inter = o.factors.length === 2 && o.interaction !== false;
   const table = [];
   let prev = rssOf(rows, y, [], LV);
   terms.forEach((t, i) => {
@@ -92,14 +104,15 @@ Tr.factorial = function (rows0, o) {
       const red = rssOf(rows, y, terms.filter((_, j) => j !== i), LV);
       ss = red.rss - full.rss; df = full.rank - red.rank;
     }
-    const ms = ss / df, F = ms / mse;
-    table.push({ source: termName(t), term: t, df, ss, ms, F, p: Num.pf(F, df, dfe, true) });
+    const estimable = !(type === 3 && inter && empty.length && t.length === 1 && o.factors.includes(t[0]));
+    const ms = df > 0 ? ss / df : NaN, F = estimable ? ms / mse : NaN;
+    table.push({ source: termName(t), term: t, df, ss, ms, F, p: estimable ? Num.pf(F, df, dfe, true) : NaN, estimable });
   });
   table.push({ source: 'residual', df: dfe, ss: full.rss, ms: mse });
   const ybar = Num.mean(y), tss = y.reduce((s, v) => s + (v - ybar) ** 2, 0);
   table.push({ source: 'total', df: rows.length - 1, ss: tss });
   const cells = Tr.cellMeans(rows, o.y, o.factors);
-  return { rows, y, LV, table, mse, dfe, n: rows.length, r2: 1 - full.rss / tss, cv: 100 * Math.sqrt(mse) / Math.abs(ybar), grand: ybar, cells, resid: full.fit.resid, fitted: full.fit.fitted, type, design: o.block ? 'rcbd' : 'crd', factors: o.factors, block: o.block || null };
+  return { rows, y, LV, table, mse, dfe, n: rows.length, r2: 1 - full.rss / tss, cv: 100 * Math.sqrt(mse) / Math.abs(ybar), grand: ybar, cells, empty, resid: full.fit.resid, fitted: full.fit.fitted, type, design: o.block ? 'rcbd' : 'crd', factors: o.factors, block: o.block || null };
 };
 
 /* means, standard deviations and errors of every cell (and of the margins) */
@@ -342,7 +355,9 @@ Tr.fieldBook = function (o) {
   const rng = Num.rng(o.seed || 2026);
   const reps = Math.max(1, o.reps | 0), times = o.times && o.times.length ? o.times : [''];
   const es = o.lang !== 'en';
-  const H = es ? { unit: 'Parcela', block: 'Bloque', rep: 'Repeticion', trt: 'Tratamiento', time: 'Tiempo', order: 'Orden' }
+  /* the experimental-design app recognises «Repetición» with or without the
+     accent (and Bloque, Parcela, Plot…), so the header keeps its spelling */
+  const H = es ? { unit: 'Parcela', block: 'Bloque', rep: 'Repetición', trt: 'Tratamiento', time: 'Tiempo', order: 'Orden' }
     : { unit: 'Plot', block: 'Block', rep: 'Replicate', trt: 'Treatment', time: 'Time', order: 'Order' };
   const units = [];
   if (o.repeated) {

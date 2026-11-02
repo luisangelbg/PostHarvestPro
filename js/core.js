@@ -485,6 +485,8 @@ const colNum = (rows, key) => rows.map(r => (r[key] == null || r[key] === '' ? n
 
 /* ---------------- editable tables ----------------
    columns: [{key, es, en, type:'num'|'text'|'select', options?:[[value, es, en]], step?, width?}] */
+/* columns: [{key, es, en, type?: 'num'|'select', options?, step?, width?, show?(v): the value as the
+   field shows it (rounded); the row keeps the full value until the cell is edited}] */
 const EditTable = {
   registry: {},
   mount(host, o) {
@@ -496,7 +498,7 @@ const EditTable = {
         rows.map((r, i) => `<tr data-i="${i}"><td class="rn">${i + 1}</td>` + o.columns.map(c => {
           const lab = esc(T(c.es, c.en) + ' · ' + (i + 1));
           if (c.type === 'select') return `<td><select data-k="${c.key}" aria-label="${lab}">${c.options.map(op => `<option value="${esc(op[0])}"${String(r[c.key]) === String(op[0]) ? ' selected' : ''}>${esc(T(op[1], op[2] || op[1]))}</option>`).join('')}</select></td>`;
-          return `<td><input data-k="${c.key}" type="${c.type === 'num' ? 'number' : 'text'}"${c.step ? ` step="${c.step}"` : ' step="any"'} value="${esc(r[c.key] == null ? '' : r[c.key])}" aria-label="${lab}"${c.width ? ` style="min-width:${c.width}px"` : ''}></td>`;
+          return `<td><input data-k="${c.key}" type="${c.type === 'num' ? 'number' : 'text'}"${c.step ? ` step="${c.step}"` : ' step="any"'} value="${esc(r[c.key] == null ? '' : c.show ? c.show(r[c.key]) : r[c.key])}" aria-label="${lab}"${c.width ? ` style="min-width:${c.width}px"` : ''}></td>`;
         }).join('') + `<td class="del"><button type="button" data-del="${i}" aria-label="${T('Quitar la fila ', 'Remove row ') + (i + 1)}">×</button></td></tr>`).join('') +
         `</tbody></table></div><div class="btn-row"><button type="button" class="btn btn-ghost btn-sm" data-add="1">${L2('+ Agregar fila', '+ Add row')}</button>${o.extraButtons || ''}</div>`;
     };
