@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-9" data-pestana="9" data-orden="9" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">9</div>
+    <div class="cap-etiqueta">Capítulo nueve · Bloque 9</div>
+    <h1 data-corto="Informe y proyecto">Informe y proyecto</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Lo que calculaste en los bloques 2 a 8, listo para salir de la app: un informe de un solo archivo, con figuras, tablas, interpretación, recomendaciones de manejo, métodos, referencias y cita, que se abre en cualquier navegador y se imprime a PDF; las figuras, una por una, desde el estudio de figuras; y el proyecto, un archivo pequeño con el que el trabajo se vuelve a abrir tal como quedó. El bloque no calcula nada nuevo: reúne lo que ya está en pantalla.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k5"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>9.1</b>Datos del informe y secciones</li>
+      <li><b>9.2</b>Generar, descargar e imprimir</li>
+      <li><b>9.3</b>Lo que lleva el informe</li>
+      <li><b>9.4</b>Recomendaciones de manejo</li>
+      <li><b>9.5</b>Las figuras, el estudio y el editor</li>
+      <li><b>9.6</b>Guardar y abrir el proyecto</li>
+      <li><b>9.7</b>Cómo citar PostHarvestPro</li>
+    </ul>
+  </div>
+
+  <p>El subtítulo del bloque dice lo que hace: <span class="ui">Todo lo que calculaste, en un documento para compartir; y tu trabajo, en un archivo para seguir después</span>. No tiene pestañas, sino cuatro tarjetas, una debajo de otra: <span class="ui">El informe</span>, <span class="ui">Recomendaciones de manejo</span>, <span class="ui">Proyecto</span> y <span class="ui">Cómo citar PostHarvestPro</span>.</p>
+
+  <!-- 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>Datos del informe y secciones</h2>
+  <p class="lead">Cada análisis que corres en los bloques 2 a 8 deja una sección lista para el informe. La tarjeta <span class="ui">El informe</span> te deja escribir la portada, elegir qué secciones entran y generar el documento.</p>
+  <p>Su indicación lo resume: <span class="ui">Reúne las secciones que dejaron los bloques, con sus gráficas (en SVG, con los colores del tema claro), tablas, interpretación, recomendaciones de manejo, métodos y referencias. Es un solo archivo HTML que se abre en cualquier navegador y se imprime a PDF.</span> Los campos de la portada son:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.2in">Campo</th><th>Qué va y dónde sale</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Título</span></td><td>El título del informe y de la pestaña del navegador; abre con <span class="ui">Ensayo de poscosecha</span></td></tr>
+      <tr><td><span class="ui">Autor o responsable</span></td><td>Sale en la portada como <b>Responsable</b>; si lo dejas vacío, no aparece</td></tr>
+      <tr><td><span class="ui">Producto o cultivo</span></td><td>Sale como <b>Producto</b>; también se omite si está vacío</td></tr>
+      <tr><td><span class="ui">Fecha</span></td><td>Abre con la fecha del día, en la forma año-mes-día; puedes escribir otra</td></tr>
+      <tr><td><span class="ui">Resumen o notas del ensayo (opcional)</span></td><td>Un párrafo libre que abre la sección <b>Resumen</b>, antes del índice</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b9-informe.png" alt="La tarjeta El informe con el título Vida de anaquel del mango de ejemplo, los campos de la portada, quince secciones disponibles marcadas y los botones Generar el informe, Descargar HTML e Imprimir o guardar PDF"></div>
+    <figcaption><b>Figura 9.1.</b> <span class="ui">El informe</span> después de abrir cinco ejemplos (el mango en <span class="ui">Resumen de calidad</span> y en <span class="ui">Modelos cinéticos</span>, los frascos de aguacate, la cadena de jitomate y la hedónica del café). Hay quince secciones: las de esos cinco análisis más las de las herramientas que abren con valores escritos (la cadena de jitomate ocupa la sección de la cadena de partida). Los dos botones de la derecha siguen apagados hasta generar el informe.</figcaption>
+  </figure>
+  <p><span class="ui">Secciones disponibles</span> lista una casilla por sección, con su nombre y su bloque (<span class="ui">· Bloque 2</span>…), en el orden de los bloques. Hay hasta 27, una por cada análisis que deja resultados:</p>
+  <table class="compacta">
+    <caption><b>Tabla 9.1.</b> Las 27 secciones posibles del informe</caption>
+    <thead><tr><th style="width:0.55in">Bloque</th><th>Secciones</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td><span class="ui">Resumen de calidad</span>, <span class="ui">Color</span>, <span class="ui">Escala de madurez o daño</span>, <span class="ui">Calibres</span></td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><span class="ui">Cinética de deterioro</span>, <span class="ui">Dependencia de la temperatura</span>, <span class="ui">Prueba acelerada</span>, <span class="ui">Tiempo hasta el rechazo</span></td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><span class="ui">Respiración (sistema estático)</span>, <span class="ui">Respiración (flujo continuo)</span>, <span class="ui">Climaterio</span>, <span class="ui">Atmósfera modificada</span>, <span class="ui">Preenfriamiento y carga térmica</span></td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><span class="ui">Pérdidas en la cadena</span>, <span class="ui">Simulación de mejoras</span>, <span class="ui">Daño mecánico</span></td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><span class="ui">Pruebas discriminativas</span>, <span class="ui">Prueba hedónica</span>, <span class="ui">Punto justo y penalidades</span>, <span class="ui">CATA</span>, <span class="ui">Perfil descriptivo</span></td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><span class="ui">Ensayo factorial</span>, <span class="ui">Medidas repetidas</span>, <span class="ui">Comparación de pendientes</span></td></tr>
+      <tr><td><span class="chip k8">8</span></td><td><span class="ui">Carga por tarima y contenedor</span>, <span class="ui">Ambiente del almacén</span>, <span class="ui">Compatibilidad en almacén</span></td></tr>
+    </tbody>
+  </table>
+  <p>Todas aparecen marcadas; desmarca las que no quieras. La lista se rehace cada vez que corres un análisis, y recuerda las que desmarcaste. Las calculadoras sueltas —acidez, humedad, firmeza y pérdida de peso del Bloque 2, ventilación, costo y unidades del Bloque 8— no dejan sección.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Hay secciones aunque no hayas cargado nada</div>
+    <p>Las herramientas que abren con valores de ejemplo escritos calculan desde que se abre la app, y por eso dejan su sección sin que las toques: <span class="ui">Dependencia de la temperatura</span>, <span class="ui">Prueba acelerada</span>, <span class="ui">Respiración (flujo continuo)</span>, <span class="ui">Atmósfera modificada</span>, <span class="ui">Preenfriamiento y carga térmica</span>, <span class="ui">Pérdidas en la cadena</span>, <span class="ui">Simulación de mejoras</span>, <span class="ui">Pruebas discriminativas</span> y las tres del Bloque 8, once en total. Si no las trabajaste con tus propios valores, <b>desmárcalas</b>: de otro modo, el informe incluiría los números de ejemplo como si fueran de tu ensayo.</p>
+  </div>
+
+  <!-- 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>Generar, descargar e imprimir</h2>
+  <p>Debajo de las secciones hay tres botones, y queda un último paso antes de compartir:</p>
+  <ol class="pasos">
+    <li><b><span class="ui">Generar el informe</span>.</b> Arma el documento con las secciones marcadas y lo muestra en una vista previa dentro de la misma tarjeta; un aviso confirma <span class="ui">Informe listo.</span> Si no marcaste ninguna, la app lo dice: <span class="ui">Elige al menos una sección (o corre algún análisis).</span> Si después cambias algo en otro bloque, vuelve a pulsarlo: la vista previa no se actualiza sola.</li>
+    <li><b><span class="ui">⤓ Descargar HTML</span>.</b> Guarda el informe como <code>informe_postharvestpro.html</code>. Es un solo archivo, con las figuras dentro en SVG, que se abre sin conexión en cualquier navegador y se puede mandar por correo.</li>
+    <li><b><span class="ui">Imprimir o guardar PDF</span>.</b> Abre el diálogo de impresión del navegador sobre la vista previa. Para un PDF, elige <b>Guardar como PDF</b> como destino.</li>
+    <li><b>Revisar antes de compartir.</b> El informe sale en el idioma de la interfaz en el momento de generarlo; cambia el idioma con <span class="ui">ES</span> · <span class="ui">EN</span> y vuelve a generarlo si lo necesitas en inglés. Las figuras se escriben con los colores del tema claro aunque trabajes en el oscuro, y la hoja de estilo del informe trae márgenes de impresión y evita cortar una figura entre dos páginas.</li>
+  </ol>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b9-vista.png" alt="La vista previa del informe: la portada con el título Vida de anaquel del mango de ejemplo, el producto, la fecha y el logotipo, y el resumen con el índice de doce secciones"></div>
+    <figcaption><b>Figura 9.2.</b> La vista previa después de <span class="ui">Generar el informe</span>, con el mango de ejemplo en <span class="ui">Resumen de calidad</span> y <span class="ui">Modelos cinéticos</span>: la portada y el comienzo del índice. Los botones de descarga e impresión ya están encendidos.</figcaption>
+  </figure>
+
+
+  <!-- 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>Lo que lleva el informe</h2>
+  <p>El documento tiene siempre la misma estructura:</p>
+  <table class="compacta">
+    <caption><b>Tabla 9.2.</b> Las partes del informe</caption>
+    <thead><tr><th style="width:1.7in">Parte</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td><b>Portada</b></td><td><b>Informe de poscosecha</b>, el título, el producto, el responsable y la fecha, el logotipo de la app y la línea <b>Generado con PostHarvestPro 1.0.0 · LABG Suite</b></td></tr>
+      <tr><td><b>Resumen</b></td><td>Tus notas, si las escribiste, y el índice de las secciones con enlaces</td></tr>
+      <tr><td><b>Las secciones</b></td><td>Numeradas, una por cada casilla marcada, con lo que dejó su herramienta: figuras, tablas y lectura. Por ejemplo, <b>Resumen de calidad</b> trae el número de observaciones, la variable de la figura, la figura de su evolución, la lectura y la tabla por grupo y tiempo</td></tr>
+      <tr><td><b>Recomendaciones de manejo poscosecha</b></td><td>Las de la sección 9.4, con la advertencia de que salen de reglas y deben revisarse con el conocimiento del cultivo y del mercado</td></tr>
+      <tr><td><b>Métodos y referencias</b></td><td>Una nota de que todo se calculó en el navegador con métodos validados contra implementaciones independientes; los métodos de <b>los bloques que usaste</b>, con sus fuentes abreviadas (los mismos de la sección 1.5); y la lista completa de esas obras</td></tr>
+      <tr><td><b>Cómo citar</b></td><td>La referencia y la entrada BibTeX del programa (sección 9.7)</td></tr>
+      <tr><td><b>Pie</b></td><td>Programa, versión, autor, licencia y dirección</td></tr>
+    </tbody>
+  </table>
+  <p>Las referencias se eligen por bloque, no por sección: si incluyes sólo <span class="ui">Resumen de calidad</span>, el informe lista los seis métodos del Bloque 2 y sus obras, aunque no hayas usado las escalas ni los calibres.</p>
+
+  <!-- 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>Recomendaciones de manejo</h2>
+  <p class="lead">La segunda tarjeta convierte los resultados en recomendaciones prácticas: <span class="ui">Salen de tus resultados con reglas explícitas; revísalas con tu criterio antes de usarlas.</span> Se rehacen cada vez que un bloque cambia un resultado, y son las mismas que entran al informe.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b9-recomendaciones.png" alt="Nueve recomendaciones de manejo generadas con los dieciocho ejemplos de la app cargados"></div>
+    <figcaption><b>Figura 9.3.</b> <span class="ui">Recomendaciones de manejo</span> después de abrir los dieciocho ejemplos de la app.</figcaption>
+  </figure>
+  <p>Cada recomendación sale de una regla fija aplicada a un resultado. La tabla dice cuál; la última columna da lo que escribe la app con los ejemplos cargados.</p>
+  <table class="compacta">
+    <caption><b>Tabla 9.3.</b> Las reglas de las recomendaciones</caption>
+    <thead><tr><th style="width:1.95in">Se escribe si…</th><th>Lo que recomienda, con los ejemplos</th></tr></thead>
+    <tbody>
+      <tr><td>Los modelos cinéticos del Bloque 3 dan una vida al límite</td><td>La vida de cada grupo —<span class="ui">13: 25.9; 20: 10.4; 25: 6.3</span>— y programar la venta antes, con margen para la distribución</td></tr>
+      <tr><td><span class="ui">Temperatura</span> (Bloque 3) tiene una Eₐ</td><td>Cuánto acorta la vida cada grado de más, calculado de 10 a 11 °C: <span class="ui">Con Eₐ ≈ 88 kJ/mol, … en torno a 12 %</span>; la cadena de frío continua es la medida más rentable</td></tr>
+      <tr><td><span class="ui">Climaterio</span> (Bloque 4) clasifica el producto como climatérico</td><td>Cosechar en madurez fisiológica, enfriar pronto y mantener lejos del etileno hasta la maduración controlada</td></tr>
+      <tr><td>El sistema estático (Bloque 4) da más de 40 mg CO₂ kg⁻¹ h⁻¹</td><td>Dimensionar el preenfriamiento y la refrigeración con el calor de la respiración (el aguacate del ejemplo respira 59.4)</td></tr>
+      <tr><td>Hay un cálculo de atmósfera modificada (Bloque 4)</td><td>Si llega a la ventana, verificar con lecturas reales; si no, como con los valores de partida, cambiar película, espesor, área o masa</td></tr>
+      <tr><td>Hay una cadena de pérdidas (Bloque 5)</td><td>Invertir en la etapa que pierde más valor: <span class="ui">«Venta al menudeo» … (36.5 % del total)</span> con la cadena del jitomate</td></tr>
+      <tr><td>El daño mecánico (Bloque 5) tiene la curva de incidencia</td><td>Mantener las caídas por debajo de la altura que daña al 10 % de los frutos y acolchar los puntos de transferencia</td></tr>
+      <tr><td>La hedónica (Bloque 6) tiene un producto preferido</td><td>Destacarlo (<span class="ui">«Altura lavado»</span>) y usar las penalidades para ajustar a los demás</td></tr>
+      <tr><td>El ambiente del almacén (Bloque 8) da más de 2 % de pérdida de agua por semana</td><td>Subir la humedad relativa, bajar la temperatura del producto o usar un empaque que frene la transpiración</td></tr>
+      <tr><td>Las cajas (Bloque 8) tienen menos de 5 % de área abierta en alguna cara</td><td>El enfriamiento con aire forzado será lento</td></tr>
+      <tr><td>La compatibilidad (Bloque 8) encuentra pares incompatibles</td><td>Separar los productos por temperatura o por etileno</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Dos recomendaciones que conviene revisar</div>
+    <p><b>La de la energía de activación usa las constantes de la pestaña <span class="ui">Temperatura</span></b>, no las del ajuste cinético. Esa pestaña abre con unas k escritas de antemano que dan Eₐ = 88 kJ/mol; si quieres la del mango ajustado (unos 84 kJ/mol), pulsa antes <span class="ui">Llevar las k al análisis de temperatura →</span> en <span class="ruta">Bloque 3<span class="sep">›</span>Modelos cinéticos</span> (capítulo 3). <b>Las de la atmósfera modificada, la cadena y la compatibilidad aparecen aunque no hayas tocado esas herramientas</b>, porque abren con valores escritos: sin datos cargados, la tarjeta ya recomienda invertir en «Venta», la última etapa de la cadena de partida (48.3 % del valor perdido). Bórralas mentalmente, o desmarca sus secciones en el informe, si no corresponden a tu trabajo.</p>
+  </div>
+  <p>La recomendación del daño mecánico nombra la altura que daña al 10 % de los frutos, pero no da su valor: búscalo en <span class="ruta">Bloque 5<span class="sep">›</span>Daño mecánico</span> (capítulo 5). Sin resultados, la tarjeta dice <span class="ui">Aún no hay resultados de los que sacar recomendaciones.</span></p>
+
+  <!-- 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>Las figuras, el estudio y el editor</h2>
+  <p class="lead">Las figuras del informe son las mismas de la app. Si las necesitas sueltas —para una tesis, un artículo o una presentación—, cada una se descarga desde su recuadro, y se pule en el estudio de figuras o en su editor.</p>
+  <p>En la esquina de cada figura hay dos descargas rápidas: <span class="ui">Descargar SVG</span>, un vector que se edita en cualquier programa de dibujo, y <span class="ui">Descargar PNG a 300 ppp</span>, una imagen de 170 mm de ancho —el de una página de revista— con su resolución escrita en el archivo. Las dos llevan los colores del tema claro. Muchas figuras tienen además <span class="ui">Datos de la figura (CSV)</span>, con los números que se dibujaron. Al pasar el puntero aparecen dos botones más: <span class="ui">✎</span> (<span class="ui">Editar esta figura: títulos, ejes, series, leyenda, textos y anotaciones</span>) y el del lápiz con regla (<span class="ui">Abrir en el estudio de figuras: pantalla dividida para editar y exportar</span>). La búsqueda <code>Ctrl + K</code> también encuentra las figuras por su título y las abre en el estudio.</p>
+
+  <figure class="w80">
+    <div class="marco"><img src="../img/b9-estudio.png" alt="El estudio de figuras con la curva de firmeza del mango a tres temperaturas, la silueta de su tamaño de salida y el inspector a la derecha con los ajustes de la figura y la edición fina"></div>
+    <figcaption><b>Figura 9.4.</b> La cinética de la firmeza del mango de ejemplo (<span class="ruta">Bloque 3<span class="sep">›</span>Modelos cinéticos</span>) en el estudio de figuras. Debajo de la figura, su tamaño de salida: 85 × 49.4 mm a 600 ppp, 2008 × 1166 píxeles; la línea punteada de arriba marca el ancho de columna y media de una revista (114 mm).</figcaption>
+  </figure>
+  <p>El estudio es común a toda la suite. Pone la figura a la izquierda, a escala, y el inspector a la derecha. La barra de arriba deshace y rehace, compara el antes y el ahora, acerca y aleja (<span class="ui">Ajustar</span> la deja del tamaño de la pantalla), muestra una regla, aplica <span class="ui">Preajustes</span> de un clic y exporta con <span class="ui">Exportar</span>; otros botones acomodan el inspector y <span class="ui">Cerrar estudio</span> vuelve a la app. El inspector empieza con <span class="ui">Buscar un control…</span> y tiene estas secciones:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.15in">Sección</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Ajustes de la figura</span></td><td>Los controles que la figura tiene en su bloque: aquí, las descargas CSV y XLSX de las tablas de la tarjeta y <span class="ui">Llevar las k al análisis de temperatura →</span></td></tr>
+      <tr><td><span class="ui">Edición fina de esta figura (✎ de la app)</span></td><td>El editor de la figura, acoplado, con sus pestañas <span class="ui">General</span>, <span class="ui">Ejes y rejilla</span>, <span class="ui">Series</span>, <span class="ui">Leyenda</span>, <span class="ui">Textos</span> y <span class="ui">Anotaciones</span>: título, subtítulo y nota al pie dentro de la figura, tipografía, tamaño de los textos, grosor de las líneas, tamaño de los puntos, fondo y marco</td></tr>
+      <tr><td><span class="ui">Paleta y color</span></td><td>Cambia los colores de las series por una paleta (<span class="ui">LABG oro y negro</span>, <span class="ui">Okabe e Ito</span>, <span class="ui">Viridis (ordenada)</span>, <span class="ui">Grises</span>…) y simula cómo la ve una persona con daltonismo (sólo en pantalla)</td></tr>
+      <tr><td><span class="ui">Texto y líneas</span>, <span class="ui">Leyenda</span></td><td>Ajustes del estudio para los textos y la leyenda; en las figuras de la app, la leyenda se acomoda desde la pestaña <span class="ui">Leyenda</span> del editor</td></tr>
+      <tr><td><span class="ui">Tamaño y exportación</span></td><td><span class="ui">Formato</span> PNG, SVG, PDF o TIFF; <span class="ui">Ancho</span> 85, 114 o 180 mm (o en pulgadas); <span class="ui">Resolución</span> 300, 600 o 1200 ppp; <span class="ui">Fondo</span> blanco, como se ve o transparente. Avisa si el texto queda demasiado chico para una revista</td></tr>
+      <tr><td><span class="ui">Preajustes</span>, <span class="ui">Historial</span></td><td>Combinaciones listas de tamaño y estilo, y la lista de los cambios hechos</td></tr>
+    </tbody>
+  </table>
+  <p>El pie del estudio recuerda los atajos: <span class="ui">Clic en la figura: su sección · Doble clic en un texto: cambiarlo · Ctrl + rueda: zoom · B: antes y ahora · ?: atajos</span>. Los cambios del estudio y del editor sólo afectan a cómo se ve la figura, nunca a los datos ni a los cálculos.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>El tamaño del texto al exportar</div>
+    <p>Una figura de la app reducida a 85 mm deja textos de unos 4 pt, y el estudio lo advierte (<span class="ui">las revistas suelen pedir 6 a 8 pt</span>). Antes de exportar para una revista, sube el tamaño de los textos en el editor o usa un preajuste.</p>
+  </div>
+
+  <!-- 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>Guardar y abrir el proyecto</h2>
+  <p>La app no guarda tus datos entre una sesión y otra: cada vez que la abres empieza vacía. La tarjeta <span class="ui">Proyecto</span> resuelve eso: <span class="ui">Guarda en un archivo JSON las tablas que cargaste, las columnas que elegiste, las tablas editadas y los ajustes. Al abrirlo, la app recalcula todo. El archivo se queda en tu equipo.</span></p>
+  <ul>
+    <li><b><span class="ui">⤓ Guardar proyecto</span></b> descarga <code>proyecto_postharvestpro_</code><i>fecha</i><code>.json</code> con las tablas de todas las herramientas que leyeron datos (con el papel de cada columna), todas las tablas editables (escalas, calibres, cadena, películas, productos…), el valor de cada campo y cada selector de los bloques 2 a 8, el idioma y los datos de la portada del informe.</li>
+    <li><b><span class="ui">Abrir proyecto…</span></b> lee ese archivo, devuelve cada valor a su lugar y vuelve a correr todos los análisis. Al terminar dice cuánto restauró: <span class="ui">Proyecto abierto: …</span> tablas de datos, tablas editadas y ajustes. Si el archivo no es de la app, avisa: <span class="ui">El archivo no es un JSON válido.</span> o <span class="ui">El archivo no es un proyecto de PostHarvestPro.</span></li>
+  </ul>
+  <p>No hay atajo de teclado para guardar: se hace con el botón. El proyecto no guarda las figuras ni el informe, que se rehacen al abrirlo. Si al cerrar la pestaña ya habías trabajado, la app te advierte que perderás lo que no guardaste.</p>
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✓</span>Un proyecto por ensayo</div>
+    <p>Guarda un proyecto por ensayo o por lote, con la fecha en el nombre. Es un archivo de texto pequeño que se manda por correo: quien lo abra en su propia copia de PostHarvestPro ve exactamente tus resultados y puede revisar cada decisión, de las columnas elegidas a los límites de los calibres.</p>
+  </div>
+
+  <!-- 9.7 -->
+  <h2 id="s9-7"><span class="num">9.7</span>Cómo citar PostHarvestPro</h2>
+  <p>La última tarjeta repite la cita de la portada (sección 1.8), sin botones de copiar: la referencia en el idioma de la interfaz y la entrada BibTeX.</p>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro: fisiología y tecnología poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador</i> (versión 1.0.0) [Programa de cómputo]. https://luisangelbg.github.io/PostHarvestPro/</div>
+  <p>La entrada BibTeX lleva la clave <code>barreraguzman2026postharvestpro</code>, el título en inglés, la versión, el año, la licencia <code>GPL-3.0-or-later</code> y la dirección. La cita todavía no tiene DOI; se añadirá cuando el programa se publique con uno. Cita además el método de cada resultado, que da su línea <span class="ui">Método y fuente:</span> y la sección <b>Métodos y referencias</b> del informe.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión: qué sacar de la app</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> vas a entregar un reporte a un productor o a un cliente</td><td><b>entonces</b> genera el informe sólo con tus secciones, revisa las recomendaciones y guárdalo como PDF.</td></tr>
+      <tr><td><b>Si</b> una figura va a una tesis o a una revista</td><td><b>entonces</b> expórtala desde el estudio: PDF o SVG si se va a editar, PNG o TIFF a 600 ppp si piden imagen, con el texto a 6–8 pt.</td></tr>
+      <tr><td><b>Si</b> necesitas los números en una hoja de cálculo</td><td><b>entonces</b> usa los botones <span class="ui">⤓ CSV</span> o <span class="ui">⤓ XLSX</span> de cada tabla, o <span class="ui">Datos de la figura (CSV)</span>.</td></tr>
+      <tr><td><b>Si</b> vas a seguir otro día o a compartir el análisis</td><td><b>entonces</b> guarda el proyecto.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">El informe y el proyecto se quedan en tu equipo; nada se envía a ningún servidor.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p><b>El informe trae secciones que no trabajé.</b> Son las de las herramientas que abren con valores escritos (sección 9.1); desmárcalas y vuelve a generar. <b>El informe no muestra un cambio reciente.</b> La vista previa es una foto del momento: pulsa otra vez <span class="ui">Generar el informe</span>. <b>Los botones de descargar e imprimir están apagados.</b> Se encienden después de generar el informe. <b>El proyecto no abre.</b> El archivo no es un proyecto de PostHarvestPro o se dañó al editarlo a mano; ábrelo con un editor de texto y comprueba que contenga la línea <code>"app": "PostHarvestPro"</code>. <b>Al abrir un proyecto falta una tabla.</b> Si la herramienta cambió de versión, alguna columna o ajuste puede no coincidir; vuelve a cargar esa tabla y guarda un proyecto nuevo.</p>
+  </div>
+</section>
+
+</body>
+</html>

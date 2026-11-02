@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-2" data-pestana="2" data-orden="2" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">2</div>
+    <div class="cap-etiqueta">Capítulo dos · Bloque 2</div>
+    <h1 data-corto="Calidad y madurez">Calidad y madurez</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Medir es el primer paso de cualquier trabajo de poscosecha: cuánto se ablandó el fruto, cuánto azúcar y cuánta acidez tiene, de qué color está, qué tanto daño muestra y de qué tamaño es. El Bloque 2 resume esas mediciones por lote y por tiempo, convierte y compara colores en CIELAB, resuelve las cuentas de laboratorio de todos los días y lleva las escalas de daño y los calibres a índices y porcentajes. Sus resultados se leen solos o pasan al Bloque 3, que modela su velocidad, y al 7, que decide si las diferencias son reales.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k2"></span><span class="k3"></span><span class="k7"></span></div>
+    <ul class="cap-contenido">
+      <li><b>2.1</b>La entrada de datos de cada herramienta</li>
+      <li><b>2.2</b>Resumen de calidad</li>
+      <li><b>2.3</b>Color: conversor e índices</li>
+      <li><b>2.4</b>Diferencia entre dos colores y el color de tus datos</li>
+      <li><b>2.5</b>Acidez, humedad, firmeza y pérdida de peso</li>
+      <li><b>2.6</b>Escalas de madurez y daño</li>
+      <li><b>2.7</b>Calibres</li>
+    </ul>
+  </div>
+
+  <p>El título del bloque lo resume en una línea: <span class="ui">Índices de calidad, color CIELAB, calculadoras de laboratorio, escalas y calibres</span>. Sus cinco pestañas son <span class="ui">Resumen de calidad</span>, <span class="ui">Color</span>, <span class="ui">Acidez, humedad y firmeza</span>, <span class="ui">Escalas de madurez y daño</span> y <span class="ui">Calibres</span>. Tres de ellas leen una tabla y las otras dos se llenan escribiendo; todas se recalculan en cuanto cambias un valor. El hilo de este capítulo es el mango de ejemplo: 72 frutos simulados, cuatro por temperatura y día, guardados a 13, 20 y 25 °C.</p>
+
+  <!-- 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>La entrada de datos de cada herramienta</h2>
+  <p class="lead">Todas las herramientas de la app que analizan una tabla —del resumen de calidad a los ensayos del Bloque 7— reciben los datos en un mismo recuadro. Se explica aquí una vez; los demás capítulos sólo dicen qué papeles pide cada herramienta.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b2-entrada.png" alt="La tarjeta Datos del ensayo con el mango de ejemplo cargado: la franja del ejemplo, los botones para abrir o pegar una tabla, los ocho papeles con sus columnas y el enlace Ver los datos">
+      <span class="marca" style="left:3.7%;top:26.2%">1</span>
+      <span class="marca" style="left:64.9%;top:27.5%">2</span>
+      <span class="marca" style="left:78.6%;top:27.5%">3</span>
+      <span class="marca" style="left:2.4%;top:40.8%">4</span>
+      <span class="marca" style="left:29.6%;top:40.8%">5</span>
+      <span class="marca" style="left:43.6%;top:40.8%">6</span>
+      <span class="marca" style="left:2.2%;top:53.2%">7</span>
+      <span class="marca" style="left:2.2%;top:78.6%">8</span>
+      <span class="marca" style="left:2.2%;top:92.1%">9</span>
+    </div>
+    <figcaption><b>Figura 2.1.</b> <span class="ruta">Bloque 2<span class="sep">›</span>Resumen de calidad<span class="sep">›</span>Datos del ensayo</span> con el mango de ejemplo cargado. Los números corresponden a la lista de abajo.</figcaption>
+  </figure>
+  <ul class="leyenda-marcas">
+    <li><span class="n">1</span><b>La franja del ejemplo.</b> El nombre del conjunto, el sello <span class="ui">SIMULADO</span> y su descripción. Está siempre, aunque no lo cargues: dice qué forma tiene una tabla que la herramienta entiende.</li>
+    <li><span class="n">2</span><b>Cargar ejemplo.</b> Carga el conjunto y corre el análisis. Es lo que pulsan por ti los botones <span class="ui">Abrir en …</span> de la portada.</li>
+    <li><span class="n">3</span><b>⤓ CSV del ejemplo.</b> Descarga la tabla del ejemplo; sirve de plantilla para la tuya.</li>
+    <li><span class="n">4</span><b>Abrir archivo (CSV, TXT, XLSX, ODS).</b> Lee un archivo de tu equipo: CSV, TSV o TXT separados por coma, punto y coma o tabulador, o un libro XLSX, XLSM u ODS. Si el libro tiene varias hojas, a la derecha aparece un selector para elegir cuál leer.</li>
+    <li><span class="n">5</span><b>Pegar una tabla.</b> Abre un recuadro donde pegas las celdas copiadas de una hoja de cálculo, con los nombres de las columnas en la primera fila, y las lees con <span class="ui">Usar la tabla pegada</span>.</li>
+    <li><span class="n">6</span><b>…o suelta aquí el archivo.</b> Arrastra el archivo desde tu explorador y suéltalo en el recuadro punteado.</li>
+    <li><span class="n">7</span><b>Los papeles.</b> Una lista por cada dato que la herramienta necesita, con todas las columnas de la tabla. La app propone la que corresponde por su nombre; tú la confirmas o la cambias. Los papeles marcados <span class="ui">(opcional)</span> pueden quedar en <span class="ui">— ninguna —</span>.</li>
+    <li><span class="n">8</span><b>Un papel de varias columnas.</b> Algunas herramientas piden varias columnas para un mismo papel, con una casilla por columna; aquí, <span class="ui">Atributos para resumir</span>.</li>
+    <li><span class="n">9</span><b>Ver los datos (72 × 13).</b> Despliega la tabla leída, con su número de filas y de columnas, para comprobar que se leyó bien (muestra las primeras 200 filas).</li>
+  </ul>
+  <p>Al cargar una tabla, el análisis corre solo, y vuelve a correr cada vez que cambias una columna. Si falta un papel obligatorio, la app no calcula y lo dice debajo de los botones: <span class="ui">Falta elegir la columna de: …</span>, con el nombre del papel. Otros avisos del mismo lugar son <span class="ui">La tabla no tiene filas con datos.</span> y <span class="ui">No se pudo analizar: …</span>, seguido de la causa.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Siempre en formato largo</div>
+    <p>Una fila por unidad observada —un fruto, un frasco, un consumidor con un producto— y una columna por variable. El mango de ejemplo tiene una fila por fruto con su <code>temperatura</code>, su <code>dia</code> y sus atributos; no una columna por día. Las celdas vacías, <code>NA</code> o <code>—</code> se toman como faltantes.</p>
+  </div>
+
+  <h3>Lo que tienen en común los resultados</h3>
+  <p>Debajo de los datos, cada herramienta muestra sus resultados con las mismas piezas, que en el resto del manual sólo se nombran:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Pieza</th><th>Qué es y qué se hace con ella</th></tr></thead>
+    <tbody>
+      <tr><td><b>Mosaicos</b></td><td>Las cifras que importan, en recuadros con su rótulo y una línea de detalle. Un mosaico con borde de color llama la atención: ámbar para un aviso o el peor caso, verde para el mejor</td></tr>
+      <tr><td><b>Lectura</b></td><td>Un recuadro crema con borde verde que dice en palabras qué significan los números para el producto</td></tr>
+      <tr><td><b>Figuras</b></td><td>Cada una en su recuadro con título. En su esquina, <span class="ui">Descargar SVG</span> (flecha), <span class="ui">Descargar PNG a 300 ppp</span> (imagen) y, si la figura lo trae, <span class="ui">Datos de la figura (CSV)</span> (cuadrícula). Al pasar el puntero aparecen además <span class="ui">✎</span>, el editor de la figura, y el botón del estudio de figuras (capítulo 9, sección 9.5)</td></tr>
+      <tr><td><b>Tablas</b></td><td>Con los botones <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span> debajo, para llevarlas a una hoja de cálculo</td></tr>
+      <tr><td><b>Método y fuente:</b></td><td>La última línea: el método que se aplicó y las obras que lo definen, con autor y año (el apéndice F trae la referencia completa)</td></tr>
+    </tbody>
+  </table>
+  <p>Cada análisis que corres deja además su sección en el informe del Bloque 9 (capítulo 9), con sus figuras, su tabla y su lectura.</p>
+
+  <!-- 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>Resumen de calidad</h2>
+  <p class="lead">La primera pestaña resume cualquier conjunto de atributos de calidad por grupo y por tiempo: la media con su dispersión, la evolución de una variable y el cambio entre el primer y el último muestreo. Es la tabla que va en cualquier informe de ensayo, antes de modelar o de comparar.</p>
+  <p>La tarjeta <span class="ui">Datos del ensayo</span> pide una fila por fruto o por muestra. Todos sus papeles son opcionales: <span class="ui">Grupo</span> (temperatura, tratamiento, lote), <span class="ui">Tiempo</span>, <span class="ui">Sólidos solubles (°Brix)</span>, <span class="ui">Acidez titulable (%)</span>, <span class="ui">L*</span>, <span class="ui">a*</span>, <span class="ui">b*</span> y <span class="ui">Atributos para resumir</span>. Con los sólidos solubles y la acidez, la app calcula para cada fruto SST/AT y BrimA; con L*, a* y b*, el croma, el tono, el índice de color de cítricos y el de pardeamiento (sección 2.3). Esas variables calculadas se suman a los atributos que marques.</p>
+  <p>Con el mango, la app propone <code>temperatura</code> como grupo, <code>dia</code> como tiempo, <code>sst</code>, <code>at</code>, <code>L</code>, <code>a</code> y <code>b</code> en sus papeles y, como atributos, las columnas numéricas que quedan libres salvo las que identifican la unidad (<code>fruto</code>): <code>peso_inicial_g</code>, <code>firmeza_N</code>, <code>ph</code>, <code>perdida_peso</code> y <code>antracnosis</code>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b2-calidad.png" alt="La tarjeta Resumen por grupo y tiempo con el mango de ejemplo: los selectores Mostrar y Variable de la figura, cuatro mosaicos, la lectura y la evolución de la firmeza a 13, 20 y 25 °C"></div>
+    <figcaption><b>Figura 2.2.</b> <span class="ui">Resumen por grupo y tiempo</span> con el mango de ejemplo. La firmeza baja en las tres temperaturas, más rápido cuanto más caliente; a 20 y 25 °C el ensayo termina el día 12, a 13 °C el 21. La tabla, que sigue debajo de la figura, no se muestra.</figcaption>
+  </figure>
+  <p>Arriba de los resultados hay dos controles. <span class="ui">Mostrar</span> elige qué acompaña a la media en la tabla: <span class="ui">media ± DE</span> (por omisión), <span class="ui">media ± EE</span> o <span class="ui">media e IC 95 %</span>, que escribe el intervalo entre corchetes. <span class="ui">Variable de la figura</span> elige cuál de las variables se dibuja; abre con <code>firmeza_N</code> si existe.</p>
+  <ul>
+    <li><b>Mosaicos.</b> <span class="ui">Observaciones</span> 72; <span class="ui">Grupos</span> 3 (<code>temperatura</code>); <span class="ui">Tiempos</span> 8 (<code>dia</code>: los valores distintos de toda la tabla); <span class="ui">Variables</span> 11, con la nota <span class="ui">incluye las calculadas</span>: las cinco marcadas más SST/AT, BrimA, croma, tono y los dos índices de color.</li>
+    <li><b>Lectura.</b> El cambio de la variable de la figura entre el primer y el último tiempo de cada grupo, en valor y en porcentaje: a 13 °C la firmeza pasó de 115.8 a 31.95 N entre los días 0 y 21 (−72.4 %); a 20 °C, de 129.4 a 21.70 N entre 0 y 12 (−83.2 %); a 25 °C, de 121.5 a 4.75 N entre 0 y 12 (−96.1 %). Termina señalando el grupo que cambió más rápido, aquí el de 25, y remite al Bloque 7 para saber si las diferencias son reales y al 3 para modelar su velocidad.</li>
+    <li><b>Figura.</b> <span class="ui">Evolución de firmeza_N</span>: la media de cada grupo en cada tiempo con barras de error estándar (<span class="ui">Media ± error estándar.</span>). Si no eliges tiempo, la figura es de barras, una por grupo.</li>
+    <li><b>Tabla.</b> Una fila por grupo y tiempo —18 en el mango: ocho tiempos a 13 °C y cinco a 20 y a 25 °C—, con su <span class="ui">n</span> y una columna por variable. Por ejemplo, a 13 °C el día 0: firmeza 115.8 ± 9.79 N, SST/AT 7.39 ± 0.512 y tono 109.2 ± 1.42°; el día 21, SST/AT 54.12 ± 8.59 y tono 79.77 ± 2.01°.</li>
+  </ul>
+  <p>La línea <span class="ui">Método y fuente:</span> dice <span class="ui">Acidez titulable por titulación (AOAC 942.15) · BrimA: Jordan et al. 2001 · Color: CIE 2018; McGuire 1992</span>.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: SST/AT y BrimA</div>
+    <p>Mientras madura, el fruto acumula azúcares y consume ácidos: los sólidos solubles (SST, en °Brix) suben y la acidez titulable (AT, en % del ácido dominante) baja. Su cociente resume el sabor, pero exagera cuando la acidez es muy baja. BrimA lo corrige restando la acidez con más peso, porque la lengua la percibe con más fuerza que el azúcar (Jordan et al. 2001):</p>
+    <div class="formula">SST/AT = SST ∕ AT &nbsp;&nbsp;&nbsp;&nbsp; BrimA = SST − 2·AT</div>
+    <p>En el mango de ejemplo a 13 °C, SST/AT pasa de 7.39 a 54.12 en 21 días: el fruto se volvió mucho más dulce para el paladar.</p>
+  </div>
+
+  <!-- 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>Color: conversor e índices</h2>
+  <p class="lead">La pestaña <span class="ui">Color</span> tiene tres tarjetas. La primera, <span class="ui">Conversor de color</span>, traduce un color entre sus tres escrituras y calcula los índices que usa la literatura de poscosecha.</p>
+  <p>Su indicación dice: <span class="ui">Escribe el color en cualquiera de sus formas: L*a*b* (iluminante D65, observador de 2°), RGB de 0 a 255 o su código hexadecimal. Las otras se actualizan y aparece la muestra.</span> Los campos son <span class="ui">L*</span>, <span class="ui">a*</span>, <span class="ui">b*</span>, <span class="ui">R</span>, <span class="ui">G</span>, <span class="ui">B</span>, <span class="ui">Hexadecimal</span> y <span class="ui">Elegir</span>, que abre el selector de color del sistema. Abre con L* 62, a* 8 y b* 48, un amarillo de mango maduro.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b2-conversor.png" alt="El conversor de color con L* 62, a* 8, b* 48: el código BA8F3E, la muestra, ocho mosaicos de índices y la lectura del tono"></div>
+    <figcaption><b>Figura 2.3.</b> El <span class="ui">Conversor de color</span> con sus valores de partida: el color es <code>#BA8F3E</code> (R 186, G 143, B 62), dentro de la gama de una pantalla sRGB.</figcaption>
+  </figure>
+  <p>Debajo de los campos, la muestra del color con su código y sus coordenadas, y una nota: <span class="ui">dentro de la gama de una pantalla sRGB</span> o, si el color no se puede mostrar, <span class="ui">fuera de la gama sRGB: se muestra el más cercano con el mismo L* y h°</span>. Los ocho mosaicos con los valores de partida son:</p>
+  <table class="compacta">
+    <caption><b>Tabla 2.1.</b> Los índices del conversor para L* 62, a* 8, b* 48</caption>
+    <thead><tr><th style="width:1.9in">Mosaico</th><th class="num" style="width:0.7in">Valor</th><th>Fórmula y fuente</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Croma C*</span></td><td class="num">48.66</td><td>C* = √(a*² + b*²): la intensidad del color (McGuire 1992)</td></tr>
+      <tr><td><span class="ui">Tono h°</span></td><td class="num">80.5°</td><td>h° = atan2(b*, a*), de 0 a 360°; con su lectura, <span class="ui">amarillo</span></td></tr>
+      <tr><td><span class="ui">a*/b*</span></td><td class="num">0.167</td><td>De negativo (verde) a positivo (rojo); muy usado en jitomate y mango</td></tr>
+      <tr><td><span class="ui">Índice de cítricos (CCI)</span></td><td class="num">2.69</td><td>CCI = 1000·a* ∕ (L*·b*): negativo verde, cerca de 0 en el viraje, positivo naranja (Jiménez-Cuesta et al. 1981)</td></tr>
+      <tr><td><span class="ui">Pardeamiento (BI)</span></td><td class="num">138.8</td><td>BI = 100(x − 0.31) ∕ 0.17, con x = (a* + 1.75L*) ∕ (5.645L* + a* − 3.012b*) (Palou et al. 1999)</td></tr>
+      <tr><td><span class="ui">Blancura (WI)</span></td><td class="num">38.3</td><td>WI = 100 − √((100 − L*)² + a*² + b*²), la forma usada en productos cortados</td></tr>
+      <tr><td><span class="ui">Amarillez (YI)</span></td><td class="num">110.6</td><td>YI = 142.86·b* ∕ L*</td></tr>
+      <tr><td><span class="ui">Índice de jitomate (TCI)</span></td><td class="num">5.3</td><td>TCI = 2000·a* ∕ (L*·C*)</td></tr>
+    </tbody>
+  </table>
+  <p>La lectura traduce el tono a palabras: <span class="ui">Un tono de 80.5° se lee como amarillo en frutos que pasan del verde al amarillo, naranja o rojo; cada cultivo tiene su propia escala.</span> Las palabras salen de cortes fijos del ángulo: <b>verde</b> desde 105°, <b>verde-amarillo</b> de 85 a 105°, <b>amarillo</b> de 70 a 85°, <b>naranja</b> de 50 a 70°, <b>rojo-naranja</b> de 25 a 50° y <b>rojo</b> por debajo. Son una orientación general, no la escala de tu cultivo.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Por qué C* y h° y no a* y b* sueltos</div>
+    <p>Un mismo cambio de a* significa cosas distintas según el signo de b*, y promediar ángulos o cocientes de colores de cuadrantes distintos engaña. El croma y el tono separan lo que el ojo distingue —qué tan intenso y de qué color— y se pueden comparar entre frutos (McGuire 1992). El conversor trabaja con iluminante D65 y observador de 2°; si tu colorímetro usa otro iluminante, sus L*a*b* no son directamente comparables.</p>
+  </div>
+
+  <!-- 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>Diferencia entre dos colores y el color de tus datos</h2>
+  <h3>Diferencia entre dos colores</h3>
+  <p>La segunda tarjeta mide cuánto se distinguen dos colores. Su indicación dice <span class="ui">El color 1 es el de referencia (por ejemplo, el inicial o el de un testigo).</span> Los campos son <span class="ui">L* 1</span>, <span class="ui">a* 1</span>, <span class="ui">b* 1</span>, <span class="ui">L* 2</span>, <span class="ui">a* 2</span> y <span class="ui">b* 2</span>; abren con un verde de mango recién cosechado (64, −11, 36) y un amarillo maduro (67, 9, 52). El botón <span class="ui">Usar el color del conversor como color 2</span> copia el color de la tarjeta anterior.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b2-diferencia.png" alt="La tarjeta Diferencia entre dos colores con sus valores de partida: las dos muestras, siete mosaicos, la barra de color y la lectura"></div>
+    <figcaption><b>Figura 2.4.</b> <span class="ui">Diferencia entre dos colores</span> con los valores de partida. La barra de abajo va del verde (sin diferencia) al rojo; su marca está al final porque ΔE00 pasa de 8.</figcaption>
+  </figure>
+  <p>Los mosaicos dan las tres fórmulas de la diferencia y sus componentes: <span class="ui">ΔE*ab (1976)</span> 25.79, <span class="ui">ΔE94</span> 14.66 y <span class="ui">ΔE00 (CIEDE2000)</span> 15.45, este último con su lectura (<span class="ui">se perciben como colores distintos</span>) y resaltado cuando llega a 3.5; y <span class="ui">ΔL*</span> 3.00, <span class="ui">ΔC*</span> 15.13 y <span class="ui">Δh°</span> −26.8°, la diferencia del ángulo de tono (el color 2 es 26.8° menos verde). La lectura repite el valor de ΔE00, da los umbrales orientativos y recomienda reportar ΔE00.</p>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión: ¿se nota la diferencia de color?</div>
+    <table class="compacta">
+      <thead><tr><th style="width:1.2in">ΔE00</th><th>Lo que dice la app</th></tr></thead>
+      <tbody>
+        <tr><td>menos de 1</td><td><span class="ui">imperceptible</span></td></tr>
+        <tr><td>de 1 a 2</td><td><span class="ui">perceptible sólo para un observador entrenado</span></td></tr>
+        <tr><td>de 2 a 3.5</td><td><span class="ui">perceptible para cualquier observador</span></td></tr>
+        <tr><td>de 3.5 a 5</td><td><span class="ui">diferencia clara</span></td></tr>
+        <tr><td>5 o más</td><td><span class="ui">se perciben como colores distintos</span></td></tr>
+      </tbody>
+    </table>
+    <p class="regla-pie">Umbrales orientativos de Mokrzycki y Tatol (2011). ΔE00 corrige las distorsiones de ΔE*ab en los azules, los grises y los colores muy saturados: en el ejemplo, ΔE*ab exagera la diferencia en más de 10 unidades.</p>
+  </div>
+
+  <h3>El color de tus datos</h3>
+  <p>La tercera tarjeta lee una tabla con L*, a* y b* por fruto: <span class="ui">Columnas L*, a* y b*, con grupo y tiempo: el color medio de cada grupo en cada tiempo, su diferencia ΔE00 con el color inicial del grupo y la evolución del tono.</span> Pide <span class="ui">L*</span>, <span class="ui">a*</span> y <span class="ui">b*</span> (obligatorios) y <span class="ui">Grupo</span> y <span class="ui">Tiempo</span> (opcionales). Su <span class="ui">Cargar ejemplo</span> carga el mango.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b2-color-datos.png" alt="El color medio del mango de ejemplo por temperatura y día como una tira de colores, el cambio de color ΔE00 desde el inicio y el ángulo de tono en el tiempo"></div>
+    <figcaption><b>Figura 2.5.</b> <span class="ui">El color de tus datos</span> con el mango de ejemplo: la tira de colores medios (arriba), el cambio de color desde el día 0, con la línea de 3.5 <span class="ui">perceptible para cualquiera</span> (izquierda), y el ángulo de tono (derecha).</figcaption>
+  </figure>
+  <p>La app promedia L*, a* y b* de los frutos de cada grupo y tiempo, convierte esa media a un color de pantalla y calcula su croma, su tono y su ΔE00 respecto al primer tiempo del mismo grupo. Las tres figuras son <span class="ui">Color medio de cada grupo en cada tiempo</span> (<span class="ui">Cada celda es el promedio de L*, a* y b* convertido a sRGB.</span>), <span class="ui">Cambio de color desde el inicio (ΔE00)</span> y <span class="ui">Ángulo de tono</span>; debajo va la tabla con L*, a*, b*, C*, h°, ΔE00 y una <span class="ui">Muestra</span> del color con su código.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto: el mango cambia de color</div>
+    <p>A 13 °C el tono medio del mango baja de 109.2° el día 0 a 79.8° el día 21 —de verde a amarillo— y su ΔE00 llega a 16.96. A 25 °C el cambio es más rápido y mayor: el tono llega a 71.9° y ΔE00 a 21.81 el día 12. A las tres temperaturas la diferencia con el color inicial ya es perceptible para cualquiera (ΔE00 &gt; 3.5) desde el día 3: 3.96 a 13 °C, 6.70 a 20 °C y 10.52 a 25 °C.</p>
+  </div>
+  <p>La línea de método cita <span class="ui">CIE 2018 (CIELAB, D65) · ΔE00: Sharma et al. 2005 · C*, h°: McGuire 1992</span>.</p>
+
+  <!-- 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>Acidez, humedad, firmeza y pérdida de peso</h2>
+  <p class="lead">La pestaña <span class="ui">Acidez, humedad y firmeza</span> reúne cuatro calculadoras de laboratorio que no leen tablas: se escriben las lecturas y el resultado aparece en el acto. Abren con valores de ejemplo escritos.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b2-calculadoras.png" alt="Las cuatro calculadoras: acidez titulable, humedad y materia seca, firmeza y pérdida de peso, con sus valores de partida y sus resultados"></div>
+    <figcaption><b>Figura 2.6.</b> Las cuatro calculadoras con sus valores de partida.</figcaption>
+  </figure>
+
+  <h3>Acidez titulable</h3>
+  <p>Para una titulación con NaOH hasta pH 8.1 o hasta el vire de la fenolftaleína. Los campos son <span class="ui">NaOH gastado (mL)</span> 8.2, <span class="ui">Normalidad del NaOH</span> 0.1, <span class="ui">Muestra (g o mL)</span> 10, <span class="ui">Volumen aforado (mL)</span> y <span class="ui">Alícuota (mL)</span> —vacíos: sólo si diluiste la muestra y tomaste una parte—, <span class="ui">Ácido dominante</span> (<span class="ui">cítrico</span>, <span class="ui">málico</span>, <span class="ui">tartárico</span>, <span class="ui">oxálico</span>, <span class="ui">láctico</span> o <span class="ui">acético</span>) y <span class="ui">Sólidos solubles (°Brix)</span> 14.5.</p>
+  <div class="formula">AT (%) = V<sub>NaOH</sub> · N · meq · (aforo ∕ alícuota) · 100 ∕ muestra</div>
+  <p>El miliequivalente es el del ácido elegido: 0.064 para el cítrico (cítricos, mango, papaya, tomate, fresa, piña), 0.067 para el málico (manzana, pera, durazno, ciruela, plátano), 0.075 para el tartárico (uva, tamarindo), 0.045 para el oxálico, 0.090 para el láctico y 0.060 para el acético. Con los valores de partida, la acidez es <b>0.525 %</b> <span class="ui">como ácido cítrico</span>, SST/AT <b>27.6</b> (<span class="ui">índice de madurez</span>) y BrimA <b>13.45</b>. Debajo, la misma acidez <span class="ui">Expresada como otros ácidos</span>: málico 0.549 %, tartárico 0.615 %, oxálico 0.369 %, láctico 0.738 % y acético 0.492 %.</p>
+
+  <h3>Humedad y materia seca</h3>
+  <p>Con las tres pesadas de la cápsula (<span class="ui">Pesadas de la cápsula vacía, con la muestra fresca y después de secar a peso constante.</span>): <span class="ui">Cápsula vacía (g)</span> 32.415, <span class="ui">Cápsula + fresca (g)</span> 37.418 y <span class="ui">Cápsula + seca (g)</span> 33.212. Resultan <span class="ui">Humedad (base húmeda)</span> 84.07 %, <span class="ui">Materia seca</span> 15.93 % y <span class="ui">Humedad (base seca)</span> 527.7 %, es decir, gramos de agua por cada 100 g de materia seca.</p>
+
+  <h3>Firmeza</h3>
+  <p>Convierte una lectura de penetrómetro: <span class="ui">Lectura</span> 12.5, <span class="ui">Unidad</span> (N, kgf, lbf o gf; abre en kgf) y <span class="ui">Diámetro del émbolo (mm)</span> 8. Da la fuerza en N (122.58), kgf (12.500) y lbf (27.558), y la <span class="ui">Presión</span> sobre el área del émbolo, 2438.7 kPa. La presión permite comparar lecturas tomadas con émbolos distintos; la fuerza, no.</p>
+
+  <h3>Pérdida de peso</h3>
+  <p><span class="ui">Peso inicial (g)</span> 312.4, <span class="ui">Peso actual (g)</span> 298.7 y <span class="ui">Días transcurridos</span> 9 dan una <span class="ui">Pérdida de peso</span> de 4.39 %, calculada sobre el peso inicial, y 0.487 % por día. Cuando la pérdida llega a 5 %, el mosaico se pinta de ámbar y avisa que está <span class="ui">cerca del límite en que muchos frutos se arrugan</span>.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Las calculadoras no dejan sección en el informe</div>
+    <p>Son cuentas sueltas de laboratorio: sus resultados no pasan al Bloque 9. Si quieres la pérdida de peso o la acidez de un ensayo completo en el informe, ponlas como columnas de tu tabla y analízalas en el <span class="ui">Resumen de calidad</span> o en el Bloque 7.</p>
+  </div>
+
+  <!-- 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>Escalas de madurez y daño</h2>
+  <p class="lead">Muchos atributos se califican a ojo con una escala de clases: el grado de madurez por el color de la cáscara, la severidad de una mancha, el avance de una pudrición. La pestaña <span class="ui">Escalas de madurez y daño</span> convierte esas calificaciones en un índice ponderado, la incidencia y el porcentaje de fruta comercializable de cada lote.</p>
+  <p>La tarjeta <span class="ui">La escala</span> trae una tabla editable con el <span class="ui">Valor</span> y la <span class="ui">Descripción</span> de cada clase (<span class="ui">Cada clase con su valor (0 = sano o el primer grado) y su descripción. Edítala o elige una plantilla.</span>). Abre con la plantilla <span class="ui">Daño 0–4</span> —<span class="ui">Sano</span>, <span class="ui">Leve (&lt; 5 % de la superficie)</span>, <span class="ui">Moderado (5–15 %)</span>, <span class="ui">Severo (15–30 %)</span> y <span class="ui">Muy severo (&gt; 30 %)</span>—; las otras dos son <span class="ui">Madurez 1–5</span> (de <span class="ui">Verde maduro</span> a <span class="ui">Sobremaduro</span>) y <span class="ui">Pudrición 0–3</span> (de <span class="ui">Sin pudrición</span> a <span class="ui">Fruto podrido</span>). <span class="ui">+ Agregar fila</span> y <span class="ui">×</span> añaden o quitan clases. Debajo, <span class="ui">Tolerancia comercial (clase máxima aceptada)</span> elige la clase más alta que todavía se vende; abre en la segunda clase, aquí la 1.</p>
+  <p>La tarjeta <span class="ui">Los datos</span> acepta dos entradas. La primera es una tabla con <span class="ui">Clase de cada fruto</span> (obligatoria) y <span class="ui">Grupo</span> y <span class="ui">Tiempo</span> (opcionales); cada combinación de grupo y tiempo es un lote. La segunda, en el desplegable <span class="ui">…o escribe conteos por lote</span>, son los conteos escritos a mano, un lote por línea —por ejemplo <code>Lote A: 50, 20, 15, 10, 5</code>—, que se leen con <span class="ui">Usar los conteos</span>. Si alguna calificación no corresponde a ninguna clase de la escala, un aviso dice cuántas quedaron fuera de la cuenta.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b2-escalas.png" alt="Índices de la escala con la antracnosis del mango de ejemplo: cuatro mosaicos, la lectura, la distribución por clase de los 18 lotes y el índice ponderado en el tiempo por temperatura"></div>
+    <figcaption><b>Figura 2.7.</b> <span class="ui">Índices de la escala</span> con la antracnosis del mango de ejemplo (escala <span class="ui">Daño 0–4</span>, tolerancia en la clase 1). Cada lote es una temperatura en un día. La tabla, debajo de las figuras, no se muestra.</figcaption>
+  </figure>
+  <p>Con el mango, la app toma <code>antracnosis</code> como clase, <code>temperatura</code> como grupo y <code>dia</code> como tiempo: 18 lotes de cuatro frutos. Los mosaicos dicen <span class="ui">Lotes o grupos</span> 18, <span class="ui">Unidades evaluadas</span> 72, <span class="ui">Mayor índice</span> 50.0 (<span class="ui">25 · dia 12</span>, en ámbar) y <span class="ui">Más comercializable</span> 100.0 % (el primero que lo alcanza, <span class="ui">13 · dia 0</span>, en verde). La lectura agrega que, con la tolerancia en la clase 1, la fruta comercializable va de 50.0 % a 100.0 %. Las figuras son <span class="ui">Distribución por clase</span>, una barra apilada por lote, y, cuando hay grupo y tiempo, <span class="ui">Índice ponderado en el tiempo</span>, una línea por grupo. La tabla da para cada lote su N, el porcentaje de cada clase, el <span class="ui">Índice</span>, el <span class="ui">Grado medio</span>, la <span class="ui">Incidencia</span> y el porcentaje <span class="ui">Comercializable</span>.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve: el índice de McKinney</div>
+    <p>El índice ponderado pesa cada fruto por su clase y lo expresa como porcentaje del daño máximo posible (McKinney 1923):</p>
+    <div class="formula">Índice = 100 · Σ(clase · n) ∕ (N · clase máxima)</div>
+    <p>El grado medio es Σ(clase · n) ∕ N; la incidencia, el porcentaje de unidades por encima de la clase más baja; y la fruta comercializable, el porcentaje en la clase de tolerancia o por debajo. En el lote de 25 °C del día 12, dos frutos en la clase 1 y dos en la 3 dan 100 · (2·1 + 2·3) ∕ (4 · 4) = 50.0, una incidencia de 100 % y 50 % comercializable.</p>
+  </div>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Con escalas que empiezan en 1</div>
+    <p>La lectura dice que el índice va de 0 (todo en la clase más baja) a 100. Eso es cierto para las escalas que empiezan en 0, como las de daño y pudrición. Con <span class="ui">Madurez 1–5</span>, la fórmula divide entre la clase máxima, así que un lote entero en la clase 1 da 20, no 0. Compara índices sólo entre lotes calificados con la misma escala.</p>
+  </div>
+  <p>La línea de método es <span class="ui">Índice ponderado: McKinney 1923</span>. Al cambiar la tolerancia, el análisis se rehace con los mismos datos. En cambio, elegir otra plantilla o editar la escala sólo actualiza la lista de la tolerancia: los resultados de abajo siguen siendo los de la escala anterior hasta que cambies la tolerancia o vuelvas a cargar los datos (o a pulsar <span class="ui">Usar los conteos</span>). Hazlo siempre después de tocar la escala.</p>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>La escala debe corresponder a tus calificaciones</div>
+    <p>Si aplicas <span class="ui">Madurez 1–5</span> a la antracnosis del mango, calificada de 0 a 4, el aviso dice <span class="ui">46 calificaciones no corresponden a ninguna clase de la escala y no se cuentan.</span>, sólo se evalúan 26 unidades y los lotes que se quedan sin ninguna salen con el índice y el porcentaje comercializable en blanco (<span class="ui">—</span>), también en la lectura. Elige o escribe la escala con la que calificaste.</p>
+  </div>
+
+  <!-- 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>Calibres</h2>
+  <p class="lead">La última pestaña clasifica los frutos por tamaño: cuántos caen en cada calibre, cuál es el más frecuente y cuántos quedan fuera de las clases.</p>
+  <p>La tarjeta <span class="ui">Las clases</span> trae una tabla editable con <span class="ui">Calibre</span>, <span class="ui">Mínimo</span> y <span class="ui">Máximo</span>: <span class="ui">Cada calibre con su mínimo (incluido) y su máximo (excluido, salvo en la última clase), en la unidad de tus datos. Las plantillas son orientativas: usa las de tu norma.</span> Hay tres plantillas:</p>
+  <table class="compacta">
+    <caption><b>Tabla 2.2.</b> Las plantillas de calibres</caption>
+    <thead><tr><th style="width:1.75in">Plantilla</th><th>Clases</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Por peso (g)</span></td><td><span class="ui">Pequeño</span> 0–200, <span class="ui">Mediano</span> 200–280, <span class="ui">Grande</span> 280–360 y <span class="ui">Extra grande</span> 360–600 g (la de partida)</td></tr>
+      <tr><td><span class="ui">Frutos por caja de 4 kg</span></td><td><span class="ui">Calibre 8</span> a <span class="ui">Calibre 20</span>: el calibre k corresponde a frutos de unos 4000 ∕ k g, y los límites son los puntos medios entre calibres vecinos (Calibre 14: 268–310 g)</td></tr>
+      <tr><td><span class="ui">Por diámetro (mm)</span></td><td><span class="ui">&lt; 57 mm</span>, <span class="ui">57–67 mm</span>, <span class="ui">67–77 mm</span>, <span class="ui">77–87 mm</span> y <span class="ui">&gt; 87 mm</span></td></tr>
+    </tbody>
+  </table>
+  <p>La tarjeta <span class="ui">Los frutos</span> pide <span class="ui">Peso o diámetro de cada fruto</span> y, opcional, un <span class="ui">Grupo</span> (lote, variedad, origen). Con el mango, la app toma <code>peso_inicial_g</code>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b2-calibres.png" alt="Distribución por calibre del peso inicial del mango de ejemplo: cuatro mosaicos, la lectura, las barras de los cuatro calibres y la tabla"></div>
+    <figcaption><b>Figura 2.8.</b> <span class="ui">Distribución por calibre</span> del peso inicial de los 72 mangos del ejemplo, con la plantilla <span class="ui">Por peso (g)</span>.</figcaption>
+  </figure>
+  <p>Los mosaicos dicen <span class="ui">Frutos</span> 72, <span class="ui">Media</span> 298.9 g (DE 36.8), <span class="ui">Calibre más frecuente</span> <span class="ui">Grande</span> y <span class="ui">Fuera de las clases</span> 0. La lectura reparte los frutos: <span class="ui">Grande</span> 59.7 %, <span class="ui">Mediano</span> 36.1 %, <span class="ui">Extra grande</span> 4.2 % y <span class="ui">Pequeño</span> 0.0 %. Con la plantilla <span class="ui">Frutos por caja de 4 kg</span>, el calibre más frecuente es el 14 (44.4 %), seguido del 12 (36.1 %). Si eliges un grupo, la figura muestra una serie de barras por grupo y la tabla una fila por grupo. La línea de método recuerda que las clases son editables y las plantillas orientativas (Kader 2002).</p>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Las clases deben estar en la unidad de tus datos</div>
+    <p>Si clasificas pesos con la plantilla <span class="ui">Por diámetro (mm)</span>, los 72 mangos quedan fuera de las clases: el mosaico <span class="ui">Fuera de las clases</span> dice 72 y pide <span class="ui">revisa los límites</span>. En ese caso la lectura y el mosaico del calibre más frecuente nombran la primera clase con 0.0 %; no les hagas caso hasta corregir las clases.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión: qué herramienta del Bloque 2 usar</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> tienes atributos medidos en varios lotes y tiempos</td><td><b>entonces</b> <span class="ui">Resumen de calidad</span>; después, el Bloque 3 para su velocidad y el 7 para comparar.</td></tr>
+      <tr><td><b>Si</b> tienes lecturas L*a*b* por fruto</td><td><b>entonces</b> <span class="ui">El color de tus datos</span>, y reporta C*, h° y ΔE00, no a* y b* sueltos.</td></tr>
+      <tr><td><b>Si</b> ΔE00 entre dos tratamientos es menor que 2</td><td><b>entonces</b> el consumidor difícilmente nota la diferencia de color, aunque sea estadísticamente significativa.</td></tr>
+      <tr><td><b>Si</b> calificaste a ojo con clases</td><td><b>entonces</b> <span class="ui">Escalas de madurez y daño</span>, con la tolerancia de tu mercado.</td></tr>
+      <tr><td><b>Si</b> la pérdida de peso pasa de 5 %</td><td><b>entonces</b> revisa la humedad del almacén y el empaque (Bloque 8).</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Los umbrales son orientativos; la norma de tu producto y tu mercado manda.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p><b>El resumen tiene una fila por fruto y no por tiempo.</b> La columna del tiempo está en <span class="ui">— ninguna —</span> o el grupo apunta a la columna del fruto; revisa los papeles. <b>Aparecen columnas de identificación entre las variables.</b> Desmarca su casilla en <span class="ui">Atributos para resumir</span>. <b>Los colores salen raros.</b> Revisa que L*, a* y b* no estén cruzados (L* va de 0 a 100) y que tu colorímetro use D65 y 2°. <b>La acidez sale diez veces mayor.</b> Diluiste la muestra y no escribiste el aforo y la alícuota, o al revés. <b>Un lote de la escala sale con el índice en blanco.</b> Sus calificaciones no coinciden con los valores de las clases (por ejemplo, 1.5 en una escala entera); el aviso de <span class="ui">Los datos</span> dice cuántas se descartaron. <b>Todos los frutos quedan fuera de los calibres.</b> Las clases están en otra unidad o se traslapan; corrige los mínimos y máximos.</p>
+  </div>
+</section>
+
+</body>
+</html>

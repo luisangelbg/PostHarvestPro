@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-1" data-pestana="1" data-orden="1" style="--acento: var(--b1)">
+  <div class="cap-apertura">
+    <div class="cap-num">1</div>
+    <div class="cap-etiqueta">Capítulo uno · Bloque 1</div>
+    <h1 data-corto="Inicio">Inicio: la ruta, los ejemplos y los métodos</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El Bloque 1 es la portada de la app. No calcula nada: dice en una pantalla qué hace PostHarvestPro, resume la ruta de un producto desde la cosecha hasta el consumidor, presenta los ocho bloques de trabajo, abre los diez conjuntos de ejemplo en la herramienta que les corresponde, lista los métodos con su fuente, explica en lenguaje llano la fisiología que sostiene los cálculos y da la cita del programa. Es el lugar al que se vuelve para empezar algo nuevo o para recordar dónde está cada cosa.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k1"></span><span class="k2"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>1.1</b>La portada</li>
+      <li><b>1.2</b>Cómo funciona: la ruta en siete pasos</li>
+      <li><b>1.3</b>Los nueve bloques</li>
+      <li><b>1.4</b>Datos de ejemplo</li>
+      <li><b>1.5</b>Métodos y fuentes</li>
+      <li><b>1.6</b>La poscosecha en breve</li>
+      <li><b>1.7</b>Lo que no hace</li>
+      <li><b>1.8</b>Referencias y cómo citar</li>
+    </ul>
+  </div>
+
+  <!-- 1.1 -->
+  <h2 id="s1-1"><span class="num">1.1</span>La portada</h2>
+  <p class="lead">Al abrir <code>index.html</code>, la app arranca en el Bloque 1. A diferencia de los demás bloques, éste no tiene pestañas ni tarjetas de datos: es una página de presentación que se recorre de arriba abajo, y la lista <span class="ui">En este bloque</span> de la derecha lleva a cada una de sus secciones.</p>
+  <p>Arriba está el recuadro de presentación. Un rótulo pequeño dice la materia de la app, <span class="ui">Fisiología y tecnología poscosecha</span>; debajo va el lema, <span class="ui">Mide la calidad, predice la vida de anaquel y decide con datos</span>, y un párrafo que enumera lo que hace, de los índices de calidad y el color a las calculadoras de empaque y almacén, y termina con dos promesas: cada resultado dice su método y su fuente, y los datos no salen de tu computadora.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b1-heroe.png" alt="El recuadro de presentación de la portada: el lema, los cuatro botones, las cuatro insignias y la ilustración de cinco frutos que maduran sobre las curvas de firmeza a tres temperaturas">
+      <span class="marca" style="left:5.4%;top:64.7%">1</span>
+      <span class="marca" style="left:5.4%;top:71.3%">2</span>
+      <span class="marca" style="left:5.4%;top:77.9%">3</span>
+      <span class="marca" style="left:27.4%;top:77.9%">4</span>
+      <span class="marca" style="left:4.2%;top:88.8%">5</span>
+      <span class="marca" style="left:51.6%;top:33.8%">6</span>
+    </div>
+    <figcaption><b>Figura 1.1.</b> El recuadro de presentación de la portada. Los números corresponden a la lista de abajo.</figcaption>
+  </figure>
+  <ul class="leyenda-marcas">
+    <li><span class="n">1</span><b>Empezar con un ejemplo →</b> Abre <span class="ruta">Bloque 2<span class="sep">›</span>Resumen de calidad</span> y carga en él el mango de ejemplo: la manera más rápida de ver la app con datos (capítulo 2).</li>
+    <li><span class="n">2</span><b>Ver los datos de ejemplo.</b> Baja a la sección <span class="ui">Datos de ejemplo</span> de la misma portada (sección 1.4).</li>
+    <li><span class="n">3</span><b>Métodos y fuentes.</b> Baja a la lista de métodos con su cita (sección 1.5).</li>
+    <li><span class="n">4</span><b>Cómo citar.</b> Baja a la cita del programa, al final de la portada (sección 1.8).</li>
+    <li><span class="n">5</span><b>Las cuatro insignias.</b> <span class="ui">Funciona completo en tu navegador</span>, <span class="ui">Validado contra implementaciones independientes</span>, <span class="ui">Español e inglés</span> y <span class="ui">Figuras SVG y PNG a 300 ppp</span>. Son sólo rótulos; no se pulsan.</li>
+    <li><span class="n">6</span><b>La ilustración.</b> Un fruto en cinco estados de madurez —<span class="ui">Verde maduro</span>, <span class="ui">Rayado</span>, <span class="ui">Pintón</span>, <span class="ui">Maduro</span> y <span class="ui">Sobremaduro</span>— sobre la firmeza de tres lotes guardados a 13, 20 y 25 °C, con la franja del <span class="ui">límite comercial</span> y el día en que cada curva lo cruza.</li>
+  </ul>
+  <p>La ilustración lleva su pie: <span class="ui">Simulado: la firmeza cae con cinética de primer orden; a más temperatura, la vida de anaquel termina antes.</span> Es un dibujo, no un resultado: no cambia con los datos que cargues. Pero resume la idea central del programa, la que el capítulo 3 convierte en números: la misma fruta, con la misma firmeza inicial, llega al límite en días muy distintos según la temperatura a la que se guarda. Las curvas se trazan de izquierda a derecha al abrir la portada; si apagas las animaciones con el botón de destellos de la barra superior, o si tu sistema pide reducir el movimiento, aparecen ya dibujadas.</p>
+  <p>Los tres botones de abajo sólo desplazan la página. El primero, en cambio, hace lo mismo que el botón <span class="ui">Abrir en 2 · Resumen de calidad</span> de la tarjeta del mango en <span class="ui">Datos de ejemplo</span>: cambia de bloque y de pestaña, carga la tabla y deja ver los resultados.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>La portada no se borra</div>
+    <p>Cargar un ejemplo o tus propios datos no cambia nada en el Bloque 1. Lo que sí cambia es la barra de la izquierda: el número de un bloque se vuelve una palomita cuando ese bloque ya tiene un resultado. El nombre <span class="ui">PostHarvestPro</span> de la barra superior siempre regresa aquí.</p>
+  </div>
+
+  <!-- 1.2 -->
+  <h2 id="s1-2"><span class="num">1.2</span>Cómo funciona: la ruta en siete pasos</h2>
+  <p>La primera sección debajo de la presentación, <span class="ui">Cómo funciona</span>, resume el recorrido en siete recuadros numerados (figura I.5 de la introducción). Su subtítulo lo explica: <span class="ui">La ruta sigue al producto desde la cosecha hasta el consumidor. Cada bloque recibe tus datos (o un ejemplo), revisa que estén completos, calcula, explica el resultado en palabras y deja su parte en el informe.</span></p>
+  <table class="compacta">
+    <caption><b>Tabla 1.1.</b> Los siete pasos de <span class="ui">Cómo funciona</span> y el bloque que resuelve cada uno</caption>
+    <thead><tr><th style="width:0.55in">Paso</th><th style="width:1.05in">Nombre</th><th style="width:1.95in">Lo que dice la app</th><th>Dónde se hace</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td><b>Medir</b></td><td><span class="ui">calidad, color y daño</span></td><td><span class="chip k2">2</span> Calidad y madurez (capítulo 2)</td></tr>
+      <tr><td class="c">2</td><td><b>Modelar</b></td><td><span class="ui">el deterioro y la temperatura</span></td><td><span class="chip k3">3</span> Cinética y vida de anaquel</td></tr>
+      <tr><td class="c">3</td><td><b>Respirar</b></td><td><span class="ui">respiración y atmósfera</span></td><td><span class="chip k4">4</span> Respiración, etileno y atmósferas</td></tr>
+      <tr><td class="c">4</td><td><b>Cuantificar</b></td><td><span class="ui">pérdidas en la cadena</span></td><td><span class="chip k5">5</span> Pérdidas y cadena de valor</td></tr>
+      <tr><td class="c">5</td><td><b>Evaluar</b></td><td><span class="ui">con jueces y consumidores</span></td><td><span class="chip k6">6</span> Evaluación sensorial</td></tr>
+      <tr><td class="c">6</td><td><b>Comparar</b></td><td><span class="ui">tratamientos en el tiempo</span></td><td><span class="chip k7">7</span> Ensayos poscosecha</td></tr>
+      <tr><td class="c">7</td><td><b>Publicar</b></td><td><span class="ui">informe y proyecto</span></td><td><span class="chip k9">9</span> Informe y proyecto (capítulo 9)</td></tr>
+    </tbody>
+  </table>
+  <p>El Bloque 8, <span class="ui">Empaque y logística</span>, no tiene paso propio: sus cuentas de tarima, ventilación, almacén y compatibilidad acompañan a cualquiera de los pasos, como dice la sección I.8. La ruta sirve para no olvidar nada, no para imponer un orden: cada pestaña trabaja con su propia tabla y puedes entrar directo al Bloque 6 para analizar una cata sin haber pasado por los demás.</p>
+
+  <!-- 1.3 -->
+  <h2 id="s1-3"><span class="num">1.3</span>Los nueve bloques</h2>
+  <p>La sección <span class="ui">Los nueve bloques</span> tiene una tarjeta por cada bloque del 2 al 9 (el 1 es esta misma portada). Cada una lleva el número del bloque, un dibujo propio hecho por código, una etiqueta con el verbo de lo que hace, el nombre del bloque y la misma línea que la app pone debajo de su título. Un clic en cualquier parte de la tarjeta abre el bloque. El subtítulo de la sección resume la correspondencia con este manual: <span class="ui">Un bloque es un módulo de la app y un capítulo del manual. Dentro de cada uno, las pestañas separan las herramientas.</span></p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b1-bloques.png" alt="Las ocho tarjetas de los bloques 2 a 9, cada una con su número, su dibujo, su etiqueta, su nombre y su descripción"></div>
+    <figcaption><b>Figura 1.2.</b> <span class="ui">Los nueve bloques</span>. Los dibujos resumen cada bloque: un mango junto a su escala de color y la línea <span class="ui">L* a* b* · h° · ΔE</span> (2), tres curvas de deterioro que cruzan un límite (3), un frasco de respiración junto a un pico climatérico (4), una cadena que pierde producto en cada etapa (5), una gráfica de araña y tres códigos de muestra (6), barras con sus letras de comparación (7), una tarima y un termómetro a <span class="ui">4 °C</span> y <span class="ui">90 %</span> (8) y una hoja de informe (9).</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 1.2.</b> Las etiquetas de las tarjetas y el capítulo de cada bloque</caption>
+    <thead><tr><th style="width:0.55in">Bloque</th><th style="width:1.05in">Etiqueta</th><th style="width:2.1in">Nombre</th><th>Capítulo</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td><span class="ui">Medir</span></td><td><span class="ui">Calidad y madurez</span></td><td>2</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><span class="ui">Predecir</span></td><td><span class="ui">Cinética y vida de anaquel</span></td><td>3</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><span class="ui">Controlar</span></td><td><span class="ui">Respiración, etileno y atmósferas</span></td><td>4</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><span class="ui">Cuantificar</span></td><td><span class="ui">Pérdidas y cadena de valor</span></td><td>5</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><span class="ui">Evaluar</span></td><td><span class="ui">Evaluación sensorial</span></td><td>6</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><span class="ui">Comparar</span></td><td><span class="ui">Ensayos poscosecha</span></td><td>7</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td><span class="ui">Planear</span></td><td><span class="ui">Empaque y logística</span></td><td>8</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><span class="ui">Publicar</span></td><td><span class="ui">Informe y proyecto</span></td><td>9</td></tr>
+    </tbody>
+  </table>
+  <p>Al pie de la portada, como al pie de cada bloque, un botón lleva al siguiente: <span class="ui">Siguiente · 2 · Calidad y madurez →</span>. Con el teclado, <code>Alt + →</code> hace lo mismo.</p>
+
+  <!-- 1.4 -->
+  <h2 id="s1-4"><span class="num">1.4</span>Datos de ejemplo</h2>
+  <p>La sección <span class="ui">Datos de ejemplo</span> reúne las diez tablas simuladas que trae la app, una por tarjeta (figura I.4 de la introducción). Su subtítulo lo advierte: <span class="ui">Diez tablas simuladas con modelos y parámetros del orden de los publicados para cada cultivo. No son mediciones: sirven para aprender la app y para comprobar que cada análisis responde como se espera. Cada botón abre la herramienta con el ejemplo cargado.</span></p>
+  <p>Cada tarjeta tiene el nombre del conjunto con el sello <span class="ui">SIMULADO</span>, una descripción, el archivo de <code>data/</code> del que sale con su número de filas, un botón <span class="ui">Abrir en …</span> por cada herramienta que lo usa y el botón <span class="ui">⤓ CSV</span>, que descarga la tabla para que veas su forma o la uses como plantilla de la tuya. La tabla de la sección I.7 dice qué trae cada conjunto; la de abajo, adónde lleva cada botón.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.3.</b> Los botones <span class="ui">Abrir en …</span> de <span class="ui">Datos de ejemplo</span></caption>
+    <thead><tr><th style="width:2.45in">Tarjeta</th><th>Botones</th></tr></thead>
+    <tbody>
+      <tr><td>Mango «Ataulfo» almacenado a 13, 20 y 25 °C <span class="small">· 72 filas</span></td><td><span class="ui">Abrir en 2 · Resumen de calidad</span>, <span class="ui">Abrir en 3 · Cinética</span>, <span class="ui">Abrir en 7 · Factorial</span></td></tr>
+      <tr><td>Chayote con dos recubrimientos: días hasta el rechazo <span class="small">· 90</span></td><td><span class="ui">Abrir en 3 · Tiempo hasta rechazo</span></td></tr>
+      <tr><td>Chayote con dos recubrimientos: pérdida de peso en los mismos frutos <span class="small">· 108</span></td><td><span class="ui">Abrir en 7 · Medidas repetidas</span>, <span class="ui">Abrir en 7 · Pendientes</span></td></tr>
+      <tr><td>Aguacate «Hass»: respiración en sistema estático <span class="small">· 15</span></td><td><span class="ui">Abrir en 4 · Sistema estático</span></td></tr>
+      <tr><td>Aguacate «Hass»: curva climatérica <span class="small">· 13</span></td><td><span class="ui">Abrir en 4 · Climaterio</span></td></tr>
+      <tr><td>Cadena de jitomate saladette: pérdidas por etapa <span class="small">· 6</span></td><td><span class="ui">Abrir en 5 · Pérdidas por etapa</span></td></tr>
+      <tr><td>Jitomate: ensayo de caídas (daño mecánico) <span class="small">· 60</span></td><td><span class="ui">Abrir en 5 · Daño mecánico</span></td></tr>
+      <tr><td>Café: pruebas discriminativas <span class="small">· 3</span></td><td><span class="ui">Abrir en 6 · Discriminativas</span></td></tr>
+      <tr><td>Café: 80 consumidores (agrado, punto justo y CATA) <span class="small">· 320</span></td><td><span class="ui">Abrir en 6 · Hedónica</span>, <span class="ui">Abrir en 6 · Punto justo</span>, <span class="ui">Abrir en 6 · CATA</span></td></tr>
+      <tr><td>Café: perfil descriptivo cuantitativo <span class="small">· 64</span></td><td><span class="ui">Abrir en 6 · Perfil descriptivo</span></td></tr>
+    </tbody>
+  </table>
+  <p>El mango aparece también, sin botón en la portada, en las pestañas <span class="ui">Color</span>, <span class="ui">Escalas de madurez y daño</span> y <span class="ui">Calibres</span> del Bloque 2, cuyo botón <span class="ui">Cargar ejemplo</span> lo abre allí mismo. Cada botón <span class="ui">Abrir en …</span> hace dos cosas: abre la pestaña y pulsa por ti su <span class="ui">Cargar ejemplo</span>, que reemplaza la tabla que esa herramienta tuviera.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Los ejemplos reemplazan lo que tengas</div>
+    <p>Abrir un ejemplo sustituye la tabla de la herramienta que lo recibe. Si ya cargaste tus propios datos en ella, guarda antes el proyecto (<span class="ruta">Bloque 9<span class="sep">›</span>Proyecto</span>, sección 9.6) para poder volver a ellos.</p>
+  </div>
+
+  <!-- 1.5 -->
+  <h2 id="s1-5"><span class="num">1.5</span>Métodos y fuentes</h2>
+  <p>La sección <span class="ui">Métodos y fuentes</span> lista los 28 métodos del programa, cada uno en una tarjeta con su nombre, el bloque en que se usa y las obras que lo definen, abreviadas por autor y año. El subtítulo resume cómo se programaron: <span class="ui">Cada método está programado desde su fórmula publicada y comparado con una implementación independiente; las tolerancias y los resultados de esa comparación están en la carpeta de pruebas.</span></p>
+
+  <table class="compacta">
+    <caption><b>Tabla 1.4.</b> Las trece tarjetas que siguen, de los bloques 5 a 8</caption>
+    <thead><tr><th style="width:0.55in">Bloque</th><th>Método</th><th style="width:2.2in">Fuentes</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k5">5</span></td><td><span class="ui">Daño mecánico: curvas de impacto, umbral, susceptibilidad y regresión logística con intervalo de Fieller</span></td><td>Bajema y Hyde 1998; Mohsenin 1986; Finney 1971</td></tr>
+      <tr><td rowspan="6"><span class="chip k6">6</span></td><td><span class="ui">Pruebas discriminativas con d′ de Thurstone, potencia y tamaño de muestra</span></td><td>Ennis 1993; Ennis y Jesionka 2011; Brockhoff y Christensen 2010; Bi 2006; Clopper y Pearson 1934</td></tr>
+      <tr><td><span class="ui">Escala hedónica, ANOVA y Tukey; ordenamiento de Friedman</span></td><td>Peryam y Pilgrim 1957; Friedman 1937; Lawless y Heymann 2010</td></tr>
+      <tr><td><span class="ui">Punto justo (JAR) con análisis de penalidades</span></td><td>Xiong y Meullenet 2006; Lawless y Heymann 2010</td></tr>
+      <tr><td><span class="ui">CATA: Q de Cochran, McNemar y análisis de correspondencias</span></td><td>Meyners et al. 2013; Cochran 1950; McNemar 1947; Greenacre 2007</td></tr>
+      <tr><td><span class="ui">Perfil descriptivo: ANOVA juez × producto, desempeño del panel y ACP</span></td><td>Stone et al. 1974; Næs et al. 2010; Jolliffe 2002</td></tr>
+      <tr><td><span class="ui">Órdenes de presentación de Williams y códigos de tres dígitos</span></td><td>Williams 1949; MacFie et al. 1989</td></tr>
+      <tr><td rowspan="3"><span class="chip k7">7</span></td><td><span class="ui">ANOVA factorial tratamiento × tiempo (tipos I y III) y comparación de medias</span></td><td>Steel et al. 1997; Kramer 1956; Dunnett 1955; Copenhaver y Holland 1988; Piepho 2004</td></tr>
+      <tr><td><span class="ui">Medidas repetidas: parcelas divididas en el tiempo, Greenhouse–Geisser, Huynh–Feldt, Mauchly</span></td><td>Steel et al. 1997; Greenhouse y Geisser 1959; Huynh y Feldt 1976; Lecoutre 1991; Mauchly 1940; Satterthwaite 1946</td></tr>
+      <tr><td><span class="ui">Comparación de pendientes (análisis de covarianza)</span></td><td>Snedecor y Cochran 1989; Holm 1979</td></tr>
+      <tr><td rowspan="3"><span class="chip k8">8</span></td><td><span class="ui">Patrones de carga en tarima y contenedor</span></td><td>Steudel 1979; Smith y De Cani 1980</td></tr>
+      <tr><td><span class="ui">Psicrometría, déficit de presión de vapor y transpiración</span></td><td>ASHRAE 2017; Wagner y Pruss 2002; Wagner et al. 2011; Sastry et al. 1978</td></tr>
+      <tr><td><span class="ui">Ventilación de cajas y compatibilidad de productos en almacén</span></td><td>Thompson et al. 2008; Kader 2002; Gross et al. 2016; McGregor 1989</td></tr>
+    </tbody>
+  </table>
+  <figure class="w70">
+    <div class="marco"><img src="../img/b1-metodos.png" alt="Las primeras quince tarjetas de Métodos y fuentes, de los bloques 2, 3, 4 y 5, cada una con el método, su bloque y sus fuentes"></div>
+    <figcaption><b>Figura 1.3.</b> <span class="ui">Métodos y fuentes</span>: las quince primeras tarjetas, con los seis métodos del Bloque 2, los cuatro del 3, los cuatro del 4 y el primero del 5. La tabla 1.4 da las demás.</figcaption>
+  </figure>
+  <p>Es la misma lista, con las mismas abreviaturas, que la línea <span class="ui">Método y fuente:</span> de cada resultado y que la sección <span class="ui">Métodos y referencias</span> del informe, que incluye sólo los métodos de los bloques que usaste (sección 9.3). El apéndice F reúne las 78 obras completas, agrupadas por tema. Si vas a publicar, cita el método que usaste además del programa: la tarjeta dice cuál.</p>
+
+  <!-- 1.6 -->
+  <h2 id="s1-6"><span class="num">1.6</span>La poscosecha en breve</h2>
+  <p>La sección <span class="ui">La poscosecha en breve</span> (<span class="ui">Las ideas que sostienen los cálculos, en lenguaje llano.</span>) tiene nueve desplegables, cada uno con el bloque en que se aplica su idea. Al abrir la portada sólo está abierto el primero; un clic en el título abre o cierra cualquiera.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla 1.5.</b> Lo que explica cada desplegable</caption>
+    <thead><tr><th style="width:2.15in">Desplegable</th><th style="width:0.6in" class="c">Bloque</th><th>La idea, en una línea</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Madurez fisiológica y madurez de consumo</span></td><td class="c"><span class="chip k2">2</span></td><td>Suben los sólidos solubles y baja la acidez, por eso SST/AT resume el sabor; el tono h° pasa de verde (más de 100°) a amarillo (cerca de 90°); una ΔE menor que 1 no se nota y entre 2 y 3.5 la nota cualquiera</td></tr>
+      <tr><td><span class="ui">Climatéricos y no climatéricos</span></td><td class="c"><span class="chip k4">4</span></td><td>Los climatéricos tienen un pico de respiración y de etileno autocatalítico y maduran fuera de la planta; la respiración libera unos 10.7 J por miligramo de CO₂</td></tr>
+      <tr><td><span class="ui">Cinética del deterioro</span></td><td class="c"><span class="chip k3">3</span></td><td>Orden cero, uno o dos; el orden se elige ajustando en la escala original y comparando el AIC, no por el R² de una recta</td></tr>
+      <tr><td><span class="ui">La temperatura manda: Arrhenius y Q10</span></td><td class="c"><span class="chip k3">3</span></td><td>ln k = ln A − Eₐ/(RT); el Q10 no es constante; las pruebas aceleradas suponen que el mecanismo no cambia con la temperatura</td></tr>
+      <tr><td><span class="ui">Vida de anaquel y tiempo hasta el rechazo</span></td><td class="c"><span class="chip k3">3</span></td><td>Por un límite de atributo o por el rechazo de cada fruto; los frutos sanos al final están censurados, no se descartan</td></tr>
+      <tr><td><span class="ui">Atmósferas modificadas</span></td><td class="c"><span class="chip k4">4</span></td><td>El estado estacionario iguala lo que respira el producto con lo que permea la película; β = P<sub>CO₂</sub>/P<sub>O₂</sub> fija la recta de atmósferas posibles</td></tr>
+      <tr><td><span class="ui">El agua: transpiración y déficit de presión de vapor</span></td><td class="c"><span class="chip k8">8</span></td><td>El fruto pierde agua en proporción al déficit de presión de vapor; de 3 a 10 % de peso perdido ya lo marchita</td></tr>
+      <tr><td><span class="ui">Pérdidas en la cadena</span></td><td class="c"><span class="chip k5">5</span></td><td>Las pérdidas se calculan sobre lo que entra a cada etapa; en kilos pesan las primeras, en dinero las últimas</td></tr>
+      <tr><td><span class="ui">Medir con personas</span></td><td class="c"><span class="chip k6">6</span></td><td>Discriminativas, afectivas y descriptivas; el d′ de Thurstone mide el tamaño de una diferencia; los órdenes de Williams evitan el sesgo del orden</td></tr>
+    </tbody>
+  </table>
+  <p>Cada capítulo de este manual vuelve sobre estas ideas con más detalle en sus recuadros «Teoría en breve», junto a la herramienta que las usa.</p>
+  <figure class="w70">
+    <div class="marco"><img src="../img/b1-teoria.png" alt="Los nueve desplegables de La poscosecha en breve, con el primero, Madurez fisiológica y madurez de consumo, abierto"></div>
+    <figcaption><b>Figura 1.4.</b> <span class="ui">La poscosecha en breve</span>, con el primer desplegable abierto. A la derecha de cada título, el bloque en que se usa la idea.</figcaption>
+  </figure>
+
+  <!-- 1.7 -->
+  <h2 id="s1-7"><span class="num">1.7</span>Lo que no hace</h2>
+  <p>Cuatro recuadros dicen de frente qué no se puede esperar del programa. Son los mismos límites que tabula la sección I.10 de la introducción, que agrega dos más (no simula la dinámica del empaque ni lee instrumentos):</p>
+  <ul>
+    <li><b><span class="ui">No reemplaza la medición</span>.</b> <span class="ui">Los modelos resumen los datos; extrapolar lejos de las temperaturas, tiempos o cultivares medidos queda bajo tu responsabilidad, y la app avisa cuando ocurre.</span> El aviso más visible está en <span class="ruta">Bloque 3<span class="sep">›</span>Temperatura</span>, que marca como extrapolación cualquier temperatura de almacén fuera de las medidas.</li>
+    <li><b><span class="ui">No trae normas comerciales</span>.</b> <span class="ui">Las tablas de calibres, permeabilidades y compatibilidad son orientativas y editables: usa las de tu norma, tu película y tu cultivar.</span> Las plantillas de calibres del capítulo 2 son un ejemplo de ello.</li>
+    <li><b><span class="ui">No modela la cinética no isotérmica</span>.</b> <span class="ui">Las predicciones son a temperatura constante; para historias de temperatura variable hay que integrar k(T(t)) en el tiempo.</span></li>
+    <li><b><span class="ui">No sube nada</span>.</b> <span class="ui">No hay servidor, cuentas ni conexión: lo que guardas es un archivo de proyecto en tu equipo.</span></li>
+  </ul>
+
+  <!-- 1.8 -->
+  <h2 id="s1-8"><span class="num">1.8</span>Referencias y cómo citar</h2>
+  <p>Las dos últimas secciones de la portada son la bibliografía y la cita. En <span class="ui">Referencias</span>, el desplegable <span class="ui">Ver las 78 referencias</span> abre la lista completa de las obras que citan los métodos, ordenada alfabéticamente; es la misma que reúne el apéndice F, allí agrupada por tema.</p>
+
+  <p><span class="ui">Cómo citar</span> empieza con <span class="ui">Si PostHarvestPro te sirve en un trabajo, cítalo así:</span> y da la cita del programa en dos formas, cada una con su botón:</p>
+  <ul>
+    <li>La <b>referencia</b>, en el idioma de la interfaz, que se copia con <span class="ui">Copiar la cita</span>:
+      <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro: fisiología y tecnología poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador</i> (versión 1.0.0) [Programa de cómputo]. https://luisangelbg.github.io/PostHarvestPro/</div></li>
+    <li>La <b>entrada BibTeX</b>, con la clave <code>barreraguzman2026postharvestpro</code>, el título en inglés, la versión <code>1.0.0</code>, el año, la licencia <code>GPL-3.0-or-later</code> y la dirección; se copia con <span class="ui">Copiar BibTeX</span>.</li>
+  </ul>
+  <p>Al copiar, un aviso breve confirma <span class="ui">Copiado</span>. La cita todavía no lleva identificador digital (DOI): se añadirá cuando el programa se publique con uno. La misma cita está al final del Bloque 9 (sección 9.7) y al final de todos los informes. Debajo, una línea dice que PostHarvestPro 1.0.0 es software libre (GPL-3.0) y parte de la LABG Suite.</p>
+  <figure class="w70">
+    <div class="marco"><img src="../img/b1-cita.png" alt="Las secciones Referencias, con el desplegable Ver las 78 referencias, y Cómo citar, con la cita, la entrada BibTeX y los botones Copiar la cita y Copiar BibTeX"></div>
+    <figcaption><b>Figura 1.5.</b> <span class="ui">Referencias</span> y <span class="ui">Cómo citar</span>, al final de la portada.</figcaption>
+  </figure>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Por dónde empezar</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> es la primera vez que abres la app</td><td><b>entonces</b> pulsa <span class="ui">Empezar con un ejemplo →</span> y recorre el capítulo 2 con el mango; después abre el mismo mango en el Bloque 3 (<span class="ui">Abrir en 3 · Cinética</span>).</td></tr>
+      <tr><td><b>Si</b> tienes mediciones de un lote en el tiempo</td><td><b>entonces</b> empieza en el Bloque 2 para resumirlas y sigue en el 3 para su vida de anaquel y en el 7 para comparar los tratamientos.</td></tr>
+      <tr><td><b>Si</b> tu pregunta es de respiración, pérdidas, cata o empaque</td><td><b>entonces</b> ve directo a su bloque (4, 5, 6 u 8): cada uno trabaja con su propia tabla o con sus campos escritos.</td></tr>
+      <tr><td><b>Si</b> no sabes qué columnas debe tener tu tabla</td><td><b>entonces</b> descarga el <span class="ui">⤓ CSV</span> del ejemplo más parecido y úsalo como plantilla.</td></tr>
+      <tr><td><b>Si</b> vas a publicar los resultados</td><td><b>entonces</b> cita el programa desde aquí o desde el Bloque 9, y cita también el método de cada resultado.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Son guías para orientarse, no un orden obligatorio.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <p><b>Un botón <span class="ui">Abrir en …</span> lleva a la pestaña, pero no veo resultados.</b> Los resultados están debajo de la entrada de datos; baja con la rueda o usa la lista <span class="ui">En este bloque</span>. <b>Los botones de copiar no hacen nada.</b> Algunos navegadores no dejan usar el portapapeles en páginas abiertas como archivo local; selecciona el texto de la cita y cópialo a mano, o abre la app con <code>Open PostHarvestPro.bat</code> (sección I.5). <b>La ilustración no se anima.</b> Están apagadas las animaciones (botón de destellos de la barra superior) o tu sistema pide reducir el movimiento; no afecta a ningún cálculo. <b>Perdí lo que había cargado al abrir un ejemplo.</b> El ejemplo reemplaza la tabla de la herramienta; si guardaste el proyecto, ábrelo de nuevo en el Bloque 9.</p>
+  </div>
+</section>
+
+</body>
+</html>
