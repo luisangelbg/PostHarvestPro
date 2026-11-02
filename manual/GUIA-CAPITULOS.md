@@ -190,7 +190,7 @@ C glosario (vida de anaquel, límite, orden de reacción, Eₐ, Q10, Tmín, cens
 climatérico, CR, β, estado estacionario, j y C del enfriamiento, índice de pérdidas, susceptibilidad, d′, pd, pc,
 JAR, penalidad, CATA, Q de Cochran, esfericidad, ε, BrimA, CCI, McKinney…); D cuando algo no sale; E licencia
 (GPL-3.0-or-later) y cita (sin DOI todavía: «se añadirá al publicar»); F referencias, escritas por
-`genera-referencias.js` entre `<!-- REFERENCIAS -->` y `<!-- /REFERENCIAS -->` (78 obras en siete temas).
+`genera-referencias.js` entre `<!-- REFERENCIAS -->` y `<!-- /REFERENCIAS -->` (81 obras en siete temas).
 
 ## 2. Cómo se marca
 

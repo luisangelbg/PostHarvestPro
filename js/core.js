@@ -694,8 +694,14 @@ const NoCase = {
   /* a short group in parentheses without a word of four small letters (the unit of a
      label, not a phrase such as «(opcional)»), a word with a Greek letter, µ,
      °, ′, *, a superscript or a subscript, a word with a capital after a small
-     letter (pH, mL, kPa, NaOH) and the units written in small letters */
-  RE: /\((?![^()]*[a-záéíóúüñ]{4})[^()]{1,16}\)|[^\s()]*[α-ωϑϕµ°′″*¹²³⁰-ₜ][^\s()]*|[^\s()]*[a-zµ][A-Z][^\s()]*|(?<![\p{L}\p{N}_])(?:mg|kg|mm|cm|nm|ppm|ppb|kgf|lbf|gf|mmol|kcal|kJ)(?![\p{L}\p{N}_])/gu,
+     letter (pH, mL, kPa, NaOH) and the units written in small letters; then the
+     symbols written as plain letters: a lone small letter that opens the label
+     (k (20.0 °C), k contra la temperatura), a word of two or three small letters
+     that opens it before its unit or «·» (mil (milésima de pulgada)), a capital with a small letter as subscript before its unit,
+     «·», «=» or «del»/«of» (Km (% O₂), Ki del CO₂, but not De, En, In, To…)
+     and a lone small letter (not y, o, a, e, u) before its unit, «·» or «=»
+     (p (Holm)) */
+  RE: /\((?![^()]*[a-záéíóúüñ]{4})[^()]{1,16}\)|[^\s()]*[α-ωϑϕµ°′″*¹²³⁰-ₜ][^\s()]*|[^\s()]*[a-zµ][A-Z][^\s()]*|(?<![\p{L}\p{N}_])(?:mg|kg|mm|cm|nm|ppm|ppb|kgf|lbf|gf|mmol|kcal|kJ)(?![\p{L}\p{N}_])|^(?:[a-z](?![\p{L}\p{N}_])|[a-z]{2,3}(?=\s+[(·=]))|(?<![\p{L}\p{N}_])(?!(?:Al|An|As|At|Be|By|De|Di|Do|El|En|Es|Go|He|If|In|Is|It|La|Le|Lo|Me|Mi|My|Ni|No|Of|Ok|On|Or|Se|Si|So|Su|To|Tu|Un|Up|Us|We|Ya)(?![\p{L}\p{N}_]))[A-Z][a-z](?=\s*(?:[(·=]|$)|\s+(?:del?|of)\s)|(?<![\p{L}\p{N}_])(?![aeouy](?![\p{L}\p{N}_]))[a-z](?=\s*[(·=])/gu,
   wrap(node) {
     const t = node.nodeValue;
     NoCase.RE.lastIndex = 0;
@@ -782,7 +788,8 @@ const cssVar = (name, fb) => getComputedStyle(document.documentElement).getPrope
 const UI = {
   num: (id, es, en, v, o) => { o = o || {}; return `<div class="field"><label for="${id}">${L2(es, en)}</label><input type="number" id="${id}" value="${v}" step="${o.step || 'any'}"${o.min != null ? ` min="${o.min}"` : ''}${o.max != null ? ` max="${o.max}"` : ''}>${o.help ? `<small>${o.help}</small>` : ''}</div>`; },
   text: (id, es, en, v, o) => { o = o || {}; return `<div class="field"><label for="${id}">${L2(es, en)}</label><input type="text" id="${id}" value="${esc(v)}">${o.help ? `<small>${o.help}</small>` : ''}</div>`; },
-  sel: (id, es, en, opts, v, o) => { o = o || {}; return `<div class="field"><label for="${id}">${L2(es, en)}</label><select id="${id}">${opts.map(op => `<option value="${esc(op[0])}"${String(op[0]) === String(v) ? ' selected' : ''} data-es="${esc(op[1])}" data-en="${esc(op[2] || op[1])}">${esc(op[1])}</option>`).join('')}</select>${o.help ? `<small>${o.help}</small>` : ''}</div>`; },
+  /* o.wide: a list whose options would be cut in one column of a tight grid takes two */
+  sel: (id, es, en, opts, v, o) => { o = o || {}; return `<div class="field${o.wide ? ' wide' : ''}"><label for="${id}">${L2(es, en)}</label><select id="${id}">${opts.map(op => `<option value="${esc(op[0])}"${String(op[0]) === String(v) ? ' selected' : ''} data-es="${esc(op[1])}" data-en="${esc(op[2] || op[1])}">${esc(op[1])}</option>`).join('')}</select>${o.help ? `<small>${o.help}</small>` : ''}</div>`; },
   check: (id, es, en, on) => `<label class="checkbox-label"><input type="checkbox" id="${id}"${on ? ' checked' : ''}> ${L2(es, en)}</label>`,
   v: id => { const n = el(id); return n ? +n.value : NaN; },
   s: id => { const n = el(id); return n ? n.value : ''; },

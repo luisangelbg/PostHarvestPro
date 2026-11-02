@@ -73,7 +73,9 @@ function rssOf(rows, y, terms, LV) {
    and of B (each averaged over every level of the other, empty ones
    included) are not estimable: dropping A or B leaves the fit unchanged or
    only partly changed (0 or too few degrees of freedom), so those rows carry
-   estimable: false and no F or p. The interaction and type I are unaffected. */
+   estimable: false and no df, SS, MS, F or p (what the reduced fit leaves is
+   not the sum of squares of any hypothesis about A or B). The interaction and
+   type I are unaffected. */
 Tr.factorial = function (rows0, o) {
   const rows = rows0.filter(r => isFinite(r[o.y]) && r[o.y] !== '' && r[o.y] !== null && o.factors.every(f => r[f] != null && r[f] !== '') && (!o.block || (r[o.block] != null && r[o.block] !== '')));
   const y = rows.map(r => +r[o.y]);
@@ -105,8 +107,9 @@ Tr.factorial = function (rows0, o) {
       ss = red.rss - full.rss; df = full.rank - red.rank;
     }
     const estimable = !(type === 3 && inter && empty.length && t.length === 1 && o.factors.includes(t[0]));
-    const ms = df > 0 ? ss / df : NaN, F = estimable ? ms / mse : NaN;
-    table.push({ source: termName(t), term: t, df, ss, ms, F, p: estimable ? Num.pf(F, df, dfe, true) : NaN, estimable });
+    if (!estimable) { table.push({ source: termName(t), term: t, df: NaN, ss: NaN, ms: NaN, F: NaN, p: NaN, estimable }); return; }
+    const ms = df > 0 ? ss / df : NaN, F = ms / mse;
+    table.push({ source: termName(t), term: t, df, ss, ms, F, p: Num.pf(F, df, dfe, true), estimable });
   });
   table.push({ source: 'residual', df: dfe, ss: full.rss, ms: mse });
   const ybar = Num.mean(y), tss = y.reduce((s, v) => s + (v - ybar) ** 2, 0);

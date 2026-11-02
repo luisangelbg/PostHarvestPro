@@ -36,7 +36,7 @@ TEST('trials', 'factorial with empty cells: type III main effects flagged as not
   [['A', '1', 10], ['A', '2', 14], ['A', '3', 19], ['B', '1', 12], ['B', '2', 17]].forEach(([t, d, m]) => [-1, 0, 1.5].forEach(e => rows.push({ t, d, y: m + e })));
   const t3 = Trial.factorial(rows, { y: 'y', factors: ['t', 'd'], type: 3 });
   a.eq(JSON.stringify(t3.empty), JSON.stringify([['B', '3']]), 'empty cell listed');
-  ['t', 'd'].forEach(f => { const r = t3.table.find(x => x.source === f); a.eq(r.estimable, false, f + ' not estimable'); a.ok(!isFinite(r.F) && !isFinite(r.p), f + ' without F or p'); });
+  ['t', 'd'].forEach(f => { const r = t3.table.find(x => x.source === f); a.eq(r.estimable, false, f + ' not estimable'); a.ok(!isFinite(r.F) && !isFinite(r.p), f + ' without F or p'); a.ok(!isFinite(r.df) && !isFinite(r.ss) && !isFinite(r.ms), f + ' without df, SS or MS (no hypothesis of its own)'); });
   const ri = t3.table.find(x => x.source === 't:d');
   a.eq(ri.estimable, true, 'interaction estimable'); a.eq(ri.df, 1, 'interaction df (2 − 1 lost)'); a.ok(isFinite(ri.F), 'interaction F');
   const t1 = Trial.factorial(rows, { y: 'y', factors: ['t', 'd'], type: 1 });

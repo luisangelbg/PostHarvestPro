@@ -53,7 +53,10 @@ Plot.tickLabel = function (v, step) {
   const d = Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
   const s = v.toFixed(Math.min(6, d));
   const dec = g.Fmt && g.Fmt.dec ? g.Fmt.dec() : '.';
-  return s.replace('-', '−').replace('.', dec);
+  /* thousands with a thin space from five digits on, as Fmt.num writes them in the tiles */
+  const [i, fr] = s.replace('-', '').split('.');
+  const ii = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : i;
+  return (s.charAt(0) === '-' ? '−' : '') + ii + (fr ? dec + fr : '');
 };
 Plot.scale = (d0, d1, r0, r1) => { const k = (r1 - r0) / ((d1 - d0) || 1); const s = v => r0 + (v - d0) * k; s.inv = p => d0 + (p - r0) / k; return s; };
 Plot.extent = function (arrs, pad, zero) {
@@ -279,9 +282,13 @@ Plot.radar = function (o) {
   const W = o.w || 560, H = o.h || 420;
   const items = o.series.map((sr, i) => ({ name: sr.name, color: Plot.color(i), shape: SHAPES[i % 6], kind: 'line' }));
   const legW = Math.min(180, legendWidth(items));
-  const cx = (W - legW) / 2, cy = H / 2 + 6, R = Math.min(cx - 70, H / 2 - 44);
   const n = o.axes.length, lo = o.min == null ? 0 : o.min, hi = o.max == null ? Math.max(...o.series.flatMap(s => s.values)) : o.max;
-  const ang = k => -Math.PI / 2 + 2 * Math.PI * k / n, rad = v => R * (v - lo) / ((hi - lo) || 1);
+  const ang = k => -Math.PI / 2 + 2 * Math.PI * k / n;
+  /* the radius leaves room for the name of every axis at its side (a long name at the left or the right
+     would be cut by the edge or run into the legend) */
+  const cx = (W - legW) / 2, cy = H / 2 + 6;
+  const R = Math.max(60, Math.min(cx - 70, H / 2 - 44, ...o.axes.map((a, k) => { const c = Math.abs(Math.cos(ang(k))); return c < 0.2 ? Infinity : (cx - 8 - String(a).length * 6.9) / c - 14; })));
+  const rad = v => R * (v - lo) / ((hi - lo) || 1);
   let s = Plot.open(W, H, o, null, o.label);
   if (o.title) s += `<text class="pl-title" x="12" y="18">${esc(o.title)}</text>`;
   const ticks = Plot.ticks(lo, hi, 5).ticks.filter(v => v > lo && v <= hi);
@@ -299,8 +306,59 @@ Plot.radar = function (o) {
   return s + `</svg>`;
 };
 
+/* ---------------- labels that do not overlap ----------------
+   Shared by the labelled scatter and the maps. items [{X, Y, w (label width), th (label height), r (marker
+   radius), first? [[dx, dy, anchor]] (where it should go when there is room)}], in order of importance;
+   taken: boxes already occupied [x0, y0, x1, y1] (markers, legend); segs: lines no label should cross
+   [x1, y1, x2, y2] (arrows, reference lines); area: [x0, y0, x1, y1], where the labels must stay.
+   Every label goes where it overlaps least the boxes and the lines: next to its point when there is room,
+   farther away with a leader line when there is not. Returns [{tx, ty, anc, box, far}] in the order of items. */
+function placeLabels(items, taken, segs, area) {
+  taken = taken.slice();
+  const over = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
+  /* length of a line inside a box (Liang–Barsky clipping) */
+  const cross = (b, l) => {
+    const dx = l[2] - l[0], dy = l[3] - l[1];
+    let t0 = 0, t1 = 1;
+    const ok = [[-dx, l[0] - b[0]], [dx, b[2] - l[0]], [-dy, l[1] - b[1]], [dy, b[3] - l[1]]].every(([p, q]) => {
+      if (p === 0) return q >= 0;
+      const r = q / p;
+      if (p < 0) { if (r > t1) return false; if (r > t0) t0 = r; } else { if (r < t0) return false; if (r < t1) t1 = r; }
+      return true;
+    });
+    return ok && t1 > t0 ? (t1 - t0) * Math.hypot(dx, dy) : 0;
+  };
+  return items.map(q => {
+    const r = q.r == null ? 4.5 : q.r, th = q.th || 11;
+    const cands = (q.first || []).map(c => c.concat([0]));
+    [[r + 3.5, 3.5, 'start'], [-(r + 3.5), 3.5, 'end'], [r + 1.5, -(r + 2.5), 'start'], [-(r + 1.5), -(r + 2.5), 'end'], [r + 1.5, r + 9.5, 'start'], [-(r + 1.5), r + 9.5, 'end'], [0, -(r + 4.5), 'middle'], [0, r + 12.5, 'middle']].forEach(c => cands.push(c.concat([0])));
+    /* above or below the point, slid to one side (a line or the edge close to it) */
+    [-0.75, -0.25].forEach(u => [-(r + 4.5), r + 12.5].forEach(dy => cands.push([u * q.w, dy, 'start', 0])));
+    [18, 30, 44].forEach(d => [[1, 0], [-1, 0], [0.7, -0.7], [-0.7, -0.7], [0.7, 0.7], [-0.7, 0.7], [0, -1], [0, 1]].forEach(([u, v]) => cands.push([u * (d + r - 4.5), v * (d + r - 4.5) + 3.5, u > 0.1 ? 'start' : u < -0.1 ? 'end' : 'middle', 1])));
+    let best = null;
+    cands.forEach(([dx, dy, anc, far], k) => {
+      const tx = q.X + dx, ty = q.Y + dy;
+      const l = anc === 'start' ? tx : anc === 'end' ? tx - q.w : tx - q.w / 2;
+      const box = [l, ty - th + 2, l + q.w, ty + 2];
+      const out = Math.max(0, area[0] + 2 - box[0]) + Math.max(0, box[2] - (area[2] - 2)) + Math.max(0, area[1] - box[1]) + Math.max(0, box[3] - (area[3] - 2));
+      /* a line across a label costs as much as a marker under it */
+      const cost = taken.reduce((a, t) => a + over(box, t), 0) + segs.reduce((a, s) => a + cross(box, s) * 10, 0) + out * 400 + k * 0.5 + (far ? 25 : 0);
+      if (!best || cost < best.cost) best = { cost, tx, ty, anc, box, far };
+    });
+    taken.push(best.box);
+    return best;
+  });
+}
+Plot.placeLabels = placeLabels;
+const leader = (X, Y, b) => {
+  const ex2 = Math.max(b.box[0], Math.min(b.box[2], X)), ey2 = Math.max(b.box[1], Math.min(b.box[3], Y));
+  return `<line class="pl-leader" x1="${f(X)}" y1="${f(Y)}" x2="${f(ex2)}" y2="${f(ey2)}" stroke="var(--fig-muted)" stroke-width="0.6" stroke-opacity="0.7"/>`;
+};
+
 /* ---------------- a map of two sets of points (PCA, correspondence analysis) ----------------
-   rows: {names[], x[], y[]}, cols?: {names[], x[], y[]} (drawn as arrows when arrows:true) */
+   rows: {names[], x[], y[]}, cols?: {names[], x[], y[]} (drawn as arrows when arrows:true).
+   The labels are placed as in the labelled scatter: none on another, on a marker, on an arrow or on the
+   lines of the origin; the products first, then the terms or attributes (at the tip of their arrow). */
 Plot.biplot = function (o) {
   const W = o.w || 620, H = o.h || 460;
   const x0 = 54, x1 = W - 20, y1 = o.title ? 32 : 18, y0 = H - 46;
@@ -313,28 +371,41 @@ Plot.biplot = function (o) {
   const sx = Plot.scale(ex[0], ex[1], x0, x1), sy = Plot.scale(ey[0], ey[1], y0, y1);
   let s = Plot.open(W, H, o, { x0, x1, y0, y1, ex, ey }, o.label);
   s += Plot.frame({ x0, x1, y0, y1, sx, sy, xt: Plot.ticks(ex[0], ex[1], 6), yt: Plot.ticks(ey[0], ey[1], 6), xlab: o.xlab, ylab: o.ylab, title: o.title });
-  s += `<line class="pl-ref" x1="${f(sx(0))}" y1="${f(y0)}" x2="${f(sx(0))}" y2="${f(y1)}"/><line class="pl-ref" x1="${f(x0)}" y1="${f(sy(0))}" x2="${f(x1)}" y2="${f(sy(0))}"/>`;
-  if (o.cols) o.cols.names.forEach((nm, i) => {
-    const X = sx(o.cols.x[i]), Y = sy(o.cols.y[i]);
-    if (o.arrows) s += `<line x1="${f(sx(0))}" y1="${f(sy(0))}" x2="${f(X)}" y2="${f(Y)}" stroke="var(--s2)" stroke-width="1.4"/>`;
-    else s += Plot.marker('triangle', X, Y, 3.6, 'var(--s2)');
-    s += `<text class="pl-note" x="${f(X + 5)}" y="${f(Y - 4)}" fill="var(--s2)" style="fill:var(--s2)">${esc(nm)}</text>`;
-  });
-  o.rows.names.forEach((nm, i) => {
-    const X = sx(o.rows.x[i]), Y = sy(o.rows.y[i]);
-    s += Plot.marker('circle', X, Y, 5, 'var(--s1)');
-    s += `<text class="pl-txt-b" x="${f(X + 7)}" y="${f(Y + 4)}">${esc(nm)}</text>`;
-  });
+  const OX = sx(0), OY = sy(0);
+  s += `<line class="pl-ref" x1="${f(OX)}" y1="${f(y0)}" x2="${f(OX)}" y2="${f(y1)}"/><line class="pl-ref" x1="${f(x0)}" y1="${f(OY)}" x2="${f(x1)}" y2="${f(OY)}"/>`;
+  const R = o.rows.names.map((nm, i) => ({ nm, X: sx(o.rows.x[i]), Y: sy(o.rows.y[i]) }));
+  const C = o.cols ? o.cols.names.map((nm, i) => ({ nm, X: sx(o.cols.x[i]), Y: sy(o.cols.y[i]) })) : [];
   const items = [{ name: o.rowsName || 'rows', color: 'var(--s1)', shape: 'circle', kind: 'pt' }].concat(o.cols ? [{ name: o.colsName || 'cols', color: 'var(--s2)', shape: o.arrows ? null : 'triangle', kind: o.arrows ? 'line' : 'pt' }] : []);
-  s += Plot.legend(items, x0 + 8, y1 + 12, {});
+  const lx = x0 + 8, ly = y1 + 12;
+  /* what the labels must leave free: the markers, the legend, the arrows and the lines of the origin */
+  const taken = R.map(q => [q.X - 6, q.Y - 6, q.X + 6, q.Y + 6]).concat(o.arrows ? [] : C.map(q => [q.X - 5, q.Y - 5, q.X + 5, q.Y + 5]));
+  taken.push([lx - 2, ly - 12, lx + legendWidth(items), ly + 16 * (items.length - 1) + 4]);
+  const segs = [[OX, y0, OX, y1], [x0, OY, x1, OY]].concat(o.arrows ? C.map(q => [OX, OY, q.X, q.Y]) : []);
+  /* the label of an arrow goes past its tip, in its direction, when there is room */
+  const tip = q => { const L = Math.hypot(q.X - OX, q.Y - OY) || 1, u = (q.X - OX) / L, v = (q.Y - OY) / L; return [[u * 6, v * 6 + (v > 0.3 ? 10 : v < -0.3 ? -2 : 3.5), u > 0.3 ? 'start' : u < -0.3 ? 'end' : 'middle']]; };
+  const lab = placeLabels(R.map(q => ({ X: q.X, Y: q.Y, w: String(q.nm).length * 6.6 + 2, th: 12, r: 5 }))
+    .concat(C.map(q => ({ X: q.X, Y: q.Y, w: String(q.nm).length * 5.5 + 2, th: 11, r: o.arrows ? 1 : 3.6, first: o.arrows ? tip(q) : null }))), taken, segs, [x0, y1, x1, y0]);
+  const lr = lab.slice(0, R.length), lc = lab.slice(R.length);
+  C.forEach((q, i) => { if (lc[i].far) s += leader(q.X, q.Y, lc[i]); });
+  R.forEach((q, i) => { if (lr[i].far) s += leader(q.X, q.Y, lr[i]); });
+  C.forEach((q, i) => {
+    if (o.arrows) s += `<line x1="${f(OX)}" y1="${f(OY)}" x2="${f(q.X)}" y2="${f(q.Y)}" stroke="var(--s2)" stroke-width="1.4"/>`;
+    else s += Plot.marker('triangle', q.X, q.Y, 3.6, 'var(--s2)');
+  });
+  R.forEach(q => { s += Plot.marker('circle', q.X, q.Y, 5, 'var(--s1)'); });
+  /* the labels on top of everything, with a halo of the background where a line still passes */
+  const halo = ' style="paint-order:stroke;stroke:var(--fig-bg);stroke-width:3px;stroke-linejoin:round"';
+  C.forEach((q, i) => { const b = lc[i]; s += `<text class="pl-note" x="${f(b.tx)}" y="${f(b.ty)}"${b.anc !== 'start' ? ` text-anchor="${b.anc}"` : ''} fill="var(--s2)" style="fill:var(--s2);paint-order:stroke;stroke:var(--fig-bg);stroke-width:3px;stroke-linejoin:round">${esc(q.nm)}</text>`; });
+  R.forEach((q, i) => { const b = lr[i]; s += `<text class="pl-txt-b" x="${f(b.tx)}" y="${f(b.ty)}"${b.anc !== 'start' ? ` text-anchor="${b.anc}"` : ''}${halo}>${esc(q.nm)}</text>`; });
+  s += Plot.legend(items, lx, ly, {});
   return s + `</svg>`;
 };
 
 /* ---------------- labelled scatter (penalty analysis) ----------------
    pts [{x, y, label, color?, shape?}], xline, yline, items? (legend, drawn outside the plot on the right).
-   Every label is placed where it overlaps least the other labels and the markers, inside the plot: next
-   to its point when there is room, farther away with a leader line when there is not. Points are placed
-   in order of importance (inside the shaded zone first, then by distance to its corner). */
+   Every label is placed where it overlaps least the other labels, the markers and the dashed reference
+   lines, inside the plot (placeLabels). Points are placed in order of importance (inside the shaded zone
+   first, then by distance to its corner). */
 Plot.labelled = function (o) {
   const W = o.w || 620, H = o.h || 380;
   const legW = o.items && o.items.length ? Math.min(190, legendWidth(o.items)) : 0;
@@ -347,39 +418,15 @@ Plot.labelled = function (o) {
   let s = Plot.open(W, H, o, { x0, x1, y0, y1, ex, ey }, o.label);
   if (o.xline != null && o.yline != null) s += `<rect class="pl-zone-bad" x="${f(sx(o.xline))}" y="${f(y1)}" width="${f(x1 - sx(o.xline))}" height="${f(sy(o.yline) - y1)}"/>`;
   s += Plot.frame({ x0, x1, y0, y1, sx, sy, xt: ticks(ex[0], ex[1]), yt: ticks(ey[0], ey[1]), xlab: o.xlab, ylab: o.ylab, title: o.title });
-  if (o.xline != null) s += `<line class="pl-ref" x1="${f(sx(o.xline))}" y1="${f(y0)}" x2="${f(sx(o.xline))}" y2="${f(y1)}"/>`;
-  if (o.yline != null) s += `<line class="pl-ref" x1="${f(x0)}" y1="${f(sy(o.yline))}" x2="${f(x1)}" y2="${f(sy(o.yline))}"/>`;
+  const segs = [];
+  if (o.xline != null) { s += `<line class="pl-ref" x1="${f(sx(o.xline))}" y1="${f(y0)}" x2="${f(sx(o.xline))}" y2="${f(y1)}"/>`; segs.push([sx(o.xline), y0, sx(o.xline), y1]); }
+  if (o.yline != null) { s += `<line class="pl-ref" x1="${f(x0)}" y1="${f(sy(o.yline))}" x2="${f(x1)}" y2="${f(sy(o.yline))}"/>`; segs.push([x0, sy(o.yline), x1, sy(o.yline)]); }
   const P = o.pts.map((p, i) => ({ p, i, X: sx(p.x), Y: sy(p.y) })).filter(q => isFinite(q.X) && isFinite(q.Y));
-  /* the boxes already taken: the markers, then each label placed */
-  const taken = P.map(q => [q.X - 5, q.Y - 6, q.X + 5, q.Y + 6]);
-  const over = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
-  const TH = 11; /* height of a 10 px label */
-  const cands = [];
-  [[8, 3.5, 'start'], [-8, 3.5, 'end'], [6, -7, 'start'], [-6, -7, 'end'], [6, 14, 'start'], [-6, 14, 'end'], [0, -9, 'middle'], [0, 17, 'middle']].forEach(c => cands.push(c.concat([0])));
-  [18, 30, 44].forEach(d => [[1, 0], [-1, 0], [0.7, -0.7], [-0.7, -0.7], [0.7, 0.7], [-0.7, 0.7], [0, -1], [0, 1]].forEach(([u, v]) => cands.push([u * d, v * d + 3.5, u > 0.1 ? 'start' : u < -0.1 ? 'end' : 'middle', 1])));
   const zx = o.xline != null ? sx(o.xline) : x1, zy = o.yline != null ? sy(o.yline) : y1;
   const order = P.slice().sort((a, b) => ((a.X >= zx && a.Y <= zy) ? 0 : 1) - ((b.X >= zx && b.Y <= zy) ? 0 : 1) || Math.hypot(x1 - a.X, y1 - a.Y) - Math.hypot(x1 - b.X, y1 - b.Y));
-  const labels = [];
-  order.forEach(q => {
-    const tw = String(q.p.label).length * 5.5 + 2;
-    let best = null;
-    cands.forEach(([dx, dy, anc, far], k) => {
-      const tx = q.X + dx, ty = q.Y + dy;
-      const l = anc === 'start' ? tx : anc === 'end' ? tx - tw : tx - tw / 2;
-      const box = [l, ty - TH + 2, l + tw, ty + 2];
-      const out = Math.max(0, x0 + 2 - box[0]) + Math.max(0, box[2] - (x1 - 2)) + Math.max(0, y1 - box[1]) + Math.max(0, box[3] - (y0 - 2));
-      const cost = taken.reduce((a, t) => a + over(box, t), 0) + out * 400 + k * 0.5 + (far ? 25 : 0);
-      if (!best || cost < best.cost) best = { cost, tx, ty, anc, box, far };
-    });
-    taken.push(best.box);
-    labels.push({ q, b: best });
-  });
-  labels.forEach(({ q, b }) => {
-    if (b.far) {
-      const ex2 = Math.max(b.box[0], Math.min(b.box[2], q.X)), ey2 = Math.max(b.box[1], Math.min(b.box[3], q.Y));
-      s += `<line class="pl-leader" x1="${f(q.X)}" y1="${f(q.Y)}" x2="${f(ex2)}" y2="${f(ey2)}" stroke="var(--fig-muted)" stroke-width="0.6" stroke-opacity="0.7"/>`;
-    }
-  });
+  const placed = placeLabels(order.map(q => ({ X: q.X, Y: q.Y, w: String(q.p.label).length * 5.5 + 2, th: 11, r: 4.5 })), P.map(q => [q.X - 5, q.Y - 6, q.X + 5, q.Y + 6]), segs, [x0, y1, x1, y0]);
+  const labels = order.map((q, k) => ({ q, b: placed[k] }));
+  labels.forEach(({ q, b }) => { if (b.far) s += leader(q.X, q.Y, b); });
   P.forEach(q => { s += Plot.marker(q.p.shape || 'circle', q.X, q.Y, 4.5, q.p.color || Plot.color(q.i)); });
   labels.forEach(({ q, b }) => { s += `<text class="pl-note" x="${f(b.tx)}" y="${f(b.ty)}"${b.anc !== 'start' ? ` text-anchor="${b.anc}"` : ''}>${esc(q.p.label)}</text>`; });
   if (o.items) s += Plot.legend(o.items, x1 + 14, y1 + 10, {});
@@ -461,12 +508,16 @@ Plot.mapPlane = function (o) {
   /* below about 1 % O₂ respiration turns anaerobic */
   s += `<rect class="pl-zone-bad" x="${f(sx(0))}" y="${f(y1)}" width="${f(sx(o.o2Min == null ? 1 : o.o2Min) - sx(0))}" height="${f(y0 - y1)}"/>`;
   const items = [];
+  /* color and trace of each film, chosen together: lines that share a color, or have close tones
+     (the blue and the teal, the green and the teal), never share the trace as well. The orange
+     comes late: it is the color of the package's point. */
+  const STY = [[2, ''], [3, '6 3'], [4, ''], [5, '2 3'], [6, '8 3 2 3'], [7, ''], [8, '2 3'], [1, '6 3'], [4, '4 2']];
   (o.lines || []).forEach((l, i) => {
-    const c = Plot.color(i + 1);
+    const st = STY[i % STY.length], c = Plot.color(st[0] - 1), dash = i < STY.length ? st[1] : DASH[(i + 1) % 6];
     const yA = 0.04 + l.rq / l.beta * (20.95 - 0);
     const xEnd = yA > ey[1] ? 20.95 - (ey[1] - 0.04) * l.beta / l.rq : 0;
-    s += `<line x1="${f(sx(20.95))}" y1="${f(sy(0.04))}" x2="${f(sx(xEnd))}" y2="${f(sy(Math.min(yA, ey[1])))}" stroke="${c}" stroke-width="1.8"${DASH[i % 6] ? ` stroke-dasharray="${DASH[i % 6]}"` : ''}/>`;
-    items.push({ name: l.name, color: c, dash: DASH[i % 6], kind: 'line' });
+    s += `<line x1="${f(sx(20.95))}" y1="${f(sy(0.04))}" x2="${f(sx(xEnd))}" y2="${f(sy(Math.min(yA, ey[1])))}" stroke="${c}" stroke-width="1.8"${dash ? ` stroke-dasharray="${dash}"` : ''}/>`;
+    items.push({ name: l.name, color: c, dash, kind: 'line' });
   });
   if (o.point && isFinite(o.point.o2) && isFinite(o.point.co2)) {
     /* the label goes on the side away from the film lines (they fan out from air, at the right) and

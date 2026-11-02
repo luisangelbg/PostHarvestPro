@@ -169,7 +169,7 @@ R.FILMS = [
   { id: 'hdpe', es: 'Polietileno de alta densidad', en: 'High-density polyethylene', o2: 50000, co2: 190000, eaO2: 35, eaCO2: 30 },
   { id: 'pp', es: 'Polipropileno colado', en: 'Cast polypropylene', o2: 95000, co2: 260000, eaO2: 45, eaCO2: 38 },
   { id: 'bopp', es: 'Polipropileno biorientado', en: 'Biaxially oriented polypropylene', o2: 40000, co2: 140000, eaO2: 45, eaCO2: 38 },
-  { id: 'pvc', es: 'Policloruro de vinilo plastificado', en: 'Plasticised poly(vinyl chloride)', o2: 40000, co2: 250000, eaO2: 50, eaCO2: 45 },
+  { id: 'pvc', es: 'Policloruro de vinilo plastificado', en: 'Plasticized poly(vinyl chloride)', o2: 40000, co2: 250000, eaO2: 50, eaCO2: 45 },
   { id: 'eva', es: 'Etileno acetato de vinilo', en: 'Ethylene–vinyl acetate', o2: 310000, co2: 1300000, eaO2: 40, eaCO2: 35 },
   { id: 'ps', es: 'Poliestireno orientado', en: 'Oriented polystyrene', o2: 125000, co2: 450000, eaO2: 30, eaCO2: 25 },
   { id: 'pet', es: 'Poliéster (PET)', en: 'Polyester (PET)', o2: 1500, co2: 5000, eaO2: 28, eaCO2: 25 },

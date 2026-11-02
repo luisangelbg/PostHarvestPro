@@ -1,5 +1,5 @@
 /* PostHarvestPro — manual de usuario: escribe las referencias del apéndice F a partir del catálogo de la app.
-   Lee js/refs.js (Refs.REFS: las 78 obras que la app muestra en Bloque 1 › Referencias, y Refs.METHODS: qué
+   Lee js/refs.js (Refs.REFS: las 81 obras que la app muestra en Bloque 1 › Referencias, y Refs.METHODS: qué
    métodos de qué bloque cita cada una) y reemplaza lo que hay entre las marcas <!-- REFERENCIAS --> y
    <!-- /REFERENCIAS --> de es/10-apendices.html: un apartado por tema, con las obras en orden alfabético. El tema
    de cada obra es el del primer bloque que la cita en METHODS (calidad y color, cinética y vida de anaquel,
