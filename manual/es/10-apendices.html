@@ -11,6 +11,11 @@
 <script src="../paginar.js"></script>
 <style>
   table.ficheros code { white-space: nowrap; }
+  /* the 81 references and the long tables, a little tighter so the appendices stay in 17 sheets */
+  ul.refs { font-size: 9pt; }
+  ul.refs li { margin-bottom: 0.05in; }
+  table.apx { font-size: 8.5pt; line-height: 1.3; }
+  table.apx td { padding: 0.03in 0.07in; }
   pre.archivo { font-family: var(--mono); font-size: 8.4pt; line-height: 1.4; background: #fbf6ef; border: 1px solid var(--linea); border-left: 3px solid var(--acento); border-radius: 0 4px 4px 0; padding: 0.07in 0.12in; margin: 0.05in 0 0.16in; white-space: pre-wrap; break-inside: avoid; }
 </style>
 </head>
@@ -22,7 +27,7 @@
     <div class="cap-etiqueta">Apéndices</div>
     <h1 data-corto="Apéndices">Apéndices</h1>
     <div class="cap-regla"></div>
-    <p class="cap-resumen">Lo que conviene tener a la mano y no cabía en ningún capítulo: qué archivos lee y escribe la app y cómo los lee, las reglas y las fórmulas de los nueve bloques reunidas en un solo lugar, el vocabulario de la poscosecha y de la estadística que usa el manual, qué hacer cuando algo no sale, la licencia de la herramienta con la manera de citarla y las 78 referencias de la app.</p>
+    <p class="cap-resumen">Lo que conviene tener a la mano y no cabía en ningún capítulo: qué archivos lee y escribe la app y cómo los lee, las reglas y las fórmulas de los nueve bloques reunidas en un solo lugar, el vocabulario de la poscosecha y de la estadística que usa el manual, qué hacer cuando algo no sale, la licencia de la herramienta con la manera de citarla y las 81 referencias de la app.</p>
     <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k8"></span><span class="k9"></span></div>
     <ul class="cap-contenido">
       <li><b>A</b>Los archivos que la app lee y escribe</li>
@@ -40,7 +45,7 @@
 
   <h3>A.1 · Lo que la app lee</h3>
   <p>Cada herramienta que analiza una tabla tiene la misma entrada (sección 2.1): <span class="ui">Abrir archivo (CSV, TXT, XLSX, ODS)</span>, <span class="ui">Pegar una tabla</span> o soltar el archivo en <span class="ui">…o suelta aquí el archivo</span>. El proyecto entra por el Bloque 9.</p>
-  <table class="compacta ficheros">
+  <table class="compacta ficheros apx">
     <thead><tr><th style="width:1.25in">Qué</th><th style="width:1.45in">Extensión</th><th>Cómo lo lee</th></tr></thead>
     <tbody>
       <tr><td><b>Tabla de texto</b></td><td><code>.csv</code> <code>.tsv</code> <code>.txt</code></td><td>El separador se adivina con las primeras 20 líneas: el tabulador, el punto y coma o la coma, el que aparezca el mismo número de veces en todas (las comillas se respetan). Si el separador no es la coma, se acepta la <b>coma decimal</b> (<code>12,5</code>). La marca de orden de bytes del principio se ignora y las líneas vacías se saltan.</td></tr>
@@ -50,11 +55,11 @@
     </tbody>
   </table>
   <p>En todos los casos la primera fila son los nombres de las columnas (una sin nombre se llama <code>col1</code>, <code>col2</code>…, y un nombre repetido recibe <code>_2</code>). Una celda es número si lo parece (con signo, decimales o exponente); si no, es texto. Las celdas vacías, <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>-</code> y <code>—</code> son <b>faltantes</b>. Las tablas van siempre en <b>formato largo</b>: una fila por unidad observada (fruto, frasco, consumidor por producto) y una columna por variable.</p>
-  <p>Después de leer la tabla, la app propone la columna de cada papel por su nombre: compara sin mayúsculas, acentos ni signos, primero el nombre completo y luego como parte del nombre (<code>Temperatura (°C)</code> sirve para la temperatura). Los papeles marcados <span class="ui">(opcional)</span> pueden quedar en <span class="ui">— ninguna —</span>. Algunas listas se proponen por su contenido: los términos CATA son las columnas con sólo 0 y 1, y los atributos de punto justo, las que empiezan por <code>jar_</code>.</p>
+  <p>Después de leer la tabla, la app propone la columna de cada papel por su nombre: compara sin mayúsculas, acentos ni signos, primero el nombre completo y luego como parte del nombre (<code>Temperatura (°C)</code> sirve para la temperatura). Los papeles marcados <span class="ui">(opcional)</span> pueden quedar en <span class="ui">— ninguna —</span>. Algunas listas se proponen por su contenido: los términos CATA son las columnas con sólo 0 y 1, y los atributos de punto justo, las que empiezan por <code>jar_</code>. En <span class="ruta">Bloque 5<span class="sep">›</span>Daño mecánico</span>, <code>volumen_mm3</code> y <code>energia_J</code> llenan <span class="ui">Volumen del daño (mm³), para la susceptibilidad</span> y <span class="ui">Energía del impacto (J)</span>, y la masa (<span class="ui">Masa del fruto (g), si no hay energía</span>) sólo se usa a falta de energía. En <span class="ruta">Bloque 4<span class="sep">›</span>Climaterio</span>, el nombre de la columna propone también las unidades: <span class="ui">Unidad del tiempo</span> (<span class="ui">días</span> u <span class="ui">horas</span>; <code>dia</code> da días y un nombre que termina en <code>_h</code>, horas) y <span class="ui">Unidad de la respiración</span> (mg o mL CO₂ kg⁻¹ h⁻¹, según lleve <code>mg</code> o <code>ml</code>).</p>
 
   <h4>Los diez conjuntos de ejemplo</h4>
   <p>Los mismos que trae la app, en la carpeta <code>data/</code> y con <span class="ui">⤓ CSV del ejemplo</span> en cada herramienta. Todos son <b>simulados</b> (<code>tools/generar_datos.R</code>, semilla 20261004).</p>
-  <table class="compacta ficheros">
+  <table class="compacta ficheros apx">
     <thead><tr><th style="width:1.75in">Archivo</th><th class="num" style="width:0.45in">Filas</th><th>Columnas</th><th style="width:1.3in">Herramientas</th></tr></thead>
     <tbody>
       <tr><td><code>mango_temperaturas.csv</code></td><td class="num">72</td><td><code>temperatura</code>, <code>dia</code>, <code>fruto</code>, <code>peso_inicial_g</code>, <code>firmeza_N</code>, <code>L</code>, <code>a</code>, <code>b</code>, <code>sst</code>, <code>at</code>, <code>ph</code>, <code>perdida_peso</code>, <code>antracnosis</code></td><td>2 (las cuatro con datos), 3 › Modelos cinéticos, 7 › Factorial</td></tr>
@@ -75,7 +80,7 @@
 13,0,2,294,128.7,61,-12.4,37,8.8,1.24,2.95,0,0</pre>
 
   <h3>A.2 · Lo que la app escribe</h3>
-  <table class="compacta ficheros">
+  <table class="compacta ficheros apx">
     <thead><tr><th style="width:0.5in">Bloque</th><th style="width:2.2in">Archivo</th><th>Qué contiene</th></tr></thead>
     <tbody>
       <tr><td><span class="chip k2">2</span></td><td><code>resumen_calidad</code> · <code>color_por_grupo</code> · <code>escala_indices</code> · <code>calibres</code></td><td>Las tablas de resultados del bloque (<span class="ui">⤓ CSV</span> o <span class="ui">⤓ XLSX</span>).</td></tr>
@@ -87,9 +92,9 @@
       <tr><td><span class="chip k6">6</span></td><td><code>plan_de_servicio.csv</code></td><td><span class="ui">⤓ Plan de servicio (CSV)</span>: una fila por muestra servida, con <code>juez</code>, <code>posicion</code>, <code>producto</code> y <code>codigo</code>.</td></tr>
       <tr><td><span class="chip k6">6</span></td><td><code>perfil_medias_productos.csv</code></td><td>Las medias producto × atributo del perfil, para PCAPro (<span class="ui">Enviar a PCAPro (mapa de preferencias) →</span>): <code>producto</code> y una columna por atributo.</td></tr>
       <tr><td><span class="chip k7">7</span></td><td><code>medias_por_tiempo</code> · <code>anova_factorial</code> · <code>anova_medidas_repetidas</code> · <code>pendientes</code></td><td>Las tablas de resultados del bloque.</td></tr>
-      <tr><td><span class="chip k7">7</span></td><td><code>libro_de_campo.csv</code> · <code>.xlsx</code></td><td>El libro de campo aleatorizado: <code>Parcela</code>, <code>Repeticion</code> (o <code>Bloque</code>), <code>Tratamiento</code>, <code>Tiempo</code> y una columna vacía por variable de respuesta.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><code>libro_de_campo.csv</code> · <code>.xlsx</code></td><td>El libro de campo aleatorizado: <code>Parcela</code>, <code>Repetición</code> (o <code>Bloque</code>), <code>Tratamiento</code>, <code>Tiempo</code> y una columna vacía por variable de respuesta.</td></tr>
       <tr><td><span class="chip k9">9</span></td><td><code>informe_postharvestpro.html</code></td><td>El informe: un solo archivo HTML con las figuras dentro (capítulo 9).</td></tr>
-      <tr><td><span class="chip k9">9</span></td><td><code>proyecto_postharvestpro_AAAA-MM-DD.json</code></td><td>El proyecto: <code>app</code>, <code>version</code>, la fecha (<code>saved</code>), el idioma (<code>lang</code>), las tablas cargadas con sus columnas elegidas (<code>inputs</code>), las tablas editables (<code>edits</code>), los campos y casillas de todos los bloques (<code>forms</code>) y los datos del informe (<code>report</code>).</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><code>proyecto_postharvestpro_AAAA-MM-DD.json</code></td><td>El proyecto: <code>app</code>, <code>version</code>, la fecha (<code>saved</code>), el idioma (<code>lang</code>), las tablas cargadas con sus columnas elegidas (<code>inputs</code>), las tablas editables (<code>edits</code>), los campos y casillas de todos los bloques (<code>forms</code>, con las unidades del climaterio y el peso de la tarima vacía) y los datos del informe (<code>report</code>): título, autor, cultivo y notas, y las listas de las secciones que usaste (<code>used</code>), de las herramientas en que trabajaste (<code>panes</code>) y de las secciones que marcaste o desmarcaste a mano (<code>choice</code>), para que al abrirlo el informe tenga las mismas.</td></tr>
       <tr><td>cualquiera</td><td><code>&lt;nombre de la figura&gt;.svg</code> · <code>.png</code></td><td>Cada figura, con el nombre interno que se ve en este manual (<code>b6-hedonica.png</code>) y los colores del tema claro; el PNG a 170 mm de ancho y 300 ppp, con la resolución escrita en el archivo. Cuatro figuras (<code>b2-calidad</code>, <code>b2-escala</code>, <code>b2-calibres</code> y <code>b3-cinetica</code>) tienen además <span class="ui">Datos de la figura (CSV)</span>. El estudio de figuras exporta PNG, SVG, PDF y TIFF.</td></tr>
       <tr><td>cualquiera</td><td>el archivo del ejemplo</td><td><span class="ui">⤓ CSV del ejemplo</span> descarga el CSV de <code>data/</code> tal cual.</td></tr>
     </tbody>
@@ -105,7 +110,7 @@
   <p class="lead">Las fórmulas que la app calcula y las reglas con que avisa, clasifica o decide, con el bloque donde actúan y sus valores por omisión. Son las que explica cada capítulo; aquí están juntas para consultarlas de un vistazo.</p>
 
   <h3>B.1 · Calidad, madurez y color (Bloque 2)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
       <tr><td style="width:1.9in"><b>Índice de madurez</b></td><td>SST/AT; <b>BrimA</b> = SST − 2·AT (Jordan et al. 2001).</td></tr>
       <tr><td><b>Acidez titulable</b></td><td>% = V<sub>NaOH</sub> (mL) · N · peso miliequivalente del ácido · (aforo / alícuota) · 100 / muestra; titulación a pH 8.1. Para expresarla como otro ácido sólo cambia el peso miliequivalente.</td></tr>
@@ -115,33 +120,33 @@
       <tr><td><b>Croma y tono</b></td><td>C* = √(a*² + b*²); h° = atan2(b*, a*), de 0 a 360°. Nombre del tono: ≥ 105° verde, 85–105 verde-amarillo, 70–85 amarillo, 50–70 naranja, 25–50 rojo-naranja, debajo rojo.</td></tr>
       <tr><td><b>Índices de color</b></td><td>a*/b*; CCI = 1000·a* / (L*·b*); el índice de pardeamiento (BI), de blancura (WI), de amarillez (YI) y de color del tomate (TCI) del conversor.</td></tr>
       <tr><td><b>Diferencias de color</b></td><td>ΔE*ab = √(ΔL*² + Δa*² + Δb*²); ΔE94 y ΔE00 (CIEDE2000). Lectura de ΔE00 (Mokrzycki y Tatol 2011): &lt; 1 imperceptible; 1–2 sólo para un observador entrenado; 2–3.5 para cualquier observador; 3.5–5 diferencia clara; ≥ 5 colores distintos. La figura del color en el tiempo traza la línea de 3.5.</td></tr>
-      <tr><td><b>Índice de McKinney</b></td><td>100 · Σ(clase · n) / (N · clase máxima); comercializable = % de unidades con clase ≤ la <span class="ui">Tolerancia comercial (clase máxima aceptada)</span> (1 por omisión).</td></tr>
-      <tr><td><b>Calibres</b></td><td>Cada clase incluye su mínimo y excluye su máximo, salvo la última.</td></tr>
+      <tr><td><b>Índice de McKinney</b></td><td>100 · Σ(clase · n) / (N · clase máxima); va desde 100 · clase mínima / clase máxima (todo en la clase más baja: 0 si la escala empieza en 0, 20 con una escala de 1 a 5) hasta 100, y la lectura dice ese intervalo. Comercializable = % de unidades con clase ≤ la <span class="ui">Tolerancia comercial (clase máxima aceptada)</span> (1 por omisión). Las calificaciones que no son una clase no se cuentan, y un lote sin ninguna dentro de las clases se deja fuera, con aviso.</td></tr>
+      <tr><td><b>Calibres</b></td><td>Cada clase incluye su mínimo y excluye su máximo, salvo la última. Los frutos fuera de todas las clases se cuentan aparte (mosaico y lectura); si ninguno cae dentro, no hay calibre más frecuente y la app avisa.</td></tr>
     </tbody>
   </table>
 
   <h3>B.2 · Cinética, vida de anaquel y rechazo (Bloque 3)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
-      <tr><td style="width:1.9in"><b>Órdenes de reacción</b></td><td>Cero: C = C₀ − kt; primero: C = C₀·e<sup>−kt</sup>; segundo: 1/C = 1/C₀ + kt. Se ajustan por mínimos cuadrados no lineales en la escala original (o linealizados, si se elige) y se comparan por AIC y peso de Akaike; por omisión se usa <span class="ui">El de menor AIC</span>. Hacen falta al menos 3 observaciones en 2 tiempos.</td></tr>
+      <tr><td style="width:1.9in"><b>Órdenes de reacción</b></td><td>Cero: C = C₀ − kt; primero: C = C₀·e<sup>−kt</sup>; segundo: 1/C = 1/C₀ + kt. Se ajustan por mínimos cuadrados no lineales en la escala original (o linealizados, si se elige) y se comparan por AIC y peso de Akaike; por omisión se usa <span class="ui">El de menor AIC</span>; un orden que no se puede ajustar queda fuera de la comparación, con una nota. Hacen falta al menos 3 observaciones en 2 tiempos.</td></tr>
       <tr><td><b>Vida al límite</b></td><td>El tiempo en que el modelo llega al <span class="ui">Límite de aceptación</span> (25 N en el ejemplo), con su intervalo de confianza; vida media = el tiempo a C₀/2.</td></tr>
-      <tr><td><b>Arrhenius</b></td><td>ln k = ln A − Eₐ/(RT), con T en kelvin y R = 8.314 J mol⁻¹ K⁻¹; ponderado por el error estándar de k si se pide. Al menos 2 temperaturas distintas.</td></tr>
+      <tr><td><b>Arrhenius</b></td><td>ln k = ln A − Eₐ/(RT), con T en kelvin y R = 8.314 J mol⁻¹ K⁻¹; ponderado por el error estándar de k si se pide. Al menos 2 temperaturas distintas. <span class="ruta">Bloque 3<span class="sep">›</span>Temperatura</span> abre con las k de partida del mango del ejemplo, las mismas que da <span class="ui">Modelos cinéticos</span> (0.06119, 0.1569 y 0.2508 a 13, 20 y 25 °C, con C₀ = 123.736): Eₐ = 84.2 kJ/mol. <span class="ui">Llevar las k al análisis de temperatura →</span> fija el orden, C₀ y el límite antes de llenar la tabla, y todo se recalcula al instante.</td></tr>
       <tr><td><b>Q10</b></td><td>(k₂/k₁)<sup>10/(T₂ − T₁)</sup> entre dos temperaturas; desde Eₐ, Q10 = exp(10·Eₐ / (R·T·(T + 10))): no es constante, baja al subir la temperatura.</td></tr>
       <tr><td><b>Raíz cuadrada</b></td><td>√k = b·(T − Tmín).</td></tr>
       <tr><td><b>Extrapolación</b></td><td>Una temperatura de almacén fuera de las ensayadas se marca «extrapolación» en los mosaicos.</td></tr>
       <tr><td><b>Prueba acelerada</b></td><td>ln θ contra 1/T (Arrhenius) o contra T (Q10), con el intervalo de predicción a la temperatura de almacén; al menos 3 vidas en 2 temperaturas.</td></tr>
       <tr><td><b>Kaplan–Meier</b></td><td>Ŝ(t) = Π(1 − dᵢ/nᵢ); intervalo logarítmico con Var[log Ŝ] = Σ dᵢ / (nᵢ(nᵢ − dᵢ)) (Greenwood). Comparación de grupos por el rango logarítmico.</td></tr>
-      <tr><td><b>Modelos paramétricos</b></td><td>Weibull, log-normal, log-logístico y exponencial por máxima verosimilitud con censura por la derecha, comparados por AIC; el tiempo hasta el <span class="ui">Rechazo tolerado (%)</span> (10 por omisión) y las razones de tiempos contra el grupo de referencia.</td></tr>
+      <tr><td><b>Modelos paramétricos</b></td><td>Weibull, log-normal, log-logístico y exponencial por máxima verosimilitud con censura por la derecha, comparados por AIC; el tiempo hasta el <span class="ui">Rechazo tolerado (%)</span> (10 por omisión) y las razones de tiempos contra el grupo de referencia. Sin frutos rechazados (estado 1) ningún modelo se ajusta; un modelo cuya máxima verosimilitud no converge queda con AIC aproximado y una nota.</td></tr>
     </tbody>
   </table>
 
   <h3>B.3 · Respiración, etileno y atmósferas (Bloque 4)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
       <tr><td style="width:1.9in"><b>Sistema estático</b></td><td>Tasa = pendiente del gas (% por hora) / 100 · volumen libre / volumen molar · masa molar · 1000 / masa de producto (mg kg⁻¹ h⁻¹); el volumen libre es el del frasco menos el del producto (masa / densidad). CR = CO₂ producido / O₂ consumido; aviso si CR &gt; 1.3: «posible respiración anaerobia».</td></tr>
       <tr><td><b>Calor de respiración</b></td><td>10.67 J por mg de CO₂ (la oxidación de una hexosa); W por tonelada = r · 10.67 · 1000 / 3600.</td></tr>
       <tr><td><b>Clases (Kader 2002)</b></td><td>Etileno a 20 °C (µL kg⁻¹ h⁻¹): &lt; 0.1 muy baja, 0.1–1 baja, 1–10 moderada, 10–100 alta, ≥ 100 muy alta. Respiración a 5 °C (mg CO₂ kg⁻¹ h⁻¹): &lt; 5 muy baja, 5–10 baja, 10–20 moderada, 20–40 alta, 40–60 muy alta, más extremadamente alta.</td></tr>
-      <tr><td><b>Climaterio</b></td><td>Alza respiratoria = pico / mínimo previo ≥ <span class="ui">Alza respiratoria mínima (×)</span> (1.5), con el pico antes de la última lectura; estallido de etileno = pico / mínimo previo ≥ <span class="ui">Alza de etileno mínima (×)</span> (10) o pico ≥ <span class="ui">Etileno pico mínimo</span> (1 µL kg⁻¹ h⁻¹). Climatérico: las dos (o sólo la respiratoria si no hay etileno); no climatérico: ninguna, con respiración plana o en descenso; lo demás, incierto.</td></tr>
+      <tr><td><b>Climaterio</b></td><td>Alza respiratoria = pico / mínimo previo ≥ <span class="ui">Alza respiratoria mínima (×)</span> (1.5), con el pico antes de la última lectura; estallido de etileno = pico / mínimo previo ≥ <span class="ui">Alza de etileno mínima (×)</span> (10) o pico ≥ <span class="ui">Etileno pico mínimo</span> (1 µL kg⁻¹ h⁻¹). Climatérico: las dos (o sólo la respiratoria si no hay etileno); no climatérico: ninguna, con respiración plana o en descenso; lo demás, incierto. Picos y adelanto del etileno en la <span class="ui">Unidad del tiempo</span> elegida («día 6», «1 día después»).</td></tr>
       <tr><td><b>Atmósfera de equilibrio</b></td><td>O₂ dentro = O₂ fuera − 100·r·W·24·L / (P·A); CO₂ análogo con la permeabilidad al CO₂ y CR. Con <span class="ui">Respiración limitada por el O₂ (Michaelis–Menten)</span>, r = Vm·[O₂] / (Km + [O₂]·(1 + [CO₂]/Ki)). β = P<sub>CO₂</sub>/P<sub>O₂</sub>; β necesaria = CR·(20.95 − O₂) / (CO₂ − 0.04).</td></tr>
       <tr><td><b>Límites del empaque</b></td><td>O₂ interno &lt; <b>1 %</b>: riesgo de anaerobiosis. Un espesor fuera de <b>8–150 µm</b> no se puede fabricar ni sellar como bolsa.</td></tr>
       <tr><td><b>Enfriamiento</b></td><td>Y = (T − Tm)/(Ti − Tm) = j·e<sup>−Ct</sup>; medio enfriamiento = ln(2j)/C; siete octavos = ln(8j)/C.</td></tr>
@@ -150,26 +155,27 @@
   </table>
 
   <h3>B.4 · Pérdidas y daño mecánico (Bloque 5)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
       <tr><td style="width:1.9in"><b>La cadena</b></td><td>Cada etapa pierde un % de lo que le entra (o unos kilos) y lo perdido ya no llega a la siguiente; valor perdido = kilos perdidos · precio de esa etapa. Índice de pérdidas = perdido / inicial · 100.</td></tr>
       <tr><td><b>Puntos críticos</b></td><td>Pareto: las etapas ordenadas de mayor a menor que juntas suman el <b>80 %</b> de la pérdida, en kilos y en valor.</td></tr>
-      <tr><td><b>Simular mejoras</b></td><td>La reducción es relativa: 50 % es perder la mitad de lo que se pierde hoy en esa etapa.</td></tr>
-      <tr><td><b>Daño mecánico</b></td><td>Curvas lineal, cuadrática, de potencia y exponencial (estas dos en escala logarítmica), comparadas por AIC; energía = m·g·h; susceptibilidad = daño por joule; volumen de un casquete = πh(3w²/4 + h²)/6.</td></tr>
-      <tr><td><b>Incidencia</b></td><td>Regresión logística de dañado (0/1) contra la altura; la altura que daña al 50 % y al 10 %, con intervalo de Fieller.</td></tr>
+      <tr><td><b>Simular mejoras</b></td><td>La reducción es relativa: 50 % es perder la mitad de lo que se pierde hoy en esa etapa. Con una cadena nueva, propone la etapa que más valor pierde (en el ejemplo, <span class="ui">Venta al menudeo</span>).</td></tr>
+      <tr><td><b>Daño mecánico</b></td><td>Curvas lineal, cuadrática, de potencia (a·x<sup>b</sup>) y exponencial (a·e<sup>bx</sup>), estas dos ajustadas en escala logarítmica pero con a (no ln a) en la tabla; se comparan por AIC. Energía = m·g·h.</td></tr>
+      <tr><td><b>Susceptibilidad al daño</b></td><td>Volumen del daño (mm³) / energía (J), promediado sobre los frutos con daño medido y energía positiva (Bajema y Hyde 1998): <b>mm³/J</b> (135 en el ejemplo, 60 frutos). La energía es la de su columna, la del eje x si es una energía o m·g·h con la masa y la altura. Con el área en lugar del volumen sale en mm²/J, con el mosaico marcado como aviso y una advertencia en la lectura: no se compara con valores publicados. Volumen de un casquete = πh(3w²/4 + h²)/6.</td></tr>
+      <tr><td><b>Incidencia</b></td><td>Regresión logística de dañado (0/1) contra la altura; la altura que daña al 50 % (e50) y al 10 % (e10), con intervalo de Fieller y en la unidad del eje (26.9 y 15.3 cm en el ejemplo); el umbral de la recta, también con unidad (3.5 cm).</td></tr>
     </tbody>
   </table>
 
   <h3>B.5 · Evaluación sensorial (Bloque 6)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
       <tr><td style="width:1.9in"><b>Adivinanza y discriminadores</b></td><td>p<sub>g</sub> = 1/3 (triangular, 3-AFC, tétrada) o 1/2 (dúo-trío, 2-AFC); pd = (pc − p<sub>g</sub>) / (1 − p<sub>g</sub>).</td></tr>
       <tr><td><b>Funciones psicométricas</b></td><td>2-AFC: Pc = Φ(d′/√2); dúo-trío: 1 − Φ(d′/√2) − Φ(d′/√6) + 2Φ(d′/√2)Φ(d′/√6); triangular: 2∫₀^∞ [Φ(−z√3 + d′√(2/3)) + Φ(−z√3 − d′√(2/3))] φ(z) dz; 3-AFC: ∫ φ(z − d′) Φ(z)² dz; tétrada: 1 − 2∫ φ(z)[2Φ(z)Φ(z − d′) − Φ(z − d′)²] dz. d′ = 0 si pc ≤ p<sub>g</sub>.</td></tr>
       <tr><td><b>Prueba</b></td><td>Diferencia: p = P(X ≥ x | pc₀); similitud: p = P(X ≤ x | pc₀), con pc₀ el de pd₀. Error estándar de d′ por el método delta.</td></tr>
       <tr><td><b>Planear</b></td><td>El menor número de jueces cuya potencia exacta supera la deseada (por omisión d′ 1.5, α 0.05, potencia 0.8); potencia &lt; 0.8 se marca «baja».</td></tr>
-      <tr><td><b>A–no A · preferencia</b></td><td>d′ = z(H) − z(F), p de Fisher unilateral; preferencia: binomial bilateral con p₀ = ½.</td></tr>
-      <tr><td><b>Hedónica</b></td><td>Agrado = producto + consumidor + error; Tukey–Kramer al 5 %; Friedman con los consumidores completos. Desbalanceado: efecto de producto ajustado por consumidor.</td></tr>
-      <tr><td><b>Punto justo</b></td><td>Caída = ȳ<sub>justo</sub> − ȳ<sub>grupo</sub>; penalidad ponderada = caída · % del grupo / 100; t con varianza combinada. Importa si el grupo reúne ≥ el <span class="ui">Umbral de consumidores (%)</span> (20) y la caída es positiva. Escala de 3, 5, 7 o 9 niveles.</td></tr>
+      <tr><td><b>A–no A · preferencia</b></td><td>d′ = z(H) − z(F), p de Fisher unilateral; preferencia: binomial bilateral con p₀ = ½. Los «sin preferencia» se excluyen o se reparten mitad y mitad; si son impares, uno se descarta.</td></tr>
+      <tr><td><b>Hedónica</b></td><td>Agrado = producto + consumidor + error; Tukey–Kramer al 5 %; Friedman con los consumidores completos. Desbalanceado: tabla secuencial (producto primero) más la fila <span class="ui">Producto, ajustado por consumidor</span> (producto al final), que es el efecto que se informa; medias observadas.</td></tr>
+      <tr><td><b>Punto justo</b></td><td>Caída = ȳ<sub>justo</sub> − ȳ<sub>grupo</sub>; penalidad ponderada = caída · % del grupo / 100; t con varianza combinada. Importa si el grupo reúne ≥ el <span class="ui">Umbral de consumidores (%)</span> (20) y la caída es positiva. Escala de 3, 5, 7 o 9 niveles: con un número par, aviso y resultados ocultos (fuera del informe).</td></tr>
       <tr><td><b>CATA</b></td><td>Q = (k − 1)[kΣC<sub>j</sub>² − N²] / (kN − ΣR<sub>i</sub>²), χ² con k − 1 gl; McNemar por pares con Holm; análisis de correspondencias de la tabla de frecuencias.</td></tr>
       <tr><td><b>Perfil</b></td><td>Intensidad = producto + juez + [sesión] + producto × juez + error; con repeticiones, F de producto = CM<sub>producto</sub> / CM<sub>producto×juez</sub>; medias con LSD o Tukey con ese error; ACP de las medias.</td></tr>
       <tr><td><b>Panel</b></td><td>Se señala a un juez si su p mediano &gt; <b>0.20</b> («discrimina poco»), su acuerdo mediano &lt; <b>0.5</b> («no coincide con el panel») o su DE residual media &gt; <b>1.5</b> veces la mediana del panel («repite poco»).</td></tr>
@@ -178,29 +184,31 @@
   </table>
 
   <h3>B.6 · Ensayos (Bloque 7)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
       <tr><td style="width:1.9in"><b>Factorial</b></td><td>Tratamiento × tiempo con sumas de cuadrados tipo III (por omisión); si la interacción es significativa, los tratamientos se comparan dentro de cada tiempo. Tukey, LSD o Dunnett contra el testigo.</td></tr>
+      <tr><td><b>Celdas vacías</b></td><td>Si alguna combinación tratamiento × tiempo no tiene datos, la app la nombra. Con el tipo III, los efectos principales no son estimables (sin F ni p: «no estimable (celdas vacías)»); la interacción, con menos gl, y las comparaciones dentro de cada tiempo siguen valiendo. Con el tipo I, cada efecto se prueba en orden y la interacción pierde grados de libertad.</td></tr>
       <tr><td><b>Medidas repetidas</b></td><td>Tratamiento contra el error entre unidades; tiempo e interacción contra el error dentro. Esfericidad por Mauchly; ε de Greenhouse–Geisser = (Σλ)² / ((b − 1)Σλ²) y de Huynh–Feldt; dentro de cada tiempo, el error combinado con los grados de libertad de Satterthwaite.</td></tr>
       <tr><td><b>Pendientes</b></td><td>Una recta por tratamiento; prueba de pendientes iguales y pares con Holm.</td></tr>
     </tbody>
   </table>
 
   <h3>B.7 · Empaque y almacén (Bloque 8) e informe (Bloque 9)</h3>
-  <table class="compacta">
+  <table class="compacta apx">
     <tbody>
-      <tr><td style="width:1.9in"><b>Ventilación</b></td><td>Área abierta de cada cara (%): ≥ <b>5 %</b> suficiente; 3–5 % en amarillo; &lt; 3 % en rojo.</td></tr>
-      <tr><td><b>Psicrometría</b></td><td>Presión de saturación sobre agua (Wagner y Pruss 2002) y sobre hielo (Wagner et al. 2011). Déficit producto–aire = p<sub>ws</sub>(T<sub>producto</sub>) − HR·p<sub>ws</sub>(T<sub>aire</sub>).</td></tr>
+      <tr><td style="width:1.9in"><b>Tarima y contenedor</b></td><td>La carga de cada tarima es el producto y las cajas más el <span class="ui">Peso de la tarima vacía (kg)</span> (25); las tarimas por contenedor se limitan por espacio o por peso.</td></tr>
+      <tr><td><b>Ventilación</b></td><td>Área abierta de cada cara (%): ≥ <b>5 %</b> suficiente; 3–5 % en amarillo; &lt; 3 % en rojo.</td></tr>
+      <tr><td><b>Psicrometría</b></td><td>Presión de saturación sobre agua (Wagner y Pruss 2002) y sobre hielo (Wagner et al. 2011). Déficit producto–aire = p<sub>ws</sub>(T<sub>producto</sub>) − HR·p<sub>ws</sub>(T<sub>aire</sub>). La frase «Con la HR en 95 % en lugar de …» recalcula el déficit y la pérdida con la HR escrita.</td></tr>
       <tr><td><b>Pérdida de agua</b></td><td>% por día = k (mg kg⁻¹ s⁻¹ MPa⁻¹) · déficit (MPa) · 86 400 / 10⁶ · 100. El informe la señala si pasa de <b>2 % por semana</b>.</td></tr>
-      <tr><td><b>Compatibilidad</b></td><td>Incompatibles si los intervalos de temperatura no se traslapan, o si uno produce mucho etileno (clase alta o muy alta) y el otro es muy sensible; aviso si las humedades difieren más de 5 puntos, si hay riesgo moderado por etileno o si uno desprende olores.</td></tr>
-      <tr><td><b>Recomendaciones del informe</b></td><td>Reglas fijas: la vida al límite de cada grupo; con Eₐ, el % de vida que se pierde por cada grado (entre 10 y 11 °C); climatérico; respiración &gt; 40 mg CO₂ kg⁻¹ h⁻¹; empaque fuera de ventana; la etapa de mayor valor perdido; alturas de caída; el producto de más agrado; pérdida de agua &gt; 2 % por semana; cajas con &lt; 5 % de área abierta; productos incompatibles.</td></tr>
+      <tr><td><b>Compatibilidad</b></td><td>Incompatibles si los intervalos de temperatura no se traslapan, o si uno produce mucho etileno (clase alta o muy alta) y el otro es muy sensible; aviso si las humedades difieren más de 5 puntos, si hay riesgo moderado por etileno o si uno desprende olores. <span class="ui">Pares con riesgo</span> cuenta todo par con algún aviso, aunque además sea incompatible (lo dice debajo: «3 también incompatibles»).</td></tr>
+      <tr><td><b>Recomendaciones del informe</b></td><td>Sólo con las secciones marcadas (por omisión, las que usaste; las que guardan sólo los valores de ejemplo quedan sin marcar). Reglas fijas: la vida al límite de cada grupo; con Eₐ, el % de vida que se pierde por cada grado (entre 10 y 11 °C); climatérico; respiración &gt; 40 mg CO₂ kg⁻¹ h⁻¹; empaque fuera de ventana; la etapa de mayor valor perdido; caídas por debajo de la altura que daña al 10 % (con la del 50 %, en su unidad); el producto de más agrado; pérdida de agua &gt; 2 % por semana; cajas con &lt; 5 % de área abierta; productos incompatibles.</td></tr>
     </tbody>
   </table>
 
   <!-- ================================================================= C -->
   <h2 id="ap-c"><span class="num">C</span>Glosario</h2>
   <p>Los términos de la poscosecha, del análisis sensorial y de la estadística que usa el manual, con el sentido en que los usa la app.</p>
-  <table class="compacta">
+  <table class="compacta apx">
     <thead><tr><th style="width:1.6in">Término</th><th>Significado</th></tr></thead>
     <tbody>
       <tr><td><b>A–no A</b></td><td>Prueba en que el juez aprende la muestra «A» y luego dice, ante cada muestra, si es «A» o no.</td></tr>
@@ -217,6 +225,8 @@
       <tr><td><b>d′ (d prima)</b></td><td>El tamaño de una diferencia sensorial en desviaciones estándar de la sensación (modelo de Thurstone); comparable entre métodos.</td></tr>
       <tr><td><b>ΔE00</b></td><td>La diferencia entre dos colores según la fórmula CIEDE2000, que corrige las distorsiones del espacio L*a*b*.</td></tr>
       <tr><td><b>Déficit de presión de vapor</b></td><td>La diferencia entre la presión de vapor en la superficie del producto y la del aire: la fuerza que lo deshidrata.</td></tr>
+      <tr><td><b>Desbalanceado (diseño)</b></td><td>Un diseño en que no todas las combinaciones tienen el mismo número de datos (un consumidor que no probó un producto, una celda vacía): el orden de los efectos cambia las sumas de cuadrados.</td></tr>
+      <tr><td><b>e10 · e50</b></td><td>La altura (o energía) de caída que daña al 10 % y al 50 % de los frutos, de la regresión logística de la incidencia.</td></tr>
       <tr><td><b>Energía de activación (Eₐ)</b></td><td>Cuánto acelera la temperatura una reacción; con Eₐ alta, el deterioro es más sensible al frío y al calor.</td></tr>
       <tr><td><b>Esfericidad · ε</b></td><td>Supuesto de las medidas repetidas: las diferencias entre cualquier par de tiempos tienen la misma varianza. ε (Greenhouse–Geisser, Huynh–Feldt) mide cuánto se aparta, y corrige los grados de libertad.</td></tr>
       <tr><td><b>Estado estacionario</b></td><td>En un empaque o una cámara con flujo, el momento en que las concentraciones ya no cambian porque lo que entra iguala a lo que sale o se consume.</td></tr>
@@ -238,7 +248,8 @@
       <tr><td><b>Q de Cochran</b></td><td>Prueba de si la proporción de respuestas «sí» a una pregunta difiere entre varios productos evaluados por las mismas personas.</td></tr>
       <tr><td><b>Razón de tiempos</b></td><td>Cuántas veces alarga (o acorta) un tratamiento el tiempo hasta el rechazo respecto al de referencia.</td></tr>
       <tr><td><b>SST/AT</b></td><td>Sólidos solubles totales (°Brix) entre acidez titulable (%): el índice clásico de madurez y sabor.</td></tr>
-      <tr><td><b>Susceptibilidad al daño</b></td><td>El daño (volumen o área) que produce cada joule de impacto.</td></tr>
+      <tr><td><b>Sumas de cuadrados tipo I y tipo III</b></td><td>Secuenciales (cada efecto ajustado por los anteriores) o ajustadas (cada efecto ajustado por todos los demás). Coinciden con datos balanceados; con celdas vacías, el tipo III no puede probar los efectos principales.</td></tr>
+      <tr><td><b>Susceptibilidad al daño</b></td><td>El volumen del daño que produce cada joule de impacto, en mm³/J (Bajema y Hyde 1998); con el área en lugar del volumen, mm²/J, que no se compara con los valores publicados.</td></tr>
       <tr><td><b>Tmín</b></td><td>La temperatura teórica a la que el deterioro se detendría, del modelo de raíz cuadrada.</td></tr>
       <tr><td><b>Vida de anaquel</b></td><td>El tiempo que el producto se conserva aceptable en unas condiciones dadas.</td></tr>
       <tr><td><b>Williams (cuadrado de)</b></td><td>Orden de presentación de las muestras balanceado por posición y por la muestra anterior.</td></tr>
@@ -248,7 +259,7 @@
   <!-- ================================================================= D -->
   <h2 id="ap-d"><span class="num">D</span>Cuando algo no sale</h2>
   <p>Los mensajes de la app, tal como aparecen, con lo que suelen querer decir y qué hacer. Los puntos suspensivos son la parte del mensaje que cambia (un nombre, un número).</p>
-  <table class="compacta">
+  <table class="compacta apx">
     <thead><tr><th style="width:2.55in">Mensaje</th><th>Qué pasa y qué hacer</th></tr></thead>
     <tbody>
       <tr><td colspan="2"><b>Abrir una tabla (todas las herramientas)</b></td></tr>
@@ -261,21 +272,34 @@
       <tr><td>«No se pudo analizar: …»</td><td>Las columnas elegidas no sirven para ese análisis (texto donde va un número, un solo grupo, muy pocas filas). Revisa los papeles y el formato largo.</td></tr>
       <tr><td colspan="2"><b>Calidad y vida de anaquel (Bloques 2 y 3)</b></td></tr>
       <tr><td>«… calificaciones no corresponden a ninguna clase de la escala y no se cuentan.»</td><td>En <span class="ruta">Bloque 2<span class="sep">›</span>Escalas</span>, la columna tiene valores que no son clases de la escala elegida; cambia la plantilla o corrige los datos.</td></tr>
+      <tr><td>«… lotes no tienen ninguna calificación dentro de las clases de la escala y se dejan fuera: ….»</td><td>Esos lotes no tienen índice. Con el mango y la plantilla de madurez de 1 a 5, seis lotes quedan fuera: la escala no corresponde a la columna.</td></tr>
+      <tr><td>«La columna de la clase no tiene ningún número.» · «La escala necesita al menos una clase con su valor.»</td><td>Elige la columna de la calificación, o escribe el valor de cada clase de la escala.</td></tr>
       <tr><td>«Escribe al menos un lote.»</td><td>Pulsaste <span class="ui">Usar los conteos</span> sin conteos.</td></tr>
+      <tr><td>«Ningún fruto cae dentro de las clases: los datos van de … a … y las clases de … a …. Revisa los límites y la unidad (peso o diámetro).»</td><td>En <span class="ruta">Bloque 2<span class="sep">›</span>Calibres</span>, las clases no corresponden a la columna (gramos contra milímetros, por ejemplo). Si algunos frutos sí caen, la lectura termina con «· fuera de las clases …%».</td></tr>
+      <tr><td>«…: no se pudo ajustar y queda fuera de la comparación.»</td><td>En <span class="ui">Modelos cinéticos</span>, ese orden de reacción no tiene solución con esos datos; los otros se comparan sin él.</td></tr>
+      <tr><td>«El ajuste no lineal no convergió; los resultados son aproximados.» · «La linealización requiere valores positivos del atributo.»</td><td>Notas del ajuste bajo la lectura (con el grupo delante si hay varios): revisa los datos y el orden elegido.</td></tr>
       <tr><td>«Para Arrhenius el grupo debe ser la temperatura (números).»</td><td>Pulsaste <span class="ui">Llevar las k al análisis de temperatura →</span> con un grupo que no es una temperatura numérica.</td></tr>
       <tr><td>Mosaico «Cuidado · extrapolación · fuera de …»</td><td>La temperatura de almacén está fuera de las ensayadas: la predicción es una extrapolación.</td></tr>
+      <tr><td>«Ningún modelo paramétrico pudo ajustarse: hacen falta frutos rechazados (estado 1).»</td><td>En <span class="ui">Tiempo hasta rechazo</span> todos los frutos están censurados: sólo queda Kaplan–Meier.</td></tr>
+      <tr><td>«…: la máxima verosimilitud no convergió; su AIC es aproximado.»</td><td>Ese modelo paramétrico se compara con un AIC aproximado; no lo elijas sólo por él.</td></tr>
       <tr><td colspan="2"><b>Respiración, pérdidas y empaque (Bloques 4, 5 y 8)</b></td></tr>
       <tr><td>«posible respiración anaerobia» (mosaico del cociente respiratorio)</td><td>CR &gt; 1.3: revisa que el frasco no se haya quedado sin O₂ y acorta la incubación.</td></tr>
       <tr><td>«Riesgo de anaerobiosis: el O₂ interno queda por debajo de 1 %…»</td><td>El empaque es demasiado cerrado: película más permeable, menos espesor, más área o menos producto.</td></tr>
-      <tr><td>Climaterio «Incierto»</td><td>La respiración sigue subiendo en la última lectura o las dos señales no coinciden: alarga el seguimiento.</td></tr>
+      <tr><td>Climaterio «Incierto»</td><td>La respiración sigue subiendo en la última lectura o las dos señales no coinciden: alarga el seguimiento. Si los picos salen en una unidad que no es la tuya, corrige <span class="ui">Unidad del tiempo</span> o <span class="ui">Unidad de la respiración</span>.</td></tr>
       <tr><td>«Primero arma la cadena en «Pérdidas por etapa».»</td><td><span class="ruta">Bloque 5<span class="sep">›</span>Simular mejoras</span> necesita la cadena de la pestaña anterior.</td></tr>
+      <tr><td>Susceptibilidad en mm²/J: «Bajema y Hyde (1998) la definen con el volumen del daño (mm³/J): este valor no se compara con los publicados en mm³/J; elige la columna del volumen si la tienes.»</td><td>En <span class="ui">Daño mecánico</span> no hay columna de volumen y se usó el área. Elige <span class="ui">Volumen del daño (mm³), para la susceptibilidad</span>.</td></tr>
       <tr><td colspan="2"><b>Evaluación sensorial (Bloque 6)</b></td></tr>
-      <tr><td>«Con un número par de niveles no hay centro: usa 3, 5, 7 o 9.»</td><td>Corrige <span class="ui">Niveles de la escala</span>. Mientras tanto, los resultados que se ven son los del valor anterior.</td></tr>
-      <tr><td>«Diseño desbalanceado: la tabla de ANOVA es secuencial…»</td><td>En la hedónica, no todos los consumidores calificaron todos los productos; el efecto de producto se ajusta por consumidor (sección 6.4).</td></tr>
+      <tr><td>«Con un número par de niveles no hay centro: usa 3, 5, 7 o 9.»</td><td>Corrige <span class="ui">Niveles de la escala</span>; mientras tanto los resultados se esconden y salen del informe.</td></tr>
+      <tr><td>«Diseño desbalanceado (no todos los consumidores calificaron todos los productos): la tabla de ANOVA es secuencial…»</td><td>En la hedónica falta alguna calificación; el efecto de producto que se informa es la fila <span class="ui">Producto, ajustado por consumidor</span> (sección 6.4).</td></tr>
+      <tr><td>«Las respuestas «sin preferencia» no entran en la prueba.» · «Número impar de respuestas «sin preferencia»: una se descartó al repartirlas.»</td><td>Notas de la preferencia pareada: dicen qué se hizo con los «sin preferencia».</td></tr>
       <tr><td>«Con … jueces el balance no es completo: usa un múltiplo de … (por ejemplo …).»</td><td>En <span class="ui">Fichas de cata</span>, cambia el número de jueces al múltiplo propuesto.</td></tr>
       <tr><td>«El navegador bloqueó la ventana: permite ventanas emergentes para imprimir.»</td><td>Permite las ventanas emergentes para la página de la app y pulsa otra vez <span class="ui">Imprimir las fichas</span>.</td></tr>
+      <tr><td colspan="2"><b>Ensayos (Bloque 7)</b></td></tr>
+      <tr><td>«Una combinación (… combinaciones) de … y … no tiene (tienen) datos (…). Con celdas vacías, las sumas de cuadrados del tipo III no pueden probar los efectos principales…»</td><td>En el factorial falta alguna combinación tratamiento × tiempo; los mosaicos dicen «no estimable (celdas vacías)». Mira la interacción y las comparaciones dentro de cada tiempo, o usa el tipo I.</td></tr>
+      <tr><td>«… Con el tipo I cada efecto se prueba en orden (… ajustado por …) y la interacción pierde … grados de libertad.»</td><td>El mismo caso con el tipo I: sólo un aviso.</td></tr>
       <tr><td colspan="2"><b>Informe y proyecto (Bloque 9)</b></td></tr>
-      <tr><td>«Elige al menos una sección (o corre algún análisis).»</td><td>No hay ningún resultado o desmarcaste todas las secciones.</td></tr>
+      <tr><td>«Todavía no hay secciones: corre algún análisis en los bloques 2 a 8.»</td><td>No has usado ninguna herramienta. Las que sólo tienen sus valores de ejemplo aparecen debajo, sin marcar; márcalas si quieres que entren.</td></tr>
+      <tr><td>«Elige al menos una sección (o corre algún análisis).»</td><td>No hay ninguna sección marcada.</td></tr>
       <tr><td>«El archivo no es un JSON válido.» · «El archivo no es un proyecto de PostHarvestPro.»</td><td>Abre un <code>proyecto_postharvestpro_….json</code> guardado por la app.</td></tr>
       <tr><td>«Proyecto abierto: … tablas de datos, … tablas editadas y … ajustes.»</td><td>Sólo un aviso: el proyecto se abrió y todo se recalculó.</td></tr>
       <tr><td>«Se descargó «….csv»: ábrelo en … (Bloque de datos).»</td><td>Enviaste una tabla a otra app de la suite: se descargó el CSV y se abrió esa app en otra pestaña; ábrelo en su bloque de datos.</td></tr>
@@ -317,14 +341,17 @@
 
   <!-- ================================================================= F -->
   <h2 id="ap-f"><span class="num">F</span>Referencias</h2>
-  <p>Las 78 obras del catálogo de la app, agrupadas por el primer bloque que las cita y, dentro de cada tema, en orden alfabético. Son las mismas de la sección <span class="ui">Referencias</span> de la portada y del informe.</p>
+  <p>Las 81 obras del catálogo de la app, agrupadas por el primer bloque que las cita y, dentro de cada tema, en orden alfabético. Son las mismas de la sección <span class="ui">Referencias</span> de la portada y del informe.</p>
   <!-- REFERENCIAS -->
   <h3>F.1 · Calidad, madurez y color</h3>
   <ul class="refs">
     <li>AOAC International. (2019). Method 942.15: Acidity (titratable) of fruit products. In Official methods of analysis (21st ed.).</li>
     <li>CIE. (2018). Colorimetry (4th ed., CIE 015:2018). Commission Internationale de l'Éclairage.</li>
+    <li>Francis, F. J., &amp; Clydesdale, F. M. (1975). Food colorimetry: Theory and applications. AVI Publishing.</li>
+    <li>Hobson, G. E., Adams, P., &amp; Dixon, T. J. (1983). Assessing the colour of tomato fruit during ripening. Journal of the Science of Food and Agriculture, 34(3), 286–292.</li>
     <li>Jiménez-Cuesta, M., Cuquerella, J., &amp; Martínez-Jávega, J. M. (1981). Determination of a color index for citrus fruit degreening. Proceedings of the International Society of Citriculture, 2, 750–753.</li>
     <li>Jordan, R. B., Seelye, R. J., &amp; McGlone, V. A. (2001). A sensory-based alternative to Brix/acid ratio. Food Technology, 55(4), 36–44.</li>
+    <li>Judd, D. B., &amp; Wyszecki, G. (1975). Color in business, science, and industry (3rd ed.). Wiley.</li>
     <li>Kader, A. A. (Ed.). (2002). Postharvest technology of horticultural crops (3rd ed., Publication 3311). University of California, Agriculture and Natural Resources.</li>
     <li>McGuire, R. G. (1992). Reporting of objective color measurements. HortScience, 27(12), 1254–1255.</li>
     <li>McKinney, H. H. (1923). Influence of soil temperature and moisture on infection of wheat seedlings by Helminthosporium sativum. Journal of Agricultural Research, 26, 195–218.</li>
