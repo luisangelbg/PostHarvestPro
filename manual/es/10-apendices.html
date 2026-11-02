@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Apéndices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  table.ficheros code { white-space: nowrap; }
+  pre.archivo { font-family: var(--mono); font-size: 8.4pt; line-height: 1.4; background: #fbf6ef; border: 1px solid var(--linea); border-left: 3px solid var(--acento); border-radius: 0 4px 4px 0; padding: 0.07in 0.12in; margin: 0.05in 0 0.16in; white-space: pre-wrap; break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="apendices" data-pestana="Ap" data-orden="10" style="--acento: var(--bx)">
+  <div class="cap-apertura">
+    <div class="cap-num">A</div>
+    <div class="cap-etiqueta">Apéndices</div>
+    <h1 data-corto="Apéndices">Apéndices</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Lo que conviene tener a la mano y no cabía en ningún capítulo: qué archivos lee y escribe la app y cómo los lee, las reglas y las fórmulas de los nueve bloques reunidas en un solo lugar, el vocabulario de la poscosecha y de la estadística que usa el manual, qué hacer cuando algo no sale, la licencia de la herramienta con la manera de citarla y las 78 referencias de la app.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>A</b>Los archivos que la app lee y escribe</li>
+      <li><b>B</b>Las reglas y las fórmulas, reunidas</li>
+      <li><b>C</b>Glosario</li>
+      <li><b>D</b>Cuando algo no sale</li>
+      <li><b>E</b>La herramienta: licencia y cómo citarla</li>
+      <li><b>F</b>Referencias</li>
+    </ul>
+  </div>
+
+  <!-- ================================================================= A -->
+  <h2 id="ap-a"><span class="num">A</span>Los archivos que la app lee y escribe</h2>
+  <p class="lead">PostHarvestPro corre en el navegador y no envía nada a ningún servidor: las tablas entran desde tu computadora y lo que la app escribe sale a tu carpeta de descargas.</p>
+
+  <h3>A.1 · Lo que la app lee</h3>
+  <p>Cada herramienta que analiza una tabla tiene la misma entrada (sección 2.1): <span class="ui">Abrir archivo (CSV, TXT, XLSX, ODS)</span>, <span class="ui">Pegar una tabla</span> o soltar el archivo en <span class="ui">…o suelta aquí el archivo</span>. El proyecto entra por el Bloque 9.</p>
+  <table class="compacta ficheros">
+    <thead><tr><th style="width:1.25in">Qué</th><th style="width:1.45in">Extensión</th><th>Cómo lo lee</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tabla de texto</b></td><td><code>.csv</code> <code>.tsv</code> <code>.txt</code></td><td>El separador se adivina con las primeras 20 líneas: el tabulador, el punto y coma o la coma, el que aparezca el mismo número de veces en todas (las comillas se respetan). Si el separador no es la coma, se acepta la <b>coma decimal</b> (<code>12,5</code>). La marca de orden de bytes del principio se ignora y las líneas vacías se saltan.</td></tr>
+      <tr><td><b>Libro de hoja de cálculo</b></td><td><code>.xlsx</code> <code>.xlsm</code> <code>.ods</code></td><td>Lo lee un lector propio, sin bibliotecas. Si el libro tiene varias hojas aparece un selector y se abre la primera. Los formatos antiguos (<code>.xls</code>, <code>.xlsb</code>, <code>.xlt</code>, <code>.xla</code>) no se abren: guárdalos como <code>.xlsx</code>, <code>.ods</code> o <code>.csv</code>.</td></tr>
+      <tr><td><b>Celdas pegadas</b></td><td>—</td><td>Copiadas de una hoja de cálculo, con los nombres de las columnas en la primera fila; se leen como un texto separado por tabuladores.</td></tr>
+      <tr><td><b>Proyecto</b></td><td><code>.json</code></td><td><span class="ui">Abrir proyecto…</span> del Bloque 9. Sólo un archivo escrito por la app, con <code>"app": "PostHarvestPro"</code> (capítulo 9).</td></tr>
+    </tbody>
+  </table>
+  <p>En todos los casos la primera fila son los nombres de las columnas (una sin nombre se llama <code>col1</code>, <code>col2</code>…, y un nombre repetido recibe <code>_2</code>). Una celda es número si lo parece (con signo, decimales o exponente); si no, es texto. Las celdas vacías, <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>-</code> y <code>—</code> son <b>faltantes</b>. Las tablas van siempre en <b>formato largo</b>: una fila por unidad observada (fruto, frasco, consumidor por producto) y una columna por variable.</p>
+  <p>Después de leer la tabla, la app propone la columna de cada papel por su nombre: compara sin mayúsculas, acentos ni signos, primero el nombre completo y luego como parte del nombre (<code>Temperatura (°C)</code> sirve para la temperatura). Los papeles marcados <span class="ui">(opcional)</span> pueden quedar en <span class="ui">— ninguna —</span>. Algunas listas se proponen por su contenido: los términos CATA son las columnas con sólo 0 y 1, y los atributos de punto justo, las que empiezan por <code>jar_</code>.</p>
+
+  <h4>Los diez conjuntos de ejemplo</h4>
+  <p>Los mismos que trae la app, en la carpeta <code>data/</code> y con <span class="ui">⤓ CSV del ejemplo</span> en cada herramienta. Todos son <b>simulados</b> (<code>tools/generar_datos.R</code>, semilla 20261004).</p>
+  <table class="compacta ficheros">
+    <thead><tr><th style="width:1.75in">Archivo</th><th class="num" style="width:0.45in">Filas</th><th>Columnas</th><th style="width:1.3in">Herramientas</th></tr></thead>
+    <tbody>
+      <tr><td><code>mango_temperaturas.csv</code></td><td class="num">72</td><td><code>temperatura</code>, <code>dia</code>, <code>fruto</code>, <code>peso_inicial_g</code>, <code>firmeza_N</code>, <code>L</code>, <code>a</code>, <code>b</code>, <code>sst</code>, <code>at</code>, <code>ph</code>, <code>perdida_peso</code>, <code>antracnosis</code></td><td>2 (las cuatro con datos), 3 › Modelos cinéticos, 7 › Factorial</td></tr>
+      <tr><td><code>chayote_rechazo.csv</code></td><td class="num">90</td><td><code>fruto</code>, <code>tratamiento</code>, <code>dias</code>, <code>rechazado</code></td><td>3 › Tiempo hasta rechazo</td></tr>
+      <tr><td><code>chayote_peso.csv</code></td><td class="num">108</td><td><code>fruto</code>, <code>tratamiento</code>, <code>dia</code>, <code>perdida_peso</code></td><td>7 › Medidas repetidas, Pendientes</td></tr>
+      <tr><td><code>aguacate_estatico.csv</code></td><td class="num">15</td><td><code>frasco</code>, <code>masa_kg</code>, <code>volumen_frasco_L</code>, <code>tiempo_h</code>, <code>co2_pct</code>, <code>o2_pct</code>, <code>etileno_ppm</code></td><td>4 › Sistema estático</td></tr>
+      <tr><td><code>aguacate_climaterico.csv</code></td><td class="num">13</td><td><code>dia</code>, <code>respiracion_mg</code>, <code>etileno_ul</code></td><td>4 › Climaterio</td></tr>
+      <tr><td><code>jitomate_cadena.csv</code></td><td class="num">6</td><td><code>etapa</code>, <code>perdida_pct</code>, <code>precio_kg</code></td><td>5 › Pérdidas por etapa</td></tr>
+      <tr><td><code>jitomate_caidas.csv</code></td><td class="num">60</td><td><code>altura_cm</code>, <code>masa_g</code>, <code>energia_J</code>, <code>area_mm2</code>, <code>volumen_mm3</code>, <code>danado</code></td><td>5 › Daño mecánico</td></tr>
+      <tr><td><code>cafe_discriminativas.csv</code></td><td class="num">3</td><td><code>prueba</code>, <code>muestras</code>, <code>correctas</code>, <code>total</code></td><td>6 › Discriminativas</td></tr>
+      <tr><td><code>cafe_consumidores.csv</code></td><td class="num">320</td><td><code>consumidor</code>, <code>cafe</code>, <code>agrado</code>, <code>jar_acidez</code>, <code>jar_amargor</code>, <code>jar_cuerpo</code> y diez términos 0/1 (<code>Afrutado</code> … <code>Astringente</code>)</td><td>6 › Hedónica, Punto justo, CATA</td></tr>
+      <tr><td><code>cafe_descriptivo.csv</code></td><td class="num">64</td><td><code>juez</code>, <code>sesion</code>, <code>cafe</code>, <code>Fragancia</code>, <code>Acidez</code>, <code>Amargor</code>, <code>Cuerpo</code>, <code>Dulzor</code>, <code>Astringencia</code>, <code>Residual</code></td><td>6 › Perfil descriptivo</td></tr>
+    </tbody>
+  </table>
+  <p>Un ejemplo de tabla en formato largo, como la del mango (el encabezado y las dos primeras filas):</p>
+  <pre class="archivo">"temperatura","dia","fruto","peso_inicial_g","firmeza_N","L","a","b","sst","at","ph","perdida_peso","antracnosis"
+13,0,1,346,106.9,60.8,-11.2,34.1,8.9,1.28,2.99,0,0
+13,0,2,294,128.7,61,-12.4,37,8.8,1.24,2.95,0,0</pre>
+
+  <h3>A.2 · Lo que la app escribe</h3>
+  <table class="compacta ficheros">
+    <thead><tr><th style="width:0.5in">Bloque</th><th style="width:2.2in">Archivo</th><th>Qué contiene</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td><code>resumen_calidad</code> · <code>color_por_grupo</code> · <code>escala_indices</code> · <code>calibres</code></td><td>Las tablas de resultados del bloque (<span class="ui">⤓ CSV</span> o <span class="ui">⤓ XLSX</span>).</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><code>cinetica</code> · <code>cinetica_ordenes</code> · <code>arrhenius</code> · <code>tiempo_hasta_rechazo</code> · <code>modelos_supervivencia</code></td><td>Íd.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><code>respiracion_estatico</code> · <code>respiracion_flujo</code> · <code>atmosfera_peliculas</code></td><td>Íd.</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><code>perdidas_por_etapa</code> · <code>simulacion_mejoras</code> · <code>curvas_de_dano</code></td><td>Íd.</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><code>perdidas_cadena.csv</code></td><td>La cadena, para EconomicsPro (<span class="ui">Enviar a EconomicsPro →</span>).</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>discriminativas</code> · <code>hedonica</code> · <code>penalidades_jar</code> · <code>cata</code> · <code>perfil_descriptivo</code> · <code>desempeno_panel</code> · <code>plan_de_servicio</code></td><td>Las tablas de resultados del bloque.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>plan_de_servicio.csv</code></td><td><span class="ui">⤓ Plan de servicio (CSV)</span>: una fila por muestra servida, con <code>juez</code>, <code>posicion</code>, <code>producto</code> y <code>codigo</code>.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>perfil_medias_productos.csv</code></td><td>Las medias producto × atributo del perfil, para PCAPro (<span class="ui">Enviar a PCAPro (mapa de preferencias) →</span>): <code>producto</code> y una columna por atributo.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><code>medias_por_tiempo</code> · <code>anova_factorial</code> · <code>anova_medidas_repetidas</code> · <code>pendientes</code></td><td>Las tablas de resultados del bloque.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><code>libro_de_campo.csv</code> · <code>.xlsx</code></td><td>El libro de campo aleatorizado: <code>Parcela</code>, <code>Repeticion</code> (o <code>Bloque</code>), <code>Tratamiento</code>, <code>Tiempo</code> y una columna vacía por variable de respuesta.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><code>informe_postharvestpro.html</code></td><td>El informe: un solo archivo HTML con las figuras dentro (capítulo 9).</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><code>proyecto_postharvestpro_AAAA-MM-DD.json</code></td><td>El proyecto: <code>app</code>, <code>version</code>, la fecha (<code>saved</code>), el idioma (<code>lang</code>), las tablas cargadas con sus columnas elegidas (<code>inputs</code>), las tablas editables (<code>edits</code>), los campos y casillas de todos los bloques (<code>forms</code>) y los datos del informe (<code>report</code>).</td></tr>
+      <tr><td>cualquiera</td><td><code>&lt;nombre de la figura&gt;.svg</code> · <code>.png</code></td><td>Cada figura, con el nombre interno que se ve en este manual (<code>b6-hedonica.png</code>) y los colores del tema claro; el PNG a 170 mm de ancho y 300 ppp, con la resolución escrita en el archivo. Cuatro figuras (<code>b2-calidad</code>, <code>b2-escala</code>, <code>b2-calibres</code> y <code>b3-cinetica</code>) tienen además <span class="ui">Datos de la figura (CSV)</span>. El estudio de figuras exporta PNG, SVG, PDF y TIFF.</td></tr>
+      <tr><td>cualquiera</td><td>el archivo del ejemplo</td><td><span class="ui">⤓ CSV del ejemplo</span> descarga el CSV de <code>data/</code> tal cual.</td></tr>
+    </tbody>
+  </table>
+  <p>Todos los CSV usan la <b>coma</b> como separador, el <b>punto</b> decimal y saltos de línea de Windows, y van en UTF-8 con marca de orden de bytes para que una hoja de cálculo lea los acentos, la µ y el °. Las tablas de resultados se escriben <b>como se ven</b>: con los encabezados en el idioma de la interfaz y los números ya redondeados, y con los intervalos dentro de la misma celda (<code>0.500 [0.342, 0.658]</code>); son para leer o pegar en un documento, no para volver a calcular. Los archivos que van a otra app (la cadena, las medias del perfil, el plan de servicio, el libro de campo) llevan los números completos.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que el navegador recuerda</div>
+    <p>El navegador guarda sólo preferencias, no datos: el idioma (<code>postharvestpro:lang</code>), el tema claro u oscuro, la última pestaña abierta de cada bloque, las animaciones, los ajustes del estudio de figuras y las ediciones del editor ✎. Al enviar una tabla a otra app de la suite, deja además una copia en <code>labg:handoff</code> para que esa app la recoja si la abres desde el mismo sitio. Para conservar un trabajo, guarda el proyecto.</p>
+  </div>
+
+  <!-- ================================================================= B -->
+  <h2 id="ap-b"><span class="num">B</span>Las reglas y las fórmulas, reunidas</h2>
+  <p class="lead">Las fórmulas que la app calcula y las reglas con que avisa, clasifica o decide, con el bloque donde actúan y sus valores por omisión. Son las que explica cada capítulo; aquí están juntas para consultarlas de un vistazo.</p>
+
+  <h3>B.1 · Calidad, madurez y color (Bloque 2)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Índice de madurez</b></td><td>SST/AT; <b>BrimA</b> = SST − 2·AT (Jordan et al. 2001).</td></tr>
+      <tr><td><b>Acidez titulable</b></td><td>% = V<sub>NaOH</sub> (mL) · N · peso miliequivalente del ácido · (aforo / alícuota) · 100 / muestra; titulación a pH 8.1. Para expresarla como otro ácido sólo cambia el peso miliequivalente.</td></tr>
+      <tr><td><b>Humedad y materia seca</b></td><td>Con las masas netas (sin la cápsula), base húmeda = (fresca − seca) / fresca · 100; materia seca = seca / fresca · 100; base seca = (fresca − seca) / seca · 100.</td></tr>
+      <tr><td><b>Firmeza</b></td><td>1 kgf = 9.80665 N; presión (kPa) = fuerza (N) / área del émbolo (mm²) · 1000.</td></tr>
+      <tr><td><b>Pérdida de peso</b></td><td>% = (inicial − actual) / inicial · 100; la tasa por día, por mínimos cuadrados por el origen. Aviso al llegar a <b>5 %</b>: «cerca del límite en que muchos frutos se arrugan».</td></tr>
+      <tr><td><b>Croma y tono</b></td><td>C* = √(a*² + b*²); h° = atan2(b*, a*), de 0 a 360°. Nombre del tono: ≥ 105° verde, 85–105 verde-amarillo, 70–85 amarillo, 50–70 naranja, 25–50 rojo-naranja, debajo rojo.</td></tr>
+      <tr><td><b>Índices de color</b></td><td>a*/b*; CCI = 1000·a* / (L*·b*); el índice de pardeamiento (BI), de blancura (WI), de amarillez (YI) y de color del tomate (TCI) del conversor.</td></tr>
+      <tr><td><b>Diferencias de color</b></td><td>ΔE*ab = √(ΔL*² + Δa*² + Δb*²); ΔE94 y ΔE00 (CIEDE2000). Lectura de ΔE00 (Mokrzycki y Tatol 2011): &lt; 1 imperceptible; 1–2 sólo para un observador entrenado; 2–3.5 para cualquier observador; 3.5–5 diferencia clara; ≥ 5 colores distintos. La figura del color en el tiempo traza la línea de 3.5.</td></tr>
+      <tr><td><b>Índice de McKinney</b></td><td>100 · Σ(clase · n) / (N · clase máxima); comercializable = % de unidades con clase ≤ la <span class="ui">Tolerancia comercial (clase máxima aceptada)</span> (1 por omisión).</td></tr>
+      <tr><td><b>Calibres</b></td><td>Cada clase incluye su mínimo y excluye su máximo, salvo la última.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.2 · Cinética, vida de anaquel y rechazo (Bloque 3)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Órdenes de reacción</b></td><td>Cero: C = C₀ − kt; primero: C = C₀·e<sup>−kt</sup>; segundo: 1/C = 1/C₀ + kt. Se ajustan por mínimos cuadrados no lineales en la escala original (o linealizados, si se elige) y se comparan por AIC y peso de Akaike; por omisión se usa <span class="ui">El de menor AIC</span>. Hacen falta al menos 3 observaciones en 2 tiempos.</td></tr>
+      <tr><td><b>Vida al límite</b></td><td>El tiempo en que el modelo llega al <span class="ui">Límite de aceptación</span> (25 N en el ejemplo), con su intervalo de confianza; vida media = el tiempo a C₀/2.</td></tr>
+      <tr><td><b>Arrhenius</b></td><td>ln k = ln A − Eₐ/(RT), con T en kelvin y R = 8.314 J mol⁻¹ K⁻¹; ponderado por el error estándar de k si se pide. Al menos 2 temperaturas distintas.</td></tr>
+      <tr><td><b>Q10</b></td><td>(k₂/k₁)<sup>10/(T₂ − T₁)</sup> entre dos temperaturas; desde Eₐ, Q10 = exp(10·Eₐ / (R·T·(T + 10))): no es constante, baja al subir la temperatura.</td></tr>
+      <tr><td><b>Raíz cuadrada</b></td><td>√k = b·(T − Tmín).</td></tr>
+      <tr><td><b>Extrapolación</b></td><td>Una temperatura de almacén fuera de las ensayadas se marca «extrapolación» en los mosaicos.</td></tr>
+      <tr><td><b>Prueba acelerada</b></td><td>ln θ contra 1/T (Arrhenius) o contra T (Q10), con el intervalo de predicción a la temperatura de almacén; al menos 3 vidas en 2 temperaturas.</td></tr>
+      <tr><td><b>Kaplan–Meier</b></td><td>Ŝ(t) = Π(1 − dᵢ/nᵢ); intervalo logarítmico con Var[log Ŝ] = Σ dᵢ / (nᵢ(nᵢ − dᵢ)) (Greenwood). Comparación de grupos por el rango logarítmico.</td></tr>
+      <tr><td><b>Modelos paramétricos</b></td><td>Weibull, log-normal, log-logístico y exponencial por máxima verosimilitud con censura por la derecha, comparados por AIC; el tiempo hasta el <span class="ui">Rechazo tolerado (%)</span> (10 por omisión) y las razones de tiempos contra el grupo de referencia.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.3 · Respiración, etileno y atmósferas (Bloque 4)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Sistema estático</b></td><td>Tasa = pendiente del gas (% por hora) / 100 · volumen libre / volumen molar · masa molar · 1000 / masa de producto (mg kg⁻¹ h⁻¹); el volumen libre es el del frasco menos el del producto (masa / densidad). CR = CO₂ producido / O₂ consumido; aviso si CR &gt; 1.3: «posible respiración anaerobia».</td></tr>
+      <tr><td><b>Calor de respiración</b></td><td>10.67 J por mg de CO₂ (la oxidación de una hexosa); W por tonelada = r · 10.67 · 1000 / 3600.</td></tr>
+      <tr><td><b>Clases (Kader 2002)</b></td><td>Etileno a 20 °C (µL kg⁻¹ h⁻¹): &lt; 0.1 muy baja, 0.1–1 baja, 1–10 moderada, 10–100 alta, ≥ 100 muy alta. Respiración a 5 °C (mg CO₂ kg⁻¹ h⁻¹): &lt; 5 muy baja, 5–10 baja, 10–20 moderada, 20–40 alta, 40–60 muy alta, más extremadamente alta.</td></tr>
+      <tr><td><b>Climaterio</b></td><td>Alza respiratoria = pico / mínimo previo ≥ <span class="ui">Alza respiratoria mínima (×)</span> (1.5), con el pico antes de la última lectura; estallido de etileno = pico / mínimo previo ≥ <span class="ui">Alza de etileno mínima (×)</span> (10) o pico ≥ <span class="ui">Etileno pico mínimo</span> (1 µL kg⁻¹ h⁻¹). Climatérico: las dos (o sólo la respiratoria si no hay etileno); no climatérico: ninguna, con respiración plana o en descenso; lo demás, incierto.</td></tr>
+      <tr><td><b>Atmósfera de equilibrio</b></td><td>O₂ dentro = O₂ fuera − 100·r·W·24·L / (P·A); CO₂ análogo con la permeabilidad al CO₂ y CR. Con <span class="ui">Respiración limitada por el O₂ (Michaelis–Menten)</span>, r = Vm·[O₂] / (Km + [O₂]·(1 + [CO₂]/Ki)). β = P<sub>CO₂</sub>/P<sub>O₂</sub>; β necesaria = CR·(20.95 − O₂) / (CO₂ − 0.04).</td></tr>
+      <tr><td><b>Límites del empaque</b></td><td>O₂ interno &lt; <b>1 %</b>: riesgo de anaerobiosis. Un espesor fuera de <b>8–150 µm</b> no se puede fabricar ni sellar como bolsa.</td></tr>
+      <tr><td><b>Enfriamiento</b></td><td>Y = (T − Tm)/(Ti − Tm) = j·e<sup>−Ct</sup>; medio enfriamiento = ln(2j)/C; siete octavos = ln(8j)/C.</td></tr>
+      <tr><td><b>Carga térmica</b></td><td>Calor de campo = m·cp·ΔT, con cp = 0.0335·agua (%) + 0.837 kJ kg⁻¹ K⁻¹ (Siebel); más el empaque y la respiración; 1 t de refrigeración = 3.517 kW.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.4 · Pérdidas y daño mecánico (Bloque 5)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>La cadena</b></td><td>Cada etapa pierde un % de lo que le entra (o unos kilos) y lo perdido ya no llega a la siguiente; valor perdido = kilos perdidos · precio de esa etapa. Índice de pérdidas = perdido / inicial · 100.</td></tr>
+      <tr><td><b>Puntos críticos</b></td><td>Pareto: las etapas ordenadas de mayor a menor que juntas suman el <b>80 %</b> de la pérdida, en kilos y en valor.</td></tr>
+      <tr><td><b>Simular mejoras</b></td><td>La reducción es relativa: 50 % es perder la mitad de lo que se pierde hoy en esa etapa.</td></tr>
+      <tr><td><b>Daño mecánico</b></td><td>Curvas lineal, cuadrática, de potencia y exponencial (estas dos en escala logarítmica), comparadas por AIC; energía = m·g·h; susceptibilidad = daño por joule; volumen de un casquete = πh(3w²/4 + h²)/6.</td></tr>
+      <tr><td><b>Incidencia</b></td><td>Regresión logística de dañado (0/1) contra la altura; la altura que daña al 50 % y al 10 %, con intervalo de Fieller.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.5 · Evaluación sensorial (Bloque 6)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Adivinanza y discriminadores</b></td><td>p<sub>g</sub> = 1/3 (triangular, 3-AFC, tétrada) o 1/2 (dúo-trío, 2-AFC); pd = (pc − p<sub>g</sub>) / (1 − p<sub>g</sub>).</td></tr>
+      <tr><td><b>Funciones psicométricas</b></td><td>2-AFC: Pc = Φ(d′/√2); dúo-trío: 1 − Φ(d′/√2) − Φ(d′/√6) + 2Φ(d′/√2)Φ(d′/√6); triangular: 2∫₀^∞ [Φ(−z√3 + d′√(2/3)) + Φ(−z√3 − d′√(2/3))] φ(z) dz; 3-AFC: ∫ φ(z − d′) Φ(z)² dz; tétrada: 1 − 2∫ φ(z)[2Φ(z)Φ(z − d′) − Φ(z − d′)²] dz. d′ = 0 si pc ≤ p<sub>g</sub>.</td></tr>
+      <tr><td><b>Prueba</b></td><td>Diferencia: p = P(X ≥ x | pc₀); similitud: p = P(X ≤ x | pc₀), con pc₀ el de pd₀. Error estándar de d′ por el método delta.</td></tr>
+      <tr><td><b>Planear</b></td><td>El menor número de jueces cuya potencia exacta supera la deseada (por omisión d′ 1.5, α 0.05, potencia 0.8); potencia &lt; 0.8 se marca «baja».</td></tr>
+      <tr><td><b>A–no A · preferencia</b></td><td>d′ = z(H) − z(F), p de Fisher unilateral; preferencia: binomial bilateral con p₀ = ½.</td></tr>
+      <tr><td><b>Hedónica</b></td><td>Agrado = producto + consumidor + error; Tukey–Kramer al 5 %; Friedman con los consumidores completos. Desbalanceado: efecto de producto ajustado por consumidor.</td></tr>
+      <tr><td><b>Punto justo</b></td><td>Caída = ȳ<sub>justo</sub> − ȳ<sub>grupo</sub>; penalidad ponderada = caída · % del grupo / 100; t con varianza combinada. Importa si el grupo reúne ≥ el <span class="ui">Umbral de consumidores (%)</span> (20) y la caída es positiva. Escala de 3, 5, 7 o 9 niveles.</td></tr>
+      <tr><td><b>CATA</b></td><td>Q = (k − 1)[kΣC<sub>j</sub>² − N²] / (kN − ΣR<sub>i</sub>²), χ² con k − 1 gl; McNemar por pares con Holm; análisis de correspondencias de la tabla de frecuencias.</td></tr>
+      <tr><td><b>Perfil</b></td><td>Intensidad = producto + juez + [sesión] + producto × juez + error; con repeticiones, F de producto = CM<sub>producto</sub> / CM<sub>producto×juez</sub>; medias con LSD o Tukey con ese error; ACP de las medias.</td></tr>
+      <tr><td><b>Panel</b></td><td>Se señala a un juez si su p mediano &gt; <b>0.20</b> («discrimina poco»), su acuerdo mediano &lt; <b>0.5</b> («no coincide con el panel») o su DE residual media &gt; <b>1.5</b> veces la mediana del panel («repite poco»).</td></tr>
+      <tr><td><b>Fichas</b></td><td>Cuadrado de Williams: t órdenes con t par, 2t con t impar; balance completo si los jueces son múltiplo de los órdenes (6 en la triangular). Códigos de tres dígitos (100–999) sin repetir.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.6 · Ensayos (Bloque 7)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Factorial</b></td><td>Tratamiento × tiempo con sumas de cuadrados tipo III (por omisión); si la interacción es significativa, los tratamientos se comparan dentro de cada tiempo. Tukey, LSD o Dunnett contra el testigo.</td></tr>
+      <tr><td><b>Medidas repetidas</b></td><td>Tratamiento contra el error entre unidades; tiempo e interacción contra el error dentro. Esfericidad por Mauchly; ε de Greenhouse–Geisser = (Σλ)² / ((b − 1)Σλ²) y de Huynh–Feldt; dentro de cada tiempo, el error combinado con los grados de libertad de Satterthwaite.</td></tr>
+      <tr><td><b>Pendientes</b></td><td>Una recta por tratamiento; prueba de pendientes iguales y pares con Holm.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.7 · Empaque y almacén (Bloque 8) e informe (Bloque 9)</h3>
+  <table class="compacta">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Ventilación</b></td><td>Área abierta de cada cara (%): ≥ <b>5 %</b> suficiente; 3–5 % en amarillo; &lt; 3 % en rojo.</td></tr>
+      <tr><td><b>Psicrometría</b></td><td>Presión de saturación sobre agua (Wagner y Pruss 2002) y sobre hielo (Wagner et al. 2011). Déficit producto–aire = p<sub>ws</sub>(T<sub>producto</sub>) − HR·p<sub>ws</sub>(T<sub>aire</sub>).</td></tr>
+      <tr><td><b>Pérdida de agua</b></td><td>% por día = k (mg kg⁻¹ s⁻¹ MPa⁻¹) · déficit (MPa) · 86 400 / 10⁶ · 100. El informe la señala si pasa de <b>2 % por semana</b>.</td></tr>
+      <tr><td><b>Compatibilidad</b></td><td>Incompatibles si los intervalos de temperatura no se traslapan, o si uno produce mucho etileno (clase alta o muy alta) y el otro es muy sensible; aviso si las humedades difieren más de 5 puntos, si hay riesgo moderado por etileno o si uno desprende olores.</td></tr>
+      <tr><td><b>Recomendaciones del informe</b></td><td>Reglas fijas: la vida al límite de cada grupo; con Eₐ, el % de vida que se pierde por cada grado (entre 10 y 11 °C); climatérico; respiración &gt; 40 mg CO₂ kg⁻¹ h⁻¹; empaque fuera de ventana; la etapa de mayor valor perdido; alturas de caída; el producto de más agrado; pérdida de agua &gt; 2 % por semana; cajas con &lt; 5 % de área abierta; productos incompatibles.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= C -->
+  <h2 id="ap-c"><span class="num">C</span>Glosario</h2>
+  <p>Los términos de la poscosecha, del análisis sensorial y de la estadística que usa el manual, con el sentido en que los usa la app.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.6in">Término</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td><b>A–no A</b></td><td>Prueba en que el juez aprende la muestra «A» y luego dice, ante cada muestra, si es «A» o no.</td></tr>
+      <tr><td><b>AIC</b></td><td>Criterio de información de Akaike: compara modelos por su ajuste penalizado por el número de parámetros; el menor es el mejor. El <b>peso de Akaike</b> es la probabilidad relativa de cada modelo.</td></tr>
+      <tr><td><b>Atmósfera modificada</b></td><td>La mezcla de O₂ y CO₂ que se forma dentro de un empaque cerrado porque el producto respira y la película deja pasar los gases a cierto ritmo.</td></tr>
+      <tr><td><b>β (beta)</b></td><td>El cociente de las permeabilidades de una película al CO₂ y al O₂; fija la pendiente de las atmósferas que la película puede dar.</td></tr>
+      <tr><td><b>BrimA</b></td><td>Índice de madurez que resta a los sólidos solubles dos veces la acidez: pesa la acidez como la percibe la lengua.</td></tr>
+      <tr><td><b>CATA</b></td><td>«Marque todo lo que aplique»: el consumidor marca de una lista los términos que describen el producto.</td></tr>
+      <tr><td><b>CCI</b></td><td>Índice de color de cítricos, 1000·a* / (L*·b*): negativo en verde, positivo en naranja.</td></tr>
+      <tr><td><b>Censura</b></td><td>Un fruto que seguía aceptable al terminar el ensayo: se sabe que su tiempo hasta el rechazo es <i>mayor</i> que el observado, no cuál es.</td></tr>
+      <tr><td><b>Climatérico</b></td><td>Producto cuya maduración va acompañada de un alza de la respiración y un estallido de etileno; puede madurar después de cosechado.</td></tr>
+      <tr><td><b>Cociente respiratorio (CR)</b></td><td>CO₂ producido entre O₂ consumido; cerca de 1 con azúcares como sustrato; muy por encima de 1, posible anaerobiosis.</td></tr>
+      <tr><td><b>Croma (C*) y tono (h°)</b></td><td>La viveza del color y su ángulo en el círculo cromático CIELAB (0° rojo, 90° amarillo, 180° verde).</td></tr>
+      <tr><td><b>d′ (d prima)</b></td><td>El tamaño de una diferencia sensorial en desviaciones estándar de la sensación (modelo de Thurstone); comparable entre métodos.</td></tr>
+      <tr><td><b>ΔE00</b></td><td>La diferencia entre dos colores según la fórmula CIEDE2000, que corrige las distorsiones del espacio L*a*b*.</td></tr>
+      <tr><td><b>Déficit de presión de vapor</b></td><td>La diferencia entre la presión de vapor en la superficie del producto y la del aire: la fuerza que lo deshidrata.</td></tr>
+      <tr><td><b>Energía de activación (Eₐ)</b></td><td>Cuánto acelera la temperatura una reacción; con Eₐ alta, el deterioro es más sensible al frío y al calor.</td></tr>
+      <tr><td><b>Esfericidad · ε</b></td><td>Supuesto de las medidas repetidas: las diferencias entre cualquier par de tiempos tienen la misma varianza. ε (Greenhouse–Geisser, Huynh–Feldt) mide cuánto se aparta, y corrige los grados de libertad.</td></tr>
+      <tr><td><b>Estado estacionario</b></td><td>En un empaque o una cámara con flujo, el momento en que las concentraciones ya no cambian porque lo que entra iguala a lo que sale o se consume.</td></tr>
+      <tr><td><b>Hedónica (escala)</b></td><td>Escala de agrado de nueve puntos, de «me disgusta muchísimo» (1) a «me gusta muchísimo» (9).</td></tr>
+      <tr><td><b>Holm (ajuste de)</b></td><td>Corrección de los valores p cuando se hacen varias pruebas a la vez.</td></tr>
+      <tr><td><b>Índice de McKinney</b></td><td>La severidad media de una escala de daño, en % de la máxima posible.</td></tr>
+      <tr><td><b>Índice de pérdidas</b></td><td>Lo que se pierde a lo largo de la cadena, en % de lo que entró.</td></tr>
+      <tr><td><b>j y C del enfriamiento</b></td><td>El factor de retraso (j) y el coeficiente de enfriamiento (C) de la curva Y = j·e<sup>−Ct</sup>.</td></tr>
+      <tr><td><b>Kaplan–Meier</b></td><td>Estimador de la proporción de frutos todavía aceptables en cada tiempo que aprovecha los censurados.</td></tr>
+      <tr><td><b>Límite (de aceptación)</b></td><td>El valor de un atributo a partir del cual el producto deja de ser aceptable (25 N de firmeza en el ejemplo).</td></tr>
+      <tr><td><b>LSD · Tukey · Dunnett</b></td><td>Comparaciones de medias: la diferencia mínima significativa de Fisher (la menos estricta), la de Tukey (todos los pares) y la de Dunnett (cada tratamiento contra un testigo).</td></tr>
+      <tr><td><b>Orden de reacción</b></td><td>La forma en que la velocidad del deterioro depende del propio atributo: constante (cero), proporcional (primero) o al cuadrado (segundo).</td></tr>
+      <tr><td><b>pc · pd</b></td><td>La proporción de aciertos y la de discriminadores (los que de verdad notan la diferencia) de una prueba discriminativa.</td></tr>
+      <tr><td><b>Penalidad (JAR)</b></td><td>La caída del agrado de quienes encuentran un atributo «muy poco» o «demasiado», ponderada por cuántos son.</td></tr>
+      <tr><td><b>Potencia</b></td><td>La probabilidad de que una prueba detecte una diferencia que sí existe.</td></tr>
+      <tr><td><b>Preenfriamiento</b></td><td>Quitar el calor de campo del producto, lo antes posible después de la cosecha.</td></tr>
+      <tr><td><b>Punto justo (JAR)</b></td><td>Escala que pregunta si un atributo está «muy poco», «justo» o «demasiado».</td></tr>
+      <tr><td><b>Q10</b></td><td>Cuántas veces se acelera el deterioro con 10 °C más.</td></tr>
+      <tr><td><b>Q de Cochran</b></td><td>Prueba de si la proporción de respuestas «sí» a una pregunta difiere entre varios productos evaluados por las mismas personas.</td></tr>
+      <tr><td><b>Razón de tiempos</b></td><td>Cuántas veces alarga (o acorta) un tratamiento el tiempo hasta el rechazo respecto al de referencia.</td></tr>
+      <tr><td><b>SST/AT</b></td><td>Sólidos solubles totales (°Brix) entre acidez titulable (%): el índice clásico de madurez y sabor.</td></tr>
+      <tr><td><b>Susceptibilidad al daño</b></td><td>El daño (volumen o área) que produce cada joule de impacto.</td></tr>
+      <tr><td><b>Tmín</b></td><td>La temperatura teórica a la que el deterioro se detendría, del modelo de raíz cuadrada.</td></tr>
+      <tr><td><b>Vida de anaquel</b></td><td>El tiempo que el producto se conserva aceptable en unas condiciones dadas.</td></tr>
+      <tr><td><b>Williams (cuadrado de)</b></td><td>Orden de presentación de las muestras balanceado por posición y por la muestra anterior.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= D -->
+  <h2 id="ap-d"><span class="num">D</span>Cuando algo no sale</h2>
+  <p>Los mensajes de la app, tal como aparecen, con lo que suelen querer decir y qué hacer. Los puntos suspensivos son la parte del mensaje que cambia (un nombre, un número).</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.55in">Mensaje</th><th>Qué pasa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td colspan="2"><b>Abrir una tabla (todas las herramientas)</b></td></tr>
+      <tr><td>«Ese formato antiguo de hoja de cálculo no se puede abrir; guárdala como .xlsx, .ods o .csv.»</td><td>Un <code>.xls</code> o <code>.xlsb</code>. Guárdalo de nuevo en un formato que la app lea.</td></tr>
+      <tr><td>«el archivo no es una hoja de cálculo en formato .xlsx, .xlsm u .ods» · «el libro no tiene xl/workbook.xml: no es un archivo .xlsx ni .xlsm» · «el archivo no tiene content.xml: no es una hoja .ods»</td><td>La extensión no corresponde al contenido (un CSV renombrado, un archivo dañado). Ábrelo en tu hoja de cálculo y guárdalo otra vez.</td></tr>
+      <tr><td>«el libro usa el acomodo ZIP64, que este lector no abre» · «el libro usa un método de compresión que este lector no abre» · «el archivo … de dentro del libro está dañado»</td><td>Un libro muy grande o escrito por un programa poco común. Guarda la hoja como <code>.csv</code>.</td></tr>
+      <tr><td>«este navegador es demasiado viejo para abrir archivos .xlsx y .ods; guarda la tabla como .csv»</td><td>Actualiza el navegador o usa un CSV.</td></tr>
+      <tr><td>«el libro no tiene hojas que se puedan leer» · «La tabla no tiene filas con datos.»</td><td>La hoja está vacía o sólo tiene encabezados.</td></tr>
+      <tr><td>«Falta elegir la columna de: …»</td><td>Un papel obligatorio quedó sin columna; elígela en su selector.</td></tr>
+      <tr><td>«No se pudo analizar: …»</td><td>Las columnas elegidas no sirven para ese análisis (texto donde va un número, un solo grupo, muy pocas filas). Revisa los papeles y el formato largo.</td></tr>
+      <tr><td colspan="2"><b>Calidad y vida de anaquel (Bloques 2 y 3)</b></td></tr>
+      <tr><td>«… calificaciones no corresponden a ninguna clase de la escala y no se cuentan.»</td><td>En <span class="ruta">Bloque 2<span class="sep">›</span>Escalas</span>, la columna tiene valores que no son clases de la escala elegida; cambia la plantilla o corrige los datos.</td></tr>
+      <tr><td>«Escribe al menos un lote.»</td><td>Pulsaste <span class="ui">Usar los conteos</span> sin conteos.</td></tr>
+      <tr><td>«Para Arrhenius el grupo debe ser la temperatura (números).»</td><td>Pulsaste <span class="ui">Llevar las k al análisis de temperatura →</span> con un grupo que no es una temperatura numérica.</td></tr>
+      <tr><td>Mosaico «Cuidado · extrapolación · fuera de …»</td><td>La temperatura de almacén está fuera de las ensayadas: la predicción es una extrapolación.</td></tr>
+      <tr><td colspan="2"><b>Respiración, pérdidas y empaque (Bloques 4, 5 y 8)</b></td></tr>
+      <tr><td>«posible respiración anaerobia» (mosaico del cociente respiratorio)</td><td>CR &gt; 1.3: revisa que el frasco no se haya quedado sin O₂ y acorta la incubación.</td></tr>
+      <tr><td>«Riesgo de anaerobiosis: el O₂ interno queda por debajo de 1 %…»</td><td>El empaque es demasiado cerrado: película más permeable, menos espesor, más área o menos producto.</td></tr>
+      <tr><td>Climaterio «Incierto»</td><td>La respiración sigue subiendo en la última lectura o las dos señales no coinciden: alarga el seguimiento.</td></tr>
+      <tr><td>«Primero arma la cadena en «Pérdidas por etapa».»</td><td><span class="ruta">Bloque 5<span class="sep">›</span>Simular mejoras</span> necesita la cadena de la pestaña anterior.</td></tr>
+      <tr><td colspan="2"><b>Evaluación sensorial (Bloque 6)</b></td></tr>
+      <tr><td>«Con un número par de niveles no hay centro: usa 3, 5, 7 o 9.»</td><td>Corrige <span class="ui">Niveles de la escala</span>. Mientras tanto, los resultados que se ven son los del valor anterior.</td></tr>
+      <tr><td>«Diseño desbalanceado: la tabla de ANOVA es secuencial…»</td><td>En la hedónica, no todos los consumidores calificaron todos los productos; el efecto de producto se ajusta por consumidor (sección 6.4).</td></tr>
+      <tr><td>«Con … jueces el balance no es completo: usa un múltiplo de … (por ejemplo …).»</td><td>En <span class="ui">Fichas de cata</span>, cambia el número de jueces al múltiplo propuesto.</td></tr>
+      <tr><td>«El navegador bloqueó la ventana: permite ventanas emergentes para imprimir.»</td><td>Permite las ventanas emergentes para la página de la app y pulsa otra vez <span class="ui">Imprimir las fichas</span>.</td></tr>
+      <tr><td colspan="2"><b>Informe y proyecto (Bloque 9)</b></td></tr>
+      <tr><td>«Elige al menos una sección (o corre algún análisis).»</td><td>No hay ningún resultado o desmarcaste todas las secciones.</td></tr>
+      <tr><td>«El archivo no es un JSON válido.» · «El archivo no es un proyecto de PostHarvestPro.»</td><td>Abre un <code>proyecto_postharvestpro_….json</code> guardado por la app.</td></tr>
+      <tr><td>«Proyecto abierto: … tablas de datos, … tablas editadas y … ajustes.»</td><td>Sólo un aviso: el proyecto se abrió y todo se recalculó.</td></tr>
+      <tr><td>«Se descargó «….csv»: ábrelo en … (Bloque de datos).»</td><td>Enviaste una tabla a otra app de la suite: se descargó el CSV y se abrió esa app en otra pestaña; ábrelo en su bloque de datos.</td></tr>
+    </tbody>
+  </table>
+  <p>Si la app se queda en blanco o una tarjeta no responde, recarga la página: los datos se pierden, pero el proyecto guardado no. Si el problema sigue, abre la app con <code>Open PostHarvestPro.bat</code> en lugar del doble clic sobre <code>index.html</code>.</p>
+
+  <!-- ================================================================= E -->
+  <h2 id="ap-e"><span class="num">E</span>La herramienta: licencia y cómo citarla</h2>
+  <h3>E.1 · Qué es y qué no es</h3>
+  <p>PostHarvestPro está escrito para este programa: la lectura de hojas de cálculo, los modelos cinéticos y de supervivencia, la estadística, la psicrometría, las figuras, el informe y las ilustraciones están en su propio código, que se puede leer. No usa bibliotecas de cálculo de terceros, no trae tipografías (usa las letras del equipo), no tiene código minificado ni pasos de compilación y no carga nada de la red: por eso abre con doble clic y sin conexión. Los únicos enlaces hacia fuera —el portal de la suite y las apps a las que se envían tablas— sólo se siguen si haces clic en ellos.</p>
+  <p>Lo único que viene de terceros son los íconos de línea de los módulos comunes de la suite (el navegador de bloques, el estudio de figuras y el botón de animaciones), tomados del proyecto Lucide con licencia ISC (y MIT los que Lucide heredó del proyecto Feather), ambas permisivas y compatibles con la GPL; el archivo <code>LICENSES-TERCEROS.md</code>, en la carpeta del programa, los enumera con el texto de sus licencias. Los datos de ejemplo son simulados (apéndice A). La app implementa métodos publicados, cada uno citado a su fuente original en el código, al pie de cada resultado, en la portada de la app y en los métodos del informe (apéndice F).</p>
+  <h3>E.2 · Licencia</h3>
+  <p>PostHarvestPro se distribuye bajo la Licencia Pública General de GNU, versión 3 o posterior (GPL-3.0-or-later). El texto completo está en el archivo <code>LICENSE</code>, en la carpeta del programa.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Licenciar no es ceder la autoría</div>
+    <p>La licencia dice lo que puede hacer quien recibe el programa: usarlo con cualquier fin, estudiarlo, modificarlo y redistribuirlo. A cambio pide que, si distribuyes una versión modificada, lo hagas con las mismas libertades y con su código. La autoría no se transfiere ni se renuncia a ella. El programa se entrega sin garantía, como dice la licencia; este manual tiene sus propios derechos, reservados por su autor.</p>
+  </div>
+  <h3>E.3 · Cómo citarla</h3>
+  <p>La sección <span class="ui">Cómo citar</span> de la portada de la app da la cita lista para copiar, con <span class="ui">Copiar la cita</span> y <span class="ui">Copiar BibTeX</span>; la tarjeta <span class="ui">Cómo citar PostHarvestPro</span> del Bloque 9 muestra las mismas dos.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">“</div>
+    <div class="dato-txt"><div class="caja-t">Cita sugerida del programa</div>Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro: fisiología y tecnología poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador</i> (versión 1.0.0) [Programa de cómputo]. https://luisangelbg.github.io/PostHarvestPro/</div>
+  </div>
+  <div class="caja dato">
+    <div class="dato-cifra">“</div>
+    <div class="dato-txt"><div class="caja-t">Cita sugerida de este manual</div>Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro. Manual de usuario</i> (1.ª ed.). Distribuido con PostHarvestPro, versión 1.0.0. https://luisangelbg.github.io/PostHarvestPro/</div>
+  </div>
+  <pre class="archivo">@software{barreraguzman2026postharvestpro,
+  author  = {Barrera-Guzmán, Luis Ángel},
+  title   = {PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser},
+  version = {1.0.0},
+  year    = {2026},
+  license = {GPL-3.0-or-later},
+  url     = {https://luisangelbg.github.io/PostHarvestPro/}
+}</pre>
+  <p class="small">El identificador digital (DOI) se añadirá a las dos citas cuando el programa se publique con uno.</p>
+  <p>Cita además, en tus métodos, los trabajos de los métodos que usaste. Los métodos del informe (capítulo 9) ya los citan por autor y año, y su sección de referencias trae las fichas completas de los bloques que usaste.</p>
+
+  <!-- ================================================================= F -->
+  <h2 id="ap-f"><span class="num">F</span>Referencias</h2>
+  <p>Las 78 obras del catálogo de la app, agrupadas por el primer bloque que las cita y, dentro de cada tema, en orden alfabético. Son las mismas de la sección <span class="ui">Referencias</span> de la portada y del informe.</p>
+  <!-- REFERENCIAS -->
+  <h3>F.1 · Calidad, madurez y color</h3>
+  <ul class="refs">
+    <li>AOAC International. (2019). Method 942.15: Acidity (titratable) of fruit products. In Official methods of analysis (21st ed.).</li>
+    <li>CIE. (2018). Colorimetry (4th ed., CIE 015:2018). Commission Internationale de l'Éclairage.</li>
+    <li>Jiménez-Cuesta, M., Cuquerella, J., &amp; Martínez-Jávega, J. M. (1981). Determination of a color index for citrus fruit degreening. Proceedings of the International Society of Citriculture, 2, 750–753.</li>
+    <li>Jordan, R. B., Seelye, R. J., &amp; McGlone, V. A. (2001). A sensory-based alternative to Brix/acid ratio. Food Technology, 55(4), 36–44.</li>
+    <li>Kader, A. A. (Ed.). (2002). Postharvest technology of horticultural crops (3rd ed., Publication 3311). University of California, Agriculture and Natural Resources.</li>
+    <li>McGuire, R. G. (1992). Reporting of objective color measurements. HortScience, 27(12), 1254–1255.</li>
+    <li>McKinney, H. H. (1923). Influence of soil temperature and moisture on infection of wheat seedlings by Helminthosporium sativum. Journal of Agricultural Research, 26, 195–218.</li>
+    <li>Mokrzycki, W. S., &amp; Tatol, M. (2011). Colour difference ΔE – a survey. Machine Graphics and Vision, 20(4), 383–411.</li>
+    <li>Palou, E., López-Malo, A., Barbosa-Cánovas, G. V., Welti-Chanes, J., &amp; Swanson, B. G. (1999). Polyphenoloxidase activity and color of blanched and high hydrostatic pressure treated banana puree. Journal of Food Science, 64(1), 42–45.</li>
+    <li>Sharma, G., Wu, W., &amp; Dalal, E. N. (2005). The CIEDE2000 color-difference formula: Implementation notes, supplementary test data, and mathematical observations. Color Research &amp; Application, 30(1), 21–30.</li>
+  </ul>
+  <h3>F.2 · Cinética, vida de anaquel y tiempo hasta el rechazo</h3>
+  <ul class="refs">
+    <li>Akaike, H. (1974). A new look at the statistical model identification. IEEE Transactions on Automatic Control, 19(6), 716–723.</li>
+    <li>Arrhenius, S. (1889). Über die Reaktionsgeschwindigkeit bei der Inversion von Rohrzucker durch Säuren. Zeitschrift für Physikalische Chemie, 4, 226–248.</li>
+    <li>Bates, D. M., &amp; Watts, D. G. (1988). Nonlinear regression analysis and its applications. Wiley.</li>
+    <li>Burnham, K. P., &amp; Anderson, D. R. (2002). Model selection and multimodel inference (2nd ed.). Springer.</li>
+    <li>Greenwood, M. (1926). The natural duration of cancer. Reports on Public Health and Medical Subjects, 33, 1–26.</li>
+    <li>Hough, G., Langohr, K., Gómez, G., &amp; Curia, A. (2003). Survival analysis applied to sensory shelf life of foods. Journal of Food Science, 68(1), 359–362.</li>
+    <li>Kaplan, E. L., &amp; Meier, P. (1958). Nonparametric estimation from incomplete observations. Journal of the American Statistical Association, 53, 457–481.</li>
+    <li>Labuza, T. P. (1984). Application of chemical kinetics to deterioration of foods. Journal of Chemical Education, 61(4), 348–358.</li>
+    <li>Lawless, J. F. (2003). Statistical models and methods for lifetime data (2nd ed.). Wiley.</li>
+    <li>Mantel, N. (1966). Evaluation of survival data and two new rank order statistics arising in its consideration. Cancer Chemotherapy Reports, 50(3), 163–170.</li>
+    <li>Marquardt, D. W. (1963). An algorithm for least-squares estimation of nonlinear parameters. Journal of the Society for Industrial and Applied Mathematics, 11(2), 431–441.</li>
+    <li>Mizrahi, S. (2004). Accelerated shelf-life tests. In R. Steele (Ed.), Understanding and measuring the shelf-life of food (pp. 317–339). Woodhead.</li>
+    <li>Ratkowsky, D. A., Olley, J., McMeekin, T. A., &amp; Ball, A. (1982). Relationship between temperature and growth rate of bacterial cultures. Journal of Bacteriology, 149(1), 1–5.</li>
+    <li>Taoukis, P. S., &amp; Labuza, T. P. (1989). Applicability of time-temperature indicators as shelf life monitors of food products. Journal of Food Science, 54(4), 783–788.</li>
+    <li>van Boekel, M. A. J. S. (2008). Kinetic modeling of food quality: A critical review. Comprehensive Reviews in Food Science and Food Safety, 7(1), 144–158.</li>
+  </ul>
+  <h3>F.3 · Respiración, etileno, atmósferas y enfriamiento</h3>
+  <ul class="refs">
+    <li>Biale, J. B. (1964). Growth, maturation, and senescence in fruits. Science, 146(3646), 880–888.</li>
+    <li>Exama, A., Arul, J., Lencki, R. W., Lee, L. Z., &amp; Toupin, C. (1993). Suitability of plastic films for modified atmosphere packaging of fruits and vegetables. Journal of Food Science, 58(6), 1365–1370.</li>
+    <li>Fishman, S., Rodov, V., &amp; Ben-Yehoshua, S. (1996). Mathematical model for perforation effect on oxygen and water vapor dynamics in modified-atmosphere packages. Journal of Food Science, 61(5), 956–961.</li>
+    <li>Fonseca, S. C., Oliveira, F. A. R., &amp; Brecht, J. K. (2002). Modelling respiration rate of fresh fruits and vegetables for modified atmosphere packages: A review. Journal of Food Engineering, 52(2), 99–119.</li>
+    <li>Lee, D. S., Haggar, P. E., Lee, J., &amp; Yam, K. L. (1991). Model for fresh produce respiration in modified atmospheres based on principles of enzyme kinetics. Journal of Food Science, 56(6), 1580–1585.</li>
+    <li>Lelièvre, J.-M., Latché, A., Jones, B., Bouzayen, M., &amp; Pech, J.-C. (1997). Ethylene and fruit ripening. Physiologia Plantarum, 101(4), 727–739.</li>
+    <li>Mangaraj, S., Goswami, T. K., &amp; Mahajan, P. V. (2009). Applications of plastic films for modified atmosphere packaging of fruits and vegetables: A review. Food Engineering Reviews, 1(2), 133–158.</li>
+    <li>Saltveit, M. E. (2016). Respiratory metabolism. In K. C. Gross, C. Y. Wang, &amp; M. Saltveit (Eds.), Agriculture Handbook 66 (pp. 68–75). USDA.</li>
+    <li>Siebel, J. E. (1892). Specific heat of various products. Ice and Refrigeration, 2, 256–257.</li>
+    <li>Thompson, J. F., Mitchell, F. G., Rumsey, T. R., Kasmire, R. F., &amp; Crisosto, C. H. (2008). Commercial cooling of fruits, vegetables, and flowers (Publication 21567). University of California, Agriculture and Natural Resources.</li>
+  </ul>
+  <h3>F.4 · Pérdidas y daño mecánico</h3>
+  <ul class="refs">
+    <li>Bajema, R. W., &amp; Hyde, G. M. (1998). Instrumented pendulum for impact characterization of whole fruit and vegetable specimens. Transactions of the ASAE, 41(5), 1399–1405.</li>
+    <li>FAO. (2019). The state of food and agriculture 2019: Moving forward on food loss and waste reduction. FAO.</li>
+    <li>Finney, D. J. (1971). Probit analysis (3rd ed.). Cambridge University Press.</li>
+    <li>La Gra, J., Kitinoja, L., &amp; Alpuche, K. (2016). Commodity systems assessment methodology for value chain problem and project identification. IICA.</li>
+    <li>Mohsenin, N. N. (1986). Physical properties of plant and animal materials (2nd ed.). Gordon and Breach.</li>
+  </ul>
+  <h3>F.5 · Evaluación sensorial</h3>
+  <ul class="refs">
+    <li>Bi, J. (2006). Sensory discrimination tests and measurements: Statistical principles, procedures and tables. Blackwell.</li>
+    <li>Brockhoff, P. B., &amp; Christensen, R. H. B. (2010). Thurstonian models for sensory discrimination tests as generalized linear models. Food Quality and Preference, 21(3), 330–338.</li>
+    <li>Clopper, C. J., &amp; Pearson, E. S. (1934). The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika, 26(4), 404–413.</li>
+    <li>Cochran, W. G. (1950). The comparison of percentages in matched samples. Biometrika, 37(3–4), 256–266.</li>
+    <li>Ennis, D. M. (1993). The power of sensory discrimination methods. Journal of Sensory Studies, 8(4), 353–370.</li>
+    <li>Ennis, J. M., &amp; Jesionka, V. (2011). The power of sensory discrimination methods revisited. Journal of Sensory Studies, 26(5), 371–382.</li>
+    <li>Friedman, M. (1937). The use of ranks to avoid the assumption of normality implicit in the analysis of variance. Journal of the American Statistical Association, 32(200), 675–701.</li>
+    <li>Greenacre, M. (2007). Correspondence analysis in practice (2nd ed.). Chapman &amp; Hall/CRC.</li>
+    <li>Jolliffe, I. T. (2002). Principal component analysis (2nd ed.). Springer.</li>
+    <li>Lawless, H. T., &amp; Heymann, H. (2010). Sensory evaluation of food: Principles and practices (2nd ed.). Springer.</li>
+    <li>MacFie, H. J. H., Bratchell, N., Greenhoff, K., &amp; Vallis, L. V. (1989). Designs to balance the effect of order of presentation and first-order carry-over effects in hall tests. Journal of Sensory Studies, 4(2), 129–148.</li>
+    <li>McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12(2), 153–157.</li>
+    <li>Meyners, M., Castura, J. C., &amp; Carr, B. T. (2013). Existing and new approaches for the analysis of CATA data. Food Quality and Preference, 30(2), 309–319.</li>
+    <li>Næs, T., Brockhoff, P. B., &amp; Tomic, O. (2010). Statistics for sensory and consumer science. Wiley.</li>
+    <li>Peryam, D. R., &amp; Pilgrim, F. J. (1957). Hedonic scale method of measuring food preferences. Food Technology, 11(9), 9–14.</li>
+    <li>Stone, H., Sidel, J., Oliver, S., Woolsey, A., &amp; Singleton, R. C. (1974). Sensory evaluation by quantitative descriptive analysis. Food Technology, 28(11), 24–34.</li>
+    <li>Williams, E. J. (1949). Experimental designs balanced for the estimation of residual effects of treatments. Australian Journal of Scientific Research, Series A, 2(2), 149–168.</li>
+    <li>Xiong, R., &amp; Meullenet, J.-F. (2006). A PLS dummy variable approach to assess the impact of jar attributes on consumer acceptance. Food Quality and Preference, 17(3–4), 188–198.</li>
+  </ul>
+  <h3>F.6 · Diseño y análisis de ensayos</h3>
+  <ul class="refs">
+    <li>Copenhaver, M. D., &amp; Holland, B. (1988). Computation of the distribution of the maximum studentized range statistic with application to multiple significance testing of simple effects. Journal of Statistical Computation and Simulation, 30(1), 1–15.</li>
+    <li>Dunnett, C. W. (1955). A multiple comparison procedure for comparing several treatments with a control. Journal of the American Statistical Association, 50(272), 1096–1121.</li>
+    <li>Greenhouse, S. W., &amp; Geisser, S. (1959). On methods in the analysis of profile data. Psychometrika, 24(2), 95–112.</li>
+    <li>Holm, S. (1979). A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics, 6(2), 65–70.</li>
+    <li>Huynh, H., &amp; Feldt, L. S. (1976). Estimation of the Box correction for degrees of freedom from sample data in randomized block and split-plot designs. Journal of Educational Statistics, 1(1), 69–82.</li>
+    <li>Kramer, C. Y. (1956). Extension of multiple range tests to group means with unequal numbers of replications. Biometrics, 12(3), 307–310.</li>
+    <li>Lecoutre, B. (1991). A correction for the ε̃ approximate test in repeated measures designs with two or more independent groups. Journal of Educational Statistics, 16(4), 371–372.</li>
+    <li>Mauchly, J. W. (1940). Significance test for sphericity of a normal n-variate distribution. The Annals of Mathematical Statistics, 11(2), 204–209.</li>
+    <li>Piepho, H.-P. (2004). An algorithm for a letter-based representation of all-pairwise comparisons. Journal of Computational and Graphical Statistics, 13(2), 456–466.</li>
+    <li>Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components. Biometrics Bulletin, 2(6), 110–114.</li>
+    <li>Snedecor, G. W., &amp; Cochran, W. G. (1989). Statistical methods (8th ed.). Iowa State University Press.</li>
+    <li>Steel, R. G. D., Torrie, J. H., &amp; Dickey, D. A. (1997). Principles and procedures of statistics: A biometrical approach (3rd ed.). McGraw-Hill.</li>
+  </ul>
+  <h3>F.7 · Empaque, almacén y psicrometría</h3>
+  <ul class="refs">
+    <li>ASHRAE. (2017). Psychrometrics. In ASHRAE handbook — Fundamentals (ch. 1). ASHRAE.</li>
+    <li>Gross, K. C., Wang, C. Y., &amp; Saltveit, M. (Eds.). (2016). The commercial storage of fruits, vegetables, and florist and nursery stocks (Agriculture Handbook 66). USDA Agricultural Research Service.</li>
+    <li>McGregor, B. M. (1989). Tropical products transport handbook (Agriculture Handbook 668). USDA.</li>
+    <li>Sastry, S. K., Baird, C. D., &amp; Buffington, D. E. (1978). Transpiration rates of certain fruits and vegetables. ASHRAE Transactions, 84(1), 237–255.</li>
+    <li>Smith, A., &amp; De Cani, P. (1980). An algorithm to optimize the layout of boxes in pallets. Journal of the Operational Research Society, 31(7), 573–578.</li>
+    <li>Steudel, H. J. (1979). Generating pallet loading patterns: A special case of the two-dimensional cutting stock problem. Management Science, 25(10), 997–1004.</li>
+    <li>Wagner, W., &amp; Pruss, A. (2002). The IAPWS formulation 1995 for the thermodynamic properties of ordinary water substance for general and scientific use. Journal of Physical and Chemical Reference Data, 31(2), 387–535.</li>
+    <li>Wagner, W., Riethmann, T., Feistel, R., &amp; Harvey, A. H. (2011). New equations for the sublimation pressure and melting pressure of H₂O ice Ih. Journal of Physical and Chemical Reference Data, 40(4), 043103.</li>
+  </ul>
+  <!-- /REFERENCIAS -->
+</section>
+
+</body>
+</html>
