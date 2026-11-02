@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-5" data-pestana="5" data-orden="5" style="--acento: var(--b5)">
+  <div class="cap-apertura">
+    <div class="cap-num">5</div>
+    <div class="cap-etiqueta">Capítulo cinco · Bloque 5</div>
+    <h1 data-corto="Pérdidas y cadena de valor">Pérdidas y cadena de valor</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Entre el campo y el consumidor, cada etapa se queda con una parte del producto. Este bloque sigue la carga etapa por etapa, dice cuántos kilos y cuánto dinero se pierden en cada una, cuáles son los puntos críticos y dónde rinde más una mejora; y, con un ensayo de caídas, desde qué altura empieza a dañarse el fruto.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k5"></span><span class="k5"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>5.1</b>La cadena: etapas, pérdida y precio</li>
+      <li><b>5.2</b>Pérdidas en cantidad y valor</li>
+      <li><b>5.3</b>Puntos críticos</li>
+      <li><b>5.4</b>Simular mejoras</li>
+      <li><b>5.5</b>Daño mecánico: curvas y umbral</li>
+      <li><b>5.6</b>Incidencia y regresión logística</li>
+    </ul>
+  </div>
+
+  <p>El Bloque 5 lleva por subtítulo «Cantidad y valor perdidos por etapa, puntos críticos, simulación y daño mecánico». Tiene tres pestañas: <span class="ui">Pérdidas por etapa</span>, <span class="ui">Simular mejoras</span> y <span class="ui">Daño mecánico</span>. Las dos primeras trabajan sobre la misma cadena, que se escribe en una tabla editable; la tercera lee una tabla con la entrada de datos común (sección 2.1). Los dos ejemplos son el <b>jitomate saladette de ejemplo</b>, simulado: una cadena de seis etapas y un ensayo de caídas con 60 frutos (sección I.7).</p>
+
+  <!-- 5.1 -->
+  <h2 id="s5-1"><span class="num">5.1</span>La cadena: etapas, pérdida y precio</h2>
+  <p class="lead">Una cadena poscosecha es una sucesión de etapas —cosecha, selección, acopio, transporte, mayoreo, menudeo—, y lo que se pierde en una ya no llega a la siguiente. Por eso la pérdida de cada etapa se expresa sobre lo que <i>entra</i> a ella, y las pérdidas se acumulan.</p>
+  <p>La tarjeta <span class="ui">La cadena</span> es una tabla editable, una fila por etapa y en orden, con cuatro columnas:</p>
+  <ul>
+    <li><span class="ui">Etapa</span>: el nombre, tal como quieres que aparezca en las figuras.</li>
+    <li><span class="ui">Pérdida (% de lo que entra)</span>: el porcentaje de lo que llega a esa etapa que se pierde en ella.</li>
+    <li><span class="ui">o pérdida (kg)</span>: la pérdida en kilos, si la mediste así; cuando una fila trae kilos, la app usa los kilos y deja de lado el porcentaje (y no deja perder más de lo que entró).</li>
+    <li><span class="ui">Precio por kg</span>: lo que vale un kilo en esa etapa.</li>
+  </ul>
+  <p>Debajo van la <span class="ui">Cantidad que entra a la cadena (kg)</span> (10 000) y la <span class="ui">Moneda</span> ($), que sólo cambia el símbolo de los resultados. La pestaña abre con una cadena corta de cuatro etapas escrita de partida (Cosecha, Empaque, Transporte y Venta), en la que llegan al final 7803 de los 10 000 kg. El botón <span class="ui">Cargar ejemplo</span> de la franja del ejemplo —esta tarjeta tiene el suyo propio, no la entrada de datos común— la reemplaza por la cadena del jitomate, y lo mismo hace <span class="ui">Abrir en …</span> desde la portada. Una fila sin nombre, o sin porcentaje ni kilos, no entra en el cálculo.</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/b5-cadena.png" alt="La tarjeta La cadena con el ejemplo del jitomate: seis etapas con su pérdida en porcentaje y su precio por kilo, la cantidad inicial y la moneda"></div>
+    <figcaption><b>Figura 5.1.</b> La cadena del jitomate de ejemplo: seis etapas de la cosecha a la venta al menudeo, con su pérdida (de 2.6 a 7.8 % de lo que entra) y su precio, que sube de $ 6 a $ 22 por kilo.</figcaption>
+  </figure>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · Seguir la carga</div>
+    <p>Si a la etapa <i>i</i> entran <i>E</i><sub><i>i</i></sub> kilos y pierde la fracción <i>p</i><sub><i>i</i></sub>, pierde <i>E</i><sub><i>i</i></sub>·<i>p</i><sub><i>i</i></sub> y deja pasar <i>E</i><sub><i>i</i>+1</sub> = <i>E</i><sub><i>i</i></sub>(1 − <i>p</i><sub><i>i</i></sub>). El <b>índice de pérdidas</b> es lo perdido en toda la cadena sobre lo que entró, en %. El valor de lo perdido se cuenta de dos maneras: al <b>precio de cada etapa</b>, lo que de verdad valía el producto cuando se perdió; y al <b>precio final</b>, lo que el mercado habría pagado si hubiera llegado. Es la lógica de seguimiento de la carga del índice de pérdidas de alimentos de la FAO (2019) y de la evaluación de sistemas de La Gra et al. (2016).</p>
+  </div>
+
+  <!-- 5.2 -->
+  <h2 id="s5-2"><span class="num">5.2</span>Pérdidas en cantidad y valor</h2>
+  <p class="lead">La tarjeta <span class="ui">Pérdidas en cantidad y valor</span> resume la cadena en cinco mosaicos, una lectura, un diagrama de Sankey, dos gráficas de barras y la tabla por etapa.</p>
+  <p>Los mosaicos son <span class="ui">Entra a la cadena</span>, <span class="ui">Llega al final</span> (con su porcentaje), <span class="ui">Se pierde</span> (con el índice de pérdidas), <span class="ui">Valor perdido</span> («a precio de cada etapa») y <span class="ui">Valor al precio final</span> («lo que el mercado habría pagado»). La lectura dice cuántos kilos de cada 100 llegan al final, qué etapa pierde más kilos y cuál más dinero, y nombra los puntos críticos (sección 5.3).</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b5-sankey.png" alt="Los cinco mosaicos, la lectura y el diagrama de Sankey de la cadena del jitomate de ejemplo, con la banda verde que se angosta y las pérdidas en rojo"></div>
+    <figcaption><b>Figura 5.2.</b> El jitomate de ejemplo: de 10 000 kg llegan 7144 (71.4 %) y se pierden 2856, un índice de pérdidas de 28.6 %. El diagrama <span class="ui">Flujo de producto en la cadena</span> dibuja en verde lo que pasa de una etapa a la siguiente y en rojo lo que se pierde en cada una, más oscuro en los puntos críticos por valor.</figcaption>
+  </figure>
+
+  <p>En el <b>diagrama de Sankey</b> el ancho de cada banda es proporcional a los kilos: la verde se angosta etapa por etapa y de su borde inferior cae, en rojo, lo que se pierde, con sus kilos y su porcentaje. Cada columna lleva el nombre de la etapa y los kilos que salen de ella. Las dos gráficas de barras, <span class="ui">Pérdida por etapa (kg)</span> y <span class="ui">Valor perdido por etapa</span>, ponen las etapas una junto a otra para compararlas.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b5-barras.png" alt="Dos gráficas de barras horizontales: la pérdida en kilos de cada etapa y el valor perdido de cada etapa"></div>
+    <figcaption><b>Figura 5.3.</b> La misma cadena en kilos y en dinero. En kilos, la etapa que más pierde es Selección y empaque (745 kg); en dinero, Venta al menudeo ($ 12 560), donde cada kilo vale $ 22.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Tabla 5.1.</b> La tabla por etapa del jitomate de ejemplo, como la da la app (columnas de kilos redondeadas)</caption>
+    <thead><tr><th>Etapa</th><th class="num">Entra (kg)</th><th class="num">Pierde (kg)</th><th class="num">% de lo que entra</th><th class="num">% del total inicial</th><th class="num">% acumulado</th><th class="num">Precio</th><th class="num">Valor perdido</th><th class="num">Sale (kg)</th></tr></thead>
+    <tbody>
+      <tr><td>Cosecha</td><td class="num">10 000</td><td class="num">450</td><td class="num">4.50</td><td class="num">4.50</td><td class="num">4.50</td><td class="num">6.00</td><td class="num">2700</td><td class="num">9550</td></tr>
+      <tr><td>Selección y empaque</td><td class="num">9550</td><td class="num">745</td><td class="num">7.80</td><td class="num">7.45</td><td class="num">11.95</td><td class="num">8.50</td><td class="num">6332</td><td class="num">8805</td></tr>
+      <tr><td>Acopio</td><td class="num">8805</td><td class="num">229</td><td class="num">2.60</td><td class="num">2.29</td><td class="num">14.24</td><td class="num">9.00</td><td class="num">2060</td><td class="num">8576</td></tr>
+      <tr><td>Transporte</td><td class="num">8576</td><td class="num">360</td><td class="num">4.20</td><td class="num">3.60</td><td class="num">17.84</td><td class="num">10.50</td><td class="num">3782</td><td class="num">8216</td></tr>
+      <tr><td>Central de abasto</td><td class="num">8216</td><td class="num">501</td><td class="num">6.10</td><td class="num">5.01</td><td class="num">22.85</td><td class="num">14.00</td><td class="num">7016</td><td class="num">7715</td></tr>
+      <tr><td>Venta al menudeo</td><td class="num">7715</td><td class="num">571</td><td class="num">7.40</td><td class="num">5.71</td><td class="num">28.56</td><td class="num">22.00</td><td class="num">12 560</td><td class="num">7144</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · El jitomate de la cosecha al menudeo</div>
+    <p>De cada 100 kg que entran, llegan al final <b>71.4</b>. Las pérdidas por etapa son pequeñas —ninguna llega al 8 % de lo que entra—, pero se acumulan hasta un <b>índice de 28.6 %</b>. Lo perdido valía <b>$ 34 450</b> al precio de cada etapa; al precio final de $ 22 el kilo, el mercado habría pagado por ello <b>$ 62 834</b>. La etapa que más kilos pierde es <b>Selección y empaque</b> (26.1 % de la pérdida); la que más dinero pierde es <b>Venta al menudeo</b> (36.5 % del valor perdido), «porque ahí cada kilo ya vale más».</p>
+  </div>
+
+  <p>Bajo la tabla de Pareto (sección 5.3), el botón <span class="ui">Enviar a EconomicsPro →</span> descarga la cadena como <code>perdidas_cadena.csv</code> —etapa, kilos que entran, que se pierden y que salen, porcentaje, precio y valor perdido— y abre EconomicsPro, la aplicación de la suite para la evaluación económica de proyectos, en una pestaña nueva; un aviso recuerda abrir el archivo en su bloque de datos. Abrir esa aplicación en línea es lo único de este bloque que necesita conexión; el CSV se descarga de todos modos.</p>
+
+  <!-- 5.3 -->
+  <h2 id="s5-3"><span class="num">5.3</span>Puntos críticos</h2>
+  <p class="lead">No todas las etapas pesan igual. El análisis de Pareto ordena las etapas de mayor a menor pérdida y señala las que, juntas, suman el 80 %: los <b>puntos críticos</b>, donde conviene buscar primero.</p>
+  <p>La tabla <span class="ui">Puntos críticos (Pareto)</span> ordena las etapas por <span class="ui">Kilos perdidos</span>, con su <span class="ui">Parte</span> de la pérdida y el <span class="ui">Acumulado</span>, y al lado el orden por valor (<span class="ui">Etapa por valor</span>, con su parte del valor perdido). Las filas sombreadas son los puntos críticos en kilos. La app toma las etapas, en orden, hasta que el acumulado llega al 80 %, incluida la que lo cruza.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b5-pareto.png" alt="La tabla Puntos críticos con las seis etapas ordenadas por kilos perdidos y por valor, el botón Enviar a EconomicsPro y la línea de método y fuente"></div>
+    <figcaption><b>Figura 5.4.</b> Los puntos críticos del jitomate de ejemplo. En kilos, cinco de las seis etapas hacen falta para pasar del 80 % (Cosecha deja el acumulado en 79.4 %); en valor, cuatro: Venta al menudeo (36.5 %), Central de abasto (20.4 %), Selección y empaque (18.4 %) y Transporte (11.0 %).</figcaption>
+  </figure>
+
+  <p>En el ejemplo, los puntos críticos en kilos son Selección y empaque, Venta al menudeo, Central de abasto, Cosecha y Transporte; en valor, Venta al menudeo, Central de abasto, Selección y empaque y Transporte. Que el criterio de los kilos apunte al principio de la cadena y el del dinero al final es lo usual: lo que se pierde temprano pesa más, lo que se pierde tarde vale más. En una cadena con pérdidas tan parejas como esta, el 80 % abarca casi todas las etapas; el Pareto discrimina mejor cuando una o dos etapas concentran la pérdida.</p>
+
+  <!-- 5.4 -->
+  <h2 id="s5-4"><span class="num">5.4</span>Simular mejoras</h2>
+  <p class="lead">¿Qué pasaría si una etapa perdiera la mitad de lo que pierde hoy? La pestaña <span class="ui">Simular mejoras</span> lo calcula sobre la cadena de <span class="ui">Pérdidas por etapa</span> y compara la misma mejora en todas las etapas.</p>
+  <p>La tarjeta <span class="ui">¿Qué pasa si se reduce la pérdida de una etapa?</span> tiene dos controles: <span class="ui">Etapa</span>, con las etapas de la cadena, y <span class="ui">Reducción de su pérdida (%)</span> (50), relativa: 50 % es perder la mitad de lo que se pierde hoy en esa etapa. Si la cadena todavía no existe, avisa: «Primero arma la cadena en «Pérdidas por etapa».». Los resultados, en <span class="ui">Resultado de la simulación</span>, son tres mosaicos —<span class="ui">Llegan además</span>, <span class="ui">Valor ganado al precio final</span> y <span class="ui">Nuevo índice de pérdidas</span> con el de antes—, la lectura, la gráfica <span class="ui">Valor ganado al reducir 50 % la pérdida de cada etapa</span> (la etapa elegida en naranja) y la tabla con los kilos que llegan además, el valor ganado y el nuevo índice de cada etapa.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b5-mejoras.png" alt="La pestaña Simular mejoras con la etapa Transporte y 50 por ciento: tres mosaicos, la lectura y las barras del valor ganado en cada etapa"></div>
+    <figcaption><b>Figura 5.5.</b> Reducir a la mitad la pérdida del transporte hace llegar 157 kg más, que valen $ 3445, y baja el índice de 28.6 a 27.0 %. Con la misma reducción, Selección y empaque rinde casi el doble: $ 6648.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Dónde invertir en la cadena del jitomate</div>
+    <p>Con la cadena del ejemplo y una reducción de 50 %, el transporte (4.2 % → 2.1 %) hace llegar <b>157 kg</b> más al final, que valen <b>$ 3445</b> al precio final, y el índice baja a <b>27.0 %</b>. La comparación de las seis etapas da Selección y empaque $ 6648 (302 kg), Venta al menudeo $ 6280 (285 kg), Central de abasto $ 5105, Cosecha $ 3703, Transporte $ 3445 y Acopio $ 2098. La lectura concluye: «la etapa que más rinde es <b>Selección y empaque</b> ($ 6648): ahí conviene invertir primero, si el costo de la mejora es parecido».</p>
+  </div>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>El valor ganado se cuenta al precio final</div>
+    <p>Un kilo que se salva en cualquier etapa llega al final y se vende al precio del menudeo; por eso la simulación lo valora a ese precio, y por eso salvar kilos al principio de la cadena rinde tanto aunque ahí el kilo valga poco. Venta al menudeo, la etapa que más dinero pierde (sección 5.3), no es la que más rinde mejorar. Compara siempre el valor ganado con lo que cuesta la mejora: la app no conoce ese costo.</p>
+  </div>
+  <p>Al abrir la pestaña, la <span class="ui">Etapa</span> propuesta es la que más valor pierde en la cadena con que se abrió la app. Después de cargar el ejemplo del jitomate, el selector conserva la posición de la etapa que estaba elegida (la cuarta), que en la cadena nueva es Transporte, y no Venta al menudeo, la que más valor pierde ahora: elige tú la etapa que quieres simular.</p>
+
+  <!-- 5.5 -->
+  <h2 id="s5-5"><span class="num">5.5</span>Daño mecánico: curvas y umbral</h2>
+  <p class="lead">Los golpes de la cosecha, la línea de empaque y el transporte dejan magulladuras que no se ven al principio pero que se pudren o se rechazan después. Un ensayo de caídas desde varias alturas dice cuánto daño produce cada altura y desde cuál empieza.</p>
+  <p>La tarjeta <span class="ui">Ensayo de impacto o compresión</span> pide, una fila por fruto, <span class="ui">Altura, energía o fuerza</span> —obligatoria— y tres columnas opcionales: <span class="ui">Tamaño del daño</span> (área, volumen o profundidad de la magulladura), <span class="ui">Dañado (0/1)</span> y <span class="ui">Masa del fruto (g)</span>. Con el ejemplo, la app elige <code>altura_cm</code>, <code>area_mm2</code>, <code>danado</code> y <code>masa_g</code>; la tabla trae además <code>energia_J</code> y <code>volumen_mm3</code>, que puedes elegir en lugar de las propuestas.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b5-dano.png" alt="La tarjeta Curvas de daño del jitomate de ejemplo: seis mosaicos, la lectura, el área del daño contra la altura con la recta, la incidencia con la curva logística y la tabla de las cuatro curvas"></div>
+    <figcaption><b>Figura 5.6.</b> Sesenta jitomates de ejemplo dejados caer desde 10 a 60 cm. A la izquierda, el área del daño contra la altura con la recta, la curva de menor AIC; a la derecha, la proporción de frutos dañados en cada altura con la curva logística (sección 5.6). La tabla compara las cuatro curvas.</figcaption>
+  </figure>
+
+  <p>Con el tamaño del daño, la app ajusta cuatro curvas por mínimos cuadrados y las compara por su AIC: lineal (y = a + b·x), cuadrática (y = a + b·x + c·x²), potencia (y = a·xᵇ) y exponencial (y = a·e^(b·x)); las dos últimas se ajustan en escala logarítmica, como se acostumbra en la literatura de impactos, y sólo con los frutos de tamaño y altura positivos (Mohsenin 1986). La tabla da los coeficientes, el R², el AIC y el número de frutos de cada curva, y sombrea la de menor AIC. La figura <span class="ui">Daño contra</span> la columna elegida dibuja los frutos, la recta y, si es otra, la curva de menor AIC.</p>
+  <table class="compacta">
+    <caption><b>Tabla 5.2.</b> Las cuatro curvas del área del daño contra la altura en el jitomate de ejemplo</caption>
+    <thead><tr><th>Curva</th><th>Coeficientes que muestra la app</th><th class="num">R²</th><th class="num">AIC</th></tr></thead>
+    <tbody>
+      <tr><td><b>Lineal</b></td><td>−13.85 · 3.964</td><td class="num">0.9226</td><td class="num"><b>533.41</b></td></tr>
+      <tr><td>Cuadrática</td><td>−15.75 · 4.107 · −0.002041</td><td class="num">0.9226</td><td class="num">535.37</td></tr>
+      <tr><td>Potencia</td><td>0.1559 · 1.298</td><td class="num">0.9095</td><td class="num">542.75</td></tr>
+      <tr><td>Exponencial</td><td>3.042 · 0.04364</td><td class="num">0.7248</td><td class="num">609.50</td></tr>
+    </tbody>
+  </table>
+  <p>En las curvas de potencia y exponencial, el primer número que muestra la tabla es ln <i>a</i>, el intercepto de la recta en escala logarítmica, aunque la columna esté rotulada con la ecuación en <i>a</i>: la curva de potencia del ejemplo es y = e<sup>0.1559</sup>·x<sup>1.298</sup> = 1.17·x<sup>1.298</sup>.</p>
+
+  <h3>El umbral y la susceptibilidad</h3>
+  <p>El <span class="ui">Umbral de daño</span> es la altura donde la recta cruza el cero, −a/b: por debajo de ella, según la recta, no se espera daño visible. La <span class="ui">Susceptibilidad</span> es el tamaño del daño por joule de energía de impacto, con la energía calculada de la masa y la altura, E = m·g·h (Bajema y Hyde 1998). Aparece sólo si eliges la masa; la app usa la energía que calcula, no la columna <code>energia_J</code>.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Las caídas del jitomate</div>
+    <p>La curva de menor AIC es la <b>lineal</b> (R² 0.923, AIC 533.41): el área del daño crece 3.964 mm² por cada centímetro de caída. La cuadrática ajusta igual (R² 0.9226) pero paga un parámetro más. La recta cruza el cero a <b>3.5 cm</b>: «por debajo de 3.5 no se espera daño visible» —la lectura no escribe la unidad, que es la de la altura, centímetros—. La susceptibilidad es <b>237 mm² por joule</b>; la app la rotula con el nombre de la columna, «area_mm2 por joule».</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Área o volumen</div>
+    <p>Bajema y Hyde (1998) definen la susceptibilidad como <b>volumen</b> del daño por joule absorbido. Con el área, como propone la app por omisión, la cifra no es comparable con las publicadas; elige <code>volumen_mm3</code> en <span class="ui">Tamaño del daño</span> si quieres la definición del artículo. En el jitomate de ejemplo, con el volumen, la susceptibilidad es 135 mm³ por joule, la curva de menor AIC pasa a ser la cuadrática (R² 0.791) y el umbral de la recta sube a 11.1 cm: el volumen del daño es mucho más ruidoso que su área.</p>
+  </div>
+
+  <!-- 5.6 -->
+  <h2 id="s5-6"><span class="num">5.6</span>Incidencia y regresión logística</h2>
+  <p class="lead">El tamaño de la magulladura no lo es todo: para un empacador, lo que importa es qué proporción de frutos sale dañada. Con la columna <span class="ui">Dañado (0/1)</span>, la app ajusta una regresión logística de la incidencia contra la altura y calcula las alturas que dañan al 50 % y al 10 % de los frutos.</p>
+  <div class="formula">logit <i>p</i> = ln[<i>p</i>/(1 − <i>p</i>)] = <i>b</i><sub>0</sub> + <i>b</i><sub>1</sub>·<i>x</i> &nbsp;·&nbsp; <i>x</i><sub><i>p</i></sub> = (logit <i>p</i> − <i>b</i><sub>0</sub>)/<i>b</i><sub>1</sub></div>
+  <p>Los coeficientes se estiman por mínimos cuadrados reponderados iterativos, y el intervalo de confianza de 95 % de cada altura, que es un cociente de dos coeficientes, por el método de Fieller (Finney 1971). La columna debe traer sólo ceros y unos; si trae otra cosa, la app no ajusta la logística. Los mosaicos <span class="ui">Daña al 50 %</span> y <span class="ui">Daña al 10 %</span> dan las dos alturas con su intervalo, y la figura <span class="ui">Incidencia de daño</span> dibuja la proporción observada en cada altura, la curva logística y dos líneas punteadas en 0.5 y 0.1.</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/b5-incidencia.png" alt="La curva logística de la proporción de jitomates dañados contra la altura de caída, con la proporción observada en cada altura y las líneas de 0.5 y 0.1"></div>
+    <figcaption><b>Figura 5.7.</b> La incidencia de daño del jitomate de ejemplo: 1 de 10 frutos dañados a 10 cm, 2 a 20 cm, 5 a 30 cm y todos desde 40 cm. La curva cruza el 50 % a 26.9 cm y el 10 % a 15.3 cm.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Cuánto puede caer un jitomate</div>
+    <p>La mitad de los jitomates del ejemplo se daña con una caída de <b>26.9 cm</b> [21.5, 32.1] y el 10 % con <b>15.3 cm</b> [1.4, 20.9]. La lectura lo traduce a una regla para la línea de empaque: «alturas de caída menores que esa […] mantienen el daño por debajo del 10 %». El intervalo del 10 % es muy ancho por abajo porque hay pocos frutos dañados a alturas bajas: si la decisión depende de ese número, repite el ensayo con más frutos entre 5 y 20 cm.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · Pérdidas y daño</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>Si</b> la etapa que más kilos pierde no es la que más dinero pierde…</td><td>es lo normal: el precio sube a lo largo de la cadena. Decide con el valor ganado de <span class="ui">Simular mejoras</span>, no con los kilos.</td></tr>
+      <tr><td><b>Si</b> los puntos críticos son casi todas las etapas…</td><td>las pérdidas están repartidas: no hay un cuello de botella, y una mejora general (frío, manejo) rinde más que una puntual.</td></tr>
+      <tr><td><b>Si</b> una etapa aparece crítica en kilos y en valor…</td><td>es la primera candidata a invertir.</td></tr>
+      <tr><td><b>Si</b> las caídas de la línea de empaque superan la altura que daña al 10 %…</td><td>baja las alturas de transferencia o pon material amortiguador; mide de nuevo después del cambio.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">El valor ganado no descuenta el costo de la mejora ni el de manejar más producto: para eso está la evaluación económica (EconomicsPro).</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <ul>
+      <li><b>La cadena no aparece.</b> Cada fila necesita nombre y un porcentaje o unos kilos, y la cantidad inicial debe ser mayor que cero.</li>
+      <li><b>El índice parece demasiado alto.</b> Revisa que el porcentaje de cada etapa sea sobre <b>lo que entra a ella</b>, no sobre la cantidad inicial; si lo mediste sobre el total, escríbelo en kilos en <span class="ui">o pérdida (kg)</span>.</li>
+      <li><b>La simulación muestra la etapa equivocada.</b> Después de cambiar la cadena, vuelve a elegir la <span class="ui">Etapa</span>: el selector conserva la posición, no el nombre.</li>
+      <li><b>No sale la logística.</b> La columna de incidencia debe traer sólo 0 y 1; un «sí», un 2 o una celda vacía la descartan.</li>
+      <li><b>No sale la susceptibilidad.</b> Elige la columna de masa en <span class="ui">Masa del fruto (g)</span>, en gramos.</li>
+      <li><b>Un umbral negativo o ausente.</b> Si la recta no sube con la altura (pendiente cero o negativa), no hay umbral: revisa que elegiste la columna del daño y no otra.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>

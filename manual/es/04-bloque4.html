@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-4" data-pestana="4" data-orden="4" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">4</div>
+    <div class="cap-etiqueta">Capítulo cuatro · Bloque 4</div>
+    <h1 data-corto="Respiración, etileno y atmósferas">Respiración, etileno y atmósferas</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un fruto cosechado sigue vivo: respira, libera calor y, si es climatérico, produce etileno y madura de golpe. Este bloque mide cuánto respira y cuánto etileno produce, reconoce el climaterio, busca la película y el espesor que llevan la atmósfera de un empaque a la ventana recomendada, y calcula cuánto tarda en enfriarse un lote y qué equipo de frío hace falta para lograrlo.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k4"></span><span class="k4"></span><span class="k8"></span></div>
+    <ul class="cap-contenido">
+      <li><b>4.1</b>Sistema estático</li>
+      <li><b>4.2</b>Flujo continuo</li>
+      <li><b>4.3</b>Climaterio</li>
+      <li><b>4.4</b>Atmósfera modificada: producto y empaque</li>
+      <li><b>4.5</b>La atmósfera de equilibrio y el espesor de la película</li>
+      <li><b>4.6</b>Preenfriamiento</li>
+      <li><b>4.7</b>Carga de refrigeración</li>
+    </ul>
+  </div>
+
+  <p>El Bloque 4 lleva por subtítulo «Tasas de respiración, climaterio, empaque en atmósfera modificada y preenfriamiento». Tiene cinco pestañas: <span class="ui">Sistema estático</span>, <span class="ui">Flujo continuo</span>, <span class="ui">Climaterio</span>, <span class="ui">Atmósfera modificada</span> y <span class="ui">Preenfriamiento y carga térmica</span>. Sólo dos leen una tabla con la entrada de datos común (sección 2.1): el sistema estático y el climaterio, que traen como ejemplo el <b>aguacate «Hass» de ejemplo</b>, simulado, en tres frascos y en una curva de doce días (sección I.7). Las otras tres abren con valores ya escritos en sus campos y en tablas editables, y se recalculan en cuanto cambias uno.</p>
+
+  <div class="caja dato">
+    <div class="dato-cifra">10.7</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>Joules de calor por cada miligramo de CO₂ que respira el producto. Oxidar un mol de hexosa libera 2816 kJ y seis moles de CO₂ (264 g): 10.67 J/mg. Con esa cifra la app pasa de la respiración al calor que la cámara tiene que retirar.</div>
+  </div>
+
+  <!-- 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>Sistema estático</h2>
+  <p class="lead">El método más sencillo para medir la respiración: se cierra el producto en un frasco de volumen conocido y se lee cómo sube el CO₂ —y, si se tiene con qué, cómo baja el O₂ y cómo se acumula el etileno— a varios tiempos. La tasa sale de la pendiente de cada gas contra el tiempo.</p>
+  <p>La tarjeta <span class="ui">Lecturas en frasco cerrado</span> pide dos columnas obligatorias, <span class="ui">Tiempo (h)</span> y <span class="ui">CO₂ (%)</span>, y cinco opcionales: <span class="ui">O₂ (%)</span>, <span class="ui">Etileno (µL/L)</span>, <span class="ui">Frasco o repetición</span>, <span class="ui">Masa (kg)</span> y <span class="ui">Volumen del frasco (L)</span>. Con la columna del frasco, la app calcula cada frasco por separado y después promedia. Debajo hay cinco campos:</p>
+  <ul>
+    <li><span class="ui">Masa (kg), si no hay columna</span> (0.65) y <span class="ui">Volumen del frasco (L), si no hay columna</span> (3.8): se usan sólo cuando la tabla no trae esas columnas.</li>
+    <li><span class="ui">Densidad del producto (kg/L)</span> (1.0): para restar al frasco el volumen que ocupa el producto.</li>
+    <li><span class="ui">Temperatura (°C)</span> (20) y <span class="ui">Presión (kPa)</span> (101.325): para el volumen molar del gas, que convierte mililitros en miligramos.</li>
+  </ul>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · De la pendiente a la tasa</div>
+    <p>El gas que se acumula en el frasco cabe en su <b>volumen libre</b>, V = volumen del frasco − masa/densidad. Una subida de la concentración de Δ % en ese volumen son Δ/100·V litros de gas. Por eso, si <i>b</i> es la pendiente del CO₂ en % por hora y <i>m</i> la masa en kilos:</p>
+    <div class="formula"><i>r</i><sub>CO₂</sub> (mL kg⁻¹ h⁻¹) = <i>b</i>/100 · <i>V</i> · 1000 / <i>m</i> &nbsp;·&nbsp; <i>r</i><sub>CO₂</sub> (mg kg⁻¹ h⁻¹) = <i>b</i>/100 · <i>V</i>/<i>V</i><sub>m</sub> · 44.01 · 1000 / <i>m</i></div>
+    <p>con <i>V</i><sub>m</sub> = <i>RT</i>/<i>P</i>, el volumen molar del gas a la temperatura y la presión del ensayo (24.05 L/mol a 20 °C y 101.325 kPa). El consumo de O₂ es lo mismo con la pendiente cambiada de signo; el etileno, en µL kg⁻¹ h⁻¹, es la pendiente en ppm por hora por <i>V</i>/<i>m</i>. El <b>cociente respiratorio</b> es CR = CO₂ producido / O₂ consumido, en volumen: cerca de 1 cuando el sustrato son azúcares, menor con lípidos o ácidos grasos y mayor de 1.3 cuando empieza la fermentación (Fonseca et al. 2002; Kader 2002).</p>
+  </div>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b4-estatico.png" alt="La tarjeta Tasa de respiración y producción de etileno del aguacate de ejemplo: seis mosaicos, la lectura, las rectas de CO2 y O2 de tres frascos y la tabla por frasco"></div>
+    <figcaption><b>Figura 4.1.</b> El aguacate de ejemplo en tres frascos de 3.8 L a 20 °C, con lecturas cada 30 minutos durante 2 horas. El CO₂ sube y el O₂ baja en línea recta en los tres frascos (R² de 0.9995 a 0.9998); la media es 59.4 mg CO₂ kg⁻¹ h⁻¹, con un CR de 0.93.</figcaption>
+  </figure>
+
+  <p>La tarjeta de resultados, <span class="ui">Tasa de respiración y producción de etileno</span>, da seis mosaicos: el CO₂ en mg kg⁻¹ h⁻¹ —la media de los frascos, con su error estándar y el número de frascos— y en mL kg⁻¹ h⁻¹, el O₂ en mL kg⁻¹ h⁻¹, el <span class="ui">Cociente respiratorio</span>, el etileno con su clase y el <span class="ui">Calor de respiración</span> en W por tonelada y en kJ por tonelada y día. Siguen la lectura, dos figuras —<span class="ui">Acumulación de CO₂</span> y <span class="ui">Consumo de O₂</span> (o <span class="ui">Acumulación de etileno</span> si no hay O₂) con los puntos y la recta de cada frasco— y la tabla por frasco con la masa, el volumen libre, la tasa de CO₂ y su R², la de O₂, el CR y el etileno.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · El aguacate en frascos</div>
+    <p>Con <span class="ui">Cargar ejemplo</span> la app reconoce las siete columnas de <code>aguacate_estatico.csv</code> (<code>tiempo_h</code>, <code>co2_pct</code>, <code>o2_pct</code>, <code>etileno_ppm</code>, <code>frasco</code>, <code>masa_kg</code> y <code>volumen_frasco_L</code>), así que los campos de masa y volumen no se usan. Los tres frascos tienen 0.657, 0.665 y 0.700 kg de fruto y un volumen libre de 3.143, 3.135 y 3.100 L. Respiran 54.39, 65.33 y 58.40 mg CO₂ kg⁻¹ h⁻¹: la media es <b>59.4 ± 3.2</b> (EE, 3 frascos), que son 32.5 mL kg⁻¹ h⁻¹. Consumen 35.0 mL de O₂ kg⁻¹ h⁻¹, con un <b>CR de 0.93</b>, y producen <b>0.597 µL de etileno kg⁻¹ h⁻¹</b>, clase «baja». Cada tonelada libera <b>176 W</b>, o 15 196 kJ por día.</p>
+  </div>
+
+  <h3>Las clases de Kader</h3>
+  <p>La app clasifica el etileno con las clases de Kader (2002), definidas a 20 °C: muy baja por debajo de 0.1, baja de 0.1 a 1, moderada de 1 a 10, alta de 10 a 100 y muy alta por encima de 100 µL kg⁻¹ h⁻¹. Las clases de respiración del mismo autor se definen a 5 °C; por eso la app no le pone clase a una respiración medida a otra temperatura, y la lectura lo recuerda: «La clasificación de Kader (2002) se define a 5 °C: compárala con una medición a esa temperatura». El aguacate del ejemplo, medido a 20 °C, sólo sirve para compararse con otros frutos a 20 °C.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Cuánto tiempo cerrar el frasco</div>
+    <p>El método supone que la respiración no cambia mientras el frasco está cerrado. Eso sólo vale mientras el O₂ no baje de unos 18–19 % ni el CO₂ suba de 1–2 %: más allá, la atmósfera del frasco empieza a frenar la respiración y la recta se curva. En el ejemplo, en dos horas el CO₂ llega a 1.3–1.6 % y el O₂ baja a 19.3–19.6 %, justo en el límite. Si alguna recta de CO₂ tiene R² &lt; 0.95, la lectura añade: «Alguna recta de CO₂ tiene R² &lt; 0.95: revisa fugas o lecturas atípicas».</p>
+  </div>
+
+  <!-- 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Flujo continuo</h2>
+  <p class="lead">En el sistema de flujo continuo una corriente de aire atraviesa la cámara del producto sin parar; cuando se estabiliza, la diferencia de concentración entre la entrada y la salida, por el flujo, es lo que respira el producto. Es el método para medir durante días sin que la atmósfera cambie.</p>
+  <p>La tarjeta <span class="ui">Cámaras con flujo de aire</span> es una tabla editable, una fila por cámara, con <span class="ui">Cámara</span>, <span class="ui">Masa (kg)</span>, <span class="ui">Flujo (mL/min)</span>, <span class="ui">CO₂ entrada (%)</span>, <span class="ui">CO₂ salida (%)</span>, <span class="ui">O₂ entrada (%)</span>, <span class="ui">O₂ salida (%)</span>, <span class="ui">Etileno entrada (µL/L)</span> y <span class="ui">Etileno salida (µL/L)</span>; en una pantalla angosta la tabla se recorre de lado. Una fila nueva (<span class="ui">+ Agregar fila</span>) llega con el aire de entrada ya escrito (0.04 % de CO₂, 20.95 % de O₂ y 0 de etileno). Debajo, la <span class="ui">Temperatura (°C)</span> (20) sirve para pasar los mililitros a miligramos. Una fila sin masa o sin flujo no se calcula.</p>
+  <div class="formula"><i>r</i> (mL kg⁻¹ h⁻¹) = (<i>C</i><sub>salida</sub> − <i>C</i><sub>entrada</sub>)/100 · <i>F</i> · 60 / <i>m</i> &nbsp;·&nbsp; etileno (µL kg⁻¹ h⁻¹) = Δppm · <i>F</i> · 60 / 1000 / <i>m</i></div>
+  <p>con <i>F</i> en mL/min. Para el O₂ la diferencia es la de entrada menos la de salida. La tarjeta <span class="ui">Tasas por cámara</span> da cuatro mosaicos con la media de las cámaras —CO₂, O₂, CR y etileno— y la tabla por cámara, que añade el CO₂ en mL y el calor en W/t (Fonseca et al. 2002; Saltveit 2016).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b4-flujo.png" alt="La tabla editable de tres cámaras con flujo de aire, la temperatura y la tarjeta Tasas por cámara con cuatro mosaicos y la tabla de resultados"></div>
+    <figcaption><b>Figura 4.2.</b> Las tres cámaras escritas de partida: 2.0 a 2.2 kg de producto con 150 mL/min de aire. La media es 29.8 mg CO₂ kg⁻¹ h⁻¹, 17.1 mL O₂ kg⁻¹ h⁻¹, un CR de 0.95 y 1.340 µL de etileno kg⁻¹ h⁻¹. La tabla de arriba sigue a la derecha con las columnas de O₂ y etileno.</figcaption>
+  </figure>
+
+  <p>Con los valores de partida, la cámara A (2.1 kg; CO₂ de 0.04 a 0.42 %) respira 29.80 mg CO₂ kg⁻¹ h⁻¹, la B 28.82 y la C 30.69; las tres liberan de 85 a 91 W por tonelada. La cámara A produce 1.3286 µL de etileno kg⁻¹ h⁻¹, la B 1.2600 y la C 1.4318.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Una diferencia que se pueda medir</div>
+    <p>Elige el flujo para que el CO₂ suba entre 0.1 y 0.5 % de la entrada a la salida: con menos, el error del analizador pesa demasiado; con más, la atmósfera de la cámara ya no es aire y la respiración cambia. Las tres cámaras de partida suben 0.35–0.41 %.</p>
+  </div>
+
+  <!-- 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>Climaterio</h2>
+  <p class="lead">Los frutos climatéricos —aguacate, mango, plátano, jitomate— tienen, al madurar, un alza de la respiración acompañada de un estallido de etileno autocatalítico; los no climatéricos —cítricos, uva, fresa— no. Saber de qué tipo es un fruto decide si se puede cosechar verde y madurar en destino.</p>
+  <p>La tarjeta <span class="ui">Curvas de respiración y etileno</span> pide <span class="ui">Tiempo</span> y <span class="ui">Respiración</span> (en cualquier unidad) y, opcional, <span class="ui">Etileno</span>, medidos en los mismos frutos a lo largo de la maduración. Tres campos fijan la regla:</p>
+  <ul>
+    <li><span class="ui">Alza respiratoria mínima (×)</span>, 1.5 por omisión;</li>
+    <li><span class="ui">Alza de etileno mínima (×)</span>, 10;</li>
+    <li><span class="ui">Etileno pico mínimo (µL kg⁻¹ h⁻¹)</span>, 1.</li>
+  </ul>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · Climatérico o no</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:36%"><b>Alza respiratoria</b></td><td>El pico de respiración, después de un mínimo previo, lo supera al menos 1.5 veces <b>y no es la última lectura</b>.</td></tr>
+      <tr><td><b>Estallido de etileno</b></td><td>El pico de etileno supera 10 veces su mínimo previo, <b>o</b> llega a 1 µL kg⁻¹ h⁻¹.</td></tr>
+      <tr><td><b>Climatérico</b></td><td>Los dos; o el alza respiratoria sola si no hay columna de etileno.</td></tr>
+      <tr><td><b>No climatérico</b></td><td>Ninguno, con la respiración bajando o estable.</td></tr>
+      <tr><td><b>Incierto</b></td><td>Cualquier otro caso: por ejemplo, la respiración todavía sube en la última lectura, o hay alza sin estallido.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La propia app lo dice: «La clasificación sigue una regla explícita (abajo): es una orientación, no un veredicto» (Biale 1964; Lelièvre et al. 1997).</p>
+  </div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b4-climaterio.png" alt="La tarjeta Patrón de maduración del aguacate de ejemplo: cuatro mosaicos, la regla y la lectura, y las curvas de respiración y de etileno con su mínimo y su pico marcados"></div>
+    <figcaption><b>Figura 4.3.</b> El aguacate de ejemplo durante 12 días a 20 °C. La respiración sube de 42.3 a 133.0 mg CO₂ kg⁻¹ h⁻¹ (× 3.14) con el pico el día 6; el etileno, de 0.15 a 83.22 µL kg⁻¹ h⁻¹ (× 554.8) el día 7. Las líneas verticales marcan el mínimo y el pico de cada curva.</figcaption>
+  </figure>
+
+  <p>La tarjeta <span class="ui">Patrón de maduración</span> da el <span class="ui">Patrón</span>, el <span class="ui">Alza respiratoria</span> con su mínimo y su pico, el día del <span class="ui">Pico de respiración</span> y el <span class="ui">Pico de etileno</span> con su día y su alza. La lectura escribe la regla con los umbrales que pusiste y la interpreta. Las dos figuras, <span class="ui">Respiración</span> y <span class="ui">Producción de etileno</span>, marcan con líneas verticales el mínimo y el pico que usó la regla.</p>
+  <p>En el aguacate del ejemplo el patrón es <b>climatérico</b>. La lectura dice que «el etileno alcanza su pico 1.0 después que la respiración»: ese 1.0 son <b>días</b> (pico de respiración el día 6, de etileno el día 7), aunque la app no escribe la unidad; y el mosaico del pico de respiración escribe debajo el nombre crudo de la columna, <code>dia</code>. Después de los picos, la respiración baja a 42.7 el día 10 y vuelve a subir un poco al final (54.5 el día 12), como el fruto que entra en senescencia. Cuando el etileno alcanza su pico <i>antes</i> que la respiración, la lectura lo atribuye a la producción autocatalítica; cuando coinciden (menos de media unidad de diferencia), dice que los picos van juntos.</p>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Una serie que termina antes de tiempo</div>
+    <p>Si la respiración todavía sube en la última lectura, no hay forma de saber si ya llegó al pico, y la app responde «incierto»: «alarga la serie». Por la misma razón la serie debe empezar antes del alza: sin un mínimo previo, el cociente pico/mínimo no tiene sentido. Mide al menos cada día, y dos veces por día cerca del pico si el fruto madura rápido.</p>
+  </div>
+
+  <!-- 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>Atmósfera modificada: producto y empaque</h2>
+  <p class="lead">Dentro de una bolsa sellada, el producto consume O₂ y produce CO₂ mientras la película deja entrar O₂ y salir CO₂. Con el tiempo las dos corrientes se igualan y la bolsa llega a una atmósfera de equilibrio. Si esa atmósfera cae en la ventana que el producto tolera, la respiración se frena y la vida de anaquel se alarga; si el O₂ baja demasiado, el producto fermenta.</p>
+  <p>La pestaña no lee una tabla: la tarjeta <span class="ui">Producto y empaque</span> abre con un caso escrito —una bolsa de aguacate— y se recalcula con cada cambio. Sus campos, en tres renglones:</p>
+  <table class="compacta">
+    <caption><b>Tabla 4.1.</b> Los campos de <span class="ui">Producto y empaque</span> y sus valores de partida</caption>
+    <thead><tr><th style="width:2.4in">Campo</th><th style="width:1in">De partida</th><th>Para qué</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Producto (ventana recomendada)</span></td><td>Aguacate</td><td>Llena los cuatro campos de la ventana con los valores de Kader (2002) para el cultivo; <span class="ui">Otra (escribe la ventana)</span> deja escribirlos</td></tr>
+      <tr><td><span class="ui">O₂ mínimo (%)</span> · <span class="ui">O₂ máximo (%)</span></td><td>2 · 5</td><td>La ventana de O₂</td></tr>
+      <tr><td><span class="ui">CO₂ mínimo (%)</span> · <span class="ui">CO₂ máximo (%)</span></td><td>3 · 10</td><td>La ventana de CO₂</td></tr>
+      <tr><td><span class="ui">Consumo de O₂ (mL kg⁻¹ h⁻¹)</span></td><td>4</td><td>La respiración del producto <b>a la temperatura del empaque</b></td></tr>
+      <tr><td><span class="ui">Cociente respiratorio</span></td><td>0.9</td><td>El CO₂ que se produce por cada volumen de O₂</td></tr>
+      <tr><td><span class="ui">Masa por empaque (kg)</span></td><td>0.5</td><td>El producto dentro de la bolsa</td></tr>
+      <tr><td><span class="ui">Largo de la bolsa (cm)</span> · <span class="ui">Ancho de la bolsa (cm)</span></td><td>30 · 25</td><td>El área de película: las dos caras, 2 × 30 × 25 cm = 0.150 m²</td></tr>
+      <tr><td><span class="ui">Temperatura (°C)</span></td><td>8</td><td>Corrige la permeabilidad de la película</td></tr>
+      <tr><td><span class="ui">Película</span> · <span class="ui">Espesor (µm)</span></td><td>Polietileno de baja densidad · 40</td><td>El empaque que se evalúa</td></tr>
+      <tr><td><span class="ui">Respiración limitada por el O₂ (Michaelis–Menten)</span>, <span class="ui">Km (% O₂)</span>, <span class="ui">Ki del CO₂ (%)</span></td><td>sin marcar · 2 · 15</td><td>Que la respiración baje con el O₂ y la frene el CO₂ (ver abajo)</td></tr>
+    </tbody>
+  </table>
+  <p>La lista de productos trae diez ventanas: aguacate, mango, papaya, plátano, jitomate verde maduro, fresa, arándano, cereza, brócoli y manzana. Al elegir uno cambian sólo los cuatro campos de la ventana; la respiración, la masa y el empaque siguen siendo los que escribiste, así que <b>cámbialos también</b>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b4-empaque.png" alt="La tarjeta Producto y empaque con los valores de partida y el desplegable de permeabilidades abierto con nueve películas"></div>
+    <figcaption><b>Figura 4.4.</b> La tarjeta <span class="ui">Producto y empaque</span> con los valores de partida y el desplegable <span class="ui">Permeabilidades de las películas (editables)</span> abierto: nueve películas con su permeabilidad al O₂ y al CO₂ a 23 °C y sus energías de activación. En la pantalla, el rótulo del espesor sale en mayúsculas como «ESPESOR (MM)», pero la unidad es el micrómetro.</figcaption>
+  </figure>
+
+  <h3>Las películas</h3>
+  <p>El desplegable <span class="ui">Permeabilidades de las películas (editables)</span> guarda una tabla de nueve películas: polietileno de baja densidad, polietileno lineal de baja densidad, polietileno de alta densidad, polipropileno colado, polipropileno biorientado, policloruro de vinilo plastificado, etileno acetato de vinilo, poliestireno orientado y poliéster (PET). Para cada una da <span class="ui">P O₂</span> y <span class="ui">P CO₂</span> en mL·µm m⁻² d⁻¹ atm⁻¹ a 23 °C y las energías de activación <span class="ui">Eₐ O₂</span> y <span class="ui">Eₐ CO₂</span> en kJ/mol, con las que la app corrige la permeabilidad a la temperatura del empaque:</p>
+  <div class="formula"><i>P</i>(<i>T</i>) = <i>P</i>(23 °C) · exp[−<i>E</i><sub>a</sub>/<i>R</i> · (1/<i>T</i> − 1/296.15)]</div>
+  <p>A 8 °C, el polietileno de baja densidad deja pasar menos de la mitad del O₂ que a 23 °C: el frío cierra la película casi tanto como frena la respiración. Son valores orientativos (Mangaraj et al. 2009): la tarjeta lo advierte y pide los de la ficha técnica de tu película. Puedes corregir una fila o añadir una película con <span class="ui">+ Agregar fila</span>; la nueva aparece en el selector <span class="ui">Película</span>.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · Respiración limitada por el O₂</div>
+    <p>Sin marcar, la app supone que la respiración no depende de la atmósfera: el producto consume lo mismo a 4 % de O₂ que en el aire. Es la suposición conservadora, porque da el O₂ más bajo. Si marcas <span class="ui">Respiración limitada por el O₂ (Michaelis–Menten)</span>, la respiración sigue <i>r</i> = <i>V</i><sub>m</sub>[O₂]/(<i>K</i><sub>m</sub> + [O₂](1 + [CO₂]/<i>K</i><sub>i</sub>)), con inhibición no competitiva por el CO₂ (Lee et al. 1991). La app elige <i>V</i><sub>m</sub> para que la respiración en el aire sea el consumo que escribiste. Con los valores de partida, el O₂ interno sube de 4.64 a 8.10 % y el CO₂ baja de 2.73 a 2.16 %: el producto respira menos y la bolsa se queda con más O₂.</p>
+  </div>
+
+  <!-- 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>La atmósfera de equilibrio y el espesor de la película</h2>
+  <p class="lead">En estado estacionario, lo que respira el producto es igual a lo que atraviesa la película. De ese balance salen el O₂ y el CO₂ de la bolsa, el espesor que llevaría el O₂ al centro de la ventana y la razón de permeabilidades que haría falta para que el CO₂ caiga también dentro de ella.</p>
+  <div class="formula">[O₂]<sub>in</sub> = 20.95 − 100 · <i>r</i><sub>O₂</sub>·<i>W</i>·24·<i>L</i> / (<i>P</i><sub>O₂</sub>·<i>A</i>) &nbsp;·&nbsp; [CO₂]<sub>in</sub> = 0.04 + 100 · CR·<i>r</i><sub>O₂</sub>·<i>W</i>·24·<i>L</i> / (<i>P</i><sub>CO₂</sub>·<i>A</i>)</div>
+  <p>con <i>W</i> la masa en kg, <i>L</i> el espesor en µm, <i>A</i> el área en m² y el factor 24 porque la respiración va por hora y la permeabilidad por día (Exama et al. 1993; Fishman et al. 1996). De ahí sale una propiedad clave: todas las atmósferas que puede dar una película, cambie lo que cambie el espesor, el área o la masa, caen sobre una recta que parte del aire con pendiente CR/β, donde <b>β = P<sub>CO₂</sub>/P<sub>O₂</sub></b> es la razón de permeabilidades de la película. El espesor sólo mueve el punto a lo largo de su recta; para cambiar de recta hay que cambiar de película.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b4-atmosfera.png" alt="La tarjeta Atmósfera de equilibrio con cinco mosaicos, la lectura y el plano O2-CO2 con las rectas de nueve películas, la ventana del aguacate y el punto de este empaque"></div>
+    <figcaption><b>Figura 4.5.</b> La atmósfera de equilibrio de la bolsa de partida: 4.64 % de O₂ y 2.73 % de CO₂. El O₂ cae dentro de la ventana del aguacate (recuadro verde, 2–5 % de O₂ y 3–10 % de CO₂), pero el CO₂ queda debajo: el punto «este empaque» está sobre la recta del polietileno de baja densidad, una de las más bajas del plano (β grande, pendiente CR/β pequeña), que pasa por debajo del recuadro. La franja roja de la izquierda es la zona anaerobia.</figcaption>
+  </figure>
+
+  <p>La tarjeta <span class="ui">Atmósfera de equilibrio</span> da cinco mosaicos: <span class="ui">O₂ interno</span> y <span class="ui">CO₂ interno</span> con su ventana (en verde dentro de ella, en ámbar fuera y en rojo si hay anaerobiosis), el <span class="ui">Área de la bolsa</span>, la <span class="ui">β de la película</span> con la β necesaria, y el <span class="ui">Espesor para</span> el O₂ objetivo —el centro de la ventana de O₂— con la película elegida. La lectura dice si la atmósfera cae dentro o fuera, enumera las películas que, con el espesor que las lleva al O₂ objetivo, dejan también el CO₂ dentro de la ventana, y recuerda los supuestos. La figura <span class="ui">Atmósferas posibles de cada película</span> es el plano O₂–CO₂ con la recta de cada película, la ventana y el punto del empaque, y la tabla da para cada película su β, el espesor para el O₂ objetivo, el CO₂ que resultaría y si queda dentro de la ventana.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla 4.2.</b> Las nueve películas llevadas a 3.5 % de O₂, con la bolsa de partida a 8 °C</caption>
+    <thead><tr><th>Película</th><th class="num">β</th><th class="num">Espesor (µm)</th><th class="num">CO₂ (%)</th><th>Dentro de la ventana</th></tr></thead>
+    <tbody>
+      <tr><td>Polietileno de baja densidad</td><td class="num">5.45</td><td class="num">43</td><td class="num">2.92</td><td>no</td></tr>
+      <tr><td>Polietileno lineal de baja densidad</td><td class="num">4.63</td><td class="num">40</td><td class="num">3.43</td><td>sí</td></tr>
+      <tr><td>Polietileno de alta densidad</td><td class="num">4.23</td><td class="num">13</td><td class="num">3.75</td><td>sí</td></tr>
+      <tr><td>Polipropileno colado</td><td class="num">3.19</td><td class="num">20</td><td class="num">4.97</td><td>sí</td></tr>
+      <tr><td>Polipropileno biorientado</td><td class="num">4.07</td><td class="num">8.2</td><td class="num">3.90</td><td>sí</td></tr>
+      <tr><td>Policloruro de vinilo plastificado</td><td class="num">6.97</td><td class="num">7.4 (no fabricable)</td><td class="num">2.29</td><td>no</td></tr>
+      <tr><td>Etileno acetato de vinilo</td><td class="num">4.67</td><td class="num">71</td><td class="num">3.40</td><td>sí</td></tr>
+      <tr><td>Poliestireno orientado</td><td class="num">4.01</td><td class="num">36</td><td class="num">3.95</td><td>sí</td></tr>
+      <tr><td>Poliéster (PET)</td><td class="num">3.56</td><td class="num">0.4 (no fabricable)</td><td class="num">4.45</td><td>no</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · La bolsa de aguacate</div>
+    <p>Con los valores de partida, el polietileno de baja densidad de 40 µm deja la bolsa en <b>4.64 % de O₂ y 2.73 % de CO₂</b>: «queda fuera de la ventana», porque el CO₂ no llega al 3 %. Su β es 5.45, y la β necesaria para caer en el centro de la ventana (3.5 % de O₂ y 6.5 % de CO₂) es <b>2.43</b>: con β tan alta, el CO₂ sale de la bolsa demasiado rápido. Llevar esa misma película a 3.5 % de O₂ pide 43 µm y deja el CO₂ en 2.92 %, todavía fuera. Seis películas sí llegan: polietileno lineal de baja densidad de 40 µm, polietileno de alta densidad de 13 µm, polipropileno colado de 20 µm, polipropileno biorientado de 8 µm, etileno acetato de vinilo de 71 µm y poliestireno orientado de 36 µm. Si eliges en <span class="ui">Película</span> el polietileno lineal de 40 µm, la bolsa queda en 3.55 % de O₂ y 3.42 % de CO₂, «dentro de la ventana recomendada».</p>
+  </div>
+
+  <p>Un espesor fuera de 8–150 µm no se puede fabricar ni sellar como bolsa: la tabla lo marca «(no fabricable)» y la película no cuenta como solución aunque su CO₂ caiga en la ventana, como el PET, que necesitaría 0.4 µm. Cuando ninguna película llega, la lectura lo dice y da la β que haría falta, «o microperforaciones»: es lo que ocurre con el mango (ventana 3–5 % de O₂ y 5–8 % de CO₂, β necesaria ≈ 2.36), que con la misma bolsa no encuentra película en la tabla.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · Leer el plano O₂–CO₂</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> la recta de una película cruza el recuadro verde…</td><td>hay un espesor de esa película que lleva la bolsa a la ventana: el de la tabla, si está entre 8 y 150 µm.</td></tr>
+      <tr><td><b>Si</b> la recta pasa por debajo del recuadro…</td><td>la película deja salir demasiado CO₂ (β mayor que la necesaria): busca una de β menor.</td></tr>
+      <tr><td><b>Si</b> la recta pasa por encima…</td><td>la película retiene demasiado CO₂ (β menor que la necesaria): busca una de β mayor.</td></tr>
+      <tr><td><b>Si</b> el O₂ interno baja de 1 %…</td><td>riesgo de anaerobiosis («<b>Riesgo de anaerobiosis</b>»): más área, menos espesor, una película más permeable o menos producto.</td></tr>
+      <tr><td><b>Si</b> ninguna película llega…</td><td>la β necesaria es menor que la de cualquier película sin perforar; con microperforaciones, que dejan pasar los dos gases casi igual, se baja la β del conjunto.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La app calcula el estado estacionario con película sin perforaciones y sello perfecto; no dice cuánto tarda la bolsa en llegar a él (sección I.10).</p>
+  </div>
+
+  <!-- 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>Preenfriamiento</h2>
+  <p class="lead">Quitar el calor de campo cuanto antes es la medida más barata para alargar la vida de anaquel. El preenfriamiento —con aire forzado, agua, hielo o vacío— baja la temperatura de la pulpa siguiendo, después de un retraso inicial, una curva exponencial hacia la del medio.</p>
+  <p>La tarjeta <span class="ui">Curva de enfriamiento</span> es una tabla editable de <span class="ui">Tiempo (h)</span> y <span class="ui">Pulpa (°C)</span>, con la <span class="ui">Temperatura del medio (°C)</span> (1) y la <span class="ui">Temperatura objetivo (°C)</span> (5). Abre con una curva simulada de aire forzado: diez lecturas de 0 a 5 h que bajan de 28.0 a 2.7 °C. Hacen falta al menos tres lecturas. La app ajusta la ley exponencial a la temperatura adimensional:</p>
+  <div class="formula"><i>Y</i> = (<i>T</i> − <i>T</i><sub>m</sub>)/(<i>T</i><sub>i</sub> − <i>T</i><sub>m</sub>) = <i>j</i> · e<sup>−<i>C t</i></sup> &nbsp;·&nbsp; medio enfriamiento = ln(2<i>j</i>)/<i>C</i> &nbsp;·&nbsp; siete octavos = ln(8<i>j</i>)/<i>C</i></div>
+  <p>por mínimos cuadrados sobre ln <i>Y</i>, con <i>T</i><sub>i</sub> la primera lectura. <i>C</i> es el coeficiente de enfriamiento (h⁻¹) y <i>j</i> el factor de retraso: cuánto tarda el calor en empezar a salir del centro del fruto o del empaque; <i>j</i> = 1 quiere decir sin retraso (Thompson et al. 2008).</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/b4-enfriamiento.png" alt="La tarjeta Tiempos de enfriamiento con cuatro mosaicos, la lectura y la curva de la pulpa con la ley exponencial, el medio, el objetivo y los tiempos de medio y siete octavos"></div>
+    <figcaption><b>Figura 4.6.</b> La curva de partida: medio enfriamiento en 1.33 h, siete octavos en 3.78 h y 5 °C a las 3.48 h. Las líneas horizontales son el medio (1 °C) y el objetivo (5 °C); las verticales, los tiempos ½ y ⅞.</figcaption>
+  </figure>
+
+  <p>La tarjeta <span class="ui">Tiempos de enfriamiento</span> da el <span class="ui">Medio enfriamiento</span>, los <span class="ui">Siete octavos</span> («referencia comercial»), el tiempo <span class="ui">Hasta</span> la temperatura objetivo y <span class="ui">j · C</span> con el R² del ajuste. En la curva de partida, <b>j = 1.063</b> y <b>C = 0.566 h⁻¹</b> (R² 0.9991). La curva ajustada arranca un poco por encima de la primera lectura (28.0 °C) precisamente porque j &gt; 1.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Por qué siete octavos</div>
+    <p>A los siete octavos la pulpa ya perdió 7/8 de su diferencia con el medio: en el ejemplo, de 28 °C con aire a 1 °C, queda a unos 4.4 °C. Es donde suele terminar el preenfriamiento comercial: el último tramo, cada vez más lento, se termina en la cámara de almacenamiento. El tiempo de medio enfriamiento no depende de la temperatura inicial, así que sirve para comparar túneles, empaques o acomodos.</p>
+  </div>
+
+  <!-- 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>Carga de refrigeración</h2>
+  <p class="lead">El equipo de frío debe retirar, en el tiempo disponible, el calor de campo del producto, el del empaque, el que el producto genera al respirar y lo que entra por otros lados. La tarjeta <span class="ui">Carga de refrigeración</span>, en la misma pestaña, lo suma y lo convierte en capacidad.</p>
+  <p>Sus campos, con los valores de partida: <span class="ui">Producto (kg)</span> 10 000, <span class="ui">Agua del producto (%)</span> 85, <span class="ui">Temperatura inicial (°C)</span> 28, <span class="ui">Temperatura final (°C)</span> 8, <span class="ui">Tiempo disponible (h)</span> 6, <span class="ui">Respiración (mg CO₂ kg⁻¹ h⁻¹)</span> 60, <span class="ui">Empaque (kg)</span> 800, <span class="ui">Calor específico del empaque (kJ kg⁻¹ K⁻¹)</span> 1.4 y <span class="ui">Otras cargas (%)</span> 20 (infiltración, ventiladores, luces y personas). La respiración debe ser la del producto a la temperatura media del enfriamiento.</p>
+  <div class="formula"><i>c</i><sub>p</sub> = 0.0335·agua(%) + 0.837 &nbsp;·&nbsp; <i>Q</i> = [<i>m c</i><sub>p</sub> Δ<i>T</i> + <i>m</i><sub>e</sub> <i>c</i><sub>e</sub> Δ<i>T</i> + <i>r</i>·10.67 J/mg·<i>m</i>·<i>t</i>] · (1 + otras/100) &nbsp;·&nbsp; kW = <i>Q</i>/(3600 <i>t</i>)</div>
+  <p>El calor específico sale del contenido de agua por la fórmula de Siebel (1892) y la capacidad se da también en toneladas de refrigeración (1 t = 3.517 kW).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b4-carga.png" alt="La tarjeta Carga de refrigeración con nueve campos, cinco mosaicos y la lectura"></div>
+    <figcaption><b>Figura 4.7.</b> Diez toneladas de producto de 28 a 8 °C en 6 h: 737 MJ de calor de campo, 22 MJ del empaque y 38.4 MJ de respiración; con 20 % de otras cargas, 957 MJ, que piden 44.3 kW o 12.6 toneladas de refrigeración.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Diez toneladas en seis horas</div>
+    <p>Con 85 % de agua, <i>c</i><sub>p</sub> = 3.68 kJ kg⁻¹ K⁻¹, y el calor de campo es 10 000 × 3.68 × 20 = <b>737 MJ</b>. El empaque aporta 800 × 1.4 × 20 = 22 MJ, y la respiración, 60 mg CO₂ kg⁻¹ h⁻¹ durante 6 h, 38.4 MJ. Con el 20 % de otras cargas el total es <b>957 MJ</b>, que en 6 h son <b>44.3 kW</b> (12.6 t de refrigeración). La lectura añade que el calor de campo es el 77 % de la carga y que acortar el tiempo exige más capacidad en proporción inversa: enfriar lo mismo en 3 h pediría el doble de equipo.</p>
+  </div>
+
+  <h3>Para leer los resultados del bloque</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:38%">Lo que ves</th><th>Lo que significa</th></tr></thead>
+    <tbody>
+      <tr><td>CR entre 0.7 y 1.3</td><td>Respiración aerobia normal; por encima de 1.3, la app avisa «posible respiración anaerobia»</td></tr>
+      <tr><td>Etileno de clase alta o muy alta</td><td>Un productor fuerte: no lo guardes con productos sensibles (sección 8.6)</td></tr>
+      <tr><td>Patrón «Climatérico»</td><td>Se puede cosechar en madurez fisiológica y madurar en destino; el frío y la remoción del etileno retrasan el pico</td></tr>
+      <tr><td>O₂ interno dentro y CO₂ fuera de la ventana</td><td>La película tiene la β equivocada: cambiar el espesor no basta, hay que cambiar de película</td></tr>
+      <tr><td>j mucho mayor que 1</td><td>El calor tarda en salir del centro: empaque con poca ventilación (sección 8.2) o frutos grandes</td></tr>
+      <tr><td>Calor de campo cerca del 80 % de la carga</td><td>Lo normal: el producto caliente es casi todo lo que el equipo tiene que quitar</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <ul>
+      <li><b>Una tasa absurdamente alta o baja en el sistema estático.</b> Revisa las unidades: el CO₂ y el O₂ en %, el etileno en µL/L (ppm), el tiempo en <b>horas</b> (no minutos) y la masa en kg. Si el CO₂ viene en ppm, divídelo entre 10 000.</li>
+      <li><b>Los frascos no se separan.</b> Elige la columna en <span class="ui">Frasco o repetición</span>; sin ella, todas las lecturas se toman como un solo frasco y la recta mezcla frascos distintos.</li>
+      <li><b>«Incierto» en el climaterio.</b> La respiración sigue subiendo en la última lectura, no hay mínimo antes del pico o hay alza sin estallido de etileno: alarga la serie o revisa los umbrales.</li>
+      <li><b>La atmósfera no cambia al elegir otro producto.</b> El producto sólo cambia la ventana; la respiración, la masa y la bolsa siguen siendo las que escribiste. La respiración debe ser la del producto a la temperatura del empaque.</li>
+      <li><b>«Riesgo de anaerobiosis».</b> El O₂ interno bajó de 1 %: menos espesor, más área, una película más permeable o menos producto por bolsa.</li>
+      <li><b>No aparecen los tiempos de enfriamiento.</b> Hacen falta al menos tres lecturas con tiempo y temperatura, y todas por encima de la temperatura del medio: una lectura igual o menor que el medio no entra en el ajuste.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · Manual de usuario · Capítulo 8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-8" data-pestana="8" data-orden="8" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">8</div>
+    <div class="cap-etiqueta">Capítulo ocho · Bloque 8</div>
+    <h1 data-corto="Empaque y logística">Empaque y logística</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Las cuentas de todos los días en una empacadora y en un almacén frigorífico: cuántas cajas caben en una tarima y cuántas tarimas en un contenedor, si una caja deja pasar el aire del preenfriamiento, cuánta agua pierde el producto en la cámara, cuánto cuesta guardarlo un día más, qué productos pueden compartir la cámara y cómo pasar de una unidad a otra.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k8"></span><span class="k8"></span><span class="k5"></span></div>
+    <ul class="cap-contenido">
+      <li><b>8.1</b>Tarima y contenedor</li>
+      <li><b>8.2</b>Ventilación de cajas</li>
+      <li><b>8.3</b>Ambiente del almacén</li>
+      <li><b>8.4</b>La carta psicrométrica y la pérdida de agua</li>
+      <li><b>8.5</b>Costo de almacenamiento</li>
+      <li><b>8.6</b>Compatibilidad</li>
+      <li><b>8.7</b>Unidades</li>
+    </ul>
+  </div>
+
+  <p>El Bloque 8 lleva por subtítulo «Carga, ventilación, ambiente de la cámara, costos, compatibilidad y unidades». Tiene seis pestañas: <span class="ui">Tarima y contenedor</span>, <span class="ui">Ventilación de cajas</span>, <span class="ui">Ambiente del almacén</span>, <span class="ui">Costo de almacenamiento</span>, <span class="ui">Compatibilidad</span> y <span class="ui">Unidades</span>. Ninguna lee una tabla de datos: todas abren con valores de ejemplo escritos en sus campos y se recalculan en cuanto cambias uno, así que no hay ejemplo que cargar. Las cifras de este capítulo son las de esos valores de partida.</p>
+
+  <!-- 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>Tarima y contenedor</h2>
+  <p class="lead">Una caja que no llena bien la tarima desperdicia espacio en cada cama, en cada tarima y en cada contenedor; una caja que sobresale se aplasta. La pestaña busca el mejor acomodo de las cajas en la tarima y de las tarimas en el contenedor.</p>
+  <p>La tarjeta <span class="ui">Cajas por tarima</span> tiene dos grupos de campos. La tarima: <span class="ui">Tarima</span> (<span class="ui">ISO 120 × 100 cm</span>, <span class="ui">Europeo 120 × 80 cm</span>, <span class="ui">Norteamericano 121.9 × 101.6 cm (48 × 40 in)</span> u <span class="ui">Otra medida</span>), que llena <span class="ui">Largo de la tarima (cm)</span>, <span class="ui">Ancho de la tarima (cm)</span> y <span class="ui">Altura de la tarima (cm)</span>; si cambias una medida a mano, el selector pasa a <span class="ui">Otra medida</span>. La caja y los límites: <span class="ui">Largo de la caja (cm)</span> 40, <span class="ui">Ancho de la caja (cm)</span> 30, <span class="ui">Alto de la caja (cm)</span> 20, <span class="ui">Peso de la caja llena (kg)</span> 10, <span class="ui">Altura máxima de la carga (cm)</span> 210 (con la tarima) y <span class="ui">Peso máximo por tarima (kg)</span> 1000.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · Acomodar cajas en una cama</div>
+    <p>Acomodar rectángulos iguales en un rectángulo es un problema de corte clásico. La app prueba las dos orientaciones de la caja en toda la cama y, además, todos los patrones de dos bloques: parte la tarima una vez a lo largo o a lo ancho, en un múltiplo del lado de la caja, y acomoda cada parte con una orientación distinta. Se queda con el patrón que más cajas pone (heurísticas de corte en guillotina de Steudel 1979 y de Smith y De Cani 1980). Las camas son las que caben bajo la altura máxima, o menos si el peso máximo se alcanza antes.</p>
+  </div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b8-tarima.png" alt="La pestaña Tarima y contenedor con los valores de partida: los campos de la tarima y la caja, cuatro mosaicos, la cama vista desde arriba, el piso del contenedor, el selector del contenedor, cuatro mosaicos más y la lectura"></div>
+    <figcaption><b>Figura 8.1.</b> Cajas de 40 × 30 × 20 cm en una tarima ISO de 120 × 100 cm: diez cajas por cama, combinando seis acostadas en un sentido y cuatro en el otro (100 % del área), en nueve camas: 90 cajas y 900 kg. Un contenedor refrigerado de 40 pies, cubo alto, lleva 20 tarimas en el piso: 1800 cajas.</figcaption>
+  </figure>
+
+  <p>Los mosaicos de la tarima son <span class="ui">Cajas por cama</span> (con el área que aprovecha), <span class="ui">Camas</span> (con lo que las limita: «limitado por altura» o «limitado por peso»), <span class="ui">Cajas por tarima</span> y <span class="ui">Peso de la carga</span>, con la altura total. La figura <span class="ui">Una cama vista desde arriba</span> dibuja el acomodo, con un color por bloque. En el ejemplo, nueve camas de 20 cm sobre una tarima de 15 cm suman 195 cm, debajo de los 210; una décima pasaría del límite. Con la tarima europea de 120 × 80 cm caben 8 cajas por cama y 72 por tarima.</p>
+
+  <h3>Tarimas por contenedor</h3>
+  <p>Debajo, <span class="ui">Contenedor</span> elige entre <span class="ui">Refrigerado de 20 pies</span>, <span class="ui">Refrigerado de 40 pies, cubo alto</span> y <span class="ui">Caja refrigerada de 53 pies</span>, con sus medidas interiores y su carga útil orientativas, y la casilla <span class="ui">Estibar tarimas (dos niveles si caben)</span> pone una tarima sobre otra si la altura del contenedor lo permite. La app acomoda las tarimas en el piso con el mismo método de las cajas y limita su número por la carga útil, contando 25 kg por tarima vacía. Los mosaicos son <span class="ui">Tarimas por contenedor</span>, <span class="ui">Cajas por contenedor</span>, <span class="ui">Carga</span> y <span class="ui">Piso aprovechado</span>, y la figura <span class="ui">Piso del contenedor</span> dibuja el acomodo.</p>
+  <table class="compacta">
+    <caption><b>Tabla 8.1.</b> La tarima de partida (90 cajas, 900 kg) en los tres contenedores</caption>
+    <thead><tr><th>Contenedor</th><th class="num">Tarimas</th><th class="num">Cajas</th><th class="num">Carga (kg)</th><th class="num">Piso aprovechado</th><th>Límite</th></tr></thead>
+    <tbody>
+      <tr><td>Refrigerado de 20 pies</td><td class="num">9</td><td class="num">810</td><td class="num">8325</td><td class="num">86.7 %</td><td>el piso</td></tr>
+      <tr><td>Refrigerado de 40 pies, cubo alto</td><td class="num">20</td><td class="num">1800</td><td class="num">18 500</td><td class="num">90.5 %</td><td>el piso</td></tr>
+      <tr><td>Caja refrigerada de 53 pies</td><td class="num">21</td><td class="num">1890</td><td class="num">19 425</td><td class="num">90.9 %</td><td>el peso</td></tr>
+    </tbody>
+  </table>
+  <p>Con tarimas de 195 cm, marcar <span class="ui">Estibar tarimas</span> no cambia nada: dos no caben en los 255 cm del contenedor de 40 pies. La lectura recuerda que un aprovechamiento menor de 85 % sugiere cambiar la medida de la caja, que las cajas no deben sobresalir de la tarima y que hay que dejar pasillos para el aire. Las medidas de los contenedores varían con el fabricante: «verifica la ficha del transportista».</p>
+
+  <!-- 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Ventilación de cajas</h2>
+  <p class="lead">En el enfriamiento con aire forzado, el aire tiene que atravesar las cajas. Si las caras por donde entra y sale tienen poca área abierta, el enfriamiento se alarga; si tienen demasiada, la caja pierde resistencia y se aplasta en la estiba.</p>
+  <p>La tarjeta <span class="ui">Área abierta de las caras</span> pide las medidas de las dos caras —<span class="ui">Cara larga: largo (cm)</span> 50, <span class="ui">Cara larga: alto (cm)</span> 25, <span class="ui">Cara corta: ancho (cm)</span> 30 y <span class="ui">Cara corta: alto (cm)</span> 25— y una tabla editable de orificios con <span class="ui">Cara</span> (<span class="ui">Larga</span> o <span class="ui">Corta</span>), <span class="ui">Forma</span> (<span class="ui">Ranura redondeada</span>, <span class="ui">Rectángulo</span> o <span class="ui">Círculo</span>), <span class="ui">Largo o diámetro (cm)</span>, <span class="ui">Ancho (cm)</span> y <span class="ui">Cantidad</span>. El área de una ranura redondeada de largo <i>a</i> y ancho <i>b</i> es (<i>a</i> − <i>b</i>)·<i>b</i> + π<i>b</i>²/4; la de un círculo, π<i>a</i>²/4. El resultado es el área de los orificios de cada cara entre el área de la cara, en %.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b8-ventilacion.png" alt="La tarjeta Área abierta de las caras con las medidas de las caras, la tabla de tres tipos de orificio, dos mosaicos y la lectura"></div>
+    <figcaption><b>Figura 8.2.</b> Una caja de 50 × 30 × 25 cm con cuatro ranuras de 8 × 2.5 cm en cada cara larga y, en cada cara corta, dos ranuras de 7 × 2.5 cm y dos círculos de 3 cm: 6.0 % de área abierta en la cara larga y 6.2 % en la corta, las dos «suficiente».</figcaption>
+  </figure>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · Área abierta de una cara</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:30%"><b>Menos de 3 %</b></td><td>Insuficiente (mosaico rojo): el aire forzado apenas pasa.</td></tr>
+      <tr><td><b>De 3 a 5 %</b></td><td>Insuficiente (mosaico ámbar): el enfriamiento se alarga mucho.</td></tr>
+      <tr><td><b>De 5 a 8 %</b></td><td>Suficiente: el intervalo recomendado.</td></tr>
+      <tr><td><b>Más de 8 %</b></td><td>La app lo marca suficiente, pero la lectura advierte que la caja pierde resistencia a la compresión.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Varias ranuras alargadas cerca de las esquinas reparten mejor el aire que un solo orificio grande, y los orificios deben quedar alineados entre cajas y con la tarima (Thompson et al. 2008).</p>
+  </div>
+
+  <!-- 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>Ambiente del almacén</h2>
+  <p class="lead">La temperatura y la humedad relativa de la cámara deciden cuánta agua pierde el producto. Lo que la impulsa es el <b>déficit de presión de vapor</b> entre la superficie del producto, saturada a su propia temperatura, y el aire que la rodea.</p>
+  <p>La tarjeta <span class="ui">Aire, producto y pérdida de agua</span> tiene ocho campos, con estos valores de partida: <span class="ui">Temperatura del aire (°C)</span> 5, <span class="ui">Humedad relativa (%)</span> 85, <span class="ui">Altitud (m)</span> 0, <span class="ui">Temperatura del producto (°C)</span> 6, <span class="ui">Producto (coeficiente de transpiración)</span> Tomate · 140, <span class="ui">Coeficiente (mg kg⁻¹ s⁻¹ MPa⁻¹)</span> 140, <span class="ui">Aire exterior (°C)</span> 28 y <span class="ui">HR exterior (%)</span> 55. El selector de producto trae catorce coeficientes orientativos de Sastry et al. (1978), de la manzana (42) a la lechuga (7400); si escribes otro coeficiente, el selector pasa a <span class="ui">Otro (escríbelo)</span>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b8-ambiente.png" alt="La tarjeta Aire, producto y pérdida de agua con ocho campos, ocho mosaicos y la lectura"></div>
+    <figcaption><b>Figura 8.3.</b> Una cámara a 5 °C y 85 % de HR con tomate a 6 °C: rocío a 2.7 °C, bulbo húmedo a 3.9 °C, un déficit de 0.131 kPa en el aire y de 0.194 kPa entre el producto y el aire, y una pérdida de agua de 0.234 % por día, 1.64 % por semana.</figcaption>
+  </figure>
+
+  <p>Los mosaicos dan el estado del aire de la cámara (ASHRAE 2017): la <span class="ui">Presión</span>, que sale de la altitud; la <span class="ui">Humedad absoluta</span> en g/m³, con la razón de humedad en g por kg de aire seco; el <span class="ui">Punto de rocío</span>, el <span class="ui">Bulbo húmedo</span> y la <span class="ui">Entalpía</span>; el <span class="ui">Déficit del aire</span> y el <span class="ui">Déficit producto–aire</span>; y la <span class="ui">Pérdida de agua</span> por día y por semana. La presión de saturación sale de las ecuaciones de Wagner y Pruss (2002) sobre agua y de Wagner et al. (2011) sobre hielo, las mismas de las tablas de 2017.</p>
+  <div class="formula">déficit producto–aire = <i>p</i><sub>ws</sub>(<i>T</i><sub>producto</sub>) − HR/100 · <i>p</i><sub>ws</sub>(<i>T</i><sub>aire</sub>) &nbsp;·&nbsp; pérdida (% d⁻¹) = <i>k</i> · déficit (MPa) · 86 400 / 10⁶ · 100</div>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · El tomate en la cámara</div>
+    <p>A 5 °C y 85 % de HR, el aire tiene 5.78 g de agua por m³ (4.59 g/kg de aire seco), su punto de rocío es 2.7 °C y su déficit, 0.131 kPa. Pero el tomate está a 6 °C, un grado más caliente que el aire, y el déficit que de verdad lo seca es <b>0.194 kPa</b>. Con un coeficiente de 140 mg kg⁻¹ s⁻¹ MPa⁻¹, pierde <b>0.234 % de su peso por día, 1.64 % por semana</b>. La lectura añade: «El producto está más caliente que el aire: terminar el preenfriamiento antes de almacenar reduce mucho la pérdida». Con 95 % de HR, el déficit del aire baja a 0.044 kPa —un tercio— y la pérdida, a 0.90 % por semana.</p>
+  </div>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>El rocío y el producto frío</div>
+    <p>Si el punto de rocío del aire queda por encima de la temperatura del producto, el agua se condensa sobre él: el mosaico del rocío se vuelve ámbar y dice «el producto se condensará». Pasa al sacar producto frío a un andén caliente y húmedo, y el agua libre sobre la fruta favorece las pudriciones.</p>
+  </div>
+
+  <!-- 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>La carta psicrométrica y la pérdida de agua</h2>
+  <p class="lead">La carta psicrométrica pone en una sola figura la temperatura y el contenido de agua del aire. Sirve para ver de un vistazo cuánto le falta al aire de la cámara para saturarse y qué le pasa al aire de afuera cuando entra.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b8-psicrometrica.png" alt="La carta psicrométrica con las curvas de humedad relativa del 10 al 100 por ciento, el punto de la cámara a 5 grados y el del aire exterior a 28 grados"></div>
+    <figcaption><b>Figura 8.4.</b> La carta psicrométrica de partida, a 101.3 kPa: la razón de humedad contra la temperatura de bulbo seco, con la curva de saturación en trazo grueso y las de 10 a 90 % debajo. El punto naranja es la cámara (5 °C, 85 %), con una raya hasta su rocío; el cuadrado azul, el aire exterior (28 °C, 55 %).</figcaption>
+  </figure>
+
+  <p>La figura <span class="ui">Carta psicrométrica</span> se dibuja a la presión del sitio, así que cambia con la altitud, y su eje de temperatura va de −2 °C a 35 °C, y se alarga si la cámara está a menos de 1 °C o el aire exterior a más de 32 °C, para dejar 3 °C de margen. La distancia vertical entre el punto de la cámara y la curva de saturación es el agua que el aire todavía puede tomar. El aire exterior del ejemplo lleva casi tres veces más agua por kilo que el de la cámara: cuando entra por una puerta abierta y se enfría a 5 °C, pasa de su punto de rocío y condensa en los evaporadores, que es parte de la carga de «otras cargas» de la sección 4.7. Las etiquetas de porcentaje del borde derecho quedan un poco por debajo del final de cada curva: guíate por el orden, de la saturación (100 %) hacia abajo.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla 8.2.</b> Pérdida de agua por semana del tomate de partida con otras humedades (5 °C, producto a 6 °C)</caption>
+    <thead><tr><th>Humedad relativa</th><th class="num">Déficit del aire (kPa)</th><th class="num">Déficit producto–aire (kPa)</th><th class="num">Pérdida (% por semana)</th></tr></thead>
+    <tbody>
+      <tr><td>85 %</td><td class="num">0.131</td><td class="num">0.194</td><td class="num">1.64</td></tr>
+      <tr><td>95 %</td><td class="num">0.044</td><td class="num">0.106</td><td class="num">0.90</td></tr>
+    </tbody>
+  </table>
+  <p>Una pérdida de agua de 3 a 5 % del peso ya se nota como marchitez o arrugas en muchos productos; el mosaico de la pérdida se vuelve ámbar cuando pasa de 3 % por semana. El coeficiente de transpiración varía casi doscientas veces entre productos: la lechuga del selector pierde agua cincuenta veces más rápido que el tomate en la misma cámara.</p>
+
+  <!-- 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>Costo de almacenamiento</h2>
+  <p class="lead">Guardar producto en frío para venderlo después sólo conviene si el precio sube más de lo que cuesta cada día de espera. La pestaña calcula ese costo diario por tarima, con la merma incluida.</p>
+  <p>La tarjeta <span class="ui">Costo por día y por tarima</span> pide <span class="ui">Energía (kWh por día)</span> 180, <span class="ui">Tarifa por kWh</span> 2.8, <span class="ui">Mano de obra por día</span> 900, <span class="ui">Otros gastos por día</span> 250, <span class="ui">Depreciación y renta por año</span> 420 000, <span class="ui">Capacidad (tarimas)</span> 60, <span class="ui">Ocupación (%)</span> 75, <span class="ui">Merma por día (% del peso)</span> 0.08 y <span class="ui">Valor de una tarima</span> 18 000. Las cantidades de dinero van en la moneda que uses; la app no escribe símbolo.</p>
+  <div class="formula">costo diario = kWh·tarifa + mano de obra + otros + depreciación/365 &nbsp;·&nbsp; por tarima = costo diario / (capacidad · ocupación) &nbsp;·&nbsp; merma = %/100 · valor</div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b8-costos.png" alt="La tarjeta Costo por día y por tarima con nueve campos, cinco mosaicos y la lectura"></div>
+    <figcaption><b>Figura 8.5.</b> Una cámara de 60 tarimas al 75 %: 2805 al día, 62.33 por tarima de operación más 14.40 de merma, 76.73 por tarima y día.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Un día más en la cámara</div>
+    <p>La energía cuesta 180 × 2.8 = 504 al día; con 900 de mano de obra, 250 de otros gastos y 420 000/365 = 1151 de depreciación y renta, la cámara cuesta <b>2805 al día</b>. Al 75 % hay 45 tarimas, y cada una carga <b>62.33</b> de operación. La merma de 0.08 % diario sobre una tarima de 18 000 son 14.40: el total es <b>76.73 por tarima y día</b>, de los que «19 % es merma de peso». Guardar una tarima sólo conviene si su precio sube más que eso por cada día de espera.</p>
+  </div>
+  <p>La ocupación pesa mucho: con la cámara llena (100 %) el costo de operación baja a 46.74 por tarima y el total a 61.14, porque los gastos fijos se reparten entre más tarimas. La merma, en cambio, no depende de la ocupación: depende de la humedad y la temperatura de la cámara (sección 8.3).</p>
+
+  <!-- 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>Compatibilidad</h2>
+  <p class="lead">En la práctica muchos productos comparten cámara o contenedor. No siempre se puede: uno pide una temperatura que daña al otro por frío, uno produce el etileno que madura o amarillea al otro, o uno desprende olores que el otro absorbe.</p>
+  <p>La tarjeta <span class="ui">¿Pueden compartir la cámara?</span> muestra un botón por cada uno de los 38 productos de la tabla; un clic lo elige o lo quita (los elegidos van resaltados). De partida están elegidos el plátano verde, la manzana, la lechuga y la zanahoria. El desplegable <span class="ui">Tabla de productos (editable)</span> guarda, para cada producto, la temperatura y la HR recomendadas (<span class="ui">T mín (°C)</span>, <span class="ui">T máx (°C)</span>, <span class="ui">HR mín</span>, <span class="ui">HR máx</span>), la clase de producción de etileno a 20 °C (<span class="ui">Etileno</span>: VL &lt; 0.1, L 0.1–1, M 1–10, H 10–100 y VH &gt; 100 µL kg⁻¹ h⁻¹), la <span class="ui">Sensibilidad</span> al etileno (L, M, H), el daño por <span class="ui">Frío</span> (0 no, 1 moderado, 2 sensible) y el <span class="ui">Olor</span> («p» desprende, «a» absorbe). Son valores orientativos para los cultivares más comunes (Kader 2002; Gross et al. 2016; McGregor 1989): corrígelos con los de tu cultivar o añade productos con <span class="ui">+ Agregar fila</span>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/b8-compatibilidad.png" alt="La tarjeta con los botones de 38 productos, cuatro elegidos, y la tarjeta Diagnóstico con cinco mosaicos y la lista de incompatibilidades y riesgos"></div>
+    <figcaption><b>Figura 8.6.</b> Plátano verde, manzana, lechuga y zanahoria: 5 de los 6 pares son incompatibles y no hay temperatura ni HR común. Sólo la lechuga y la zanahoria pueden ir juntas.</figcaption>
+  </figure>
+
+  <p>La tarjeta <span class="ui">Diagnóstico</span> aparece cuando hay al menos dos productos elegidos. Sus mosaicos son <span class="ui">Productos</span>, <span class="ui">Pares incompatibles</span>, <span class="ui">Pares con riesgo</span>, <span class="ui">Temperatura común</span> y <span class="ui">HR común</span> (el intervalo que comparten todos, o «no hay»). La lectura enumera cada problema, par por par. El mosaico de los pares con riesgo cuenta sólo los pares que tienen riesgos <b>y ningún</b> problema incompatible: en el ejemplo dice 0, aunque la lista nombra tres «Riesgo por etileno», porque los tres van en pares que ya son incompatibles.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · Lo que la app revisa en cada par</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:34%"><b>Incompatible</b> por temperatura</td><td>Los intervalos de temperatura no se traslapan; la lectura dice además si el producto de clima cálido sufre daño por frío.</td></tr>
+      <tr><td><b>Incompatible</b> por etileno</td><td>Un productor alto o muy alto (H, VH) junto a un producto muy sensible (H).</td></tr>
+      <tr><td><b>Riesgo</b> por etileno</td><td>Un productor H o VH junto a uno de sensibilidad media, o un productor medio (M) junto a uno muy sensible: conviene ventilar o absorber el etileno.</td></tr>
+      <tr><td><b>Riesgo</b> por humedad</td><td>Las humedades recomendadas quedan separadas por más de 5 puntos.</td></tr>
+      <tr><td><b>Riesgo</b> por olor</td><td>Uno desprende olores («p») que el otro puede absorber.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Para el etileno hay remedio —ventilar, un absorbedor—; para las temperaturas no: la que protege a uno daña al otro.</p>
+  </div>
+
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Cuatro productos en una cámara</div>
+    <p>El plátano verde pide 13–15 °C y sufre daño por frío; la manzana, de −1 a 4 °C, y la lechuga y la zanahoria, 0 °C: tres pares incompatibles por temperatura. La manzana produce mucho etileno y el plátano, la lechuga y la zanahoria son muy sensibles a él: tres pares incompatibles por etileno (el de manzana y plátano ya lo era por temperatura). En total, <b>5 pares incompatibles</b>; el único par sin problemas es lechuga con zanahoria. La lista escribe los intervalos como «Manzana pide -1–4 °C» y «Lechuga pide 0–0 °C»: léelos como −1 a 4 °C y 0 °C.</p>
+  </div>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/b8-matriz.png" alt="La matriz de compatibilidad de cuatro productos: cuadros rojos con una equis para los pares incompatibles y verdes para el par compatible"></div>
+    <figcaption><b>Figura 8.7.</b> La <span class="ui">Matriz de compatibilidad</span> de los cuatro productos: rojo con ✕ para los pares incompatibles, ámbar con ! para los de riesgo y verde para los compatibles. Con pocos productos la figura se agranda hasta el ancho de la tarjeta.</figcaption>
+  </figure>
+
+  <!-- 8.7 -->
+  <h2 id="s8-7"><span class="num">8.7</span>Unidades</h2>
+  <p class="lead">Las fichas técnicas, los artículos y los equipos usan unidades distintas: grados Fahrenheit, libras-fuerza, milésimas de pulgada, partes por millón. La última pestaña las convierte.</p>
+  <p>La tarjeta <span class="ui">Conversión de unidades</span> tiene tres controles: <span class="ui">Magnitud</span>, <span class="ui">Valor</span> (40) y <span class="ui">De</span>, la unidad del valor. Los resultados aparecen en mosaicos, uno por cada otra unidad de la magnitud, con seis cifras significativas.</p>
+  <table class="compacta">
+    <caption><b>Tabla 8.3.</b> Las magnitudes y sus unidades, con el valor 40 convertido desde la primera unidad de cada una</caption>
+    <thead><tr><th style="width:1.7in">Magnitud</th><th style="width:2.1in">Unidades</th><th>40 en la primera unidad equivale a</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Temperatura</span></td><td>°C, °F, K</td><td>104.000 °F · 313.150 K</td></tr>
+      <tr><td><span class="ui">Presión</span></td><td>kPa, atm, bar, psi, mmHg, Pa</td><td>0.394769 atm · 0.400000 bar · 5.80151 psi · 300.025 mmHg</td></tr>
+      <tr><td><span class="ui">Masa</span></td><td>kg, g, lb, t, oz</td><td>88.1849 lb · 1410.96 oz</td></tr>
+      <tr><td><span class="ui">Fuerza (firmeza)</span></td><td>N, kgf, lbf, gf</td><td>4.07886 kgf · 8.99236 lbf</td></tr>
+      <tr><td><span class="ui">Longitud (espesor)</span></td><td>mm, cm, m, in, ft, mil, µm</td><td>1.57480 in · 1574.80 mil</td></tr>
+      <tr><td><span class="ui">Concentración de gas</span></td><td>%, ppm (µL/L), ppb, µL/L</td><td>400 000 ppm · 400 000 000 ppb</td></tr>
+    </tbody>
+  </table>
+  <p>Dos conversiones salen a menudo en poscosecha: la firmeza que un penetrómetro da en kgf o lbf (1 kgf = 9.807 N; 1 lbf = 4.448 N) y el espesor de las películas, que muchos proveedores dan en mil, milésimas de pulgada (1 mil = 25.4 µm: una película de 40 µm es de 1.57 mil). En la concentración, ppm y µL/L son lo mismo, y la lista los trae dos veces.</p>
+
+  <h3>Para leer los resultados del bloque</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:38%">Lo que ves</th><th>Lo que significa</th></tr></thead>
+    <tbody>
+      <tr><td>Área de la tarima aprovechada &lt; 85 %</td><td>La caja no le va a la tarima: prueba otra medida de caja</td></tr>
+      <tr><td>«limitado por peso»</td><td>Caben más camas o tarimas por altura o por piso, pero no por peso: la carga útil manda</td></tr>
+      <tr><td>Ventilación &lt; 5 % en una cara</td><td>El aire forzado no pasará bien: más ranuras o más grandes</td></tr>
+      <tr><td>Déficit producto–aire mayor que el del aire</td><td>El producto está más caliente que la cámara: termina el preenfriamiento antes de almacenar</td></tr>
+      <tr><td>Pérdida de agua &gt; 3 % por semana</td><td>Sube la HR, baja la temperatura, usa empaques que frenen la transpiración o acorta el almacenamiento</td></tr>
+      <tr><td>Costo por tarima y día mayor que la subida esperada del precio</td><td>No conviene guardar: vende antes</td></tr>
+      <tr><td>Temperatura común «no hay»</td><td>Hacen falta cámaras distintas</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
+    <ul>
+      <li><b>No se actualizan las cajas por tarima.</b> Todas las medidas de la tarima y de la caja deben ser mayores que cero.</li>
+      <li><b>La pérdida de agua es enorme.</b> Revisa el coeficiente: está en mg kg⁻¹ s⁻¹ MPa⁻¹, y el de la lechuga (7400) es cincuenta veces el del tomate.</li>
+      <li><b>No aparece el diagnóstico.</b> Elige al menos dos productos.</li>
+      <li><b>Un producto nuevo no se compara bien.</b> Llena todas sus columnas en la tabla; una temperatura o una HR vacía rompe la comparación de ese producto.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>
