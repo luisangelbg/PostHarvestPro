@@ -5,8 +5,8 @@ herramientas, colores), mira `es/00b-introduccion.html` (el índice general ya t
 y la introducción ya dice lo general —la entrada de datos, la interfaz, los diez ejemplos, la validación—: no lo
 repitas) y, como modelo de forma y de tono, los capítulos de PalynoPro (`..\..\PalynoPro\manual\es\03-bloque3.html`)
 y de ForestPro (`..\..\ForestPro\manual\es\`), que tiene, como esta app, bloques con varias pestañas y ejemplos por
-pestaña. La **fuente de contenido** es el manual viejo, `..\docs\manual.md` (secciones 1 a 9 y apéndice A de
-fórmulas): úsalo, pero **comprueba cada cifra en la app**, porque algunas ya no coinciden (ver el capítulo 3).
+pestaña. La **fuente de contenido** es la app misma: **comprueba cada cifra y cada texto en ella** (ver el
+capítulo 3).
 Todo en español, de tú, en lenguaje llano y con precisión técnica.
 
 ## 0. Regla: sólo los datos de ejemplo simulados
@@ -183,7 +183,7 @@ En el título de las capturas del informe usa datos neutros («Vida de anaquel d
 
 A archivos que lee y escribe (CSV/TSV/TXT con separadores y coma decimal, XLSX/XLSM/ODS, formato largo, faltantes;
 los diez CSV de `data/` con sus columnas; proyecto JSON; CSV/XLSX de resultados; plan de servicio; libro de campo;
-informe HTML); B reglas y fórmulas reunidas (las del apéndice A del manual viejo, más umbrales: ΔE 1/2–3.5/5,
+informe HTML); B reglas y fórmulas reunidas (las de los motores de la app, más umbrales: ΔE 1/2–3.5/5,
 alza respiratoria 1.5×, etileno 10× o 1 µL kg⁻¹ h⁻¹, O₂ < 1 % anaerobiosis, espesor fabricable 8–150 µm, ventilación
 5–8 %, pérdida de agua 2 %/semana, panel p > 0.20 / acuerdo < 0.5 / repetibilidad 1.5×, JAR 20 %, Pareto 80 %);
 C glosario (vida de anaquel, límite, orden de reacción, Eₐ, Q10, Tmín, censura, Kaplan–Meier, razón de tiempos,
@@ -283,8 +283,8 @@ de decisión» o una tabla de lectura y un «Cuando algo sale mal».
 
 **Todas las cifras del texto salen de la app con los datos de ejemplo**, con los valores por omisión salvo que el
 texto diga qué se cambió, y se comprueban en la captura o en la app misma (con la receta, o en la consola:
-`state.inputs`, `state.kinetics`, `state.sensory`, `DataIn.registry.b3k.get()`). Nada se copia del manual viejo sin
-comprobarlo, ni de la literatura, ni se calcula a mano aparte. Los nombres de columna van tal como vienen en los
+`state.inputs`, `state.kinetics`, `state.sensory`, `DataIn.registry.b3k.get()`). Nada se copia de la literatura sin
+comprobarlo en la app, ni se calcula a mano aparte. Los nombres de columna van tal como vienen en los
 CSV (`firmeza_N`, `dia`, `temperatura`) porque así los muestra la app.
 
 ## 5. Si encuentras un error de la app

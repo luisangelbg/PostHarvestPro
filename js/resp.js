@@ -109,9 +109,9 @@ R.flow = function (o) {
   return out;
 };
 
-/* heat of respiration: oxidising one mole of hexose (2 816 kJ) releases six
+/* heat of respiration: oxidizing one mole of hexose (2 816 kJ) releases six
    of CO₂ (264 g), so 10.67 J per mg of CO₂.
-   W per tonne = r(mg kg⁻¹ h⁻¹) · 10.67 J/mg · 1000 kg / 3600 s */
+   W per metric ton = r(mg kg⁻¹ h⁻¹) · 10.67 J/mg · 1000 kg / 3600 s */
 R.J_PER_MG_CO2 = 2816000 / (6 * MW_CO2 * 1000);
 R.respHeat = function (mgKgH) {
   const wPerT = mgKgH * R.J_PER_MG_CO2 * 1000 / 3600;

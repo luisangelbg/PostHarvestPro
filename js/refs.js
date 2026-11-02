@@ -1,6 +1,6 @@
 /* PostHarvestPro — Copyright (C) 2026 Luis Ángel Barrera-Guzmán. GPL-3.0-or-later; see LICENSE.
 
-   The sources of every method of the app (REFS) and the catalogue of methods by
+   The sources of every method of the app (REFS) and the catalog of methods by
    block (METHODS), used by the home page, the citation under each result and
    the report. */
 (function (g) {
@@ -91,9 +91,9 @@ const REFS = {
 /* the methods of each block, with the keys of their sources */
 const METHODS = [
   [2, 'Sólidos solubles, acidez titulable (por titulación y ácido dominante), SST/AT y BrimA', 'Soluble solids, titratable acidity (by titration and dominant acid), SSC/TA and BrimA', ['aoac942', 'kader2002', 'jordan2001']],
-  [2, 'Color CIELAB y LCh, conversión sRGB ↔ Lab ↔ hex', 'CIELAB and LCh colour, sRGB ↔ Lab ↔ hex conversion', ['cie2018', 'mcguire1992']],
-  [2, 'Diferencias de color ΔE*ab, ΔE94 y ΔE00', 'Colour differences ΔE*ab, ΔE94 and ΔE00', ['cie2018', 'sharma2005', 'mokrzycki2011']],
-  [2, 'Índices de color (CCI, pardeamiento, blancura, amarillez y de jitomate)', 'Colour indices (CCI, browning, whiteness, yellowness and tomato index)', ['jimenez1981', 'palou1999', 'judd1975', 'francis1975', 'hobson1983']],
+  [2, 'Color CIELAB y LCh, conversión sRGB ↔ Lab ↔ hex', 'CIELAB and LCh color, sRGB ↔ Lab ↔ hex conversion', ['cie2018', 'mcguire1992']],
+  [2, 'Diferencias de color ΔE*ab, ΔE94 y ΔE00', 'Color differences ΔE*ab, ΔE94 and ΔE00', ['cie2018', 'sharma2005', 'mokrzycki2011']],
+  [2, 'Índices de color (CCI, pardeamiento, blancura, amarillez y de jitomate)', 'Color indices (CCI, browning, whiteness, yellowness and tomato index)', ['jimenez1981', 'palou1999', 'judd1975', 'francis1975', 'hobson1983']],
   [2, 'Escalas de madurez y daño: índice ponderado, incidencia y fruta comercializable', 'Ripeness and damage scales: weighted index, incidence and marketable fruit', ['mckinney1923']],
   [2, 'Pérdida de peso, humedad, materia seca, firmeza y calibres', 'Weight loss, moisture, dry matter, firmness and size grades', ['kader2002']],
   [3, 'Cinética de orden cero, uno y dos por mínimos cuadrados no lineales, con AIC', 'Zero-, first- and second-order kinetics by nonlinear least squares, with AIC', ['labuza1984', 'vanboekel2008', 'bates1988', 'marquardt1963', 'akaike1974', 'burnham2002']],
@@ -116,7 +116,7 @@ const METHODS = [
   [7, 'Medidas repetidas: parcelas divididas en el tiempo, Greenhouse–Geisser, Huynh–Feldt, Mauchly', 'Repeated measures: split plot in time, Greenhouse–Geisser, Huynh–Feldt, Mauchly', ['steel1997', 'greenhouse1959', 'huynh1976', 'lecoutre1991', 'mauchly1940', 'satterthwaite1946']],
   [7, 'Comparación de pendientes (análisis de covarianza)', 'Comparison of slopes (analysis of covariance)', ['snedecor1989', 'holm1979']],
   [8, 'Patrones de carga en tarima y contenedor', 'Pallet and container loading patterns', ['steudel1979', 'smith1980']],
-  [8, 'Psicrometría, déficit de presión de vapor y transpiración', 'Psychrometrics, vapour-pressure deficit and transpiration', ['ashrae2017', 'wagner2002', 'wagner2011', 'sastry1978']],
+  [8, 'Psicrometría, déficit de presión de vapor y transpiración', 'Psychrometrics, vapor-pressure deficit and transpiration', ['ashrae2017', 'wagner2002', 'wagner2011', 'sastry1978']],
   [8, 'Ventilación de cajas y compatibilidad de productos en almacén', 'Box venting and storage compatibility of products', ['thompson2008', 'kader2002', 'gross2016', 'mcgregor1989']],
 ];
 const Refs = {

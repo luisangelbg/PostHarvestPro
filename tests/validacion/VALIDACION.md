@@ -14,7 +14,7 @@ Cada guion `.R` escribe `ref_<area>.json` y `ref_<area>.js`. El `.js` existe par
 
 ## Resultado (2 nov 2026)
 
-**448 pruebas, 71 273 comparaciones, 0 fallas**, tanto en node como en el navegador (10 s).
+**449 pruebas, 71 278 comparaciones, 0 fallas**, tanto en node como en el navegador (10 s).
 
 | Área | Motor | Pruebas | Comparaciones | Referencia | Detalle |
 |---|---|---:|---:|---|---|
@@ -23,13 +23,13 @@ Cada guion `.R` escribe `ref_<area>.json` y `ref_<area>.js`. El `.js` existe par
 | Calidad | `js/quality.js` | 4 | 28 | cálculos a mano (acidez, humedad, McKinney, calibres; escala que empieza en 1, frutos fuera de todos los calibres) | ídem |
 | Respiración y atmósferas | `js/resp.js` | 3 | 19 | cálculos a mano (balances de gas, estado estacionario, enfriamiento) | ídem |
 | Pérdidas y daño | `js/losses.js` | 3 | 45 | `lm`, `glm(binomial)` e intervalo de Fieller escrito en R | ídem |
-| Logística | `js/logistics.js` | 3 | 33 | tablas de saturación de ASHRAE (2017), identidades psicrométricas | ídem |
+| Logística | `js/logistics.js` | 3 | 36 | tablas de saturación de ASHRAE (2017), identidades psicrométricas; el signo de porcentaje sin espacio en inglés | ídem |
 | Cinética | `js/kinetics.js` | 233 | 18 932 | `nls` con gradiente analítico, `minpack.lm::nlsLM`, `lm`, `predict` | [LEEME_kinetics.md](LEEME_kinetics.md) |
 | Tiempo de falla | `js/survival.js` | 143 | 38 488 | `survival::survfit/survdiff/survreg`, `flexsurv::flexsurvreg` | [LEEME_survival.md](LEEME_survival.md) |
 | Sensorial | `js/sensory.js` | 32 | 11 669 | `sensR`, `SensoMineR`, `FactoMineR`, `agricolae`, `DescTools`, `stats` | [LEEME_sensory.md](LEEME_sensory.md) |
 | Ensayos | `js/trials.js` | 8 | 242 | `lm`/`anova`, `car::Anova` (tipo III), `TukeyHSD`, `pairwise.t.test`, `multcomp::glht` (Dunnett), `agricolae::HSD.test`, `aov` con `Error()`, `anova.mlm` y `mauchly.test`, `emmeans::emtrends` | [LEEME_trials.md](LEEME_trials.md) |
 | Referencias | `js/refs.js` | 2 | 96 | coherencia interna: cada fuente que nombra el catálogo de métodos está en la lista de obras; índices de color con sus fuentes | — |
-| Figuras | `js/plot.js` | 5 | 72 | geometría escrita en la prueba: miles en los ejes, rótulos sin encimarse ni cruzar líneas, nombres de la araña dentro de la figura, trazos distintos en el plano O₂–CO₂ | — |
+| Figuras | `js/plot.js` | 6 | 74 | geometría escrita en la prueba: miles en los ejes, rótulos sin encimarse ni cruzar líneas, nombres de la araña dentro de la figura, trazos distintos en el plano O₂–CO₂, «90 %» en español y «90%» en inglés en la carta psicrométrica | — |
 
 ## Errores que atrapó la validación
 

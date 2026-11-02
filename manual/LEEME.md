@@ -7,9 +7,8 @@ el texto y Jost para los rótulos, y una portada **blanca** (regla del autor, ta
 la de la app: el naranja fruto (`#EF6C00`, texto `#B85000`) y el verde inmaduro (`#7CB342`, texto `#4E7A1E`) sobre
 la crema (`#FFF3E0`), con el oro y el negro de la suite.
 
-Reemplaza al manual viejo de `docs/manual.md` → `docs/manual.html` (que arma `tools/armar_manual.js`). El viejo es
-la fuente de contenido de los capítulos y **no se borra todavía**; cuando el nuevo esté terminado se decide qué hacer
-con él (y con `docs/img/`).
+Reemplaza al manual viejo de la app, que ya se retiró del repositorio. La fuente de contenido de los capítulos es la
+app misma: cada cifra y cada texto de la interfaz se comprueban en ella.
 
 ## Regla: sólo los datos de ejemplo simulados
 

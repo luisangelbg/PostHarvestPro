@@ -22,7 +22,7 @@
    with data-xr and data-yr on the <svg>, data-role on grid, axes, ticks,
    labels and legend, data-li on each legend entry; data-name names the
    figure. Ink, grid and background come from CSS variables, so they follow the
-   light and dark themes; series colours are var(--s1)…var(--s8). */
+   light and dark themes; series colors are var(--s1)…var(--s8). */
 (function (g) {
 'use strict';
 const Plot = {};
@@ -32,6 +32,8 @@ Plot.esc = esc;
 Plot.color = i => 'var(--s' + ((i % 8) + 1) + ')';
 const DASH = ['', '6 3', '2 3', '8 3 2 3', '4 2', '1 2'];
 const SHAPES = ['circle', 'square', 'triangle', 'diamond', 'down', 'cross'];
+/* the percent sign: «95 %» in Spanish, «95%» in English */
+const pcS = () => (g.I18N && g.I18N.lang === 'en' ? '%' : ' %');
 
 /* ---------------- numbers on axes ---------------- */
 Plot.ticks = function (lo, hi, count) {
@@ -97,7 +99,7 @@ Plot.frame = function (o) {
   if (o.title) s += `<text class="pl-title" data-role="title" x="${f(x0)}" y="18">${esc(o.title)}</text>`;
   return s;
 };
-/* a marker of one of six shapes (also legible in grey) */
+/* a marker of one of six shapes (also legible in gray) */
 Plot.marker = function (shape, x, y, r, color, extra) {
   const st = `fill="${color}" class="pl-pt"${extra || ''}`;
   if (shape === 'square') return `<rect x="${f(x - r)}" y="${f(y - r)}" width="${f(2 * r)}" height="${f(2 * r)}" ${st}/>`;
@@ -307,7 +309,7 @@ Plot.radar = function (o) {
 };
 
 /* ---------------- labels that do not overlap ----------------
-   Shared by the labelled scatter and the maps. items [{X, Y, w (label width), th (label height), r (marker
+   Shared by the labeled scatter and the maps. items [{X, Y, w (label width), th (label height), r (marker
    radius), first? [[dx, dy, anchor]] (where it should go when there is room)}], in order of importance;
    taken: boxes already occupied [x0, y0, x1, y1] (markers, legend); segs: lines no label should cross
    [x1, y1, x2, y2] (arrows, reference lines); area: [x0, y0, x1, y1], where the labels must stay.
@@ -357,7 +359,7 @@ const leader = (X, Y, b) => {
 
 /* ---------------- a map of two sets of points (PCA, correspondence analysis) ----------------
    rows: {names[], x[], y[]}, cols?: {names[], x[], y[]} (drawn as arrows when arrows:true).
-   The labels are placed as in the labelled scatter: none on another, on a marker, on an arrow or on the
+   The labels are placed as in the labeled scatter: none on another, on a marker, on an arrow or on the
    lines of the origin; the products first, then the terms or attributes (at the tip of their arrow). */
 Plot.biplot = function (o) {
   const W = o.w || 620, H = o.h || 460;
@@ -401,7 +403,7 @@ Plot.biplot = function (o) {
   return s + `</svg>`;
 };
 
-/* ---------------- labelled scatter (penalty analysis) ----------------
+/* ---------------- labeled scatter (penalty analysis) ----------------
    pts [{x, y, label, color?, shape?}], xline, yline, items? (legend, drawn outside the plot on the right).
    Every label is placed where it overlaps least the other labels, the markers and the dashed reference
    lines, inside the plot (placeLabels). Points are placed in order of importance (inside the shaded zone
@@ -447,7 +449,7 @@ Plot.sankey = function (o) {
     const d = `M${f(l.x0)} ${f(l.y0)}C${f(xb)} ${f(l.y0)} ${f(xb)} ${f(l.y0)} ${f(xb)} ${f(m)}V${f(yb)}H${f(xb + l.h)}V${f(m)}C${f(xb + l.h)} ${f(l.y0 + l.h)} ${f(xb + l.h)} ${f(l.y0 + l.h)} ${f(l.x0)} ${f(l.y0 + l.h)}Z`;
     s += `<path d="${d}" fill="var(--s7)" fill-opacity="${o.critical && o.critical.includes(i) ? 0.75 : 0.42}"><title>${esc(l.name + ': ' + (o.fmtKg ? o.fmtKg(l.v) : l.v))}</title></path>`;
     s += `<text class="pl-note" x="${f(xb + l.h / 2)}" y="${f(yb + 14)}" text-anchor="middle">${esc(o.fmtKg ? o.fmtKg(l.v) : Math.round(l.v))}</text>`;
-    s += `<text class="pl-note" x="${f(xb + l.h / 2)}" y="${f(yb + 26)}" text-anchor="middle">${esc(o.fmtPct ? o.fmtPct(l.pct) : l.pct.toFixed(1) + ' %')}</text>`;
+    s += `<text class="pl-note" x="${f(xb + l.h / 2)}" y="${f(yb + 26)}" text-anchor="middle">${esc(o.fmtPct ? o.fmtPct(l.pct) : l.pct.toFixed(1) + pcS())}</text>`;
   });
   L.nodes.forEach((n, i) => {
     s += `<rect x="${f(n.x)}" y="${f(n.y)}" width="${f(n.w)}" height="${f(Math.max(1, n.h))}" rx="2" fill="var(--s1)"/>`;
@@ -478,11 +480,11 @@ Plot.psychro = function (o) {
        else just under the top where the curve leaves the chart (beside a curve, the steep upper ones
        would put it next to the curve below) */
     const wl = Wof(t1, rh);
-    if (wl <= wMax) s += `<text class="pl-note" x="${f(x1 + 4)}" y="${f(sy(wl) + 3)}">${rh} %</text>`;
+    if (wl <= wMax) s += `<text class="pl-note" x="${f(x1 + 4)}" y="${f(sy(wl) + 3)}">${rh}${pcS()}</text>`;
     else {
       let a = t0, b = t1;
       for (let k = 0; k < 40; k++) { const mid = (a + b) / 2; if (Wof(mid, rh) > wMax) b = mid; else a = mid; }
-      s += `<text class="pl-note" x="${f(sx(a))}" y="${f(y1 - 3)}" text-anchor="middle">${rh} %</text>`;
+      s += `<text class="pl-note" x="${f(sx(a))}" y="${f(y1 - 3)}" text-anchor="middle">${rh}${pcS()}</text>`;
     }
   });
   (o.points || []).forEach((q, i) => {

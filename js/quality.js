@@ -31,7 +31,7 @@ const Q = {};
 /* ---------------- titratable acidity ----------------
    %acid = V(NaOH, mL) · N(NaOH, meq/mL) · meq weight of the acid (g/meq)
            · (total volume / aliquot) · 100 / sample (g or mL).
-   Milliequivalent weights: the grams of acid neutralised by one meq of base. */
+   Milliequivalent weights: the grams of acid neutralized by one meq of base. */
 Q.ACIDS = {
   citric:   { meq: 0.064,  es: 'cítrico', en: 'citric', crops: ['cítricos, mango, papaya, tomate, fresa, piña', 'citrus, mango, papaya, tomato, strawberry, pineapple'] },
   malic:    { meq: 0.067,  es: 'málico', en: 'malic', crops: ['manzana, pera, durazno, ciruela, plátano', 'apple, pear, peach, plum, banana'] },
@@ -173,7 +173,7 @@ Q.calibre = function (values, classes) {
 };
 /* classes for fruit sold by count per box: the count k of a box of B kg
    corresponds to fruit of about B/k kg; the class edges are the midpoints
-   between neighbouring counts */
+   between neighboring counts */
 Q.countClasses = function (boxKg, counts) {
   const c = counts.slice().sort((a, b) => a - b);
   const w = c.map(k => boxKg * 1000 / k);

@@ -26,7 +26,7 @@ const f = v => (Math.round(v * 10) / 10).toString();
 const Art = {};
 const STAGES = ['#5E8F2A', '#8DB33C', '#C4C23A', '#F2A51C', '#EF6C00', '#C8461A'];
 
-/* the shape of the fruit: an asymmetric drupe (a mango in profile), centred on (cx, cy), height h */
+/* the shape of the fruit: an asymmetric drupe (a mango in profile), centered on (cx, cy), height h */
 function fruitPath(cx, cy, h) {
   const k = h / 100;
   const P = (x, y) => f(cx + x * k) + ' ' + f(cy + y * k);
@@ -175,7 +175,7 @@ Art.cards = {
     for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) s += `<rect x="${21 + i * 38}" y="${19 + j * 26}" width="36" height="24" rx="2" fill="var(--s1)" fill-opacity=".75"/>`;
     for (let i = 0; i < 4; i++) s += `<rect x="${21 + i * 29}" y="71" width="27" height="26" rx="2" fill="var(--s3)" fill-opacity=".75"/>`;
     s += `<rect x="172" y="18" width="14" height="66" rx="7" fill="none" stroke="var(--fig-axis)" stroke-width="2"/><circle cx="179" cy="90" r="11" fill="var(--s2)"/><rect x="176" y="44" width="6" height="40" fill="var(--s2)"/>`;
-    s += `<text class="art-txt" x="198" y="50" font-size="13" font-weight="700">4 °C</text><text class="art-mut" x="198" y="66" font-size="11">90 %</text>`;
+    s += `<text class="art-txt" x="198" y="50" font-size="13" font-weight="700">4 °C</text><text class="art-mut" x="198" y="66" font-size="11">${T('90 %', '90%')}</text>`;
     return card(s);
   },
   9: () => {

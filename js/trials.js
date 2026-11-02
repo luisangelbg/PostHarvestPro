@@ -12,8 +12,8 @@
 
 /* PostHarvestPro — design and analysis of postharvest trials.
 
-   · Treatment × storage time factorials in a completely randomised or a
-     randomised complete block design (fruit sampled destructively at each
+   · Treatment × storage time factorials in a completely randomized or a
+     randomized complete block design (fruit sampled destructively at each
      time), with type I and type III sums of squares (sum-to-zero coding, so
      type III tests each effect averaged over the levels of the others).
    · Repeated measures on the same units over time as a split plot in time
@@ -33,7 +33,7 @@
    · Regression of an attribute on time for each treatment and comparison of
      slopes (analysis of covariance: Snedecor and Cochran 1989, Statistical
      Methods, 8th ed., ch. 18).
-   · A randomised field book (CRD or RCBD × sampling times) with the column
+   · A randomized field book (CRD or RCBD × sampling times) with the column
      names the suite's experimental-design app reads back. */
 function TrialCore(g) {
 'use strict';
@@ -200,7 +200,7 @@ Tr.repeated = function (rows0, o) {
   return { table, sph, times, treatments: A, units: complete.length, dropped, rows, mseA: eA.ms, dfA: eA.df, mseB: eB.ms, dfB: eB.df, cells, grand: ybar, cv: 100 * Math.sqrt(eB.ms) / Math.abs(ybar), design: 'split' };
 };
 /* Greenhouse–Geisser and Huynh–Feldt epsilons and Mauchly's test from a
-   covariance matrix S (b × b) with df degrees of freedom, using normalised
+   covariance matrix S (b × b) with df degrees of freedom, using normalized
    Helmert contrasts (any orthonormal set gives the same values) */
 Tr.sphericity = function (S, df) {
   const b = S.length, d = b - 1;
@@ -347,18 +347,18 @@ Tr.slopes = function (rows0, o) {
   };
 };
 
-/* ---------------- a randomised field book ----------------
+/* ---------------- a randomized field book ----------------
    o: { treatments: [names], times: [labels], reps, design: 'crd'|'rcbd',
         repeated: bool (one unit per treatment × rep, measured at every time),
         seed, responses: [names] }
    Destructive sampling: one unit per treatment × time × rep (the factorial
-   is randomised as a whole, or within each block). Repeated measures: one
+   is randomized as a whole, or within each block). Repeated measures: one
    unit per treatment × rep, measured at every time. */
 Tr.fieldBook = function (o) {
   const rng = Num.rng(o.seed || 2026);
   const reps = Math.max(1, o.reps | 0), times = o.times && o.times.length ? o.times : [''];
   const es = o.lang !== 'en';
-  /* the experimental-design app recognises «Repetición» with or without the
+  /* the experimental-design app recognizes «Repetición» with or without the
      accent (and Bloque, Parcela, Plot…), so the header keeps its spelling */
   const H = es ? { unit: 'Parcela', block: 'Bloque', rep: 'Repetición', trt: 'Tratamiento', time: 'Tiempo', order: 'Orden' }
     : { unit: 'Plot', block: 'Block', rep: 'Replicate', trt: 'Treatment', time: 'Time', order: 'Order' };

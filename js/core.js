@@ -20,8 +20,8 @@
    · a data entry used by every tool: example, file (CSV, TSV, TXT, XLSX, ODS),
      pasted table, and the choice of the column for each role;
    · editable tables for manual entry;
-   · figures: the box the figure studio of the suite recognises, with quick
-     SVG and 300 ppi PNG downloads (colours of the light theme written in);
+   · figures: the box the figure studio of the suite recognizes, with quick
+     SVG and 300 ppi PNG downloads (colors of the light theme written in);
    · the record each block leaves for the report and the project file;
    · sending a table to another app of the suite. */
 
@@ -93,7 +93,9 @@ const Fmt = {
   p(p) { if (p == null || !isFinite(p)) return '—'; if (p < 0.001) return '< 0.001'; return Fmt.num(p, 3); },
   /* «p = 0.023» or «p < 0.001», ready for a sentence */
   pEq(p) { const s = Fmt.p(p); return 'p ' + (s.charAt(0) === '<' ? s : '= ' + s); },
-  pct(v, d) { return isFinite(v) ? Fmt.num(v, d == null ? 1 : d) + ' %' : '—'; },
+  /* the percent sign: «95 %» in Spanish, «95%» in English */
+  pcs: () => (window.I18N && I18N.lang === 'en' ? '%' : ' %'),
+  pct(v, d) { return isFinite(v) ? Fmt.num(v, d == null ? 1 : d) + Fmt.pcs() : '—'; },
   ci(lo, hi, d) { return '[' + Fmt.num(lo, d) + ', ' + Fmt.num(hi, d) + ']'; },
 };
 window.Fmt = Fmt;
@@ -161,6 +163,17 @@ function citeMethod(container, items) {
 }
 
 /* ---------------- downloads ---------------- */
+/* the active language of a bilingual html (L2 spans); any other html comes back as it is */
+function oneLang(html, lang) {
+  const s = String(html == null ? '' : html);
+  if (s.indexOf('data-l=') < 0) return s;
+  const L = lang || (window.I18N ? I18N.lang : 'es');
+  const d = document.createElement('div'); d.innerHTML = s;
+  d.querySelectorAll('[data-l]').forEach(n => { if (n.getAttribute('data-l') !== L) n.remove(); });
+  return d.innerHTML;
+}
+/* a file name from a text: no accents, lower case, hyphens */
+const fileSlug = s => String(s || '').replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, ' ').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 function download(content, filename, mime) {
   const blob = content instanceof Blob ? content : new Blob([content], { type: mime || 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -174,7 +187,8 @@ const Out = {
     return '﻿' + [header.map(q).join(',')].concat(rows.map(r => r.map(q).join(','))).join('\r\n') + '\r\n';
   },
   plain(columns, rows) {
-    const header = columns.map(c => String(c.label != null ? c.label : c.key).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' '));
+    /* a bilingual label (L2) gives the active language only, not both run together */
+    const header = columns.map(c => String(c.label != null ? oneLang(c.label) : c.key).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' '));
     const body = rows.map(r => columns.map(c => { const v = c.get ? c.get(r) : r[c.key]; return typeof v === 'string' ? v.replace(/<[^>]+>/g, '') : v; }));
     return { header, body };
   },
@@ -324,7 +338,7 @@ const Table = {
     const grid = lines.map(split);
     return Table.fromGrid(grid, sep !== ',');
   },
-  /* first row = names; numbers recognised (with decimal comma when allowed) */
+  /* first row = names; numbers recognized (with decimal comma when allowed) */
   fromGrid(grid, commaDecimal) {
     const head = (grid[0] || []).map((h, i) => String(h == null || h === '' ? 'col' + (i + 1) : h).trim());
     const seen = {};
@@ -433,7 +447,7 @@ const DataIn = {
       if (miss.length) { showMessage(msg, 'warn', T('Falta elegir la columna de: ', 'Choose the column for: ') + miss.map(r => T(r.es, r.en)).join(', ')); return; }
       state.inputs[id] = { columns: S.table.columns, rows: S.table.rows, map, source: S.source };
       const run = () => opts.onData({ rows: S.table.rows, columns: S.table.columns, map, source: S.source });
-      const fail = e => showMessage(msg, 'error', T('No se pudo analizar: ', 'Could not analyse: ') + esc((e && e.message) || e));
+      const fail = e => showMessage(msg, 'error', T('No se pudo analizar: ', 'Could not analyze: ') + esc((e && e.message) || e));
       if (wait === true) return afterPaint(T('Analizando los datos…', 'Analyzing the data…'), run).catch(fail);
       try { run(); } catch (e) { console.error(e); fail(e); }
     };
@@ -492,28 +506,52 @@ const colNum = (rows, key) => rows.map(r => (r[key] == null || r[key] === '' ? n
 /* ---------------- editable tables ----------------
    columns: [{key, es, en, type:'num'|'text'|'select', options?:[[value, es, en]], step?, width?}] */
 /* columns: [{key, es, en, type?: 'num'|'select', options?, step?, width?, show?(v): the value as the
-   field shows it (rounded); the row keeps the full value until the cell is edited}] */
+   field shows it (rounded); the row keeps the full value until the cell is edited; keyEn?: a name kept
+   in both languages (key 'es', keyEn 'en'): the cell shows and edits the one of the active language, and
+   while a row has written only one of the two, the other follows it}]
+   A text cell is at least as wide as its longest value (fitText), so a long name is not cut. */
 const EditTable = {
   registry: {},
   mount(host, o) {
     if (typeof host === 'string') host = el(host);
-    let rows = (o.rows || []).map(r => Object.assign({}, r));
+    const pairs = o.columns.filter(c => c.keyEn);
+    /* a row that comes with both names keeps both: editing one does not overwrite the other */
+    const own = r => { pairs.forEach(c => { if (r[c.key] && r[c.keyEn] && !r._own) r._own = { [c.key]: true, [c.keyEn]: true }; }); return r; };
+    let rows = (o.rows || []).map(r => own(Object.assign({}, r)));
+    const kOf = c => (c.keyEn && I18N.lang === 'en' ? c.keyEn : c.key);
+    /* a text cell is as wide as its longest value, measured in the field's own font, so a long name is not cut */
+    const fitText = () => {
+      const ctx = (EditTable.canvas || (EditTable.canvas = document.createElement('canvas'))).getContext('2d');
+      o.columns.forEach(c => {
+        if (c.type !== 'text') return;
+        const ins = [...host.querySelectorAll('input[data-k="' + kOf(c) + '"]')];
+        if (!ins.length) return;
+        const cs = getComputedStyle(ins[0]);
+        ctx.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+        const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 4;
+        const w = Math.ceil(Math.max(c.width || 0, ...ins.map(n => ctx.measureText(n.value).width + pad)));
+        ins.forEach(n => { n.style.minWidth = w + 'px'; });
+      });
+    };
     const draw = () => {
       const colsH = o.columns.map(c => `<th>${L2(c.es, c.en)}</th>`).join('');
       host.innerHTML = `<div class="edit-wrap"><table class="edit-table"><thead><tr><th>#</th>${colsH}<th><span class="sr-only">${T('Quitar', 'Remove')}</span></th></tr></thead><tbody>` +
         rows.map((r, i) => `<tr data-i="${i}"><td class="rn">${i + 1}</td>` + o.columns.map(c => {
-          const lab = esc(T(c.es, c.en) + ' · ' + (i + 1));
+          const lab = esc(T(c.es, c.en) + ' · ' + (i + 1)), k = kOf(c);
           if (c.type === 'select') return `<td><select data-k="${c.key}" aria-label="${lab}">${c.options.map(op => `<option value="${esc(op[0])}"${String(r[c.key]) === String(op[0]) ? ' selected' : ''}>${esc(T(op[1], op[2] || op[1]))}</option>`).join('')}</select></td>`;
-          return `<td><input data-k="${c.key}" type="${c.type === 'num' ? 'number' : 'text'}"${c.step ? ` step="${c.step}"` : ' step="any"'} value="${esc(r[c.key] == null ? '' : c.show ? c.show(r[c.key]) : r[c.key])}" aria-label="${lab}"${c.width ? ` style="min-width:${c.width}px"` : ''}></td>`;
+          return `<td><input data-k="${k}" type="${c.type === 'num' ? 'number' : 'text'}"${c.step ? ` step="${c.step}"` : ' step="any"'} value="${esc(r[k] == null ? '' : c.show ? c.show(r[k]) : r[k])}" aria-label="${lab}"${c.width ? ` style="min-width:${c.width}px"` : ''}></td>`;
         }).join('') + `<td class="del"><button type="button" data-del="${i}" aria-label="${T('Quitar la fila ', 'Remove row ') + (i + 1)}">×</button></td></tr>`).join('') +
         `</tbody></table></div><div class="btn-row"><button type="button" class="btn btn-ghost btn-sm" data-add="1">${L2('+ Agregar fila', '+ Add row')}</button>${o.extraButtons || ''}</div>`;
+      fitText();
     };
     const read = () => rows;
     host.addEventListener('input', e => {
       const inp = e.target.closest('[data-k]');
       if (!inp) return;
-      const i = +inp.closest('tr').dataset.i, c = o.columns.find(x => x.key === inp.dataset.k);
-      rows[i][c.key] = c.type === 'num' ? (inp.value === '' ? null : +inp.value) : inp.value;
+      const i = +inp.closest('tr').dataset.i, k = inp.dataset.k, c = o.columns.find(x => kOf(x) === k);
+      rows[i][k] = c.type === 'num' ? (inp.value === '' ? null : +inp.value) : inp.value;
+      if (c.type === 'text') fitText();
+      if (c.keyEn) { const r = rows[i], other = k === c.key ? c.keyEn : c.key; r._own = Object.assign({}, r._own, { [k]: true }); if (!r._own[other]) r[other] = r[k]; }
       if (o.onChange) o.onChange(rows);
     });
     host.addEventListener('change', e => { if (e.target.closest('select[data-k]')) { const s = e.target; const i = +s.closest('tr').dataset.i; rows[i][s.dataset.k] = s.value; if (o.onChange) o.onChange(rows); } });
@@ -525,7 +563,7 @@ const EditTable = {
     });
     draw();
     document.addEventListener('langchange', draw);
-    const api = { get: read, set(r) { rows = r.map(x => Object.assign({}, x)); const pn = host.closest('.step-panel'); if (pn) state.touched[pn.id.replace('panel-', '')] = true; draw(); if (o.onChange) o.onChange(rows); }, redraw: draw };
+    const api = { get: read, set(r) { rows = r.map(x => own(Object.assign({}, x))); const pn = host.closest('.step-panel'); if (pn) state.touched[pn.id.replace('panel-', '')] = true; draw(); if (o.onChange) o.onChange(rows); }, redraw: draw };
     if (o.id) EditTable.registry[o.id] = api;
     return api;
   },
@@ -534,7 +572,7 @@ window.EditTable = EditTable;
 
 /* ---------------- figures ----------------
    Fig.put(host, svg, {name, title (bilingual html), caption, data?: {header, rows}})
-   The box is the one the figure studio of the suite recognises (.fig-box). */
+   The box is the one the figure studio of the suite recognizes (.fig-box). */
 const Fig = {
   put(host, svg, o) {
     if (typeof host === 'string') host = el(host);
@@ -553,7 +591,9 @@ const Fig = {
       const b = e.target.closest('button');
       if (!b) return;
       const s = box.querySelector('svg.pl');
-      const nm = (o.name || 'figura');
+      /* the name of the figure (b2-tira-color…) in Spanish; in English, its block and its English title */
+      const en = window.I18N && I18N.lang === 'en' && o.title ? fileSlug(oneLang(Fig.oneTitle(o.title), 'en')) : '';
+      const nm = en ? ((String(o.name || '').match(/^b\d+-/) || [''])[0] + en) : (o.name || 'figura');
       if (b.dataset.svg) download(Fig.svgText(s), nm + '.svg', 'image/svg+xml');
       else if (b.dataset.png) Fig.png(s, nm + '.png');
       else if (b.dataset.csv) download(Out.csvText(o.data.header, o.data.rows), nm + '.csv', 'text/csv;charset=utf-8');
@@ -572,10 +612,10 @@ const Fig = {
     const side = l => top.map(n => (isL(n) ? (n.getAttribute('data-l') === l ? n.innerHTML : '') : n.nodeType === 3 ? esc(n.textContent) : n.outerHTML)).join('');
     return L2(side('es'), side('en'));
   },
-  /* a copy of the SVG with the computed colours and fonts written in (light theme) */
+  /* a copy of the SVG with the computed colors and fonts written in (light theme) */
   bake(svg) {
     const root = document.documentElement, had = root.getAttribute('data-theme');
-    /* no colour transitions while the light colours are read */
+    /* no color transitions while the light colors are read */
     const still = document.createElement('style');
     still.textContent = '*{transition:none!important;animation:none!important}';
     document.head.appendChild(still);
@@ -621,7 +661,7 @@ const Fig = {
     };
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(text);
   },
-  /* insert the pHYs chunk (pixels per metre) right after IHDR */
+  /* insert the pHYs chunk (pixels per meter) right after IHDR */
   async withPPI(blob, ppi) {
     const b = new Uint8Array(await blob.arrayBuffer());
     const ppm = Math.round(ppi / 0.0254);
@@ -797,7 +837,7 @@ const UI = {
   /* the panel of a block from its parts: title line and the tool tabs with their panes */
   panel(n, es, en, subEs, subEn, tools) {
     return `<div class="panel-title"><div class="pt-num">${n}</div><div><h2>${L2(es, en)}</h2><p>${L2(subEs, subEn)}</p></div></div>` +
-      `<div class="tool-tabs" role="tablist" data-block="${n}" aria-label="${esc(es)}">` +
+      `<div class="tool-tabs" role="tablist" data-block="${n}" aria-label="${esc(T(es, en))}" data-es-aria="${esc(es)}" data-en-aria="${esc(en)}">` +
       tools.map(t => `<button type="button" role="tab" class="tool-tab" id="b${n}t-${t.id}" data-tab="${t.id}" aria-controls="b${n}-${t.id}" aria-selected="false">${L2(t.es, t.en)}</button>`).join('') + `</div>` +
       tools.map(t => `<section class="tool-pane" id="b${n}-${t.id}" role="tabpanel" aria-labelledby="b${n}t-${t.id}" hidden>${t.html}</section>`).join('');
   },

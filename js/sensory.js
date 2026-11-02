@@ -41,7 +41,7 @@ const pn = Num.pnorm, dn = Num.dnorm;
 const note = (es, en) => ({ es, en });
 const isNum = v => typeof v === 'number' && isFinite(v);
 
-/* Rounding of x.5 to the even neighbour (round half to even, IEC 60559),
+/* Rounding of x.5 to the even neighbor (round half to even, IEC 60559),
    used where a published algorithm rounds a real sample size. */
 function roundEven(x) {
   const r = Math.round(x);
@@ -120,7 +120,7 @@ Sens.pc = function (method, d) {
              (integrated by parts: the second form has a positive integrand
              and keeps its digits for large d′, where the first cancels)
    tetrad    4∫ φ(z) φ(z − d) [Φ(z) − Φ(z − d)] dz   (differentiating under the integral)
-   Both integrands carry φ(z)φ(z − d), a Gaussian centred at d/2 with
+   Both integrands carry φ(z)φ(z − d), a Gaussian centered at d/2 with
    standard deviation 1/√2. Undefined (NaN) at d′ = 0 and 0 at d′ = ∞. */
 Sens.pcDeriv = function (method, d) {
   checkMethod(method);
@@ -453,7 +453,7 @@ Sens.aNotA = function (x1, n1, x2, n2, o) {
    ====================================================================== */
 
 /* Sequential (type I) sums of squares: the columns of each term, in the
-   order given, are orthogonalised by modified Gram–Schmidt (two passes,
+   order given, are orthogonalized by modified Gram–Schmidt (two passes,
    which keeps the basis orthogonal to rounding) against the intercept and
    the previous terms; columns that add nothing (aliased) are skipped, so the
    degrees of freedom of a term are the columns it really adds. The sum of
@@ -643,9 +643,9 @@ Sens.hedonic = function (rows, o) {
 };
 
 /* Just-about-right scales and penalty analysis. Each consumer rates each
-   attribute on a JAR scale (1 … levels, the centre being "just about right")
+   attribute on a JAR scale (1 … levels, the center being "just about right")
    and gives an overall liking score. For every product × attribute the
-   answers are collapsed into "too little" (below the centre), JAR and "too
+   answers are collapsed into "too little" (below the center), JAR and "too
    much"; the mean drop in liking of each non-JAR group, drop = ȳ_JAR − ȳ_group,
    is weighted by the share of consumers in it, penalty = drop·pct/100, and
    tested with a pooled-variance two-sample t test of the group against the
@@ -656,7 +656,7 @@ Sens.jar = function (rows, o) {
   o = o || {};
   const levels = o.levels || 5, threshold = o.threshold == null ? 20 : o.threshold;
   const center = o.center != null ? o.center : (levels + 1) / 2;
-  if (!Number.isInteger(center)) throw new Error('Sens.jar: an even number of levels has no centre; give opts.center');
+  if (!Number.isInteger(center)) throw new Error('Sens.jar: an even number of levels has no center; give opts.center');
   const data = (rows || []).filter(r => r && r.product != null && r.attribute != null && isNum(r.jar) && isNum(r.liking) && r.jar >= 1 && r.jar <= levels);
   const P = levelsOf(data.map(r => r.product)), A = levelsOf(data.map(r => r.attribute));
   const ttest = (g, j) => {
@@ -820,7 +820,7 @@ Sens.ca = function (table, o) {
   };
 };
 
-/* Friedman's rank test for a randomised complete block design (Friedman
+/* Friedman's rank test for a randomized complete block design (Friedman
    1937, J. Am. Statist. Assoc. 32:675–701): ranks within each block (mid-ranks
    for ties), rank sums R_j, A = Σr², C = b·t(t + 1)²/4,
    χ²_F = (t − 1)(ΣR_j² − bC)/(A − C) (tie-corrected), with t − 1 df. Multiple
@@ -973,7 +973,7 @@ Sens.pearson = pearson;
 
 /* Principal component analysis (Pearson 1901, Phil. Mag. 2:559–572;
    Hotelling 1933, J. Educ. Psychol. 24:417–441) of an n × p table, rows of
-   weight 1/n: the columns are centred and, when `scale`, divided by their
+   weight 1/n: the columns are centered and, when `scale`, divided by their
    standard deviation computed with divisor n. The SVD Z/√n = UDVᵀ gives the
    eigenvalues λ = d², the row coordinates ZV, the variable coordinates VD
    (correlations with the components when scaled, covariances otherwise),
@@ -1027,7 +1027,7 @@ Sens.pca = function (X, o) {
    0, 1, t−1, 2, t−2, 3, … and whose row r adds r (mod t). For even t every
    product follows every other product exactly once; for odd t > 1 the square
    is joined by its mirror image (each row reversed) and every ordered pair of
-   neighbours occurs exactly twice in the 2t rows. Products are numbered
+   neighbors occurs exactly twice in the 2t rows. Products are numbered
    0 … t−1. */
 Sens.williams = function (t) {
   if (!(Number.isInteger(t) && t >= 1)) throw new Error('Sens.williams: t must be a positive integer');

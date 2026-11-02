@@ -59,4 +59,15 @@ TEST('plot', 'modified atmosphere: every film with its own color and trace', a =
   const near = tr('s2').concat(tr('s8'), tr('s3'));
   a.eq(new Set(near).size, near.length, 'blue, teal and green with different traces');
 });
+TEST('plot', 'psychrometric chart: «90 %» in Spanish, «90%» in English', a => {
+  const pws = t => 610.94 * Math.exp(17.625 * t / (t + 243.04));
+  const draw = () => Plot.psychro({ name: 't', pws, p: 101325, tRange: [0, 35], points: [] });
+  const had = window.I18N;
+  try {
+    window.I18N = { lang: 'es' }; const es = draw();
+    window.I18N = { lang: 'en' }; const en = draw();
+    a.ok(/>90 %</.test(es) && !/>90%</.test(es), 'Spanish: space');
+    a.ok(/>90%</.test(en) && !/>\d+ %</.test(en), 'English: no space');
+  } finally { window.I18N = had; }
+});
 })();

@@ -284,7 +284,7 @@ tr.best td { background: rgba(var(--accent-rgb), .10); }
 .art-txt { fill: var(--fig-ink); font-family: var(--fig-font); }
 .art-mut { fill: var(--fig-muted); font-family: var(--fig-font); }
 
-/* ---------- Colour preview ---------- */
+/* ---------- Color preview ---------- */
 .swatch-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: stretch; }
 .swatch { flex: 1 1 140px; min-width: 120px; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; background: var(--card-bg); }
 .swatch .sw { height: 84px; position: relative; }

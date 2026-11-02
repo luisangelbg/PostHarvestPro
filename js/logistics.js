@@ -19,13 +19,13 @@
      cooling asks for (Thompson et al. 2008, UC ANR 21567).
    · Psychrometrics of the cold room with the ideal-gas relations of the
      ASHRAE Handbook — Fundamentals (2017, ch. 1): humidity ratio, dew point,
-     wet bulb, enthalpy, specific volume, vapour-pressure deficit of the air
+     wet bulb, enthalpy, specific volume, vapor-pressure deficit of the air
      and between product and air; water loss as transpiration coefficient ×
      deficit (Sastry, Baird and Buffington 1978, ASHRAE Trans. 84:237–255).
    · Cost of storage per day and per unit.
    · Storage compatibility: temperature and humidity ranges that must
      overlap, ethylene producers next to sensitive products, chilling
-     injury, odour transfer (Kader 2002, UC ANR 3311; Gross, Wang and Saltveit
+     injury, odor transfer (Kader 2002, UC ANR 3311; Gross, Wang and Saltveit
      2016, USDA Agric. Handb. 66; McGregor 1989, USDA Agric. Handb. 668). The
      table of products holds orientative values to be adjusted. */
 function LogiCore(g) {
@@ -186,7 +186,7 @@ Lg.convert = function (kind, v, from, to) {
    t: recommended range (°C), rh: (%), eth: production class at 20 °C
    (VL < 0.1, L 0.1–1, M 1–10, H 10–100, VH > 100 µL kg⁻¹ h⁻¹), sens:
    sensitivity to ethylene (L, M, H), chill: chilling injury (0 none,
-   1 moderate, 2 sensitive), odor: 'p' gives off strong odours, 'a' absorbs
+   1 moderate, 2 sensitive), odor: 'p' gives off strong odors, 'a' absorbs
    them. Orientative values compiled from Kader (2002) and Gross et al.
    (2016) for the most common cultivars; adjust them to your own. */
 Lg.PRODUCTS = [
@@ -231,10 +231,10 @@ Lg.PRODUCTS = [
 ].map(r => ({ id: r[0], es: r[1], en: r[2], tMin: r[3], tMax: r[4], rhMin: r[5], rhMax: r[6], eth: r[7], sens: r[8], chill: r[9], odor: r[10] }));
 const ETH = { VL: 0, L: 1, M: 2, H: 3, VH: 4 }, SENS = { L: 0, M: 1, H: 2 };
 /* a recommended range for a sentence, with the true minus sign: «0 °C» when both ends are equal,
-   «85–90 %» with an en dash, and «−1 a 4 °C» (« to ») when an end is negative, where a dash would
+   «85–90 %» (in English «85–90%») with an en dash, and «−1 a 4 °C» (« to ») when an end is negative, where a dash would
    read as a minus sign */
 const sNum = v => (+v < 0 ? '−' + String(-v) : String(+v));
-Lg.range = (lo, hi, unit, en) => (+lo === +hi ? sNum(lo) : +lo < 0 || +hi < 0 ? sNum(lo) + (en ? ' to ' : ' a ') + sNum(hi) : sNum(lo) + '–' + sNum(hi)) + ' ' + unit;
+Lg.range = (lo, hi, unit, en) => (+lo === +hi ? sNum(lo) : +lo < 0 || +hi < 0 ? sNum(lo) + (en ? ' to ' : ' a ') + sNum(hi) : sNum(lo) + '–' + sNum(hi)) + (en && unit === '%' ? '' : ' ') + unit;
 /* issues between two products: [{level: 'bad'|'warn', k, es, en}] */
 Lg.pairIssues = function (a, b, o) {
   o = Object.assign({ tTol: 0, rhTol: 5 }, o || {});
@@ -250,7 +250,7 @@ Lg.pairIssues = function (a, b, o) {
     const prod = ETH[p.eth], sens = SENS[s.sens];
     if (prod >= 3 && sens === 2) out.push({ level: 'bad', k: 'eth', es: `${p.es} produce mucho etileno y ${s.es} es muy sensible a él.`, en: `${p.en} produces much ethylene and ${s.en} is very sensitive to it.` });
     else if ((prod >= 3 && sens === 1) || (prod === 2 && sens === 2)) out.push({ level: 'warn', k: 'eth', es: `Riesgo por etileno: ${p.es} (producción ${p.eth}) junto a ${s.es} (sensibilidad ${s.sens}); conviene ventilar o absorber el etileno.`, en: `Ethylene risk: ${p.en} (production ${p.eth}) next to ${s.en} (sensitivity ${s.sens}); ventilate or scrub ethylene.` });
-    if (p.odor === 'p' && s.odor !== 'p') out.push({ level: 'warn', k: 'odor', es: `${p.es} desprende olores que ${s.es} puede absorber.`, en: `${p.en} gives off odours that ${s.en} may absorb.` });
+    if (p.odor === 'p' && s.odor !== 'p') out.push({ level: 'warn', k: 'odor', es: `${p.es} desprende olores que ${s.es} puede absorber.`, en: `${p.en} gives off odors that ${s.en} may absorb.` });
   });
   return out;
 };

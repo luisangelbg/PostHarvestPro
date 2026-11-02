@@ -74,7 +74,7 @@ function recommendations(keys) {
     const withT = K.fits.filter(f => isFinite(f.t) && f.t > 0);
     if (withT.length) add('Vida al límite de calidad: ' + withT.map(f => (f.group !== '—' ? f.group + ': ' : '') + Fmt.num(f.t, 1)).join('; ') + '. Programa la venta antes de esos tiempos, con margen para la distribución.', 'Life to the quality limit: ' + withT.map(f => (f.group !== '—' ? f.group + ': ' : '') + Fmt.num(f.t, 1)).join('; ') + '. Schedule sales before those times, with a margin for distribution.');
   }
-  if (K.arrhenius && isFinite(K.arrhenius.Ea) && on.has('kinetics:temperature')) add(`Con Eₐ ≈ ${Fmt.num(K.arrhenius.Ea, 0)} kJ/mol, cada grado de más acorta la vida de anaquel en torno a ${Fmt.num(100 * (1 - Math.exp(-K.arrhenius.Ea * 1000 / 8.314 * (1 / 283.15 - 1 / 284.15))), 0)} %: la cadena de frío continua es la medida más rentable.`, `With Eₐ ≈ ${Fmt.num(K.arrhenius.Ea, 0)} kJ/mol, each extra degree shortens shelf life by about ${Fmt.num(100 * (1 - Math.exp(-K.arrhenius.Ea * 1000 / 8.314 * (1 / 283.15 - 1 / 284.15))), 0)} %: an unbroken cold chain is the most profitable measure.`);
+  if (K.arrhenius && isFinite(K.arrhenius.Ea) && on.has('kinetics:temperature')) add(`Con Eₐ ≈ ${Fmt.num(K.arrhenius.Ea, 0)} kJ/mol, cada grado de más acorta la vida de anaquel en torno a ${Fmt.num(100 * (1 - Math.exp(-K.arrhenius.Ea * 1000 / 8.314 * (1 / 283.15 - 1 / 284.15))), 0)} %: la cadena de frío continua es la medida más rentable.`, `With Eₐ ≈ ${Fmt.num(K.arrhenius.Ea, 0)} kJ/mol, each extra degree shortens shelf life by about ${Fmt.num(100 * (1 - Math.exp(-K.arrhenius.Ea * 1000 / 8.314 * (1 / 283.15 - 1 / 284.15))), 0)}%: an unbroken cold chain is the most profitable measure.`);
   const Rp = st.resp || {};
   if (Rp.climacteric === 'climacteric' && on.has('resp:climacteric')) add('Producto climatérico: coséchalo en madurez fisiológica, enfríalo pronto y mantenlo lejos del etileno (o usa un absorbedor) hasta la maduración controlada.', 'Climacteric produce: harvest at physiological maturity, cool it early and keep it away from ethylene (or use a scrubber) until controlled ripening.');
   if (Rp.static && isFinite(Rp.static.co2) && Rp.static.co2 > 40 && on.has('resp:static')) add('La respiración es alta: el producto genera mucho calor; dimensiona el preenfriamiento y la refrigeración con ese calor vital.', 'Respiration is high: the produce generates much heat; size precooling and refrigeration including that vital heat.');
@@ -85,15 +85,15 @@ function recommendations(keys) {
   const D = L.damage;
   if (D && isFinite(D.e10) && on.has('losses:damage')) {
     const h = v => Fmt.num(v, 1) + (D.unit ? ' ' + D.unit : ''), at50 = isFinite(D.e50) && D.e50 > 0;
-    if (D.e10 > 0) add(`Limita las caídas en la línea de empaque y en la carga por debajo de ${h(D.e10)}, la altura que daña al 10 % de los frutos${at50 ? ` (al 50 % los daña una caída de ${h(D.e50)})` : ''}; acolcha los puntos de transferencia.`, `Keep drops on the packing line and when loading below ${h(D.e10)}, the height that bruises 10 % of the fruit${at50 ? ` (a drop of ${h(D.e50)} bruises 50 %)` : ''}; pad the transfer points.`);
-    else add('Aun las caídas más bajas del ensayo dañan a más del 10 % de los frutos: acolcha los puntos de transferencia y evita cualquier caída libre.', 'Even the lowest drops of the trial bruise more than 10 % of the fruit: pad the transfer points and avoid any free fall.');
+    if (D.e10 > 0) add(`Limita las caídas en la línea de empaque y en la carga por debajo de ${h(D.e10)}, la altura que daña al 10 % de los frutos${at50 ? ` (al 50 % los daña una caída de ${h(D.e50)})` : ''}; acolcha los puntos de transferencia.`, `Keep drops on the packing line and when loading below ${h(D.e10)}, the height that bruises 10% of the fruit${at50 ? ` (a drop of ${h(D.e50)} bruises 50%)` : ''}; pad the transfer points.`);
+    else add('Aun las caídas más bajas del ensayo dañan a más del 10 % de los frutos: acolcha los puntos de transferencia y evita cualquier caída libre.', 'Even the lowest drops of the trial bruise more than 10% of the fruit: pad the transfer points and avoid any free fall.');
   }
   const Sn = st.sensory || {};
   if (Sn.hedonic && Sn.hedonic.best && on.has('sensory:hedonic')) add(`En agrado destaca «${Sn.hedonic.best}»; usa el análisis de penalidades para ajustar a los demás.`, `«${Sn.hedonic.best}» stands out in liking; use the penalty analysis to adjust the others.`);
   const Lg = st.logistics || {};
-  if (Lg.air && isFinite(Lg.air.loss) && Lg.air.loss * 7 > 2 && on.has('logistics:air')) add('La pérdida de agua estimada pasa de 2 % por semana: sube la humedad relativa, baja la temperatura del producto o usa un empaque que frene la transpiración.', 'The estimated water loss exceeds 2 % per week: raise relative humidity, lower the produce temperature or use packaging that slows transpiration.');
+  if (Lg.air && isFinite(Lg.air.loss) && Lg.air.loss * 7 > 2 && on.has('logistics:air')) add('La pérdida de agua estimada pasa de 2 % por semana: sube la humedad relativa, baja la temperatura del producto o usa un empaque que frene la transpiración.', 'The estimated water loss exceeds 2% per week: raise relative humidity, lower the produce temperature or use packaging that slows transpiration.');
   /* box venting leaves no section: it counts when the person worked in its tool */
-  if (Lg.vents && (Lg.vents.long < 5 || Lg.vents.short < 5) && panes.has('b8-ventilacion')) add('Las cajas tienen menos de 5 % de área abierta en alguna cara: el enfriamiento con aire forzado será lento.', 'The boxes have less than 5 % open area on some face: forced-air cooling will be slow.');
+  if (Lg.vents && (Lg.vents.long < 5 || Lg.vents.short < 5) && panes.has('b8-ventilacion')) add('Las cajas tienen menos de 5 % de área abierta en alguna cara: el enfriamiento con aire forzado será lento.', 'The boxes have less than 5% open area on some face: forced-air cooling will be slow.');
   if (Lg.compat && Lg.compat.bad && on.has('logistics:compat')) add('Hay productos incompatibles en la misma cámara: sepáralos (temperatura o etileno).', 'There are incompatible products in the same room: separate them (temperature or ethylene).');
   return R;
 }
@@ -174,7 +174,7 @@ function projectSave() {
   const edits = {};
   Object.entries(EditTable.registry).forEach(([id, t]) => { edits[id] = t.get(); });
   const P = { app: 'PostHarvestPro', version: VERSION, saved: new Date().toISOString(), lang: I18N.lang, inputs: state.inputs, edits, forms, report: { title: UI.s('b9Title'), author: UI.s('b9Author'), crop: UI.s('b9Crop'), notes: UI.s('b9Notes'), used: [...used], panes: [...panes], choice: [...choice] } };
-  download(JSON.stringify(P, null, 1), 'proyecto_postharvestpro_' + new Date().toISOString().slice(0, 10) + '.json', 'application/json');
+  download(JSON.stringify(P, null, 1), T('proyecto_postharvestpro_', 'postharvestpro_project_') + new Date().toISOString().slice(0, 10) + '.json', 'application/json');
 }
 async function projectOpen(file) {
   clearMessages('b9PMsg');
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
   el('b9Bib').textContent = CITE.bib;
   el('b9Go').addEventListener('click', () => { paintSecs(); showReport(); });
   el('b9Secs').addEventListener('change', e => { if (e.target.type === 'checkbox') { choice.set(e.target.value, e.target.checked); paintRec(); } });
-  el('b9Dl').addEventListener('click', () => { if (lastDoc) download(lastDoc, 'informe_postharvestpro.html', 'text/html;charset=utf-8'); });
+  el('b9Dl').addEventListener('click', () => { if (lastDoc) download(lastDoc, T('informe_postharvestpro.html', 'postharvestpro_report.html'), 'text/html;charset=utf-8'); });
   el('b9Print').addEventListener('click', () => { const f = el('b9Frame'); if (f.contentWindow) { f.contentWindow.focus(); f.contentWindow.print(); } });
   el('b9Save').addEventListener('click', projectSave);
   el('b9Open').addEventListener('change', e => { if (e.target.files[0]) projectOpen(e.target.files[0]); e.target.value = ''; });

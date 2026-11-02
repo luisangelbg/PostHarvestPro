@@ -10,7 +10,7 @@
    A PARTICULAR PURPOSE. See the GNU General Public License, in the file LICENSE
    at the root of this program, or <https://www.gnu.org/licenses/>. */
 
-/* PostHarvestPro — language (Spanish / English) and colour theme.
+/* PostHarvestPro — language (Spanish / English) and color theme.
 
    How translation works, so that nothing is ever left half translated:
    1. Rich text in the HTML is written twice, side by side:
@@ -20,7 +20,8 @@
    2. Short plain texts that cannot be duplicated (options of a <select>,
       button captions, placeholders, tooltips) carry both versions as
       attributes: data-es / data-en, data-es-ph / data-en-ph,
-      data-es-title / data-en-title. `I18N.apply()` copies the active one.
+      data-es-title / data-en-title, data-es-aria / data-en-aria. `I18N.apply()`
+      copies the active one.
    3. Text built by JavaScript uses T('español', 'English'), and every module
       that draws something listens to the 'langchange' event to redraw it.
 
@@ -59,6 +60,7 @@
       scope.querySelectorAll('[data-es]').forEach(n => { const v = n.getAttribute('data-' + L); if (v != null) n.textContent = v; });
       scope.querySelectorAll('[data-es-html]').forEach(n => { const v = n.getAttribute('data-' + L + '-html'); if (v != null) n.innerHTML = v; });
       scope.querySelectorAll('[data-es-ph]').forEach(n => { const v = n.getAttribute('data-' + L + '-ph'); if (v != null) n.setAttribute('placeholder', v); });
+      scope.querySelectorAll('[data-es-aria]').forEach(n => { const v = n.getAttribute('data-' + L + '-aria'); if (v != null) n.setAttribute('aria-label', v); });
       scope.querySelectorAll('[data-es-title]').forEach(n => {
         const v = n.getAttribute('data-' + L + '-title');
         if (v != null) { n.setAttribute('title', v); n.setAttribute('aria-label', v); }

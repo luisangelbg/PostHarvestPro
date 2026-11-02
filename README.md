@@ -6,7 +6,7 @@
 
 Postharvest physiology and technology in the browser, without writing code.
 PostHarvestPro follows the produce from harvest to the consumer: quality,
-maturity and CIELAB colour; deterioration kinetics, the effect of temperature
+maturity and CIELAB color; deterioration kinetics, the effect of temperature
 and shelf life, including the time to rejection of each fruit with censoring;
 respiration, ethylene, modified atmospheres and precooling; losses along the
 value chain and mechanical damage; discrimination, affective and descriptive
@@ -20,7 +20,7 @@ never leave it.
 ## Statement of need
 
 A postharvest study usually spreads over several programs: a spreadsheet for
-the quality indices and the colour, a statistics package for the kinetic fits
+the quality indices and the color, a statistics package for the kinetic fits
 and the survival curves, a sensory package for the discrimination tests and
 the panel, hand calculations for the modified atmosphere, the refrigeration
 load or the pallet, and a word processor for the report. Every transfer is a
@@ -50,9 +50,9 @@ server on port 9970, at `http://localhost:9970`).
    postharvest in brief, what the app does not do, the references and how to
    cite.
 2. **Quality and maturity** — quality summary by group and time (SSC/TA,
-   BrimA, derived colour); sRGB ↔ CIELAB ↔ hexadecimal converter with swatch,
-   ΔE\*ab, ΔE94 and ΔE00, colour indices (citrus colour index, browning, whiteness,
-   yellowness, tomato colour index) and the mean colour of the data;
+   BrimA, derived color); sRGB ↔ CIELAB ↔ hexadecimal converter with swatch,
+   ΔE\*ab, ΔE94 and ΔE00, color indices (citrus color index, browning, whiteness,
+   yellowness, tomato color index) and the mean color of the data;
    titratable acidity, moisture, firmness and weight-loss calculators;
    ripeness and damage scales (McKinney index, incidence, marketable fruit);
    size grades.
@@ -84,12 +84,12 @@ server on port 9970, at `http://localhost:9970`).
 7. **Postharvest trials** — treatment × time factorial (types I and III) with
    Tukey–Kramer, LSD, Bonferroni and Dunnett within each time and compact
    letters; repeated measures (split plot in time, Greenhouse–Geisser,
-   Huynh–Feldt, Mauchly); comparison of slopes; randomised field book
+   Huynh–Feldt, Mauchly); comparison of slopes; randomized field book
    compatible with AgriDesign.
 8. **Packaging and logistics** — boxes per pallet, pallets per container, box
    vent area, store psychrometrics with a psychrometric chart,
-   vapour-pressure deficit and water loss, storage cost, product
-   compatibility (temperature, humidity, ethylene, odours) and unit
+   vapor-pressure deficit and water loss, storage cost, product
+   compatibility (temperature, humidity, ethylene, odors) and unit
    conversion.
 9. **Report and project** — a self-contained HTML report (cover, the sections
    that were used with their figures and tables, handling recommendations,
@@ -119,22 +119,23 @@ Every engine was written from the published formula and compared against an
 independent implementation: R 4.4.2 and its packages, published tables or
 hand calculations written out in the test, each comparison with its own
 tolerance. Open `tests/run.html` with a double click, or run
-`node tests/run-node.js`: **443 tests and 71,199 comparisons, none failed**.
+`node tests/run-node.js`: **449 tests and 71,278 comparisons, none failed**.
 
 | Area | Engine | Tests | Comparisons | Reference |
 |---|---|---:|---:|---|
-| Numerical core (distributions, studentized range, Dunnett, linear algebra, optimisers) | `js/num.js` | 6 | 534 | R 4.4.2 |
-| Colour (sRGB → CIELAB, ΔE94, ΔE00, indices) | `js/color.js` | 6 | 1,115 | R; the 22 published pairs of Sharma, Wu and Dalal (2005); hand calculations |
+| Numerical core (distributions, studentized range, Dunnett, linear algebra, optimizers) | `js/num.js` | 6 | 534 | R 4.4.2 |
+| Color (sRGB → CIELAB, ΔE94, ΔE00, indices) | `js/color.js` | 6 | 1,115 | R; the 22 published pairs of Sharma, Wu and Dalal (2005); hand calculations |
 | Quality (acidity, moisture, McKinney index, size grades) | `js/quality.js` | 4 | 28 | hand calculations |
 | Respiration and atmospheres | `js/resp.js` | 3 | 19 | hand calculations (gas balances, steady state, cooling) |
 | Losses and mechanical damage | `js/losses.js` | 3 | 45 | R (linear and logistic regression, Fieller's interval) |
-| Packaging and logistics | `js/logistics.js` | 3 | 33 | ASHRAE (2017) saturation tables, psychrometric identities |
+| Packaging and logistics | `js/logistics.js` | 3 | 36 | ASHRAE (2017) saturation tables, psychrometric identities |
 | Kinetics and shelf life | `js/kinetics.js` | 233 | 18,932 | R (nonlinear and linear least squares, prediction) |
 | Time to failure with censoring | `js/survival.js` | 143 | 38,488 | R (Kaplan–Meier, log-rank, parametric survival models) |
 | Sensory evaluation | `js/sensory.js` | 32 | 11,669 | R (Thurstonian models, panel performance, ANOVA, CATA, correspondence and principal components) |
-| Postharvest trials | `js/trials.js` | 8 | 240 | R (types I and III, Tukey, LSD, Dunnett, repeated measures, slopes) |
-| Catalogue of methods and references | `js/refs.js` | 2 | 96 | every source cited in the methods is in the reference list |
-| **Total** | | **443** | **71,199** | **0 failed** |
+| Postharvest trials | `js/trials.js` | 8 | 242 | R (types I and III, Tukey, LSD, Dunnett, repeated measures, slopes) |
+| Catalog of methods and references | `js/refs.js` | 2 | 96 | every source cited in the methods is in the reference list |
+| Figures (axis numbers, labels, percent sign) | `js/plot.js` | 6 | 74 | geometry and text written out in the test: thousands on the axes, labels that neither overlap nor cross lines, distinct traces on the O₂–CO₂ plane, «90%» in English |
+| **Total** | | **449** | **71,278** | **0 failed** |
 
 The reference scripts in R, the reference values and one report per area
 (what was compared, the tolerances, the largest differences and the errors the
@@ -158,20 +159,20 @@ node tests/run-node.js [area]
 
 ## Data and third-party material
 
-The numerical core, the statistics, the colour science, the kinetic and
+The numerical core, the statistics, the color science, the kinetic and
 survival engines, the sensory engine, the spreadsheet reader and writer, the
 figures and the report are the author's own code; the program uses no
 libraries, fonts or services of others and requests nothing from the
 internet. It implements published methods, each one cited to its original
 source in the code, in the app and in the manual. What comes from third
-parties is listed with its licence in
+parties is listed with its license in
 [`LICENSES-TERCEROS.md`](LICENSES-TERCEROS.md): the line icons of the shared
 modules of the suite (navigator, figure studio and effects), from the Lucide
-project under the ISC licence (those derived from Feather also under MIT).
+project under the ISC license (those derived from Feather also under MIT).
 
 ## Good to know
 
-- The models summarise data: extrapolating far from the temperatures, times
+- The models summarize data: extrapolating far from the temperatures, times
   or cultivars measured is the user's responsibility, and the app warns when
   it happens.
 - The tables of sizes, film permeabilities and product compatibility are
@@ -202,7 +203,7 @@ Cite also the methods you used: every result names them.
 Problems and proposals go to
 https://github.com/luisangelbg/PostHarvestPro/issues.
 
-## Licence
+## License
 
 GNU General Public License, version 3 or later (`LICENSE`). Copyright (C) 2026
 Luis Ángel Barrera-Guzmán.

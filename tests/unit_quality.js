@@ -196,9 +196,13 @@ TEST('losses', 'damage curves: shown coefficients are a = e^(ln a) and b; suscep
   a.close(Loss.dropEnergy(0.147, 20), 0.2883, 5e-5, 'm·g·h of the example (energia_J column)');
 });
 TEST('logistics', 'ranges with the true minus sign, one ppm unit', a => {
+  const P = id => Logi.PRODUCTS.find(x => x.id === id);
   a.eq(Logi.range(0, 0, '°C'), '0 °C', 'equal ends'); a.eq(Logi.range(-1, 4, '°C'), '−1 a 4 °C', 'negative end, es');
   a.eq(Logi.range(-1, 4, '°C', 1), '−1 to 4 °C', 'negative end, en'); a.eq(Logi.range(85, 90, '%'), '85–90 %', 'en dash');
-  const P = id => Logi.PRODUCTS.find(x => x.id === id);
+  /* in English the percent sign goes without the space: «85–90%» */
+  a.eq(Logi.range(85, 90, '%', 1), '85–90%', 'percent, en'); a.eq(Logi.range(90, 90, '%', 1), '90%', 'equal ends, percent, en');
+  const h = Logi.pairIssues(P('papa'), P('ajo')).find(x => x.k === 'rh');
+  a.ok(h && !/\d %/.test(h.en) && /\d %/.test(h.es), 'relative humidity in the sentence: «90–95 %» in Spanish, «90–95%» in English');
   const t = Logi.pairIssues(P('manzana'), P('platano')).find(x => x.k === 'temp');
   a.ok(t && t.es.includes('−1 a 4 °C') && !/-\d/.test(t.es + t.en), 'apple range in the sentence, no hyphen-minus');
   a.ok(!('ulL' in Logi.UNITS.concentration), 'µL/L is ppm, listed once');

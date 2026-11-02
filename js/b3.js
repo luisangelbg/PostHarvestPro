@@ -21,7 +21,7 @@ const ORD = [['Orden cero', 'Zero order'], ['Primer orden', 'First order'], ['Se
 const ordName = o => T(ORD[o][0], ORD[o][1]);
 const EQ = ['C = C₀ − k·t', 'C = C₀·e^(−k·t)', '1/C = 1/C₀ + k·t'];
 /* the parametric models as they read inside a sentence («el modelo log-logístico»,
-   «the log-logistic model»); distName(d, true) capitalises them for a label */
+   «the log-logistic model»); distName(d, true) capitalizes them for a label */
 const DISTS = { weibull: ['Weibull', 'Weibull'], lognormal: ['log-normal', 'log-normal'], loglogistic: ['log-logístico', 'log-logistic'], exponential: ['exponencial', 'exponential'] };
 const distName = (d, cap) => { const s = T(DISTS[d][0], DISTS[d][1]); return cap ? s.charAt(0).toUpperCase() + s.slice(1) : s; };
 /* an interval with n (3) significant figures of its larger bound: a k near 4
@@ -42,9 +42,9 @@ const kRows = res => res.filter(r => isFinite(+r.group) && isFinite(r.fit.k)).ma
 const tools = [
   { id: 'cinetica', es: 'Modelos cinéticos', en: 'Kinetic models', html: `
     <div class="card"><h2>${L2('Datos', 'Data')}</h2>
-      <p class="hint">${L2('Un atributo medido en el tiempo (firmeza, color, vitamina C, peso…), con un grupo opcional (temperatura, tratamiento). Cada grupo se ajusta por separado con los tres órdenes, por mínimos cuadrados en la escala original.', 'An attribute measured over time (firmness, colour, vitamin C, weight…), with an optional group (temperature, treatment). Each group is fitted separately with the three orders, by least squares on the original scale.')}</p>
+      <p class="hint">${L2('Un atributo medido en el tiempo (firmeza, color, vitamina C, peso…), con un grupo opcional (temperatura, tratamiento). Cada grupo se ajusta por separado con los tres órdenes, por mínimos cuadrados en la escala original.', 'An attribute measured over time (firmness, color, vitamin C, weight…), with an optional group (temperature, treatment). Each group is fitted separately with the three orders, by least squares on the original scale.')}</p>
       <div id="b3kIn"></div>
-      <div class="form-grid tight">${UI.sel('b3kOrder', 'Orden', 'Order', [['auto', 'El de menor AIC', 'Lowest AIC'], ['0', 'Orden cero', 'Zero order'], ['1', 'Primer orden', 'First order'], ['2', 'Segundo orden', 'Second order']], 'auto')}${UI.sel('b3kMeth', 'Método', 'Method', [['nls', 'No lineal (escala original)', 'Nonlinear (original scale)'], ['linear', 'Linealizado', 'Linearised']], 'nls', { wide: true })}${UI.num('b3kLim', 'Límite de aceptación', 'Acceptance limit', 25, { help: L2('vacío: sin límite', 'empty: no limit') })}${UI.sel('b3kConf', 'Confianza', 'Confidence', [['0.9', '90 %', '90 %'], ['0.95', '95 %', '95 %'], ['0.99', '99 %', '99 %']], '0.95')}</div></div>
+      <div class="form-grid tight">${UI.sel('b3kOrder', 'Orden', 'Order', [['auto', 'El de menor AIC', 'Lowest AIC'], ['0', 'Orden cero', 'Zero order'], ['1', 'Primer orden', 'First order'], ['2', 'Segundo orden', 'Second order']], 'auto')}${UI.sel('b3kMeth', 'Método', 'Method', [['nls', 'No lineal (escala original)', 'Nonlinear (original scale)'], ['linear', 'Linealizado', 'Linearized']], 'nls', { wide: true })}${UI.num('b3kLim', 'Límite de aceptación', 'Acceptance limit', 25, { help: L2('vacío: sin límite', 'empty: no limit') })}${UI.sel('b3kConf', 'Confianza', 'Confidence', [['0.9', '90 %', '90%'], ['0.95', '95 %', '95%'], ['0.99', '99 %', '99%']], '0.95')}</div></div>
     <div id="b3kOut" hidden><div class="card"><h2>${L2('Ajuste y vida de anaquel', 'Fit and shelf life')}</h2><div id="b3kTiles"></div><div id="b3kRead"></div><div id="b3kFig"></div><div id="b3kTab"></div><h3>${L2('Los tres órdenes', 'The three orders')}</h3><div id="b3kCmp"></div><div class="btn-row"><button type="button" class="btn btn-secondary btn-sm" id="b3kToT">${L2('Llevar las k al análisis de temperatura →', 'Take the k values to the temperature analysis →')}</button></div><div id="b3kCite"></div></div></div>` },
   { id: 'temperatura', es: 'Temperatura', en: 'Temperature', html: `
     <div class="card"><h2>${L2('Constantes de velocidad a varias temperaturas', 'Rate constants at several temperatures')}</h2>
@@ -91,7 +91,7 @@ function kinRun(D) {
   statTiles('b3kTiles', [
     [T('Grupos', 'Groups'), res.length, keyG ? esc(keyG) : ''],
     [T('Orden elegido', 'Chosen order'), [...new Set(res.map(r => r.order))].map(o => ordName(o)).join(', '), sel === 'auto' ? T('por AIC', 'by AIC') : T('fijado por ti', 'set by you')],
-    [T('R² medio', 'Mean R²'), Fmt.num(Num.mean(res.map(r => r.fit.r2)), 3), meth === 'linear' ? T('en la escala linealizada', 'on the linearised scale') : ''],
+    [T('R² medio', 'Mean R²'), Fmt.num(Num.mean(res.map(r => r.fit.r2)), 3), meth === 'linear' ? T('en la escala linealizada', 'on the linearized scale') : ''],
     isFinite(lim) ? [T('Vida al límite', 'Life to the limit'), best.length ? best.map(r => Fmt.num(r.tl.t, 1)).join(' · ') : '—', T('límite ', 'limit ') + Fmt.num(lim), 'hi'] : null,
   ]);
   /* reading */
@@ -104,7 +104,7 @@ function kinRun(D) {
   const ks = res.map(r => r.fit.k).filter(v => isFinite(v) && v !== 0);
   const ratio = ks.length > 1 ? Math.max(...ks.map(Math.abs)) / Math.min(...ks.map(Math.abs)) : NaN;
   const agreeOrder = new Set(res.map(r => r.cmp.best)).size === 1;
-  el('b3kRead').innerHTML = `<div class="reading"><ul style="margin:0 0 6px;padding-left:18px">${lines}</ul><p>${L2(`${agreeOrder ? 'El AIC elige el mismo orden en todos los grupos.' : 'El AIC no elige el mismo orden en todos los grupos: conviene usar uno solo para comparar sus k.'}${isFinite(ratio) ? ` La constante más rápida es ${Fmt.num(ratio, 1)} veces la más lenta.` : ''} Los intervalos son de Wald con la t de Student (${Math.round(S.k.conf * 100)} %).`, `${agreeOrder ? 'AIC picks the same order in every group.' : 'AIC does not pick the same order in every group: better use a single one to compare their k.'}${isFinite(ratio) ? ` The fastest constant is ${Fmt.num(ratio, 1)} times the slowest.` : ''} The intervals are Wald intervals with Student's t (${Math.round(S.k.conf * 100)} %).`)}</p>${res.some(r => r.fit.k < 0) ? `<p>${L2('k negativa: el atributo aumenta con el tiempo (formación).', 'Negative k: the attribute increases with time (formation).')}</p>` : ''}${kinNotes(res, keyG)}</div>`;
+  el('b3kRead').innerHTML = `<div class="reading"><ul style="margin:0 0 6px;padding-left:18px">${lines}</ul><p>${L2(`${agreeOrder ? 'El AIC elige el mismo orden en todos los grupos.' : 'El AIC no elige el mismo orden en todos los grupos: conviene usar uno solo para comparar sus k.'}${isFinite(ratio) ? ` La constante más rápida es ${Fmt.num(ratio, 1)} veces la más lenta.` : ''} Los intervalos son de Wald con la t de Student (${Math.round(S.k.conf * 100)} %).`, `${agreeOrder ? 'AIC picks the same order in every group.' : 'AIC does not pick the same order in every group: better use a single one to compare their k.'}${isFinite(ratio) ? ` The fastest constant is ${Fmt.num(ratio, 1)} times the slowest.` : ''} The intervals are Wald intervals with Student's t (${Math.round(S.k.conf * 100)}%).`)}</p>${res.some(r => r.fit.k < 0) ? `<p>${L2('k negativa: el atributo aumenta con el tiempo (formación).', 'Negative k: the attribute increases with time (formation).')}</p>` : ''}${kinNotes(res, keyG)}</div>`;
   /* figure */
   const tMax = Math.max(...res.flatMap(r => r.t));
   const grid = Array.from({ length: 61 }, (_, i) => tMax * i / 60);
@@ -129,7 +129,7 @@ function kinRun(D) {
     { key: 'n', label: 'n', num: true, get: r => r.fit.n },
     { key: 'tl', label: L2('Tiempo al límite', 'Time to limit'), num: true, get: r => (r.tl ? Fmt.num(r.tl.t, 1) : '—') },
     { key: 'tlci', label: L2('IC', 'CI'), num: true, get: r => (r.tl && isFinite(r.tl.t) ? Fmt.ci(r.tl.lo, r.tl.hi, 1) : '—') },
-  ].filter(Boolean), res, { csvName: 'cinetica' });
+  ].filter(Boolean), res, { csvName: T('cinetica', 'kinetics') });
   const cmpRows = [];
   res.forEach(r => r.cmp.fits.forEach((f, o) => cmpRows.push({ group: r.group, o, f, d: r.cmp.deltaAIC[o], w: r.cmp.weights[o], lin: r.cmp.linearR2[o], _class: o === r.cmp.best ? 'best' : '' })));
   buildTable('b3kCmp', [
@@ -140,8 +140,8 @@ function kinRun(D) {
     { key: 'aic', label: 'AIC', num: true, get: r => Fmt.num(r.f.aic, 2) },
     { key: 'd', label: 'ΔAIC', num: true, get: r => Fmt.num(r.d, 2) },
     { key: 'w', label: L2('Peso de Akaike', 'Akaike weight'), num: true, get: r => Fmt.num(r.w, 3) },
-    { key: 'lin', label: L2('R² linealizado', 'Linearised R²'), num: true, get: r => Fmt.num(r.lin, 4) },
-  ].filter(Boolean), cmpRows, { csvName: 'cinetica_ordenes' });
+    { key: 'lin', label: L2('R² linealizado', 'Linearized R²'), num: true, get: r => Fmt.num(r.lin, 4) },
+  ].filter(Boolean), cmpRows, { csvName: T('cinetica_ordenes', 'kinetics_orders') });
   el('b3kCite').innerHTML = '';
   citeMethod('b3kCite', [Refs.short('labuza1984'), Refs.short('vanboekel2008'), [T('Mínimos cuadrados no lineales: ', 'Nonlinear least squares: ') + Refs.short('bates1988'), T('Nonlinear least squares: ', 'Nonlinear least squares: ') + Refs.short('bates1988')], 'AIC: ' + Refs.short('burnham2002')]);
   state.kinetics = Object.assign(state.kinetics || {}, { fits: res.map(r => ({ group: r.group, order: r.order, C0: r.fit.C0, k: r.fit.k, se: r.fit.se.k, t: r.tl ? r.tl.t : null })) });
@@ -289,7 +289,7 @@ function survRun(D) {
     return { name: lv, n: g0.n, events: g0.events, median: g0.median, mlo: g0.medianCI[0], mhi: g0.medianCI[1], rmean: g0.rmean, rmeanSE: g0.rmeanSE, q, md };
   });
   const bestG = grp.slice().sort((a, b) => b.q.est - a.q.est)[0];
-  el('b3sRead').innerHTML = `<div class="reading"><p>${L2(`Con el modelo ${DISTS[dist][0]}, el ${Fmt.num(p * 100, 0)} % de los frutos se rechaza hacia el día ` + grp.map(g0 => `${keyG ? '<b>' + esc(g0.name) + '</b> ' : ''}${Fmt.num(g0.q.est, 1)} ${Fmt.ci(g0.q.lo, g0.q.hi, 1)}`).join(', ') + '.', `With the ${DISTS[dist][1]} model, ${Fmt.num(p * 100, 0)} % of the fruit are rejected around day ` + grp.map(g0 => `${keyG ? '<b>' + esc(g0.name) + '</b> ' : ''}${Fmt.num(g0.q.est, 1)} ${Fmt.ci(g0.q.lo, g0.q.hi, 1)}`).join(', ') + '.')}</p>` +
+  el('b3sRead').innerHTML = `<div class="reading"><p>${L2(`Con el modelo ${DISTS[dist][0]}, el ${Fmt.num(p * 100, 0)} % de los frutos se rechaza hacia el día ` + grp.map(g0 => `${keyG ? '<b>' + esc(g0.name) + '</b> ' : ''}${Fmt.num(g0.q.est, 1)} ${Fmt.ci(g0.q.lo, g0.q.hi, 1)}`).join(', ') + '.', `With the ${DISTS[dist][1]} model, ${Fmt.num(p * 100, 0)}% of the fruit are rejected around day ` + grp.map(g0 => `${keyG ? '<b>' + esc(g0.name) + '</b> ' : ''}${Fmt.num(g0.q.est, 1)} ${Fmt.ci(g0.q.lo, g0.q.hi, 1)}`).join(', ') + '.')}</p>` +
     (K.logrank ? `<p>${K.logrank.p < 0.05 ? L2(`Las curvas difieren (rango logarítmico ${Fmt.pEq(K.logrank.p)}): <b>${esc(bestG.name)}</b> conserva los frutos aceptables por más tiempo.`, `The curves differ (log-rank ${Fmt.pEq(K.logrank.p)}): <b>${esc(bestG.name)}</b> keeps the fruit acceptable longest.`) : L2(`Las curvas no difieren con claridad (rango logarítmico ${Fmt.pEq(K.logrank.p)}).`, `The curves do not clearly differ (log-rank ${Fmt.pEq(K.logrank.p)}).`)}</p>` : '') +
     `<p>${L2('Los frutos censurados cuentan mientras estuvieron en observación; descartarlos acortaría la vida estimada.', 'Censored fruit count while they were observed; discarding them would shorten the estimated life.')}</p>${sNotes}</div>`;
   /* figure: KM steps with censor marks and the parametric curves */
@@ -314,14 +314,14 @@ function survRun(D) {
     { key: 'name', label: keyG ? esc(keyG) : L2('Grupo', 'Group') }, { key: 'n', label: 'n', num: true }, { key: 'events', label: L2('Rechazos', 'Rejections'), num: true },
     { key: 'median', label: L2('Mediana (KM)', 'Median (KM)'), num: true, get: r => Fmt.num(r.median, 1) }, { key: 'mci', label: L2('IC', 'CI'), num: true, get: r => (isFinite(r.mlo) || isFinite(r.mhi) ? Fmt.ci(r.mlo, r.mhi, 1).replace('—', '∞') : '—') },
     { key: 'rmean', label: L2('Media restringida', 'Restricted mean'), num: true, get: r => Fmt.num(r.rmean, 1) + ' ± ' + Fmt.num(r.rmeanSE, 1) },
-    { key: 'q', label: L2('Tiempo al ', 'Time to ') + Fmt.num(p * 100, 0) + ' %', num: true, get: r => Fmt.num(r.q.est, 1) + ' ' + Fmt.ci(r.q.lo, r.q.hi, 1) },
+    { key: 'q', label: L2('Tiempo al ', 'Time to ') + Fmt.num(p * 100, 0) + Fmt.pcs(), num: true, get: r => Fmt.num(r.q.est, 1) + ' ' + Fmt.ci(r.q.lo, r.q.hi, 1) },
     { key: 'md', label: L2('Mediana (modelo)', 'Median (model)'), num: true, get: r => Fmt.num(r.md.est, 1) + ' ' + Fmt.ci(r.md.lo, r.md.hi, 1) },
-  ], grp, { csvName: 'tiempo_hasta_rechazo' });
+  ], grp, { csvName: T('tiempo_hasta_rechazo', 'time_to_rejection') });
   buildTable('b3sAIC', [{ key: 'dist', label: L2('Modelo', 'Model'), get: r => distName(r.dist, true) }, { key: 'loglik', label: L2('Log-verosimilitud', 'Log-likelihood'), num: true, fmt: v => Fmt.num(v, 2) }, { key: 'df', label: L2('Parámetros', 'Parameters'), num: true }, { key: 'aic', label: 'AIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'deltaAIC', label: 'ΔAIC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'weight', label: L2('Peso', 'Weight'), num: true, fmt: v => Fmt.num(v, 3) }],
-    cmp.rows.map(r => Object.assign({ _class: r.dist === cmp.best ? 'best' : '' }, r)), { csvName: 'modelos_supervivencia' });
+    cmp.rows.map(r => Object.assign({ _class: r.dist === cmp.best ? 'best' : '' }, r)), { csvName: T('modelos_supervivencia', 'survival_models') });
   if (fit.timeRatio && fit.timeRatio.length) {
-    buildTable('b3sPar', [{ key: 'name', label: L2('Contra la referencia', 'Against the reference'), get: r => esc(String(r.name).replace(/^group:?/, '')) + ' / ' + esc(levels[0]) }, { key: 'est', label: L2('Razón de tiempos', 'Time ratio'), num: true, fmt: v => Fmt.num(v, 3) }, { key: 'ci', label: L2('IC 95 %', '95 % CI'), num: true, get: r => Fmt.ci(r.lo, r.hi, 3) }], fit.timeRatio);
-    el('b3sPar').insertAdjacentHTML('afterbegin', `<p class="hint">${L2('Una razón de tiempos de 1.4 quiere decir que ese tratamiento alarga en 40 % el tiempo hasta el rechazo respecto al grupo de referencia.', 'A time ratio of 1.4 means that the treatment lengthens the time to rejection by 40 % compared with the reference group.')}</p>`);
+    buildTable('b3sPar', [{ key: 'name', label: L2('Contra la referencia', 'Against the reference'), get: r => esc(String(r.name).replace(/^group:?/, '')) + ' / ' + esc(levels[0]) }, { key: 'est', label: L2('Razón de tiempos', 'Time ratio'), num: true, fmt: v => Fmt.num(v, 3) }, { key: 'ci', label: L2('IC 95 %', '95% CI'), num: true, get: r => Fmt.ci(r.lo, r.hi, 3) }], fit.timeRatio);
+    el('b3sPar').insertAdjacentHTML('afterbegin', `<p class="hint">${L2('Una razón de tiempos de 1.4 quiere decir que ese tratamiento alarga en 40 % el tiempo hasta el rechazo respecto al grupo de referencia.', 'A time ratio of 1.4 means that the treatment lengthens the time to rejection by 40% compared with the reference group.')}</p>`);
   } else el('b3sPar').innerHTML = '';
   el('b3sCite').innerHTML = '';
   citeMethod('b3sCite', ['Kaplan–Meier: ' + Refs.short('kaplan1958') + '; Greenwood 1926', [T('Rango logarítmico: ', 'Log-rank: ') + Refs.short('mantel1966'), 'Log-rank: ' + Refs.short('mantel1966')], [T('Modelos de tiempo de falla: ', 'Failure-time models: ') + Refs.short('lawless2003'), 'Failure-time models: ' + Refs.short('lawless2003')], Refs.short('hough2003')]);

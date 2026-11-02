@@ -120,7 +120,7 @@ Cada motor se programó desde la fórmula publicada y se comparó con una
 implementación independiente: R 4.4.2 y sus paquetes, tablas publicadas o
 cálculos a mano escritos en la prueba, cada comparación con su tolerancia.
 Abre `tests/run.html` con doble clic, o corre `node tests/run-node.js`:
-**443 pruebas y 71 199 comparaciones, ninguna falla**.
+**449 pruebas y 71 278 comparaciones, ninguna falla**.
 
 | Área | Motor | Pruebas | Comparaciones | Referencia |
 |---|---|---:|---:|---|
@@ -129,13 +129,14 @@ Abre `tests/run.html` con doble clic, o corre `node tests/run-node.js`:
 | Calidad (acidez, humedad, índice de McKinney, calibres) | `js/quality.js` | 4 | 28 | cálculos a mano |
 | Respiración y atmósferas | `js/resp.js` | 3 | 19 | cálculos a mano (balances de gases, estado estacionario, enfriamiento) |
 | Pérdidas y daño mecánico | `js/losses.js` | 3 | 45 | R (regresión lineal y logística, intervalo de Fieller) |
-| Empaque y logística | `js/logistics.js` | 3 | 33 | tablas de saturación de ASHRAE (2017), identidades psicrométricas |
+| Empaque y logística | `js/logistics.js` | 3 | 36 | tablas de saturación de ASHRAE (2017), identidades psicrométricas |
 | Cinética y vida de anaquel | `js/kinetics.js` | 233 | 18 932 | R (mínimos cuadrados no lineales y lineales, predicción) |
 | Tiempo de falla con censura | `js/survival.js` | 143 | 38 488 | R (Kaplan–Meier, rango logarítmico, modelos paramétricos de supervivencia) |
 | Evaluación sensorial | `js/sensory.js` | 32 | 11 669 | R (modelos de Thurstone, desempeño del panel, ANOVA, CATA, correspondencias y componentes principales) |
-| Ensayos poscosecha | `js/trials.js` | 8 | 240 | R (tipos I y III, Tukey, DMS, Dunnett, medidas repetidas, pendientes) |
+| Ensayos poscosecha | `js/trials.js` | 8 | 242 | R (tipos I y III, Tukey, DMS, Dunnett, medidas repetidas, pendientes) |
 | Catálogo de métodos y referencias | `js/refs.js` | 2 | 96 | toda fuente citada en los métodos está en la lista de referencias |
-| **Total** | | **443** | **71 199** | **0 fallas** |
+| Figuras (números de los ejes, rótulos, signo de porcentaje) | `js/plot.js` | 6 | 74 | geometría y texto escritos en la prueba: miles en los ejes, rótulos que no se enciman ni cruzan líneas, trazos distintos en el plano O₂–CO₂, «90 %» en español y «90%» en inglés |
+| **Total** | | **449** | **71 278** | **0 fallas** |
 
 Los guiones de R, los valores de referencia y un informe por área (qué se
 comparó, las tolerancias, las diferencias máximas y los errores que la

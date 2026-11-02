@@ -22,12 +22,12 @@
      Fitted by nonlinear least squares in the original scale (Levenberg 1944,
      Q. Appl. Math. 2:164–168; Marquardt 1963, J. SIAM 11:431–441), stopped by
      the relative-offset criterion of Bates and Watts (1981, Technometrics
-     23:179–183); or by the classical linearised regressions of C, ln C and 1/C
+     23:179–183); or by the classical linearized regressions of C, ln C and 1/C
      on t. Wald intervals with Student's t; AIC, AICc (Hurvich & Tsai 1989,
      Biometrika 76:297–307) and BIC from the Gaussian likelihood, and Akaike
      weights (Burnham & Anderson 2002, Model Selection and Multimodel Inference).
    * Temperature dependence: Arrhenius, ln k = ln k_ref − (Ea/R)(1/T − 1/T_ref)
-     (Arrhenius 1889, Z. Phys. Chem. 4:226–248; the reparametrisation about a
+     (Arrhenius 1889, Z. Phys. Chem. 4:226–248; the reparametrization about a
      reference temperature, Nelson 1980, IEEE Trans. Reliab. R-29:103–108;
      Taoukis & Labuza 1989, J. Food Sci. 54:783–788); Q10 (Labuza 1982, Shelf-life
      Dating of Foods); the square-root model √k = b·(T − Tmin) (Ratkowsky,
@@ -141,7 +141,7 @@ function lsq(t, y, M, p0) {
   return { p, rss: S, converged: conv, iter: it, offset: off };
 }
 
-/* starting values: the linearised regressions and the zero-order line, so that
+/* starting values: the linearized regressions and the zero-order line, so that
    a noisy or odd data set still has a sensible start */
 function starts(t, y, order) {
   const X = t.map(v => [1, v]);
@@ -203,7 +203,7 @@ function attachPredict(F) {
 
 /* ---------------- Kin.fit ----------------
    o.order 0 | 1 | 2 (default 1); o.method 'nls' (nonlinear least squares in
-   the original scale, the default) or 'linear' (the linearised regressions);
+   the original scale, the default) or 'linear' (the linearized regressions);
    o.conf (0.95). */
 Kin.fit = function (t, y, o) {
   o = o || {};
@@ -258,7 +258,7 @@ function fitNls(T, Y, order, conf, notes) {
   });
 }
 
-/* the linearised regressions: C, ln C or 1/C on t (Labuza 1984). The regression
+/* the linearized regressions: C, ln C or 1/C on t (Labuza 1984). The regression
    statistics (r², σ, RSS, AIC) belong to the transformed scale, as the classical
    method reports them; C0 and k are back-transformed, with delta-method
    standard errors and the intervals of the regression coefficients transformed
@@ -266,7 +266,7 @@ function fitNls(T, Y, order, conf, notes) {
 function fitLinear(T, Y, order, conf, notes) {
   const n = T.length;
   if (order > 0 && !Y.every(v => v > 0)) {
-    notes.push(note('La linealización requiere valores positivos del atributo.', 'The linearisation needs positive values of the attribute.'));
+    notes.push(note('La linealización requiere valores positivos del atributo.', 'The linearization needs positive values of the attribute.'));
     return nanFit(order, 'linear', n, conf, notes);
   }
   const tr = [v => v, exp, v => 1 / v][order];
@@ -292,7 +292,7 @@ function fitLinear(T, Y, order, conf, notes) {
 /* ---------------- Kin.compare: the three orders side by side ----------------
    Nonlinear fits of the three orders in the original scale, so that their
    likelihoods are comparable; ΔAIC and Akaike weights w_i = exp(−Δ_i/2)/Σ
-   (Burnham & Anderson 2002). The r² of the linearised plots (the classical
+   (Burnham & Anderson 2002). The r² of the linearized plots (the classical
    choice of order) is given alongside. */
 function akaike(v) {
   const ok = v.filter(isNum), m = ok.length ? min(...ok) : NaN;
@@ -476,7 +476,7 @@ Kin.aslt = function (o) {
     notes.push(note('Se necesitan al menos 3 vidas de anaquel en 2 temperaturas distintas.', 'At least 3 shelf lives at 2 different temperatures are needed.'));
     return Object.assign(out, { estimate: NaN, lo: NaN, hi: NaN, Q10: NaN, Ea: NaN, r2: NaN });
   }
-  /* centred abscissa: the same line, better conditioned */
+  /* centered abscissa: the same line, better conditioned */
   const xs = Tc.map(xOf), xm = Num.mean(xs);
   const L = Num.lm(xs.map(v => [1, v - xm]), th.map(log));
   const a = L.coef[0], b = L.coef[1], V = L.vcov, q = tq(conf, L.df);

@@ -25,7 +25,7 @@
    * Log-rank test and the G^ρ family, weights Ŝ(t−)^ρ from the pooled data
      (Mantel 1966, Cancer Chemother. Rep. 50:163–170; Peto & Peto 1972,
      J. R. Statist. Soc. A 135:185–207; Harrington & Fleming 1982, Biometrika
-     69:553–566), with the hypergeometric covariance and a generalised inverse
+     69:553–566), with the hypergeometric covariance and a generalized inverse
      that drops the first group.
    * Parametric accelerated-failure-time models, log T = x'β + σ·W, W standard
      extreme-value (Weibull; exponential with σ = 1), normal (lognormal) or

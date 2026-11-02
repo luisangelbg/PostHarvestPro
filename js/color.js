@@ -10,19 +10,19 @@
    A PARTICULAR PURPOSE. See the GNU General Public License, in the file LICENSE
    at the root of this program, or <https://www.gnu.org/licenses/>. */
 
-/* PostHarvestPro — colour science for produce.
+/* PostHarvestPro — color science for produce.
 
    Conversions between sRGB (and its hexadecimal code), CIE XYZ, CIELAB and
    CIELCh(ab), with the D65 illuminant and the 2° observer of the colorimeters
-   used on fruit; colour differences ΔE*ab (CIE 1976), ΔE*94 and ΔE00 (CIEDE2000);
-   and the colour indices of the postharvest literature.
+   used on fruit; color differences ΔE*ab (CIE 1976), ΔE*94 and ΔE00 (CIEDE2000);
+   and the color indices of the postharvest literature.
 
    Sources: CIE 15:2018 Colorimetry, 4th ed. (Lab, LCh, ΔE76); IEC 61966-2-1
    (1999) for sRGB, with its matrix written to 4 decimals as in the standard;
    CIE 116-1995 (ΔE94); Sharma, Wu and Dalal 2005, Color Res. Appl. 30:21–30
    (ΔE00, with their test data); McGuire 1992, HortScience 27:1254–1255 (chroma
    and hue angle for horticulture); Jiménez-Cuesta, Cuquerella and Martínez-
-   Jávega 1981, Proc. Int. Soc. Citriculture 2:750–753 (citrus colour index);
+   Jávega 1981, Proc. Int. Soc. Citriculture 2:750–753 (citrus color index);
    Palou et al. 1999, J. Food Sci. 64:42–45 (browning index); ASTM E313 (whiteness
    and yellowness indices, written here as formulas). */
 function ColorCore(g) {
@@ -43,7 +43,7 @@ const DEG = 180 / PI;
 const lin = c => (c <= 0.04045 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4));
 const gam = c => (c <= 0.0031308 ? 12.92 * c : 1.055 * pow(c, 1 / 2.4) - 0.055);
 const M_RGB2XYZ = [[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]];
-/* the exact inverse of the 4-decimal matrix, so a round trip returns the same colour */
+/* the exact inverse of the 4-decimal matrix, so a round trip returns the same color */
 const M_XYZ2RGB = (function () {
   const m = M_RGB2XYZ;
   const det = m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
@@ -114,7 +114,7 @@ Color.rgbToHex = function (r, gg, b) {
   const c = v => max(0, min(255, round(v))).toString(16).padStart(2, '0').toUpperCase();
   return '#' + c(r) + c(gg) + c(b);
 };
-/* a displayable colour for any L*a*b*: out-of-gamut colours are brought in
+/* a displayable color for any L*a*b*: out-of-gamut colors are brought in
    by reducing chroma at constant L* and h° (bisection), which keeps the
    lightness and the hue the eye judges first */
 Color.labToHex = function (L, a, b) {
@@ -136,10 +136,10 @@ Color.hexToLab = function (hex) {
   return c ? Color.rgbToLab(...c) : null;
 };
 
-/* ---------------- colour differences ---------------- */
+/* ---------------- color differences ---------------- */
 Color.dE76 = (L1, a1, b1, L2, a2, b2) => sqrt((L1 - L2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2);
 /* CIE94, graphic-arts weights by default (kL = 1, K1 = 0.045, K2 = 0.015);
-   the first colour is the reference */
+   the first color is the reference */
 Color.dE94 = function (L1, a1, b1, L2, a2, b2, o) {
   o = o || {};
   const kL = o.kL || 1, K1 = o.K1 || 0.045, K2 = o.K2 || 0.015;
@@ -176,7 +176,7 @@ Color.dE00 = function (L1, a1, b1, L2, a2, b2, o) {
   const RT = -sin(2 * dTh / DEG) * RC;
   return sqrt((dLp / (kL * SL)) ** 2 + (dCp / (kC * SC)) ** 2 + (dHp / (kH * SH)) ** 2 + RT * (dCp / (kC * SC)) * (dHp / (kH * SH)));
 };
-/* how the eye reads a ΔE (common rule of thumb in the colour-measurement literature;
+/* how the eye reads a ΔE (common rule of thumb in the color-measurement literature;
    Mokrzycki and Tatol 2011, Mach. Graph. Vis. 20:383–411) */
 Color.dEReading = function (dE) {
   if (!(dE >= 0)) return null;
@@ -185,10 +185,10 @@ Color.dEReading = function (dE) {
   if (dE < 2) return { k: 'expert', es: 'perceptible sólo para un observador entrenado', en: 'perceptible only to a trained observer', isEs: 'perceptible sólo para un observador entrenado', isEn: 'perceptible only to a trained observer' };
   if (dE < 3.5) return { k: 'unskilled', es: 'perceptible para cualquier observador', en: 'perceptible to any observer', isEs: 'perceptible para cualquier observador', isEn: 'perceptible to any observer' };
   if (dE < 5) return { k: 'clear', es: 'diferencia clara', en: 'clear difference', isEs: 'clara', isEn: 'clear' };
-  return { k: 'different', es: 'se perciben como colores distintos', en: 'perceived as different colours', isEs: 'tan grande que se perciben como colores distintos', isEn: 'so large that they are seen as different colors' };
+  return { k: 'different', es: 'se perciben como colores distintos', en: 'perceived as different colors', isEs: 'tan grande que se perciben como colores distintos', isEn: 'so large that they are seen as different colors' };
 };
 
-/* ---------------- colour indices of the postharvest literature ----------------
+/* ---------------- color indices of the postharvest literature ----------------
    Each takes L*, a*, b* (and, where it needs them, X, Y, Z). */
 Color.indices = function (L, a, b) {
   const C = Color.chroma(a, b), h = Color.hue(a, b);
@@ -198,7 +198,7 @@ Color.indices = function (L, a, b) {
     C, h,
     /* a* ∕ b*: from green (negative) to red; widely used for tomato and mango */
     aOverB: b !== 0 ? a / b : NaN,
-    /* citrus colour index, CCI = 1000·a* ∕ (L*·b*) (Jiménez-Cuesta et al. 1981):
+    /* citrus color index, CCI = 1000·a* ∕ (L*·b*) (Jiménez-Cuesta et al. 1981):
        negative green, around 0 the turning stage, positive orange */
     cci: L !== 0 && b !== 0 ? 1000 * a / (L * b) : NaN,
     /* browning index, BI = 100(x − 0.31)/0.17 with x = (a* + 1.75L*)/(5.645L* + a* − 3.012b*) (Palou et al. 1999) */
@@ -207,7 +207,7 @@ Color.indices = function (L, a, b) {
     whiteness: 100 - sqrt((100 - L) ** 2 + a * a + b * b),
     /* yellowness index, YI = 142.86·b* ∕ L* (Francis and Clydesdale 1975, for Lab data) */
     yellowness: L !== 0 ? 142.86 * b / L : NaN,
-    /* tomato colour index, TCI = 2000·a* ∕ (L*·√(a*² + b*²)) (Hobson et al. 1983) */
+    /* tomato color index, TCI = 2000·a* ∕ (L*·√(a*² + b*²)) (Hobson et al. 1983) */
     tci: L !== 0 && C !== 0 ? 2000 * a / (L * C) : NaN,
     X, Y, Z,
   };

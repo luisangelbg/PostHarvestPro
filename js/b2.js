@@ -11,7 +11,7 @@
    at the root of this program, or <https://www.gnu.org/licenses/>. */
 
 /* PostHarvestPro — Block 2, quality and maturity: the quality summary of a
-   trial, colour (conversions, differences and the colour of the data), the
+   trial, color (conversions, differences and the color of the data), the
    laboratory calculators, ripeness and damage scales, and size grades. */
 (function () {
 'use strict';
@@ -26,25 +26,25 @@ const S = { q: null, c: null, g: null, k: null };
 const tools = [
   { id: 'calidad', es: 'Resumen de calidad', en: 'Quality summary', html: `
     <div class="card"><h2>${L2('Datos del ensayo', 'Trial data')}</h2>
-      <p class="hint">${L2('Una fila por fruto (o por muestra), con columnas para el grupo (temperatura, tratamiento, lote), el tiempo y cada atributo. Con sólidos solubles y acidez se calcula SST/AT y BrimA; con L*, a* y b*, el croma, el tono y los índices de color.', 'One row per fruit (or sample), with columns for the group (temperature, treatment, lot), the time and each attribute. With soluble solids and acidity, SSC/TA and BrimA are computed; with L*, a* and b*, chroma, hue and the colour indices.')}</p>
+      <p class="hint">${L2('Una fila por fruto (o por muestra), con columnas para el grupo (temperatura, tratamiento, lote), el tiempo y cada atributo. Con sólidos solubles y acidez se calcula SST/AT y BrimA; con L*, a* y b*, el croma, el tono y los índices de color.', 'One row per fruit (or sample), with columns for the group (temperature, treatment, lot), the time and each attribute. With soluble solids and acidity, SSC/TA and BrimA are computed; with L*, a* and b*, chroma, hue and the color indices.')}</p>
       <div id="b2qIn"></div></div>
     <div id="b2qOut" hidden>
       <div class="card"><h2>${L2('Resumen por grupo y tiempo', 'Summary by group and time')}</h2>
-        <div class="form-grid tight">${UI.sel('b2qShow', 'Mostrar', 'Show', [['sd', 'media ± DE', 'mean ± SD'], ['se', 'media ± EE', 'mean ± SE'], ['ci', 'media e IC 95 %', 'mean and 95 % CI']], 'sd')}${UI.sel('b2qVar', 'Variable de la figura', 'Variable of the figure', [], '')}</div>
+        <div class="form-grid tight">${UI.sel('b2qShow', 'Mostrar', 'Show', [['sd', 'media ± DE', 'mean ± SD'], ['se', 'media ± EE', 'mean ± SE'], ['ci', 'media e IC 95 %', 'mean and 95% CI']], 'sd')}${UI.sel('b2qVar', 'Variable de la figura', 'Variable of the figure', [], '')}</div>
         <div id="b2qTiles"></div><div id="b2qRead"></div><div id="b2qFig"></div><div id="b2qTab"></div><div id="b2qCite"></div></div>
     </div>` },
-  { id: 'color', es: 'Color', en: 'Colour', html: `
-    <div class="card"><h2>${L2('Conversor de color', 'Colour converter')}</h2>
-      <p class="hint">${L2('Escribe el color en cualquiera de sus formas: L*a*b* (iluminante D65, observador de 2°), RGB de 0 a 255 o su código hexadecimal. Las otras se actualizan y aparece la muestra.', 'Type the colour in any of its forms: L*a*b* (D65 illuminant, 2° observer), RGB from 0 to 255 or its hexadecimal code. The others update and the swatch appears.')}</p>
+  { id: 'color', es: 'Color', en: 'Color', html: `
+    <div class="card"><h2>${L2('Conversor de color', 'Color converter')}</h2>
+      <p class="hint">${L2('Escribe el color en cualquiera de sus formas: L*a*b* (iluminante D65, observador de 2°), RGB de 0 a 255 o su código hexadecimal. Las otras se actualizan y aparece la muestra.', 'Type the color in any of its forms: L*a*b* (D65 illuminant, 2° observer), RGB from 0 to 255 or its hexadecimal code. The others update and the swatch appears.')}</p>
       <div class="form-grid tight">${UI.num('b2cL', 'L*', 'L*', 62)}${UI.num('b2cA', 'a*', 'a*', 8)}${UI.num('b2cB', 'b*', 'b*', 48)}${UI.num('b2cR', 'R', 'R', '', { min: 0, max: 255, step: 1 })}${UI.num('b2cG', 'G', 'G', '', { min: 0, max: 255, step: 1 })}${UI.num('b2cBl', 'B', 'B', '', { min: 0, max: 255, step: 1 })}${UI.text('b2cHex', 'Hexadecimal', 'Hexadecimal', '')}<div class="field"><label for="b2cPick">${L2('Elegir', 'Pick')}</label><input type="color" id="b2cPick" value="#cccccc"></div></div>
       <div class="swatch-row" id="b2cSw"></div><div id="b2cTiles"></div><div id="b2cRead"></div><div id="b2cMCite"></div></div>
-    <div class="card"><h2>${L2('Diferencia entre dos colores', 'Difference between two colours')}</h2>
-      <p class="hint">${L2('El color 1 es el de referencia (por ejemplo, el inicial o el de un testigo).', 'Colour 1 is the reference (for instance, the initial one or that of a control).')}</p>
+    <div class="card"><h2>${L2('Diferencia entre dos colores', 'Difference between two colors')}</h2>
+      <p class="hint">${L2('El color 1 es el de referencia (por ejemplo, el inicial o el de un testigo).', 'Color 1 is the reference (for instance, the initial one or that of a control).')}</p>
       <div class="form-grid tight">${UI.num('b2d1L', 'L* 1', 'L* 1', 64)}${UI.num('b2d1A', 'a* 1', 'a* 1', -11)}${UI.num('b2d1B', 'b* 1', 'b* 1', 36)}${UI.num('b2d2L', 'L* 2', 'L* 2', 67)}${UI.num('b2d2A', 'a* 2', 'a* 2', 9)}${UI.num('b2d2B', 'b* 2', 'b* 2', 52)}</div>
-      <div class="btn-row" style="margin-top:0"><button type="button" class="btn btn-ghost btn-sm" id="b2dUse">${L2('Usar el color del conversor como color 2', 'Use the converter colour as colour 2')}</button></div>
+      <div class="btn-row" style="margin-top:0"><button type="button" class="btn btn-ghost btn-sm" id="b2dUse">${L2('Usar el color del conversor como color 2', 'Use the converter color as color 2')}</button></div>
       <div class="swatch-row" id="b2dSw" style="margin-top:10px"></div><div id="b2dTiles"></div><div class="de-meter" id="b2dMeter" aria-hidden="true"><i></i></div><div id="b2dRead"></div></div>
-    <div class="card"><h2>${L2('El color de tus datos', 'The colour of your data')}</h2>
-      <p class="hint">${L2('Columnas L*, a* y b*, con grupo y tiempo: el color medio de cada grupo en cada tiempo, su diferencia ΔE00 con el color inicial del grupo y la evolución del tono.', 'L*, a* and b* columns, with group and time: the mean colour of each group at each time, its ΔE00 from the group\'s initial colour and the course of hue.')}</p>
+    <div class="card"><h2>${L2('El color de tus datos', 'The color of your data')}</h2>
+      <p class="hint">${L2('Columnas L*, a* y b*, con grupo y tiempo: el color medio de cada grupo en cada tiempo, su diferencia ΔE00 con el color inicial del grupo y la evolución del tono.', 'L*, a* and b* columns, with group and time: the mean color of each group at each time, its ΔE00 from the group\'s initial color and the course of hue.')}</p>
       <div id="b2cIn"></div><div id="b2cOut" hidden><div id="b2cStrip"></div><div class="figs-2"><div id="b2cDE"></div><div id="b2cHue"></div></div><div id="b2cTab"></div><div id="b2cCite"></div></div></div>` },
   { id: 'calc', es: 'Acidez, humedad y firmeza', en: 'Acidity, moisture and firmness', html: `
     <div class="cols-2">
@@ -89,7 +89,7 @@ const tools = [
 /* ---------------- 1. quality summary ---------------- */
 const DERIVED = {
   ratio: ['SST/AT', 'SSC/TA'], brimA: ['BrimA', 'BrimA'], C: ['Croma C*', 'Chroma C*'], h: ['Tono h°', 'Hue h°'],
-  cci: ['Índice de color de cítricos', 'Citrus colour index'], bi: ['Índice de pardeamiento', 'Browning index'],
+  cci: ['Índice de color de cítricos', 'Citrus color index'], bi: ['Índice de pardeamiento', 'Browning index'],
 };
 function qualityRun(D) {
   const m = D.map;
@@ -144,7 +144,7 @@ function qualityPaint() {
   if (Q.keyT) cols.push({ key: 'time', label: esc(Q.keyT), num: true });
   cols.push({ key: 'n', label: 'n', num: true });
   Q.vars.forEach(x => cols.push({ key: x, label: esc(varName(x)), num: true, get: c => cellTxt(c[x]) }));
-  buildTable('b2qTab', cols, Q.cells, { csvName: 'resumen_calidad' });
+  buildTable('b2qTab', cols, Q.cells, { csvName: T('resumen_calidad', 'quality_summary') });
   /* figure: the chosen variable over time by group (mean ± SE) or by group */
   const host = el('b2qFig'); host.innerHTML = '';
   let svg;
@@ -172,12 +172,12 @@ function qualityPaint() {
     }).filter(Boolean);
     if (ch.length) {
       const big = ch.slice().sort((x, y) => Math.abs(y.pct) - Math.abs(x.pct))[0];
-      rd.innerHTML = `<div class="reading"><p>${ch.map(c => L2(`<b>${esc(Q.keyG ? Q.keyG + ' ' + c.g : varName(v))}</b>: ${esc(varName(v))} pasó de ${Fmt.num(c.a)} a ${Fmt.num(c.b)} entre ${esc(c.t0)} y ${esc(c.t1)} (${c.pct >= 0 ? '+' : '−'}${Fmt.num(Math.abs(c.pct), 1)} %).`, `<b>${esc(Q.keyG ? Q.keyG + ' ' + c.g : varName(v))}</b>: ${esc(varName(v))} went from ${Fmt.num(c.a)} to ${Fmt.num(c.b)} between ${esc(c.t0)} and ${esc(c.t1)} (${c.pct >= 0 ? '+' : '−'}${Fmt.num(Math.abs(c.pct), 1)} %).`)).join(' ')}</p>` +
-        (ch.length > 1 ? `<p>${L2(`El cambio más rápido fue el de <b>${esc(big.g)}</b>. Para saber si las diferencias entre grupos son reales, analiza el ensayo en el Bloque 7; para modelar la velocidad del cambio, usa la cinética del Bloque 3.`, `The fastest change was that of <b>${esc(big.g)}</b>. To know whether the differences between groups are real, analyse the trial in Block 7; to model the rate of change, use the kinetics of Block 3.`)}</p>` : '') + `</div>`;
+      rd.innerHTML = `<div class="reading"><p>${ch.map(c => L2(`<b>${esc(Q.keyG ? Q.keyG + ' ' + c.g : varName(v))}</b>: ${esc(varName(v))} pasó de ${Fmt.num(c.a)} a ${Fmt.num(c.b)} entre ${esc(c.t0)} y ${esc(c.t1)} (${c.pct >= 0 ? '+' : '−'}${Fmt.num(Math.abs(c.pct), 1)} %).`, `<b>${esc(Q.keyG ? Q.keyG + ' ' + c.g : varName(v))}</b>: ${esc(varName(v))} went from ${Fmt.num(c.a)} to ${Fmt.num(c.b)} between ${esc(c.t0)} and ${esc(c.t1)} (${c.pct >= 0 ? '+' : '−'}${Fmt.num(Math.abs(c.pct), 1)}%).`)).join(' ')}</p>` +
+        (ch.length > 1 ? `<p>${L2(`El cambio más rápido fue el de <b>${esc(big.g)}</b>. Para saber si las diferencias entre grupos son reales, analiza el ensayo en el Bloque 7; para modelar la velocidad del cambio, usa la cinética del Bloque 3.`, `The fastest change was that of <b>${esc(big.g)}</b>. To know whether the differences between groups are real, analyze the trial in Block 7; to model the rate of change, use the kinetics of Block 3.`)}</p>` : '') + `</div>`;
     } else rd.innerHTML = '';
   } else rd.innerHTML = '';
   el('b2qCite').innerHTML = '';
-  citeMethod('b2qCite', [['Acidez titulable por titulación (AOAC 942.15)', 'Titratable acidity by titration (AOAC 942.15)'], 'BrimA: ' + Refs.short('jordan2001'), ['Color: ' + Refs.short('cie2018') + '; ' + Refs.short('mcguire1992'), 'Colour: ' + Refs.short('cie2018') + '; ' + Refs.short('mcguire1992')], 'CCI: ' + Refs.short('jimenez1981'), 'BI: ' + Refs.short('palou1999')]);
+  citeMethod('b2qCite', [['Acidez titulable por titulación (AOAC 942.15)', 'Titratable acidity by titration (AOAC 942.15)'], 'BrimA: ' + Refs.short('jordan2001'), ['Color: ' + Refs.short('cie2018') + '; ' + Refs.short('mcguire1992'), 'Color: ' + Refs.short('cie2018') + '; ' + Refs.short('mcguire1992')], 'CCI: ' + Refs.short('jimenez1981'), 'BI: ' + Refs.short('palou1999')]);
   state.quality = Object.assign(state.quality || {}, { summary: { n: Q.rows.length, vars: Q.vars, groups: Q.groups, times: Q.times } });
   Report.set('quality:summary', {
     order: 20, title: ['Resumen de calidad', 'Quality summary'],
@@ -185,7 +185,7 @@ function qualityPaint() {
   });
 }
 
-/* ---------------- 2. colour ---------------- */
+/* ---------------- 2. color ---------------- */
 let colorLock = false;
 function colorFrom(kind) {
   if (colorLock) return;
@@ -208,11 +208,11 @@ function colorFrom(kind) {
     el('b2cSw').innerHTML = `<div class="swatch"><div class="sw${H.inGamut ? '' : ' out'}" style="background:${H.hex}"></div><div class="sd"><b>${H.hex}</b> · L* ${Fmt.num(L, 1)} a* ${Fmt.num(a, 1)} b* ${Fmt.num(b, 1)}<br>${H.inGamut ? L2('dentro de la gama de una pantalla sRGB', 'inside the gamut of an sRGB screen') : L2('fuera de la gama sRGB: se muestra el más cercano con el mismo L* y h°', 'outside the sRGB gamut: shown is the nearest with the same L* and h°')}</div></div>`;
     statTiles('b2cTiles', [
       ['Croma C*', Fmt.num(I.C, 2)], [T('Tono h°', 'Hue h°'), Fmt.num(I.h, 1) + '°', st ? T(st.es, st.en) : ''],
-      ['a*/b*', Fmt.num(I.aOverB, 3)], [T('Índice de cítricos (CCI)', 'Citrus colour index (CCI)'), Fmt.num(I.cci, 2)],
+      ['a*/b*', Fmt.num(I.aOverB, 3)], [T('Índice de cítricos (CCI)', 'Citrus color index (CCI)'), Fmt.num(I.cci, 2)],
       [T('Pardeamiento (BI)', 'Browning (BI)'), Fmt.num(I.bi, 1)], [T('Blancura (WI)', 'Whiteness (WI)'), Fmt.num(I.whiteness, 1)],
-      [T('Amarillez (YI)', 'Yellowness (YI)'), Fmt.num(I.yellowness, 1)], [T('Índice de jitomate (TCI)', 'Tomato colour index (TCI)'), Fmt.num(I.tci, 1)],
+      [T('Amarillez (YI)', 'Yellowness (YI)'), Fmt.num(I.yellowness, 1)], [T('Índice de jitomate (TCI)', 'Tomato color index (TCI)'), Fmt.num(I.tci, 1)],
     ]);
-    el('b2cRead').innerHTML = `<div class="reading"><p>${L2(`Un tono de ${Fmt.num(I.h, 1)}° se lee como <b>${st ? st.es : ''}</b> en frutos que pasan del verde al amarillo, naranja o rojo; cada cultivo tiene su propia escala. El croma (${Fmt.num(I.C, 1)}) dice qué tan intenso es el color, y L* qué tan claro.`, `A hue of ${Fmt.num(I.h, 1)}° reads as <b>${st ? st.en : ''}</b> in fruit that turn from green to yellow, orange or red; each crop has its own scale. Chroma (${Fmt.num(I.C, 1)}) says how intense the colour is, and L* how light.`)}</p></div>`;
+    el('b2cRead').innerHTML = `<div class="reading"><p>${L2(`Un tono de ${Fmt.num(I.h, 1)}° se lee como <b>${st ? st.es : ''}</b> en frutos que pasan del verde al amarillo, naranja o rojo; cada cultivo tiene su propia escala. El croma (${Fmt.num(I.C, 1)}) dice qué tan intenso es el color, y L* qué tan claro.`, `A hue of ${Fmt.num(I.h, 1)}° reads as <b>${st ? st.en : ''}</b> in fruit that turn from green to yellow, orange or red; each crop has its own scale. Chroma (${Fmt.num(I.C, 1)}) says how intense the color is, and L* how light.`)}</p></div>`;
     /* the source of each index of the tiles */
     el('b2cMCite').innerHTML = '';
     citeMethod('b2cMCite', [Refs.short('cie2018') + ' (CIELAB, D65)', 'C*, h°: ' + Refs.short('mcguire1992'), 'CCI: ' + Refs.short('jimenez1981'), 'BI: ' + Refs.short('palou1999'), 'WI: ' + Refs.short('judd1975'), 'YI: ' + Refs.short('francis1975'), 'TCI: ' + Refs.short('hobson1983')]);
@@ -248,9 +248,9 @@ function colorDataRun(D) {
   });
   S.c = { cells, groups, times, keyG, keyT };
   el('b2cOut').hidden = false;
-  /* the strip of mean colours: one row per group, one column per time */
+  /* the strip of mean colors: one row per group, one column per time */
   const W = 640, cw = Math.max(26, Math.min(70, (W - 150) / times.length)), rh = 34, H = 40 + groups.length * (rh + 8) + 20;
-  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="pl" data-name="b2-tira-color" role="img" aria-label="${esc(T('Color medio por grupo y tiempo', 'Mean colour by group and time'))}"><rect class="pl-bg" x="0" y="0" width="${W}" height="${H}"/>`;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="pl" data-name="b2-tira-color" role="img" aria-label="${esc(T('Color medio por grupo y tiempo', 'Mean color by group and time'))}"><rect class="pl-bg" x="0" y="0" width="${W}" height="${H}"/>`;
   times.forEach((tq, j) => { s += `<text class="pl-note" x="${140 + j * cw + cw / 2}" y="24" text-anchor="middle">${esc(tq == null ? '' : tq)}</text>`; });
   groups.forEach((gq, i) => {
     const y = 34 + i * (rh + 8);
@@ -260,11 +260,11 @@ function colorDataRun(D) {
   if (keyT) s += `<text class="pl-lab" x="${140 + times.length * cw / 2}" y="${H - 4}" text-anchor="middle">${esc(keyT)}</text>`;
   s += '</svg>';
   el('b2cStrip').innerHTML = '';
-  Fig.put('b2cStrip', s, { name: 'b2-tira-color', title: L2('Color medio de cada grupo en cada tiempo', 'Mean colour of each group at each time'), caption: L2('Cada celda es el promedio de L*, a* y b* convertido a sRGB.', 'Each cell is the mean of L*, a* and b* converted to sRGB.'), block: 2 });
+  Fig.put('b2cStrip', s, { name: 'b2-tira-color', title: L2('Color medio de cada grupo en cada tiempo', 'Mean color of each group at each time'), caption: L2('Cada celda es el promedio de L*, a* y b* convertido a sRGB.', 'Each cell is the mean of L*, a* and b* converted to sRGB.'), block: 2 });
   const ser = key => groups.map(gq => { const cs = cells.filter(c => c.group === gq); return { name: keyG ? keyG + ' ' + gq : key, x: cs.map(c => +c.time), y: cs.map(c => c[key]) }; });
   el('b2cDE').innerHTML = ''; el('b2cHue').innerHTML = '';
   if (keyT) {
-    Fig.put('b2cDE', Plot.lines({ name: 'b2-deltaE', series: ser('dE'), xlab: keyT, ylab: 'ΔE00', hlines: [{ y: 3.5, label: T('perceptible para cualquiera', 'noticed by anyone') }], yZero: true, w: 520, h: 330 }), { name: 'b2-deltaE', title: L2('Cambio de color desde el inicio (ΔE00)', 'Colour change from the start (ΔE00)'), block: 2 });
+    Fig.put('b2cDE', Plot.lines({ name: 'b2-deltaE', series: ser('dE'), xlab: keyT, ylab: 'ΔE00', hlines: [{ y: 3.5, label: T('perceptible para cualquiera', 'noticed by anyone') }], yZero: true, w: 520, h: 330 }), { name: 'b2-deltaE', title: L2('Cambio de color desde el inicio (ΔE00)', 'Color change from the start (ΔE00)'), block: 2 });
     Fig.put('b2cHue', Plot.lines({ name: 'b2-tono', series: ser('h'), xlab: keyT, ylab: T('Tono h° (grados)', 'Hue h° (degrees)'), w: 520, h: 330 }), { name: 'b2-tono', title: L2('Ángulo de tono', 'Hue angle'), block: 2 });
   }
   const cols = [];
@@ -272,11 +272,11 @@ function colorDataRun(D) {
   if (keyT) cols.push({ key: 'time', label: esc(keyT), num: true });
   cols.push({ key: 'n', label: 'n', num: true }, { key: 'L', label: 'L*', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'a', label: 'a*', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'b', label: 'b*', num: true, fmt: v => Fmt.num(v, 2) },
     { key: 'C', label: 'C*', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'h', label: 'h°', num: true, fmt: v => Fmt.num(v, 1) }, { key: 'dE', label: 'ΔE00', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'hex', label: L2('Muestra', 'Swatch'), html: true, get: c => `<span style="display:inline-block;width:34px;height:14px;border-radius:4px;background:${c.hex};vertical-align:middle;border:1px solid var(--border)"></span> <code>${c.hex}</code>` });
-  buildTable('b2cTab', cols, cells, { csvName: 'color_por_grupo' });
+  buildTable('b2cTab', cols, cells, { csvName: T('color_por_grupo', 'color_by_group') });
   el('b2cCite').innerHTML = '';
   citeMethod('b2cCite', [Refs.short('cie2018') + ' (CIELAB, D65)', 'ΔE00: ' + Refs.short('sharma2005'), 'C*, h°: ' + Refs.short('mcguire1992')]);
   state.quality = Object.assign(state.quality || {}, { color: { groups, times } });
-  Report.set('quality:color', { order: 21, title: ['Color', 'Colour'], html: () => reportFig('b2-tira-color') + reportFig('b2-deltaE') + reportTable('b2cTab') });
+  Report.set('quality:color', { order: 21, title: ['Color', 'Color'], html: () => reportFig('b2-tira-color') + reportFig('b2-deltaE') + reportTable('b2cTab') });
 }
 
 /* ---------------- 3. laboratory calculators ---------------- */
@@ -284,20 +284,20 @@ function calcPaint() {
   const acid = UI.s('b2aAcid');
   const ta = Quality.titratableAcidity({ volume: UI.v('b2aV'), normality: UI.v('b2aN'), sample: UI.v('b2aM'), totalVolume: UI.v('b2aTot') || null, aliquot: UI.v('b2aAli') || null, acid });
   const ssc = UI.v('b2aSSC');
-  const conv = Object.keys(Quality.ACIDS).filter(k => k !== acid).map(k => `${T(Quality.ACIDS[k].es, Quality.ACIDS[k].en)} ${Fmt.num(Quality.convertAcid(ta, acid, k), 3)} %`).join(' · ');
-  statTiles('b2aOut', [[T('Acidez titulable', 'Titratable acidity'), Fmt.num(ta, 3) + ' %', T('como ácido ', 'as ') + T(Quality.ACIDS[acid].es, Quality.ACIDS[acid].en)], ['SST/AT', isFinite(ssc) ? Fmt.num(Quality.ratio(ssc, ta), 1) : '—', T('índice de madurez', 'maturity index')], ['BrimA', isFinite(ssc) ? Fmt.num(Quality.brimA(ssc, ta), 2) : '—', 'SST − 2·AT']]);
+  const conv = Object.keys(Quality.ACIDS).filter(k => k !== acid).map(k => `${T(Quality.ACIDS[k].es, Quality.ACIDS[k].en)} ${Fmt.num(Quality.convertAcid(ta, acid, k), 3)}${Fmt.pcs()}`).join(' · ');
+  statTiles('b2aOut', [[T('Acidez titulable', 'Titratable acidity'), Fmt.num(ta, 3) + Fmt.pcs(), T('como ácido ', 'as ') + T(Quality.ACIDS[acid].es, Quality.ACIDS[acid].en)], [T('SST/AT', 'SSC/TA'), isFinite(ssc) ? Fmt.num(Quality.ratio(ssc, ta), 1) : '—', T('índice de madurez', 'maturity index')], ['BrimA', isFinite(ssc) ? Fmt.num(Quality.brimA(ssc, ta), 2) : '—', T('SST − 2·AT', 'SSC − 2·TA')]]);
   el('b2aOut').insertAdjacentHTML('beforeend', `<p class="hint" style="grid-column:1/-1">${L2('Expresada como otros ácidos: ', 'Expressed as other acids: ')}${conv}</p>`);
   const m = Quality.moistureFromDish(UI.v('b2hT'), UI.v('b2hF'), UI.v('b2hD'));
-  statTiles('b2hOut', [[T('Humedad (base húmeda)', 'Moisture (wet basis)'), Fmt.num(m.wetBasis, 2) + ' %'], [T('Materia seca', 'Dry matter'), Fmt.num(m.dryMatter, 2) + ' %'], [T('Humedad (base seca)', 'Moisture (dry basis)'), Fmt.num(m.dryBasis, 1) + ' %', T('g de agua por 100 g de materia seca', 'g water per 100 g dry matter')]]);
+  statTiles('b2hOut', [[T('Humedad (base húmeda)', 'Moisture (wet basis)'), Fmt.num(m.wetBasis, 2) + Fmt.pcs()], [T('Materia seca', 'Dry matter'), Fmt.num(m.dryMatter, 2) + Fmt.pcs()], [T('Humedad (base seca)', 'Moisture (dry basis)'), Fmt.num(m.dryBasis, 1) + Fmt.pcs(), T('g de agua por 100 g de materia seca', 'g water per 100 g dry matter')]]);
   const fv = UI.v('b2fV'), fu = UI.s('b2fU'), N = Quality.convertForce(fv, fu, 'N');
   statTiles('b2fOut', [['N', Fmt.num(N, 2)], ['kgf', Fmt.num(Quality.convertForce(fv, fu, 'kgf'), 3)], ['lbf', Fmt.num(Quality.convertForce(fv, fu, 'lbf'), 3)], [T('Presión', 'Pressure'), Fmt.num(Quality.pressure(N, UI.v('b2fD')), 1) + ' kPa', T('fuerza / área del émbolo', 'force / plunger area')]]);
   const wl = Quality.weightLoss(UI.v('b2wI'), UI.v('b2wF')), d = UI.v('b2wD');
-  statTiles('b2wOut', [[T('Pérdida de peso', 'Weight loss'), Fmt.num(wl, 2) + ' %', wl >= 5 ? T('cerca del límite en que muchos frutos se arrugan', 'near the limit at which many fruit shrivel') : '', wl >= 5 ? 'warn' : ''], [T('Por día', 'Per day'), d > 0 ? Fmt.num(wl / d, 3) + ' % d⁻¹' : '—']]);
+  statTiles('b2wOut', [[T('Pérdida de peso', 'Weight loss'), Fmt.num(wl, 2) + Fmt.pcs(), wl >= 5 ? T('cerca del límite en que muchos frutos se arrugan', 'near the limit at which many fruit shrivel') : '', wl >= 5 ? 'warn' : ''], [T('Por día', 'Per day'), d > 0 ? Fmt.num(wl / d, 3) + Fmt.pcs() + ' d⁻¹' : '—']]);
 }
 
 /* ---------------- 4. scales ---------------- */
 const SCALES = {
-  damage: [[0, 'Sano', 'Sound'], [1, 'Leve (< 5 % de la superficie)', 'Slight (< 5 % of the surface)'], [2, 'Moderado (5–15 %)', 'Moderate (5–15 %)'], [3, 'Severo (15–30 %)', 'Severe (15–30 %)'], [4, 'Muy severo (> 30 %)', 'Very severe (> 30 %)']],
+  damage: [[0, 'Sano', 'Sound'], [1, 'Leve (< 5 % de la superficie)', 'Slight (< 5% of the surface)'], [2, 'Moderado (5–15 %)', 'Moderate (5–15%)'], [3, 'Severo (15–30 %)', 'Severe (15–30%)'], [4, 'Muy severo (> 30 %)', 'Very severe (> 30%)']],
   ripe: [[1, 'Verde maduro', 'Mature green'], [2, 'Rayado', 'Breaker'], [3, 'Pintón', 'Turning'], [4, 'Maduro', 'Ripe'], [5, 'Sobremaduro', 'Overripe']],
   decay: [[0, 'Sin pudrición', 'No decay'], [1, 'Lesión incipiente', 'Incipient lesion'], [2, 'Lesión visible', 'Visible lesion'], [3, 'Fruto podrido', 'Rotten fruit']],
 };
@@ -342,7 +342,7 @@ function scaleRun(groupsData) {
   }
   buildTable('b2gTab', [{ key: 'name', label: L2('Grupo', 'Group') }, { key: 'N', label: 'N', num: true }].concat(cl.map((c, j) => ({ key: 'c' + j, label: esc(String(c.value)), num: true, get: r => Fmt.pct(r.pct[j]) }))).concat([
     { key: 'index', label: L2('Índice', 'Index'), num: true, fmt: v => Fmt.num(v, 1) }, { key: 'meanGrade', label: L2('Grado medio', 'Mean grade'), num: true, fmt: v => Fmt.num(v, 2) },
-    { key: 'incidence', label: L2('Incidencia', 'Incidence'), num: true, fmt: v => Fmt.pct(v) }, { key: 'marketable', label: L2('Comercializable', 'Marketable'), num: true, fmt: v => Fmt.pct(v) }]), res, { csvName: 'escala_indices' });
+    { key: 'incidence', label: L2('Incidencia', 'Incidence'), num: true, fmt: v => Fmt.pct(v) }, { key: 'marketable', label: L2('Comercializable', 'Marketable'), num: true, fmt: v => Fmt.pct(v) }]), res, { csvName: T('escala_indices', 'scale_indices') });
   el('b2gCite').innerHTML = '';
   citeMethod('b2gCite', [['Índice ponderado: ', 'Weighted index: '].map(x => x + Refs.short('mckinney1923'))]);
   state.quality = Object.assign(state.quality || {}, { scale: { n: res.length } });
@@ -394,12 +394,27 @@ function rescale() {
 /* ---------------- 5. size grades ---------------- */
 let calTable;
 const CALS = {
-  weight: [['Pequeño', 0, 200], ['Mediano', 200, 280], ['Grande', 280, 360], ['Extra grande', 360, 600]],
+  weight: [[['Pequeño', 'Small'], 0, 200], [['Mediano', 'Medium'], 200, 280], [['Grande', 'Large'], 280, 360], [['Extra grande', 'Extra large'], 360, 600]],
   diam: [['< 57 mm', 0, 57], ['57–67 mm', 57, 67], ['67–77 mm', 67, 77], ['77–87 mm', 77, 87], ['> 87 mm', 87, 150]],
 };
-function calRows(kind) {
-  if (kind === 'count') return Quality.countClasses(4, [8, 10, 12, 14, 16, 18, 20]).map(c => ({ name: T('Calibre ', 'Count ') + c.name, min: c.min, max: c.max }));
-  return CALS[kind].map(c => ({ name: c[0], min: c[1], max: c[2] }));
+/* the classes of each kind, named in the active language (or in lang) */
+function calRows(kind, lang) {
+  const t = (es, en) => ((lang || I18N.lang) === 'en' ? en : es);
+  if (kind === 'count') return Quality.countClasses(4, [8, 10, 12, 14, 16, 18, 20]).map(c => ({ name: t('Calibre ', 'Count ') + c.name, min: c.min, max: c.max }));
+  return CALS[kind].map(c => ({ name: Array.isArray(c[0]) ? t(c[0][0], c[0][1]) : c[0], min: c[1], max: c[2] }));
+}
+/* on a change of language, classes still named as the app named them follow the language; names the
+   user wrote stay as they are */
+function calLang() {
+  if (!calTable) return;
+  const cur = calTable.get(), other = I18N.lang === 'en' ? 'es' : 'en';
+  ['weight', 'count'].forEach(kind => {
+    const old = calRows(kind, other), now = calRows(kind);
+    if (cur.length !== old.length || !cur.every((r, i) => r.name === old[i].name)) return;
+    const was = Object.assign({}, state.touched);
+    calTable.set(cur.map((r, i) => Object.assign({}, r, { name: now[i].name })));
+    Object.keys(state.touched).forEach(key => { if (!was[key]) delete state.touched[key]; });
+  });
 }
 function calRun(D) {
   const m = D.map;
@@ -412,7 +427,7 @@ function calRun(D) {
   const all = Quality.calibre(D.rows.map(r => r[m.value]), cls);
   /* no fruit inside the classes: a warning, not «0.0 % … the most frequent» (a unit or limits that do not match the data) */
   const inside = all.N - all.out, xs = D.rows.map(r => r[m.value]).filter(v => v != null && v !== '' && isFinite(v)).map(Number);
-  statTiles('b2kTiles', [[T('Frutos', 'Fruit'), all.N], [T('Media', 'Mean'), Fmt.num(all.mean, 1), 'DE ' + Fmt.num(all.sd, 1)], [T('Calibre más frecuente', 'Most frequent grade'), esc(all.mode || '—')], [T('Fuera de las clases', 'Outside the classes'), all.out, all.out ? T('revisa los límites', 'check the limits') : '', all.out ? 'warn' : '']]);
+  statTiles('b2kTiles', [[T('Frutos', 'Fruit'), all.N], [T('Media', 'Mean'), Fmt.num(all.mean, 1), T('DE ', 'SD ') + Fmt.num(all.sd, 1)], [T('Calibre más frecuente', 'Most frequent grade'), esc(all.mode || '—')], [T('Fuera de las clases', 'Outside the classes'), all.out, all.out ? T('revisa los límites', 'check the limits') : '', all.out ? 'warn' : '']]);
   el('b2kRead').innerHTML = '';
   el('b2kFig').innerHTML = '';
   if (!inside) {
@@ -424,7 +439,7 @@ function calRun(D) {
     Fig.put('b2kFig', Plot.bars({ name: 'b2-calibres', cats: cls.map(c => c.name), groups: keyG ? groups.map(gq => keyG + ' ' + gq) : null, values: keyG ? res.map(r => r.pct) : [all.pct], ylab: T('% de los frutos', '% of the fruit'), valueLabels: keyG ? null : v => Fmt.num(v, 1) }),
       { name: 'b2-calibres', title: L2('Distribución por calibre', 'Distribution by grade'), block: 2, data: { header: ['calibre'].concat(keyG ? groups : ['todos']), rows: cls.map((c, j) => [c.name].concat(keyG ? res.map(r => r.pct[j]) : [all.pct[j]])) } });
   }
-  buildTable('b2kTab', [{ key: 'name', label: L2('Grupo', 'Group') }, { key: 'N', label: 'N', num: true }].concat(cls.map((c, j) => ({ key: 'k' + j, label: esc(c.name), num: true, get: r => r.counts[j] + ' (' + Fmt.pct(r.pct[j]) + ')' }))).concat([{ key: 'mean', label: L2('Media', 'Mean'), num: true, fmt: v => Fmt.num(v, 1) }, { key: 'out', label: L2('Fuera', 'Outside'), num: true }]), res, { csvName: 'calibres' });
+  buildTable('b2kTab', [{ key: 'name', label: L2('Grupo', 'Group') }, { key: 'N', label: 'N', num: true }].concat(cls.map((c, j) => ({ key: 'k' + j, label: esc(c.name), num: true, get: r => r.counts[j] + ' (' + Fmt.pct(r.pct[j]) + ')' }))).concat([{ key: 'mean', label: L2('Media', 'Mean'), num: true, fmt: v => Fmt.num(v, 1) }, { key: 'out', label: L2('Fuera', 'Outside'), num: true }]), res, { csvName: T('calibres', 'size_grades') });
   el('b2kCite').innerHTML = '';
   citeMethod('b2kCite', [['Clases editables; las plantillas son orientativas (' + Refs.short('kader2002') + ').', 'Editable classes; the templates are orientative (' + Refs.short('kader2002') + ').']]);
   state.quality = Object.assign(state.quality || {}, { calibre: { n: all.N } });
@@ -436,7 +451,7 @@ const reportFig = n => PHRep.fig(n), reportTable = id => PHRep.table(id);
 /* ---------------- start ---------------- */
 document.addEventListener('DOMContentLoaded', () => {
   const P = el('panel-2');
-  P.innerHTML = UI.panel(2, 'Calidad y madurez', 'Quality and maturity', 'Índices de calidad, color CIELAB, calculadoras de laboratorio, escalas y calibres', 'Quality indices, CIELAB colour, laboratory calculators, scales and size grades', tools);
+  P.innerHTML = UI.panel(2, 'Calidad y madurez', 'Quality and maturity', 'Índices de calidad, color CIELAB, calculadoras de laboratorio, escalas y calibres', 'Quality indices, CIELAB color, laboratory calculators, scales and size grades', tools);
   if (window.I18N) I18N.apply(P);
   const isVar = (c, rows, used) => !used.includes(c) && Table.numeric(rows, c) && !NOT_VARS.includes(norm(c)) && !['l', 'a', 'b', 'sst', 'at'].includes(norm(c));
   const q = DataIn.mount('b2qIn', {
@@ -449,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { key: 'L', es: 'L*', en: 'L*', optional: true, match: ['l', 'lstar'] },
       { key: 'a', es: 'a*', en: 'a*', optional: true, match: ['a', 'astar'] },
       { key: 'b', es: 'b*', en: 'b*', optional: true, match: ['b', 'bstar'] },
-      { key: 'vars', es: 'Atributos para resumir', en: 'Attributes to summarise', multi: true, auto: (cols, rows, used) => cols.filter(c => isVar(c, rows, used)) },
+      { key: 'vars', es: 'Atributos para resumir', en: 'Attributes to summarize', multi: true, auto: (cols, rows, used) => cols.filter(c => isVar(c, rows, used)) },
     ],
     examples: [{ id: 'mango' }],
     onData: qualityRun,
@@ -457,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.PHLoad.b2q = () => q.load(0);
   el('b2qShow').addEventListener('change', qualityPaint);
   el('b2qVar').addEventListener('change', qualityPaint);
-  /* colour */
+  /* color */
   [['b2cL', 'lab'], ['b2cA', 'lab'], ['b2cB', 'lab'], ['b2cR', 'rgb'], ['b2cG', 'rgb'], ['b2cBl', 'rgb'], ['b2cHex', 'hex'], ['b2cPick', 'pick']].forEach(([id, k]) => el(id).addEventListener('input', () => colorFrom(k)));
   ['b2d1L', 'b2d1A', 'b2d1B', 'b2d2L', 'b2d2A', 'b2d2B'].forEach(id => el(id).addEventListener('input', deltaPaint));
   el('b2dUse').addEventListener('click', () => { el('b2d2L').value = el('b2cL').value; el('b2d2A').value = el('b2cA').value; el('b2d2B').value = el('b2cB').value; deltaPaint(); });
@@ -524,5 +539,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   window.PHLoad.b2k = () => k.load(0);
 });
-document.addEventListener('langchange', () => { if (S.q) qualityPaint(); calcPaint(); colorFrom('lab'); deltaPaint(); });
+document.addEventListener('langchange', () => { if (S.q) qualityPaint(); calcPaint(); colorFrom('lab'); deltaPaint(); calLang(); });
 })();

@@ -97,7 +97,15 @@ Correcciones hechas al revisar cada bloque con el manual nuevo, sin cambiar el n
 - **Bloque 9. Informe y proyecto** (a8842dd):
   - sólo entran al informe y a las recomendaciones las secciones que se usaron; las demás se listan aparte y el proyecto guarda la lista;
   - la recomendación de daño mecánico da la altura que daña al 10 % y al 50 %, con su unidad.
-- **Pruebas:** casos nuevos para estas correcciones (`tests/unit_color_refs.js` y ampliaciones de las de calidad, sensorial y ensayos). Ahora son **443 pruebas y 71 199 comparaciones, sin fallas**.
+- **Interfaz en inglés:**
+  - ortografía estadounidense en los textos y los comentarios (color, center, gray, analyze, linearized, randomized, summarize, odor, vapor, labor, meter, catalog, canceled…), también en el README y los metadatos;
+  - el signo de porcentaje va sin espacio en inglés («95%»), como en el resto de la suite; en español sigue «95 %»;
+  - las descargas llevan nombre en inglés: tablas, figuras (bloque y título), plan de servicio, libro de campo, proyecto e informe;
+  - los encabezados de las tablas en CSV y XLSX salen en el idioma activo; antes salían los dos idiomas juntos;
+  - SD, SE, RQ y SSC/TA en lugar de DE, EE, CR y SST/AT; los calibres por peso, el título y los atributos de las fichas de cata y el nombre de cada bloque para los lectores de pantalla siguen al idioma;
+  - las tablas editables de películas y de productos muestran y editan el nombre del idioma activo; una fila nueva escrita en un idioma toma ese nombre en el otro (antes, en las películas, el nombre inglés se quedaba con la primera letra).
+- **Bloque 4. Respiración, etileno y atmósferas:** en la tabla editable de películas, la columna del nombre es tan ancha como el nombre más largo: «Polietileno lineal de baja densidad» ya no se corta.
+- **Pruebas:** casos nuevos para estas correcciones (`tests/unit_color_refs.js`, el signo de porcentaje en la logística y en la carta psicrométrica, y ampliaciones de las de calidad, sensorial y ensayos). Ahora son **449 pruebas y 71 278 comparaciones, sin fallas**.
 - **Documentación:**
   - manual de usuario nuevo en `manual/`, en español e inglés (HTML y PDF), que reemplaza al manual viejo de `docs/`; éste se retiró junto con `tools/armar_manual.js`, que lo armaba;
   - README en inglés y LEEME en español;

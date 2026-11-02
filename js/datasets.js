@@ -12,7 +12,7 @@ const INFO = {
   mango: {
     es: 'Mango «Ataulfo» almacenado a 13, 20 y 25 °C', en: '«Ataulfo» mango stored at 13, 20 and 25 °C',
     d: ['Muestreo destructivo de 4 frutos por temperatura y día: firmeza (N), color L*a*b*, sólidos solubles (°Brix), acidez titulable (% de ácido cítrico), pH, pérdida de peso (%) y antracnosis (escala 0–4). La firmeza baja con cinética de primer orden y su constante sigue a Arrhenius.',
-      'Destructive sampling of 4 fruit per temperature and day: firmness (N), L*a*b* colour, soluble solids (°Brix), titratable acidity (% citric acid), pH, weight loss (%) and anthracnose (0–4 scale). Firmness falls with first-order kinetics whose rate constant follows Arrhenius.'],
+      'Destructive sampling of 4 fruit per temperature and day: firmness (N), L*a*b* color, soluble solids (°Brix), titratable acidity (% citric acid), pH, weight loss (%) and anthracnose (0–4 scale). Firmness falls with first-order kinetics whose rate constant follows Arrhenius.'],
   },
   chayoteRechazo: {
     es: 'Chayote con dos recubrimientos: días hasta el rechazo', en: 'Chayote with two coatings: days to rejection',

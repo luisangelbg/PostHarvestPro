@@ -4,8 +4,8 @@ title: "PostHarvestPro: postharvest physiology and technology, quality, shelf li
 abstract: >-
   PostHarvestPro is a self-contained web application for postharvest research and teaching that
   runs entirely in the browser, with no installation, no third-party libraries and no server-side
-  computation. It covers quality and maturity indices and CIELAB colour (conversions, ΔE*ab, ΔE94,
-  ΔE00 and colour indices), ripeness and damage scales and size grading; deterioration kinetics of
+  computation. It covers quality and maturity indices and CIELAB color (conversions, ΔE*ab, ΔE94,
+  ΔE00 and color indices), ripeness and damage scales and size grading; deterioration kinetics of
   zero, first and second order with AIC, Arrhenius, Q10 and square-root temperature models, shelf
   life by attribute limit, accelerated shelf-life tests and time to rejection with right censoring
   (Kaplan–Meier, log-rank, Weibull, log-normal, log-logistic and exponential models); respiration
@@ -17,10 +17,10 @@ abstract: >-
   with panel performance, and Williams serving designs; factorial and repeated-measures analysis of
   postharvest trials with Tukey, LSD and Dunnett comparisons and slope comparison; packaging and
   cold-storage calculators (pallet and container loads, vent area, psychrometrics and
-  vapour-pressure deficit, storage cost and product compatibility); and a self-contained HTML
+  vapor-pressure deficit, storage cost and product compatibility); and a self-contained HTML
   report. Bilingual interface (Spanish and English). Ten simulated example data sets are built in.
   Every engine was compared against independent implementations in R, published tables or hand
-  calculations: 443 tests and 71,199 comparisons, none failed.
+  calculations: 449 tests and 71,278 comparisons, none failed.
 type: software
 authors:
   - given-names: "Luis Ángel"
@@ -35,7 +35,7 @@ license: GPL-3.0-or-later
 keywords:
   - postharvest
   - fruit and vegetable quality
-  - CIELAB colour
+  - CIELAB color
   - shelf life
   - deterioration kinetics
   - Arrhenius

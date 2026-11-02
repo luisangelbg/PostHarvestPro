@@ -3,7 +3,7 @@
   "@type": "SoftwareSourceCode",
   "name": "PostHarvestPro",
   "alternateName": "PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser",
-  "description": "A self-contained, browser-based platform for postharvest physiology and technology: quality, maturity and CIELAB colour; deterioration kinetics, Arrhenius, Q10 and shelf life, including time to rejection with censoring; respiration, ethylene, modified atmospheres and precooling; losses along the value chain and mechanical damage; discrimination, affective and descriptive sensory evaluation; factorial and repeated-measures postharvest trials; packaging and cold-storage calculators; and a self-contained report. No installation and no third-party libraries; Spanish and English interface; the data never leave the computer. Every engine was compared against independent implementations in R, published tables or hand calculations: 443 tests and 71,199 comparisons, none failed.",
+  "description": "A self-contained, browser-based platform for postharvest physiology and technology: quality, maturity and CIELAB color; deterioration kinetics, Arrhenius, Q10 and shelf life, including time to rejection with censoring; respiration, ethylene, modified atmospheres and precooling; losses along the value chain and mechanical damage; discrimination, affective and descriptive sensory evaluation; factorial and repeated-measures postharvest trials; packaging and cold-storage calculators; and a self-contained report. No installation and no third-party libraries; Spanish and English interface; the data never leave the computer. Every engine was compared against independent implementations in R, published tables or hand calculations: 443 tests and 71,199 comparisons, none failed.",
   "version": "1.0.0",
   "dateCreated": "2026-10-04",
   "dateModified": "2026-11-02",
@@ -28,7 +28,7 @@
   "keywords": [
     "postharvest",
     "fruit and vegetable quality",
-    "CIELAB colour",
+    "CIELAB color",
     "shelf life",
     "deterioration kinetics",
     "Arrhenius",

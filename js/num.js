@@ -16,7 +16,7 @@
    (normal, t, χ², F, beta, gamma, binomial, studentized range, many-to-one
    comparisons); quadrature; small dense linear algebra (LU, Cholesky,
    symmetric eigenproblem, singular values); the linear model; root finding,
-   simplex and Levenberg–Marquardt optimisers; and a seeded random generator.
+   simplex and Levenberg–Marquardt optimizers; and a seeded random generator.
 
    Wrapped in a named function that installs `Num` in the global object it is
    given: the page calls it with `window` and the test benches with a sandbox.
@@ -863,7 +863,7 @@ Num.lm = function (X, y, w) {
   return { coef, se, t: tval, p: pval, vcov, XtXi, keep, aliased: Array.from({ length: p0 }, (_, j) => !keep.includes(j)), fitted, resid, rss, df, sigma2: s2, sigma: sqrt(s2), rank: k, n, r2, adjR2: 1 - (1 - r2) * (n - 1) / max(1, df) };
 };
 
-/* ---------------- optimisation and roots ---------------- */
+/* ---------------- optimization and roots ---------------- */
 /* Brent's root finder (zeroin) on a bracket [a, b] with f(a)·f(b) ≤ 0 */
 Num.brent = function (f, a, b, tol) {
   tol = tol || 1e-12;
@@ -892,7 +892,7 @@ Num.brent = function (f, a, b, tol) {
   }
   return b;
 };
-/* Nelder–Mead simplex minimiser (Lagarias et al. 1998 coefficients) */
+/* Nelder–Mead simplex minimizer (Lagarias et al. 1998 coefficients) */
 Num.nelderMead = function (f, x0, o) {
   o = o || {};
   const n = x0.length, maxIt = o.maxIter || 4000 * n, tol = o.tol || 1e-12;
@@ -953,7 +953,7 @@ Num.hessian = function (f, x, h) {
   }
   return H;
 };
-/* Levenberg–Marquardt for nonlinear least squares: minimises Σ r_i(θ)².
+/* Levenberg–Marquardt for nonlinear least squares: minimizes Σ r_i(θ)².
    res(θ) → residual array; jac(θ) → n×k matrix (numerical if omitted).
    Returns θ, the residual sum of squares, the Jacobian at θ and whether it
    converged (relative change of RSS and of θ below tol). */
