@@ -55,7 +55,7 @@
 
   <figure class="w70">
     <div class="marco"><img src="../img/b7-datos.png" alt="La tarjeta Muestreo destructivo con el mango de ejemplo: papeles firmeza_N, temperatura, dia y bloque ninguno, sumas de cuadrados tipo III, la casilla de tiempos comunes marcada y la comparación de medias"></div>
-    <figcaption><b>Figura 7.1.</b> La tarjeta <span class="ui">Muestreo destructivo</span> con el mango del ejemplo y los controles por omisión. El rótulo del último control aparece como «A» porque la app escribe los rótulos en versalitas y la α griega minúscula se vuelve mayúscula.</figcaption>
+    <figcaption><b>Figura 7.1.</b> La tarjeta <span class="ui">Muestreo destructivo</span> con el mango del ejemplo y los controles por omisión: tipo III, sólo los tiempos medidos en todos los tratamientos, Tukey, 13 °C como testigo de Dunnett y α = 0.05.</figcaption>
   </figure>
 
   <h3>El análisis de varianza</h3>
@@ -83,6 +83,17 @@
     <p>En un ensayo de almacenamiento, el efecto del tiempo casi siempre es enorme (los frutos maduran) y no interesa probarlo. La pregunta es si los tratamientos cambian <b>la forma</b> en que el atributo evoluciona, y eso lo responde la interacción. Si es significativa, el «efecto del tratamiento» no es un número: el día 0 las temperaturas no difieren en lo que importa y el día 12 la firmeza a 13 °C es más de diez veces la de 25 °C. Un promedio general de cada temperatura sobre todos los días mezclaría situaciones distintas. Para resumir la diferencia en un solo número por tratamiento, usa su velocidad de cambio (sección 7.5) o su constante cinética (capítulo 3).</p>
   </div>
 
+  <h3>Cuando faltan combinaciones</h3>
+  <p>Si desmarcas «Usar sólo los tiempos medidos en todos los tratamientos», el análisis toma todos los días y el factorial queda con <b>celdas vacías</b>: combinaciones de tratamiento y tiempo sin ningún fruto. En el mango son seis (20 y 25 °C no tienen los días 15, 18 y 21), y la tarjeta <span class="ui">Análisis de varianza</span> abre con un aviso que las nombra y dice qué se pierde:</p>
+  <p class="cita">«6 combinaciones de temperatura y dia no tienen datos (20 × 15, 20 × 18, 20 × 21, 25 × 15, 25 × 18, 25 × 21). Con celdas vacías, las sumas de cuadrados del tipo III no pueden probar los efectos principales de temperatura ni de dia: cada uno se promediaría sobre celdas que no existen, así que esas filas quedan sin F ni p. La interacción (con menos grados de libertad) y las comparaciones dentro de cada tiempo siguen siendo válidas.»</p>
+  <p>Con el tipo III, los mosaicos del <span class="ui">Tratamiento</span> y del <span class="ui">Tiempo</span> se pintan de ámbar con «F = —» y <span class="ui">no estimable (celdas vacías)</span>, y en la tabla esas dos filas dicen <span class="ui">no estimable</span> en la columna F y no llevan p. La interacción sí se prueba, con 8 grados de libertad en lugar de 14 (F = 23.03, p &lt; 0.001), contra un error de 38.610 con 54 gl; el análisis usa los 72 frutos y el R² sube a 0.980. La tabla de medias agrega los días 15, 18 y 21 con una raya en las temperaturas que no se midieron. Al pie del aviso, la app propone las dos salidas: «Para probar los efectos principales, vuelve a marcar «Usar sólo los tiempos medidos en todos los tratamientos» o elige el tipo I.»</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/b7-vacias.png" alt="El aviso de las seis combinaciones sin datos, los mosaicos del tratamiento y del tiempo como no estimables, la lectura y la tabla del análisis de varianza con los días 0 a 21"></div>
+    <figcaption><b>Figura 7.3.</b> El factorial del mango con todos los días (casilla desmarcada) y el tipo III: el aviso ámbar lista las celdas vacías, el tratamiento y el tiempo quedan <span class="ui">no estimable</span> y sólo la interacción lleva F y p.</figcaption>
+  </figure>
+  <p>Con <span class="ui">Tipo I (secuenciales)</span> cada efecto se prueba en orden y los tres tienen F; el aviso, ahora informativo, lo explica: «Con el tipo I cada efecto se prueba en orden (dia ajustado por temperatura) y la interacción pierde 6 grados de libertad.» En el mango, la temperatura da F = 100.24 (2 gl), el día ajustado por la temperatura F = 320.65 (7 gl) y la interacción la misma F = 23.03, todas con p &lt; 0.001. Aun así, la forma más limpia de probar los efectos principales es la de omisión: comparar sólo los tiempos comunes.</p>
+
   <!-- 7.2 -->
   <h2 id="s7-2"><span class="num">7.2</span>Comparar los tratamientos dentro de cada tiempo</h2>
   <p class="lead">La tabla <span class="ui">Tratamientos dentro de cada tiempo</span> pone un renglón por tiempo y una columna por tratamiento, con la media de cada celda y sus letras: «En cada tiempo, tratamientos con la misma letra no difieren».</p>
@@ -90,7 +101,7 @@
 
   <figure class="w70">
     <div class="marco"><img src="../img/b7-letras.png" alt="La tabla de medias de firmeza del mango por día y temperatura con las letras de Tukey"></div>
-    <figcaption><b>Figura 7.3.</b> Las medias de firmeza (N) del mango del ejemplo dentro de cada día, con las letras de Tukey. El día 0 las tres temperaturas se traslapan (13 °C <b>b</b>, 20 °C <b>a</b>, 25 °C <b>ab</b>); del día 3 en adelante las tres difieren entre sí, siempre en el orden 13 &gt; 20 &gt; 25 °C.</figcaption>
+    <figcaption><b>Figura 7.4.</b> Las medias de firmeza (N) del mango del ejemplo dentro de cada día, con las letras de Tukey. El día 0 las tres temperaturas se traslapan (13 °C <b>b</b>, 20 °C <b>a</b>, 25 °C <b>ab</b>); del día 3 en adelante las tres difieren entre sí, siempre en el orden 13 &gt; 20 &gt; 25 °C.</figcaption>
   </figure>
   <p>Con <span class="ui">Dunnett (contra el testigo)</span>, las letras se cambian por un asterisco junto a cada tratamiento que difiere del testigo («* difiere del testigo (Dunnett, α = 0.05).»). Con el mango y el testigo en 13 °C, 20 °C difiere ya desde el día 0 (129.43 contra 115.83 N) y 25 °C desde el día 3 (60.33 contra 107.65 N). Dunnett tiene más potencia que Tukey cuando lo único que importa es cada tratamiento contra el testigo (Dunnett 1955), como en un ensayo de recubrimientos. La tabla se descarga con <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span> (<code>medias_por_tiempo</code>).</p>
   <div class="caja nota">
@@ -123,7 +134,7 @@
 
   <figure class="w60">
     <div class="marco"><img src="../img/b7-repetidas.png" alt="Mosaicos, lectura, tabla de parcelas divididas en el tiempo con p corregidas y la figura de perfiles de pérdida de peso por tratamiento"></div>
-    <figcaption><b>Figura 7.4.</b> <span class="ui">Parcelas divididas en el tiempo</span> con el chayote del ejemplo. Los mosaicos dan la F de cada fuente con su p corregida (GG) y los épsilones; la figura <span class="ui">Perfiles de los tratamientos</span> muestra que el testigo pierde peso más rápido y que la cera vegetal y el quitosano casi se superponen. El mosaico de los épsilones aparece rotulado «E GG / HF» por las versalitas, que convierten la ε en mayúscula.</figcaption>
+    <figcaption><b>Figura 7.5.</b> <span class="ui">Parcelas divididas en el tiempo</span> con el chayote del ejemplo. Los mosaicos dan la F de cada fuente con su p corregida (GG) y los épsilones; la figura <span class="ui">Perfiles de los tratamientos</span> muestra que el testigo pierde peso más rápido y que la cera vegetal y el quitosano casi se superponen. El mosaico <span class="ui">ε GG / HF</span> da los dos épsilones (sección 7.4) y el valor p de Mauchly.</figcaption>
   </figure>
 
   <!-- 7.4 -->
@@ -142,7 +153,7 @@
 
   <figure class="w60">
     <div class="marco"><img src="../img/b7-repetidas-medias.png" alt="La tabla de pérdida de peso media del chayote por día y tratamiento con letras de Tukey"></div>
-    <figcaption><b>Figura 7.5.</b> La pérdida de peso media (%) del chayote del ejemplo dentro de cada día. El día 5 los tres tratamientos comparten la letra <b>a</b>; del día 10 en adelante, el testigo (<b>a</b>) pierde más peso que la cera vegetal y el quitosano, que no difieren entre sí (<b>b</b>). El día 25, 11.22 % contra 7.29 y 7.66 %.</figcaption>
+    <figcaption><b>Figura 7.6.</b> La pérdida de peso media (%) del chayote del ejemplo dentro de cada día. El día 5 los tres tratamientos comparten la letra <b>a</b>; del día 10 en adelante, el testigo (<b>a</b>) pierde más peso que la cera vegetal y el quitosano, que no difieren entre sí (<b>b</b>). El día 25, 11.22 % contra 7.29 y 7.66 %.</figcaption>
   </figure>
   <p>Con Dunnett contra el testigo, la cera vegetal y el quitosano difieren del testigo desde el día 10 (asterisco) y no el día 5. Los métodos citados son Steel et al. (1997), Greenhouse y Geisser (1959), Huynh y Feldt (1976), Lecoutre (1991), Mauchly (1940) y Satterthwaite (1946).</p>
 
@@ -159,15 +170,15 @@
     <caption><b>Tabla 7.4.</b> Las rectas de pérdida de peso (%) contra el día, chayote del ejemplo</caption>
     <thead><tr><th>Tratamiento</th><th class="num">n</th><th class="num">Intercepto</th><th class="num">Pendiente (% d⁻¹)</th><th class="num">IC 95 %</th><th class="num">R²</th></tr></thead>
     <tbody>
-      <tr><td>Testigo</td><td class="num">36</td><td class="num">−0.005556</td><td class="num">0.4473 ± 0.021</td><td class="num">[0.4049, 0.4896]</td><td class="num">0.931</td></tr>
-      <tr><td>Cera vegetal</td><td class="num">36</td><td class="num">0.02071</td><td class="num">0.2924 ± 0.0050</td><td class="num">[0.2822, 0.3026]</td><td class="num">0.990</td></tr>
-      <tr><td>Quitosano</td><td class="num">36</td><td class="num">0.03508</td><td class="num">0.3078 ± 0.010</td><td class="num">[0.2874, 0.3281]</td><td class="num">0.965</td></tr>
+      <tr><td>Testigo</td><td class="num">36</td><td class="num">−0.005556</td><td class="num">0.4473 ± 0.021</td><td class="num">[0.405, 0.490]</td><td class="num">0.931</td></tr>
+      <tr><td>Cera vegetal</td><td class="num">36</td><td class="num">0.02071</td><td class="num">0.2924 ± 0.0050</td><td class="num">[0.282, 0.303]</td><td class="num">0.990</td></tr>
+      <tr><td>Quitosano</td><td class="num">36</td><td class="num">0.03508</td><td class="num">0.3078 ± 0.010</td><td class="num">[0.287, 0.328]</td><td class="num">0.965</td></tr>
     </tbody>
   </table>
 
   <figure class="w60">
     <div class="marco"><img src="../img/b7-pendientes.png" alt="Mosaicos, lectura, figura de rectas de pérdida de peso por tratamiento, tabla de pendientes y pares con ajuste de Holm"></div>
-    <figcaption><b>Figura 7.6.</b> <span class="ui">Rectas y comparación de pendientes</span> con el chayote del ejemplo: los puntos son los frutos y las líneas la recta de cada tratamiento. La recta del testigo se abre desde el día 5; las de la cera vegetal y el quitosano casi se superponen.</figcaption>
+    <figcaption><b>Figura 7.7.</b> <span class="ui">Rectas y comparación de pendientes</span> con el chayote del ejemplo: los puntos son los frutos y las líneas la recta de cada tratamiento. La recta del testigo se abre desde el día 5; las de la cera vegetal y el quitosano casi se superponen.</figcaption>
   </figure>
   <div class="caja aviso">
     <div class="caja-t"><span class="ico">!</span>Con los mismos frutos, estas pruebas son optimistas</div>
@@ -194,9 +205,9 @@
 
   <figure class="w60">
     <div class="marco"><img src="../img/b7-libro.png" alt="La tarjeta Libro de campo del ensayo con sus campos y la tabla generada con las primeras diez unidades"></div>
-    <figcaption><b>Figura 7.7.</b> El libro de campo con los valores escritos y la semilla 2026 (muestreo destructivo, completamente al azar): las diez primeras de 60 unidades. La parcela 1 es un testigo del día 0, la 2 un quitosano del día 15, la 3 otro quitosano del día 20. Los campos de texto de arriba son angostos y no muestran todo su contenido; al hacer clic se ve completo.</figcaption>
+    <figcaption><b>Figura 7.8.</b> El libro de campo con los valores escritos y la semilla 2026 (muestreo destructivo, completamente al azar): las diez primeras de 60 unidades. La parcela 1 es un testigo del día 0, la 2 un quitosano del día 15, la 3 otro quitosano del día 20.</figcaption>
   </figure>
-  <p>Las columnas son <code>Parcela</code>, <code>Repeticion</code> (o <code>Bloque</code> en bloques completos), <code>Tratamiento</code>, <code>Tiempo</code> y las variables a medir. En bloques, las parcelas se numeran por bloque (101, 102… en el bloque 1). En medidas repetidas, cada parcela aparece en tantos renglones como tiempos, ya ordenados: así se pesa cada fruto en su fecha. <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span> descargan el libro completo (<code>libro_de_campo</code>), y <span class="ui">Abrir el programa de diseño experimental →</span> abre, en otra pestaña, el programa de diseño de experimentos de la suite LABG, cuyo bloque de datos reconoce esas columnas. Una vez medido, el mismo archivo con las columnas llenas se carga en la pestaña <span class="ui">Factorial tratamiento × tiempo</span> o en <span class="ui">Medidas repetidas</span> (con <code>Parcela</code> como unidad).</p>
+  <p>Las columnas son <code>Parcela</code>, <code>Repetición</code> (o <code>Bloque</code> en bloques completos), <code>Tratamiento</code>, <code>Tiempo</code> y las variables a medir. En bloques, las parcelas se numeran por bloque (101, 102… en el bloque 1). En medidas repetidas, cada parcela aparece en tantos renglones como tiempos, ya ordenados: así se pesa cada fruto en su fecha. <span class="ui">⤓ CSV</span> y <span class="ui">⤓ XLSX</span> descargan el libro completo (<code>libro_de_campo</code>), y <span class="ui">Abrir el programa de diseño experimental →</span> abre, en otra pestaña, el programa de diseño de experimentos de la suite LABG, cuyo bloque de datos reconoce esas columnas (<code>Repetición</code> con acento o sin él). Una vez medido, el mismo archivo con las columnas llenas se carga en la pestaña <span class="ui">Factorial tratamiento × tiempo</span> o en <span class="ui">Medidas repetidas</span> (con <code>Parcela</code> como unidad).</p>
   <div class="caja idea">
     <div class="caja-t"><span class="ico">✦</span>Anota la semilla</div>
     <p>Escribe la semilla en el protocolo del ensayo. Con ella, cualquiera puede rehacer el mismo sorteo y comprobar que la asignación fue al azar; sin ella, el sorteo no se puede reproducir.</p>
@@ -217,7 +228,7 @@
   </div>
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Cuando algo sale mal</div>
-    <p><b>El tratamiento sale con gl 0 y F «—».</b> Desmarcaste «Usar sólo los tiempos medidos en todos los tratamientos» y faltan celdas (en el mango, 20 y 25 °C no tienen los días 15, 18 y 21): con celdas vacías las sumas de tipo III no pueden probar el tratamiento, y la app no lo avisa. Vuelve a marcar la casilla. <b>La tabla de medias tiene rayas.</b> Ese tratamiento no se midió en ese tiempo. <b>En medidas repetidas el mosaico de unidades dice «incompletas fuera».</b> A esas unidades les falta algún tiempo; revisa que el identificador del fruto sea el mismo en todas sus fechas («F1» y «f1» son distintos). <b>En Pendientes no aparece nada.</b> El tiempo debe ser un número; «día 5» o «5 d» no lo son. <b>Generar no cambia el sorteo.</b> Es lo esperado con la misma semilla; cambia la semilla para otro sorteo.</p>
+    <p><b>El tratamiento y el tiempo salen «no estimable».</b> Desmarcaste «Usar sólo los tiempos medidos en todos los tratamientos», faltan celdas y estás en el tipo III (sección 7.1, «Cuando faltan combinaciones»): vuelve a marcar la casilla o elige <span class="ui">Tipo I (secuenciales)</span>. <b>La tabla de medias tiene rayas.</b> Ese tratamiento no se midió en ese tiempo. <b>En medidas repetidas el mosaico de unidades dice «incompletas fuera».</b> A esas unidades les falta algún tiempo; revisa que el identificador del fruto sea el mismo en todas sus fechas («F1» y «f1» son distintos). <b>En Pendientes no aparece nada.</b> El tiempo debe ser un número; «día 5» o «5 d» no lo son. <b>Generar no cambia el sorteo.</b> Es lo esperado con la misma semilla; cambia la semilla para otro sorteo.</p>
   </div>
 </section>
 
