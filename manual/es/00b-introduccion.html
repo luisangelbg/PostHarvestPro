@@ -351,6 +351,7 @@
     <li><b>O en línea</b>, en la dirección de la app en la LABG Suite, cuando se publique.</li>
   </ol>
   <p>Las preferencias —el idioma, el tema claro u oscuro y la última pestaña que abriste en cada bloque— se guardan en el propio navegador y se recuerdan la siguiente vez. Los datos no: cada vez que abres la app empieza vacía. Para retomar un trabajo está el proyecto <code>.json</code> del Bloque 9, que guarda las tablas que cargaste, las columnas que elegiste, las tablas editadas y los ajustes, y al abrirlo recalcula todo. Si intentas cerrar la pestaña después de haber trabajado, la app te lo advierte.</p>
+  <p>Este mismo manual se abre desde la app: el enlace <span class="ui">Manual de usuario (en español)</span> está al pie de su portada (Bloque 1); con la interfaz en inglés, el enlace lleva a la edición inglesa.</p>
 
   <!-- I.6 -->
   <h2 id="si-6"><span class="num">I.6</span>Recorrido por la interfaz</h2>
@@ -389,7 +390,7 @@
   </ul>
 
   <h3>Navegar sin perderse</h3>
-  <p>Al pie de cada bloque dos botones llevan al anterior y al siguiente. Cuando cambias un control y los resultados se recalculan más abajo, aparece un botón flotante que te regresa al control que tocaste, y otro para volver arriba. Los cálculos son inmediatos: al cargar los datos o cambiar un ajuste, el resultado se rehace solo. Casi todo se puede hacer también desde el teclado:</p>
+  <p>Al pie de cada bloque dos botones llevan al anterior y al siguiente. Cuando cambias un control y los resultados se recalculan más abajo, aparece un botón flotante que te regresa al control que tocaste, y otro para volver arriba. Los resultados se rehacen solos: al cambiar un ajuste, al instante; al cargar datos nuevos —un ejemplo, un archivo, una tabla pegada u otra columna—, el análisis corre dentro de la espera de la suite, que sólo aparece, con el aviso <span class="ui">Analizando los datos…</span>, si tarda más de un momento. Casi todo se puede hacer también desde el teclado:</p>
   <table class="compacta">
     <thead><tr><th style="width:1.55in">Tecla</th><th>Qué hace</th></tr></thead>
     <tbody>
@@ -463,31 +464,32 @@
   </ol>
   <div class="caja nota">
     <div class="caja-t"><span class="ico">i</span>Algunos resultados pasan de una pestaña a otra</div>
-    <p><span class="ui">Llevar las k al análisis de temperatura →</span> copia las constantes de los modelos cinéticos a la pestaña <span class="ui">Temperatura</span> cuando el grupo es la temperatura; la pestaña <span class="ui">Simular mejoras</span> trabaja sobre la cadena de <span class="ui">Pérdidas por etapa</span>; y el Bloque 9 junta las secciones que dejaron todos los demás. La palomita de un bloque en la barra se enciende cuando ya tiene un resultado.</p>
+    <p><span class="ui">Llevar las k al análisis de temperatura →</span> copia las constantes de los modelos cinéticos a la pestaña <span class="ui">Temperatura</span> cuando el grupo es la temperatura; la pestaña <span class="ui">Simular mejoras</span> trabaja sobre la cadena de <span class="ui">Pérdidas por etapa</span>; y el Bloque 9 junta las secciones de las herramientas que usaste en los demás. La palomita de un bloque en la barra se enciende cuando ya tiene un resultado.</p>
   </div>
 
   <!-- I.9 -->
   <h2 id="si-9"><span class="num">I.9</span>Cómo se comprobó</h2>
   <p>Un programa de cálculo vale lo que valen sus números. Cada motor de PostHarvestPro se programó desde la fórmula publicada y se comparó, número por número, con una implementación independiente: el entorno estadístico R (versión 4.4.2) y sus paquetes de referencia para la cinética no lineal, el análisis de supervivencia, la evaluación sensorial y el análisis de ensayos; tablas publicadas para el color y la psicrometría; y cálculos a mano escritos en las propias pruebas para las calculadoras. Cada comparación lleva escrita su tolerancia.</p>
   <div class="caja dato">
-    <div class="dato-cifra">71&nbsp;042</div>
-    <div class="dato-txt"><div class="caja-t">Comparaciones sin fallas</div>En 431 pruebas automáticas, que corren en el navegador con doble clic en <code>tests/run.html</code> y en la consola con <code>node tests/run-node.js</code>. La tabla de abajo las reparte por motor.</div>
+    <div class="dato-cifra">71&nbsp;199</div>
+    <div class="dato-txt"><div class="caja-t">Comparaciones sin fallas</div>En 443 pruebas automáticas, que corren en el navegador con doble clic en <code>tests/run.html</code> y en la consola con <code>node tests/run-node.js</code>. La tabla de abajo las reparte por motor.</div>
   </div>
   <table class="compacta">
-    <caption><b>La validación por área</b> (<code>tests/validacion/VALIDACION.md</code>)</caption>
+    <caption><b>La validación por área</b> (<code>node tests/run-node.js</code>; el detalle, en <code>tests/validacion/</code>)</caption>
     <thead><tr><th>Área</th><th class="num">Pruebas</th><th class="num">Comparaciones</th><th>Referencia</th></tr></thead>
     <tbody>
       <tr><td>Núcleo numérico</td><td class="num">6</td><td class="num">534</td><td>Distribuciones, regresión, valores propios, ajuste no lineal y ajuste de valores p de R</td></tr>
-      <tr><td>Color</td><td class="num">4</td><td class="num">1 100</td><td>Conversiones y ΔE de un paquete de color de R; los 22 pares publicados de Sharma, Wu y Dalal (2005)</td></tr>
-      <tr><td>Calidad</td><td class="num">2</td><td class="num">22</td><td>Cálculos a mano (acidez, humedad, McKinney, calibres)</td></tr>
+      <tr><td>Color</td><td class="num">6</td><td class="num">1 115</td><td>Conversiones y ΔE de un paquete de color de R; los 22 pares publicados de Sharma, Wu y Dalal (2005); los índices de blancura, amarillez y jitomate a mano</td></tr>
+      <tr><td>Referencias</td><td class="num">2</td><td class="num">96</td><td>Que cada fuente de la lista de métodos esté en la lista de referencias</td></tr>
+      <tr><td>Calidad</td><td class="num">4</td><td class="num">28</td><td>Cálculos a mano (acidez, humedad, McKinney, calibres)</td></tr>
       <tr><td>Respiración y atmósferas</td><td class="num">3</td><td class="num">19</td><td>Cálculos a mano (balances de gas, estado estacionario, enfriamiento)</td></tr>
-      <tr><td>Pérdidas y daño</td><td class="num">2</td><td class="num">35</td><td>Regresión lineal y logística de R e intervalo de Fieller</td></tr>
-      <tr><td>Logística</td><td class="num">2</td><td class="num">27</td><td>Tablas de saturación de ASHRAE (2017) e identidades psicrométricas</td></tr>
+      <tr><td>Pérdidas y daño</td><td class="num">3</td><td class="num">45</td><td>Regresión lineal y logística de R e intervalo de Fieller</td></tr>
+      <tr><td>Logística</td><td class="num">3</td><td class="num">33</td><td>Tablas de saturación de ASHRAE (2017) e identidades psicrométricas</td></tr>
       <tr><td>Cinética</td><td class="num">233</td><td class="num">18 932</td><td>Mínimos cuadrados no lineales de R con dos algoritmos y regresión lineal</td></tr>
       <tr><td>Tiempo de falla</td><td class="num">143</td><td class="num">38 488</td><td>Kaplan–Meier, rango logarítmico y modelos paramétricos de dos paquetes de supervivencia de R</td></tr>
-      <tr><td>Sensorial</td><td class="num">30</td><td class="num">11 657</td><td>Paquetes de R de análisis sensorial, análisis factorial y comparaciones múltiples</td></tr>
-      <tr><td>Ensayos</td><td class="num">6</td><td class="num">228</td><td>Análisis de varianza de tipos I y III, Tukey, Dunnett, medidas repetidas con Mauchly y comparación de pendientes en R</td></tr>
-      <tr class="total"><td><b>Total</b></td><td class="num"><b>431</b></td><td class="num"><b>71 042</b></td><td>0 fallas</td></tr>
+      <tr><td>Sensorial</td><td class="num">32</td><td class="num">11 669</td><td>Paquetes de R de análisis sensorial, análisis factorial y comparaciones múltiples</td></tr>
+      <tr><td>Ensayos</td><td class="num">8</td><td class="num">240</td><td>Análisis de varianza de tipos I y III, Tukey, Dunnett, medidas repetidas con Mauchly y comparación de pendientes en R</td></tr>
+      <tr class="total"><td><b>Total</b></td><td class="num"><b>443</b></td><td class="num"><b>71 199</b></td><td>0 fallas</td></tr>
     </tbody>
   </table>
   <p>La comparación también sirvió para corregir. Atrapó, entre otros, un corte del rango estudentizado que anulaba probabilidades con cinco o más medias, unos errores estándar de la regresión logística calculados con los pesos de la penúltima iteración y un optimizador que se daba por convergido junto al polo de una curva de segundo orden; los tres se corrigieron antes de la versión 1.0. Los detalles, con las tolerancias de cada prueba, están en la carpeta <code>tests/validacion/</code>, que es la única parte del programa que nombra paquetes de software: la app y el resto de este manual describen los métodos y citan los artículos.</p>
