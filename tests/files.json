@@ -1,0 +1,3 @@
+{
+  "engines": ["js/num.js", "js/color.js", "js/quality.js", "js/kinetics.js", "js/survival.js", "js/resp.js", "js/losses.js", "js/sensory.js", "js/trials.js", "js/logistics.js", "js/datasets_data.js", "js/datasets.js"]
+}

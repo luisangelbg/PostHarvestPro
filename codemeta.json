@@ -1,0 +1,18 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "PostHarvestPro",
+  "description": "Browser-based platform for postharvest physiology and technology: quality, maturity and CIELAB colour; deterioration kinetics, Arrhenius, Q10 and shelf life, including time to rejection with censoring; respiration, ethylene, modified atmospheres and precooling; losses along the value chain and mechanical damage; discrimination, affective and descriptive sensory evaluation; postharvest trials; packaging and cold-storage calculators; and a self-contained report. No installation, no internet, validated against independent implementations.",
+  "version": "1.0.0",
+  "dateCreated": "2026-10-04",
+  "datePublished": "2026-10-04",
+  "license": "https://spdx.org/licenses/GPL-3.0-or-later",
+  "codeRepository": "https://github.com/luisangelbg/PostHarvestPro",
+  "url": "https://luisangelbg.github.io/PostHarvestPro/",
+  "programmingLanguage": "JavaScript",
+  "runtimePlatform": "Web browser",
+  "operatingSystem": "Any",
+  "applicationCategory": "Science",
+  "keywords": ["postharvest", "quality", "shelf life", "kinetics", "Arrhenius", "survival analysis", "respiration", "modified atmosphere", "postharvest losses", "sensory evaluation", "Thurstonian d-prime"],
+  "author": [{ "@type": "Person", "givenName": "Luis Ángel", "familyName": "Barrera-Guzmán", "@id": "https://orcid.org/0000-0001-8057-2583" }]
+}

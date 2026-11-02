@@ -1,0 +1,135 @@
+/* PostHarvestPro — Copyright (C) 2026 Luis Ángel Barrera-Guzmán. GPL-3.0-or-later; see LICENSE.
+
+   The sources of every method of the app (REFS) and the catalogue of methods by
+   block (METHODS), used by the home page, the citation under each result and
+   the report. */
+(function (g) {
+'use strict';
+const REFS = {
+  kader2002: 'Kader, A. A. (Ed.). (2002). Postharvest technology of horticultural crops (3rd ed., Publication 3311). University of California, Agriculture and Natural Resources.',
+  gross2016: 'Gross, K. C., Wang, C. Y., & Saltveit, M. (Eds.). (2016). The commercial storage of fruits, vegetables, and florist and nursery stocks (Agriculture Handbook 66). USDA Agricultural Research Service.',
+  thompson2008: 'Thompson, J. F., Mitchell, F. G., Rumsey, T. R., Kasmire, R. F., & Crisosto, C. H. (2008). Commercial cooling of fruits, vegetables, and flowers (Publication 21567). University of California, Agriculture and Natural Resources.',
+  mcgregor1989: 'McGregor, B. M. (1989). Tropical products transport handbook (Agriculture Handbook 668). USDA.',
+  aoac942: 'AOAC International. (2019). Method 942.15: Acidity (titratable) of fruit products. In Official methods of analysis (21st ed.).',
+  jordan2001: 'Jordan, R. B., Seelye, R. J., & McGlone, V. A. (2001). A sensory-based alternative to Brix/acid ratio. Food Technology, 55(4), 36–44.',
+  mckinney1923: 'McKinney, H. H. (1923). Influence of soil temperature and moisture on infection of wheat seedlings by Helminthosporium sativum. Journal of Agricultural Research, 26, 195–218.',
+  cie2018: 'CIE. (2018). Colorimetry (4th ed., CIE 015:2018). Commission Internationale de l\'Éclairage.',
+  mcguire1992: 'McGuire, R. G. (1992). Reporting of objective color measurements. HortScience, 27(12), 1254–1255.',
+  sharma2005: 'Sharma, G., Wu, W., & Dalal, E. N. (2005). The CIEDE2000 color-difference formula: Implementation notes, supplementary test data, and mathematical observations. Color Research & Application, 30(1), 21–30.',
+  palou1999: 'Palou, E., López-Malo, A., Barbosa-Cánovas, G. V., Welti-Chanes, J., & Swanson, B. G. (1999). Polyphenoloxidase activity and color of blanched and high hydrostatic pressure treated banana puree. Journal of Food Science, 64(1), 42–45.',
+  jimenez1981: 'Jiménez-Cuesta, M., Cuquerella, J., & Martínez-Jávega, J. M. (1981). Determination of a color index for citrus fruit degreening. Proceedings of the International Society of Citriculture, 2, 750–753.',
+  mokrzycki2011: 'Mokrzycki, W. S., & Tatol, M. (2011). Colour difference ΔE – a survey. Machine Graphics and Vision, 20(4), 383–411.',
+  labuza1984: 'Labuza, T. P. (1984). Application of chemical kinetics to deterioration of foods. Journal of Chemical Education, 61(4), 348–358.',
+  vanboekel2008: 'van Boekel, M. A. J. S. (2008). Kinetic modeling of food quality: A critical review. Comprehensive Reviews in Food Science and Food Safety, 7(1), 144–158.',
+  taoukis1989: 'Taoukis, P. S., & Labuza, T. P. (1989). Applicability of time-temperature indicators as shelf life monitors of food products. Journal of Food Science, 54(4), 783–788.',
+  arrhenius1889: 'Arrhenius, S. (1889). Über die Reaktionsgeschwindigkeit bei der Inversion von Rohrzucker durch Säuren. Zeitschrift für Physikalische Chemie, 4, 226–248.',
+  ratkowsky1982: 'Ratkowsky, D. A., Olley, J., McMeekin, T. A., & Ball, A. (1982). Relationship between temperature and growth rate of bacterial cultures. Journal of Bacteriology, 149(1), 1–5.',
+  mizrahi2004: 'Mizrahi, S. (2004). Accelerated shelf-life tests. In R. Steele (Ed.), Understanding and measuring the shelf-life of food (pp. 317–339). Woodhead.',
+  bates1988: 'Bates, D. M., & Watts, D. G. (1988). Nonlinear regression analysis and its applications. Wiley.',
+  marquardt1963: 'Marquardt, D. W. (1963). An algorithm for least-squares estimation of nonlinear parameters. Journal of the Society for Industrial and Applied Mathematics, 11(2), 431–441.',
+  akaike1974: 'Akaike, H. (1974). A new look at the statistical model identification. IEEE Transactions on Automatic Control, 19(6), 716–723.',
+  burnham2002: 'Burnham, K. P., & Anderson, D. R. (2002). Model selection and multimodel inference (2nd ed.). Springer.',
+  kaplan1958: 'Kaplan, E. L., & Meier, P. (1958). Nonparametric estimation from incomplete observations. Journal of the American Statistical Association, 53, 457–481.',
+  greenwood1926: 'Greenwood, M. (1926). The natural duration of cancer. Reports on Public Health and Medical Subjects, 33, 1–26.',
+  mantel1966: 'Mantel, N. (1966). Evaluation of survival data and two new rank order statistics arising in its consideration. Cancer Chemotherapy Reports, 50(3), 163–170.',
+  lawless2003: 'Lawless, J. F. (2003). Statistical models and methods for lifetime data (2nd ed.). Wiley.',
+  hough2003: 'Hough, G., Langohr, K., Gómez, G., & Curia, A. (2003). Survival analysis applied to sensory shelf life of foods. Journal of Food Science, 68(1), 359–362.',
+  fonseca2002: 'Fonseca, S. C., Oliveira, F. A. R., & Brecht, J. K. (2002). Modelling respiration rate of fresh fruits and vegetables for modified atmosphere packages: A review. Journal of Food Engineering, 52(2), 99–119.',
+  exama1993: 'Exama, A., Arul, J., Lencki, R. W., Lee, L. Z., & Toupin, C. (1993). Suitability of plastic films for modified atmosphere packaging of fruits and vegetables. Journal of Food Science, 58(6), 1365–1370.',
+  fishman1996: 'Fishman, S., Rodov, V., & Ben-Yehoshua, S. (1996). Mathematical model for perforation effect on oxygen and water vapor dynamics in modified-atmosphere packages. Journal of Food Science, 61(5), 956–961.',
+  lee1991: 'Lee, D. S., Haggar, P. E., Lee, J., & Yam, K. L. (1991). Model for fresh produce respiration in modified atmospheres based on principles of enzyme kinetics. Journal of Food Science, 56(6), 1580–1585.',
+  mangaraj2009: 'Mangaraj, S., Goswami, T. K., & Mahajan, P. V. (2009). Applications of plastic films for modified atmosphere packaging of fruits and vegetables: A review. Food Engineering Reviews, 1(2), 133–158.',
+  biale1964: 'Biale, J. B. (1964). Growth, maturation, and senescence in fruits. Science, 146(3646), 880–888.',
+  lelievre1997: 'Lelièvre, J.-M., Latché, A., Jones, B., Bouzayen, M., & Pech, J.-C. (1997). Ethylene and fruit ripening. Physiologia Plantarum, 101(4), 727–739.',
+  saltveit2016: 'Saltveit, M. E. (2016). Respiratory metabolism. In K. C. Gross, C. Y. Wang, & M. Saltveit (Eds.), Agriculture Handbook 66 (pp. 68–75). USDA.',
+  siebel1892: 'Siebel, J. E. (1892). Specific heat of various products. Ice and Refrigeration, 2, 256–257.',
+  ashrae2017: 'ASHRAE. (2017). Psychrometrics. In ASHRAE handbook — Fundamentals (ch. 1). ASHRAE.',
+  wagner2002: 'Wagner, W., & Pruss, A. (2002). The IAPWS formulation 1995 for the thermodynamic properties of ordinary water substance for general and scientific use. Journal of Physical and Chemical Reference Data, 31(2), 387–535.',
+  wagner2011: 'Wagner, W., Riethmann, T., Feistel, R., & Harvey, A. H. (2011). New equations for the sublimation pressure and melting pressure of H₂O ice Ih. Journal of Physical and Chemical Reference Data, 40(4), 043103.',
+  sastry1978: 'Sastry, S. K., Baird, C. D., & Buffington, D. E. (1978). Transpiration rates of certain fruits and vegetables. ASHRAE Transactions, 84(1), 237–255.',
+  fao2019: 'FAO. (2019). The state of food and agriculture 2019: Moving forward on food loss and waste reduction. FAO.',
+  lagra2016: 'La Gra, J., Kitinoja, L., & Alpuche, K. (2016). Commodity systems assessment methodology for value chain problem and project identification. IICA.',
+  bajema1998: 'Bajema, R. W., & Hyde, G. M. (1998). Instrumented pendulum for impact characterization of whole fruit and vegetable specimens. Transactions of the ASAE, 41(5), 1399–1405.',
+  mohsenin1986: 'Mohsenin, N. N. (1986). Physical properties of plant and animal materials (2nd ed.). Gordon and Breach.',
+  finney1971: 'Finney, D. J. (1971). Probit analysis (3rd ed.). Cambridge University Press.',
+  steudel1979: 'Steudel, H. J. (1979). Generating pallet loading patterns: A special case of the two-dimensional cutting stock problem. Management Science, 25(10), 997–1004.',
+  smith1980: 'Smith, A., & De Cani, P. (1980). An algorithm to optimize the layout of boxes in pallets. Journal of the Operational Research Society, 31(7), 573–578.',
+  ennis1993: 'Ennis, D. M. (1993). The power of sensory discrimination methods. Journal of Sensory Studies, 8(4), 353–370.',
+  ennis2011: 'Ennis, J. M., & Jesionka, V. (2011). The power of sensory discrimination methods revisited. Journal of Sensory Studies, 26(5), 371–382.',
+  brockhoff2010: 'Brockhoff, P. B., & Christensen, R. H. B. (2010). Thurstonian models for sensory discrimination tests as generalized linear models. Food Quality and Preference, 21(3), 330–338.',
+  bi2006: 'Bi, J. (2006). Sensory discrimination tests and measurements: Statistical principles, procedures and tables. Blackwell.',
+  lawless2010: 'Lawless, H. T., & Heymann, H. (2010). Sensory evaluation of food: Principles and practices (2nd ed.). Springer.',
+  clopper1934: 'Clopper, C. J., & Pearson, E. S. (1934). The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika, 26(4), 404–413.',
+  peryam1957: 'Peryam, D. R., & Pilgrim, F. J. (1957). Hedonic scale method of measuring food preferences. Food Technology, 11(9), 9–14.',
+  xiong2006: 'Xiong, R., & Meullenet, J.-F. (2006). A PLS dummy variable approach to assess the impact of jar attributes on consumer acceptance. Food Quality and Preference, 17(3–4), 188–198.',
+  meyners2013: 'Meyners, M., Castura, J. C., & Carr, B. T. (2013). Existing and new approaches for the analysis of CATA data. Food Quality and Preference, 30(2), 309–319.',
+  cochran1950: 'Cochran, W. G. (1950). The comparison of percentages in matched samples. Biometrika, 37(3–4), 256–266.',
+  mcnemar1947: 'McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12(2), 153–157.',
+  greenacre2007: 'Greenacre, M. (2007). Correspondence analysis in practice (2nd ed.). Chapman & Hall/CRC.',
+  friedman1937: 'Friedman, M. (1937). The use of ranks to avoid the assumption of normality implicit in the analysis of variance. Journal of the American Statistical Association, 32(200), 675–701.',
+  stone1974: 'Stone, H., Sidel, J., Oliver, S., Woolsey, A., & Singleton, R. C. (1974). Sensory evaluation by quantitative descriptive analysis. Food Technology, 28(11), 24–34.',
+  naes2010: 'Næs, T., Brockhoff, P. B., & Tomic, O. (2010). Statistics for sensory and consumer science. Wiley.',
+  jolliffe2002: 'Jolliffe, I. T. (2002). Principal component analysis (2nd ed.). Springer.',
+  williams1949: 'Williams, E. J. (1949). Experimental designs balanced for the estimation of residual effects of treatments. Australian Journal of Scientific Research, Series A, 2(2), 149–168.',
+  macfie1989: 'MacFie, H. J. H., Bratchell, N., Greenhoff, K., & Vallis, L. V. (1989). Designs to balance the effect of order of presentation and first-order carry-over effects in hall tests. Journal of Sensory Studies, 4(2), 129–148.',
+  kramer1956: 'Kramer, C. Y. (1956). Extension of multiple range tests to group means with unequal numbers of replications. Biometrics, 12(3), 307–310.',
+  dunnett1955: 'Dunnett, C. W. (1955). A multiple comparison procedure for comparing several treatments with a control. Journal of the American Statistical Association, 50(272), 1096–1121.',
+  copenhaver1988: 'Copenhaver, M. D., & Holland, B. (1988). Computation of the distribution of the maximum studentized range statistic with application to multiple significance testing of simple effects. Journal of Statistical Computation and Simulation, 30(1), 1–15.',
+  piepho2004: 'Piepho, H.-P. (2004). An algorithm for a letter-based representation of all-pairwise comparisons. Journal of Computational and Graphical Statistics, 13(2), 456–466.',
+  greenhouse1959: 'Greenhouse, S. W., & Geisser, S. (1959). On methods in the analysis of profile data. Psychometrika, 24(2), 95–112.',
+  huynh1976: 'Huynh, H., & Feldt, L. S. (1976). Estimation of the Box correction for degrees of freedom from sample data in randomized block and split-plot designs. Journal of Educational Statistics, 1(1), 69–82.',
+  lecoutre1991: 'Lecoutre, B. (1991). A correction for the ε̃ approximate test in repeated measures designs with two or more independent groups. Journal of Educational Statistics, 16(4), 371–372.',
+  mauchly1940: 'Mauchly, J. W. (1940). Significance test for sphericity of a normal n-variate distribution. The Annals of Mathematical Statistics, 11(2), 204–209.',
+  satterthwaite1946: 'Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components. Biometrics Bulletin, 2(6), 110–114.',
+  steel1997: 'Steel, R. G. D., Torrie, J. H., & Dickey, D. A. (1997). Principles and procedures of statistics: A biometrical approach (3rd ed.). McGraw-Hill.',
+  snedecor1989: 'Snedecor, G. W., & Cochran, W. G. (1989). Statistical methods (8th ed.). Iowa State University Press.',
+  holm1979: 'Holm, S. (1979). A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics, 6(2), 65–70.',
+};
+/* the methods of each block, with the keys of their sources */
+const METHODS = [
+  [2, 'Sólidos solubles, acidez titulable (por titulación y ácido dominante), SST/AT y BrimA', 'Soluble solids, titratable acidity (by titration and dominant acid), SSC/TA and BrimA', ['aoac942', 'kader2002', 'jordan2001']],
+  [2, 'Color CIELAB y LCh, conversión sRGB ↔ Lab ↔ hex', 'CIELAB and LCh colour, sRGB ↔ Lab ↔ hex conversion', ['cie2018', 'mcguire1992']],
+  [2, 'Diferencias de color ΔE*ab, ΔE94 y ΔE00', 'Colour differences ΔE*ab, ΔE94 and ΔE00', ['cie2018', 'sharma2005', 'mokrzycki2011']],
+  [2, 'Índices de color (CCI, pardeamiento, blancura, amarillez)', 'Colour indices (CCI, browning, whiteness, yellowness)', ['jimenez1981', 'palou1999']],
+  [2, 'Escalas de madurez y daño: índice ponderado, incidencia y fruta comercializable', 'Ripeness and damage scales: weighted index, incidence and marketable fruit', ['mckinney1923']],
+  [2, 'Pérdida de peso, humedad, materia seca, firmeza y calibres', 'Weight loss, moisture, dry matter, firmness and size grades', ['kader2002']],
+  [3, 'Cinética de orden cero, uno y dos por mínimos cuadrados no lineales, con AIC', 'Zero-, first- and second-order kinetics by nonlinear least squares, with AIC', ['labuza1984', 'vanboekel2008', 'bates1988', 'marquardt1963', 'akaike1974', 'burnham2002']],
+  [3, 'Arrhenius, Q10 y raíz cuadrada (Bělehrádek)', 'Arrhenius, Q10 and square root (Bělehrádek)', ['arrhenius1889', 'taoukis1989', 'ratkowsky1982']],
+  [3, 'Vida de anaquel por límite de atributo y pruebas aceleradas', 'Shelf life by attribute limit and accelerated tests', ['labuza1984', 'mizrahi2004']],
+  [3, 'Kaplan–Meier, prueba de rango logarítmico, Weibull, log-normal y log-logística con censura', 'Kaplan–Meier, log-rank test, Weibull, log-normal and log-logistic with censoring', ['kaplan1958', 'greenwood1926', 'mantel1966', 'lawless2003', 'hough2003']],
+  [4, 'Tasa de respiración y producción de etileno (estático y flujo continuo), cociente respiratorio y calor de respiración', 'Respiration rate and ethylene production (static and flow-through), respiratory quotient and heat of respiration', ['fonseca2002', 'kader2002', 'saltveit2016']],
+  [4, 'Climaterio por la forma de las curvas de respiración y etileno', 'Climacteric from the shape of the respiration and ethylene curves', ['biale1964', 'lelievre1997']],
+  [4, 'Atmósfera modificada en estado estacionario y respiración de Michaelis–Menten', 'Modified atmosphere at steady state and Michaelis–Menten respiration', ['exama1993', 'fishman1996', 'lee1991', 'mangaraj2009']],
+  [4, 'Calor de campo, medio y siete octavos de enfriamiento, carga de refrigeración', 'Field heat, half- and seven-eighths cooling time, refrigeration load', ['thompson2008', 'siebel1892']],
+  [5, 'Pérdidas por etapa en cantidad y valor, índice, Pareto y simulación', 'Losses by stage in quantity and value, index, Pareto and simulation', ['fao2019', 'lagra2016']],
+  [5, 'Daño mecánico: curvas de impacto, umbral, susceptibilidad y regresión logística con intervalo de Fieller', 'Mechanical damage: impact curves, threshold, susceptibility and logistic regression with Fieller interval', ['bajema1998', 'mohsenin1986', 'finney1971']],
+  [6, 'Pruebas discriminativas con d′ de Thurstone, potencia y tamaño de muestra', 'Discrimination tests with Thurstonian d′, power and sample size', ['ennis1993', 'ennis2011', 'brockhoff2010', 'bi2006', 'clopper1934']],
+  [6, 'Escala hedónica, ANOVA y Tukey; ordenamiento de Friedman', 'Hedonic scale, ANOVA and Tukey; Friedman ranking', ['peryam1957', 'friedman1937', 'lawless2010']],
+  [6, 'Punto justo (JAR) con análisis de penalidades', 'Just-about-right (JAR) with penalty analysis', ['xiong2006', 'lawless2010']],
+  [6, 'CATA: Q de Cochran, McNemar y análisis de correspondencias', 'CATA: Cochran\'s Q, McNemar and correspondence analysis', ['meyners2013', 'cochran1950', 'mcnemar1947', 'greenacre2007']],
+  [6, 'Perfil descriptivo: ANOVA juez × producto, desempeño del panel y ACP', 'Descriptive profile: judge × product ANOVA, panel performance and PCA', ['stone1974', 'naes2010', 'jolliffe2002']],
+  [6, 'Órdenes de presentación de Williams y códigos de tres dígitos', 'Williams presentation orders and three-digit codes', ['williams1949', 'macfie1989']],
+  [7, 'ANOVA factorial tratamiento × tiempo (tipos I y III) y comparación de medias', 'Treatment × time factorial ANOVA (types I and III) and mean comparison', ['steel1997', 'kramer1956', 'dunnett1955', 'copenhaver1988', 'piepho2004']],
+  [7, 'Medidas repetidas: parcelas divididas en el tiempo, Greenhouse–Geisser, Huynh–Feldt, Mauchly', 'Repeated measures: split plot in time, Greenhouse–Geisser, Huynh–Feldt, Mauchly', ['steel1997', 'greenhouse1959', 'huynh1976', 'lecoutre1991', 'mauchly1940', 'satterthwaite1946']],
+  [7, 'Comparación de pendientes (análisis de covarianza)', 'Comparison of slopes (analysis of covariance)', ['snedecor1989', 'holm1979']],
+  [8, 'Patrones de carga en tarima y contenedor', 'Pallet and container loading patterns', ['steudel1979', 'smith1980']],
+  [8, 'Psicrometría, déficit de presión de vapor y transpiración', 'Psychrometrics, vapour-pressure deficit and transpiration', ['ashrae2017', 'wagner2002', 'wagner2011', 'sastry1978']],
+  [8, 'Ventilación de cajas y compatibilidad de productos en almacén', 'Box venting and storage compatibility of products', ['thompson2008', 'kader2002', 'gross2016', 'mcgregor1989']],
+];
+const Refs = {
+  REFS, METHODS,
+  text: k => REFS[k] || k,
+  /* «Author (year)» from a key, for the short citations under results */
+  short(k) {
+    const r = REFS[k];
+    if (!r) return k;
+    const y = (r.match(/\((\d{4})\)/) || [])[1] || '';
+    const who = r.split(/\s\(\d{4}\)/)[0].replace(/\s*\(Eds?\.\)\.?/, '');
+    const sur = [...who.matchAll(/([A-Za-zÀ-ÿ'’ -]+?),\s(?:[A-ZÀ-Ý]\.[\s-]*)+/g)].map(m => m[1].replace(/^&\s*/, '').trim());
+    if (!sur.length) return who.replace(/\.$/, '') + ' ' + y;
+    const and = (window.I18N && I18N.lang === 'en') ? ' and ' : ' y ';
+    return (sur.length === 1 ? sur[0] : sur.length === 2 ? sur[0] + and + sur[1] : sur[0] + ' et al.') + ' ' + y;
+  },
+};
+g.Refs = Refs;
+})(typeof window !== 'undefined' ? window : globalThis);

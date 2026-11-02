@@ -1,0 +1,33 @@
+# Operating system
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+.DS_Store
+
+# Editors and tooling
+.vscode/
+.idea/
+.claude/
+*.swp
+*~
+
+# Node and logs (the tools of the manual and of the validation need no packages)
+node_modules/
+*.log
+*.tmp
+*.bak
+
+# Archives
+*.zip
+
+# Files the app writes when you use it
+informe_postharvestpro*.html
+proyecto_postharvestpro_*.json
+plan_de_servicio*.csv
+libro_de_campo*.csv
+libro_de_campo*.xlsx
+
+# Working files of the manual
+manual/es/_*
+manual/en/_*

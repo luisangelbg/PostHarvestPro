@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--
+  PostHarvestPro — postharvest physiology and technology, quality, shelf life
+  and sensory evaluation, in the browser.
+  Copyright (C) 2026  Luis Ángel Barrera-Guzmán
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program, in the file LICENSE.  If not, see <https://www.gnu.org/licenses/>.
+
+  This notice covers the whole program: index.html, css/ and the files in js/.
+  This file is assembled by tools/armar_index.js.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-es="PostHarvestPro — Poscosecha, calidad, vida de anaquel y evaluación sensorial" data-en="PostHarvestPro — Postharvest, quality, shelf life and sensory evaluation">PostHarvestPro — Poscosecha, calidad, vida de anaquel y evaluación sensorial</title>
+<meta name="description" content="Postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser: quality and colour indices, deterioration kinetics with Arrhenius and Q10, time to rejection, respiration and modified atmospheres, losses along the value chain, discrimination, affective and descriptive sensory tests, trials, packaging and cold-storage calculators.">
+<meta name="author" content="Luis Ángel Barrera-Guzmán">
+<meta name="labg-repo" content="PostHarvestPro">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PostHarvestPro — LABG Suite">
+<meta property="og:description" content="Postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser: quality and colour indices, deterioration kinetics with Arrhenius and Q10, time to rejection, respiration and modified atmospheres, losses along the value chain, discrimination, affective and descriptive sensory tests, trials, packaging and cold-storage calculators.">
+<meta property="og:image" content="https://luisangelbg.github.io/PostHarvestPro/img/og.png">
+<meta property="og:url" content="https://luisangelbg.github.io/PostHarvestPro/">
+<meta name="theme-color" content="#EF6C00">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2064%2064%22%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22phg1%22%20x1%3D%220.12%22%20y1%3D%220.08%22%20x2%3D%220.9%22%20y2%3D%220.95%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%237CB342%22%2F%3E%3Cstop%20offset%3D%220.42%22%20stop-color%3D%22%23C4C23A%22%2F%3E%3Cstop%20offset%3D%220.7%22%20stop-color%3D%22%23F2A51C%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23EF6C00%22%2F%3E%3C%2FlinearGradient%3E%3CradialGradient%20id%3D%22phs2%22%20cx%3D%220.35%22%20cy%3D%220.3%22%20r%3D%220.5%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23FFF3E0%22%20stop-opacity%3D%22.7%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23FFF3E0%22%20stop-opacity%3D%220%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23111111%22%2F%3E%3Cpath%20d%3D%22M30.1%2014.5C31.1%207.9%2038.6%202.3%2048%203.2C46.1%209.8%2038.6%2014.5%2030.1%2014.5Z%22%20fill%3D%22%237CB342%22%2F%3E%3Cpath%20d%3D%22M30.5%2014.5c1-3%204-5.5%208-6%22%20stroke%3D%22%234E7A1E%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M30.1%2014.5C42.3%2013.6%2051.7%2023.9%2050.8%2038.9C49.9%2052.1%2040.5%2061.5%2029.2%2061.5C17.9%2061.5%2012.3%2052.1%2013.2%2040.8C14.1%2027.7%2017.9%2015.4%2030.1%2014.5Z%22%20fill%3D%22url(%23phg1)%22%2F%3E%3Cpath%20d%3D%22M30.1%2014.5C42.3%2013.6%2051.7%2023.9%2050.8%2038.9C49.9%2052.1%2040.5%2061.5%2029.2%2061.5C17.9%2061.5%2012.3%2052.1%2013.2%2040.8C14.1%2027.7%2017.9%2015.4%2030.1%2014.5Z%22%20fill%3D%22url(%23phs2)%22%2F%3E%3Cpath%20d%3D%22M14%2029C21%2030%2024%2036%2029%2041C34%2046%2039%2049.5%2049%2050.5%22%20fill%3D%22none%22%20stroke%3D%22%23FFF3E0%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2229%22%20r%3D%222.6%22%20fill%3D%22%23FFF3E0%22%2F%3E%3Ccircle%20cx%3D%2249%22%20cy%3D%2250.5%22%20r%3D%222.6%22%20fill%3D%22%23D4A848%22%2F%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="css/labg-base.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/i18n.js"></script>
+</head>
+<body class="on-home">
+
+<a class="skip-link" href="#main"><span data-l="es">Saltar al contenido</span><span data-l="en">Skip to content</span></a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-row">
+      <div class="brand" id="brand" data-es-title="Inicio" data-en-title="Home"><span id="brandLogo"></span><span>PostHarvest<span class="brand-pro">Pro</span></span>
+        <span class="brand-sub">· <span data-l="es">poscosecha, calidad, vida de anaquel y sensorial</span><span data-l="en">postharvest, quality, shelf life and sensory</span></span></div>
+      <div class="top-tools">
+        <a class="suite-link" href="https://luisangelbg.github.io/" data-es-title="Volver al portal de la LABG Suite" data-en-title="Back to the LABG Suite portal" title="Volver al portal de la LABG Suite" aria-label="Volver al portal de la LABG Suite">
+          <svg class="labg-iso" viewBox="0 0 828 946.2" aria-hidden="true" focusable="false"><defs><linearGradient id="labgIsoHo" gradientUnits="userSpaceOnUse" x1="0" y1="473.1" x2="828" y2="413.1"><stop offset="0" stop-color="#BF8B3C"/><stop offset=".3" stop-color="#C99C49"/><stop offset=".55" stop-color="#D9B05C"/><stop offset=".78" stop-color="#E6C470"/><stop offset="1" stop-color="#F6D985"/></linearGradient><linearGradient id="labgIsoHb"><stop offset="0" stop-color="#FFF8E6" stop-opacity="0"/><stop offset=".5" stop-color="#FFF8E6" stop-opacity=".95"/><stop offset="1" stop-color="#FFF8E6" stop-opacity="0"/></linearGradient><clipPath id="labgIsoHc"><path clip-rule="evenodd" d="M440.8 246.5L421.7 257.7L404.8 247.9L424 236.8ZM318.9 256.4L301.7 266.3L285.7 257.1L302.9 247.2ZM522.2 260.9L438.6 309.1L420.1 298.5L503.7 250.2ZM392.5 269.9L373.4 280.9L356.1 271L375.3 260ZM277 277.3L235 301.6L219.9 292.9L261.9 268.6ZM576.1 291.8L398.2 394.4L380.4 384.1L558.3 281.5ZM348.1 295.6L287.5 330.5L270.1 320.5L330.6 285.6ZM404.3 419.1L577.9 318.9L579.2 318.1C579.6 318 580.7 317.9 581.5 317.6C582.2 317.4 583 317 583.8 316.6C584.5 316.2 585.3 315.8 586 315.5C586.8 315.1 587.6 314.8 588.3 314.4C589 314.1 589.8 313.8 590.6 313.5C591.4 313.2 592.2 313 593 312.9C593.8 312.6 594.6 312.5 595.5 312.4C596.3 312.2 597.1 312.2 597.9 312.1C598.9 312.1 599.7 312.1 600.4 312.1C601.4 312.1 602.2 312.1 603 312.2C603.9 312.3 604.7 312.4 605.5 312.5C606.3 312.7 607.1 313 607.9 313.2C608.7 313.5 609.5 313.9 610.1 314.2C610.9 314.6 611.6 315 612.4 315.5C613.1 315.8 613.8 316.3 614.5 316.7C615.2 317.3 615.8 317.8 616.5 318.3C617.1 318.8 617.8 319.4 618.3 319.9C618.9 320.6 619.5 321.2 620.1 321.9C620.6 322.4 621.1 323.1 621.7 323.8C622.1 324.5 622.6 325.2 623 325.8C623.5 326.5 623.9 327.2 624.4 328C624.8 328.7 625.2 329.4 625.6 330.2C626 330.9 626.4 331.7 626.8 332.3C627.1 333.1 627.5 333.8 627.9 334.6C628.3 335.4 628.6 336.1 628.9 336.9C629.3 337.7 629.6 338.4 630 339.2C630.3 340 630.7 340.7 630.9 341.5C631.2 342.3 631.6 343.1 631.9 343.9C632.1 344.5 632.5 345.3 632.7 346.1C632.9 346.9 633.3 347.7 633.5 348.5C633.7 349.3 634 350.1 634.3 350.9C634.5 351.7 634.8 352.5 635.1 353.3C635.3 354.1 635.7 354.9 635.9 355.7C636.1 356.5 636.5 357.3 636.7 358.1C636.9 358.9 637.2 359.7 637.3 360.5C637.5 361.3 637.7 362.1 638 362.9C638.1 363.8 638.3 364.6 638.5 365.4C638.6 366.2 638.9 367 639.1 367.8C639.2 368.6 639.4 369.4 639.7 370.3C639.9 371.1 640 371.9 640.2 372.7C640.3 373.5 640.5 374.3 640.7 375.2C640.8 376 640.9 376.8 641 377.6C641.1 378.5 641.3 379.3 641.4 380.1C641.5 381 641.5 381.8 641.6 382.6C641.7 383.4 641.7 384.3 641.8 385.1C641.9 385.9 641.9 386.8 642.1 387.6C642.1 388.4 642.2 389.3 642.3 390.1C642.3 390.9 642.4 391.9 642.4 392.7C642.5 393.5 642.6 394.2 642.6 395.2C642.7 396 642.7 396.8 642.9 397.7C642.9 398.5 642.9 399.3 642.9 400.2C642.9 401 642.9 401.8 642.9 402.7C642.9 403.5 642.9 404.3 642.7 405.2C642.6 406 642.6 406.8 642.5 407.7C642.4 408.5 642.3 409.3 642.2 410.1C642.1 411 641.9 411.8 641.7 412.6C641.6 413.4 641.5 414.2 641.3 415.1C641.1 415.9 640.9 416.7 640.8 417.5C640.6 418.3 640.3 419.1 640.2 420C640 420.8 639.8 421.6 639.6 422.4C639.4 423.2 639.2 424 638.9 424.8C638.6 425.6 638.4 426.4 638.2 427.2C637.8 428 637.6 428.8 637.3 429.6C637 430.4 636.8 431.2 636.6 432C636.4 432.8 636.2 433.6 636.1 434.5C636.1 435.3 636.2 436.1 636.4 436.9C636.5 437.8 636.8 438.6 637 439.3C637.4 440.1 637.8 440.9 638.2 441.6C638.6 442.2 639.1 442.9 639.6 443.7C640 444.4 640.5 445.1 640.9 445.8C641.4 446.5 641.8 447.1 642.3 447.9C642.6 448.6 643.1 449.3 643.4 450.1C643.9 450.8 644.2 451.6 644.6 452.4C644.9 453.1 645.3 453.9 645.6 454.7C645.9 455.5 646.2 456.2 646.5 456.9C646.8 457.7 647.1 458.5 647.4 459.3C647.6 460.1 647.9 460.9 648.2 461.7C648.4 462.5 648.7 463.3 648.9 464.1C649.1 464.9 649.2 465.7 649.5 466.5C649.7 467.3 649.8 468.2 650 469C650.2 469.8 650.4 470.6 650.5 471.4C650.6 472.3 650.8 473.1 651 473.9C651.1 474.7 651.3 475.5 651.4 476.4C651.5 477.2 651.7 478 651.9 478.8C652 479.6 652.1 480.5 652.2 481.3C652.3 482.1 652.4 483.1 652.5 483.9C652.7 484.7 652.7 485.4 652.8 486.4C652.8 487.2 652.9 488 652.9 488.9C652.9 489.7 653 490.5 653 491.4C653 492.2 653 493 653 493.9C653 494.7 653 495.5 653 496.4C653 497.2 653 498 653 498.9C653 499.7 653 500.5 652.9 501.4C652.9 502.2 652.9 503 652.9 503.9C652.9 504.7 652.8 505.5 652.8 506.4C652.7 507.2 652.7 508 652.5 508.9C652.5 509.7 652.4 510.5 652.3 511.4C652.3 512.2 652.2 513 652.1 513.8C652 514.7 651.9 515.5 651.7 516.3C651.6 517.1 651.5 518.1 651.3 518.9C651.2 519.6 651.1 520.4 651 521.4C650.8 522.2 650.6 523 650.5 523.8C650.4 524.7 650.3 525.5 650 526.3C649.9 527.1 649.7 527.9 649.6 528.8C649.4 529.6 649.2 530.4 649 531.2C648.9 532 648.7 532.8 648.6 533.7C648.3 534.5 648.1 535.3 648 536.1C647.8 536.9 647.5 537.7 647.3 538.5C647.2 539.3 647 540.2 646.7 541C646.4 541.8 646.2 542.6 645.9 543.4C645.7 544 645.4 544.8 645 545.6C644.8 546.4 644.5 547.2 644.1 548C643.8 548.7 643.5 549.5 643.2 550.3C642.9 551.1 642.5 551.8 642.2 552.6C641.8 553.4 641.6 554.2 641.3 554.9C640.9 555.7 640.6 556.5 640.2 557.3C639.9 558 639.6 558.8 639.2 559.5C638.8 560.2 638.4 561 638 561.7C637.6 562.4 637.2 563.2 636.7 563.9C636.4 564.6 635.9 565.4 635.4 566C635 566.7 634.5 567.4 634 568.1C633.5 568.8 633.1 569.5 632.5 570.2C632 570.7 631.5 571.4 630.9 572.1C630.4 572.7 629.9 573.3 629.3 573.9C628.7 574.6 628.2 575.2 627.6 575.7C626.9 576.3 626.3 576.9 625.6 577.4C625.1 578 624.4 578.5 623.7 579C623 579.5 622.3 580 621.7 580.4C621 581 620.3 581.4 619.6 581.9C618.9 582.3 618 582.9 617.5 583.4C617.2 583.8 617.3 584.4 617.2 584.6L403.2 708.2L380.8 695.3L380.8 575.7L220.4 483.2L218.9 482.3C218.5 482.1 217.4 481.9 216.6 481.7C215.9 481.3 215.1 480.9 214.3 480.5C213.6 480.3 212.8 479.9 212.1 479.7C211.3 479.5 210.3 479.4 209.5 479.4C208.7 479.5 207.5 479.7 207 479.9C206.7 479.9 207 479.9 207 479.9L207 596.8L175.1 578.4L175.1 319.8L203.6 303.3L404.3 419.1ZM400.8 328.5L342.4 362.2L325.6 352.6L384.1 318.8ZM381.2 446.6L381.2 536.9L206.8 436.2L206.8 345.9ZM440.3 521.4L440.3 561.1L605.9 465.6L606.9 464.9C607.2 465.3 607.7 466.4 608.3 467C608.9 467.7 609.7 468 610.4 468.5C610.9 469 611.7 469.5 612.3 470.1C612.9 470.6 613.4 471.2 614 471.9C614.5 472.6 614.9 473.3 615.4 473.9C615.8 474.7 616.2 475.4 616.5 476.2C616.9 476.9 617.2 477.7 617.5 478.5C617.9 479.3 618.1 480.1 618.3 480.9C618.7 481.7 618.9 482.5 619.1 483.3C619.4 484.1 619.6 484.9 619.8 485.7C619.9 486.5 620.2 487.3 620.3 488.1C620.4 489 620.6 489.8 620.7 490.6C620.9 491.4 621 492.3 621 493.1C621.1 493.9 621.2 494.8 621.3 495.6C621.3 496.4 621.4 497.2 621.4 498.1C621.5 498.9 621.5 499.7 621.7 500.6C621.7 501.4 621.8 502.2 621.8 503.1C621.8 503.9 621.8 504.7 621.8 505.6C621.8 506.4 621.8 507.2 621.8 508.1C621.8 508.9 621.7 509.7 621.7 510.6C621.7 511.4 621.5 512.2 621.4 513.2C621.4 513.9 621.3 514.7 621.2 515.5C621.1 516.5 621.1 517.3 621 518.1C620.9 519 620.7 519.8 620.6 520.6C620.5 521.4 620.5 522.3 620.3 523.1C620.2 523.9 620.1 524.8 619.9 525.6C619.7 526.4 619.5 527.2 619.4 528C619.1 528.8 618.8 529.6 618.6 530.4C618.2 531.2 618 532 617.7 532.8C617.3 533.4 617 534.2 616.6 535C616.3 535.8 616 536.5 615.6 537.3C615.3 538.1 614.9 538.8 614.6 539.6C614.1 540.3 613.8 541.1 613.3 541.8C612.9 542.4 612.4 543.1 612 543.8C611.5 544.5 610.9 545.2 610.4 545.8C609.8 546.4 609.2 547 608.7 547.6C608.1 548.1 607.4 548.7 606.7 549.3C606.1 549.7 605.5 550.3 604.8 550.8C604.1 551.3 603.4 552 602.8 552.4C602.2 552.6 601.1 552.8 600.8 552.8C600.4 552.8 600.6 552.6 600.6 552.6L415.5 659.3L415.5 455.6L595.9 351.5L597.6 350.6C597.8 350.8 598.6 351.8 599.3 352.3C600 352.6 600.9 352.6 601.7 352.9C602.5 353.1 603.3 353.6 604 353.9C604.7 354.3 605.4 354.8 606 355.4C606.6 355.9 607.2 356.5 607.7 357.2C608.3 357.9 608.8 358.6 609.2 359.3C609.7 359.9 610.1 360.6 610.5 361.4C610.9 362.1 611.3 362.9 611.6 363.6C612 364.4 612.3 365.2 612.6 366C612.9 366.7 613.2 367.5 613.4 368.3C613.8 369.1 614 369.9 614.4 370.7C614.6 371.4 614.8 372.2 615 373C615.2 373.8 615.4 374.8 615.5 375.6C615.7 376.4 615.8 377.1 616 377.9C616.1 378.9 616.2 379.7 616.3 380.5C616.3 381.4 616.4 382.2 616.5 383C616.5 383.8 616.6 384.7 616.6 385.5C616.8 386.3 616.8 387.2 616.9 388C616.9 388.8 616.9 389.7 616.9 390.5C616.9 391.3 616.9 392.2 616.9 393C616.8 393.8 616.8 394.7 616.8 395.5C616.6 396.3 616.5 397.2 616.5 398C616.4 398.8 616.3 399.6 616.2 400.5C616.1 401.3 615.8 402.1 615.7 402.9C615.5 403.8 615.4 404.6 615.2 405.4C614.9 406.2 614.7 407 614.5 407.8C614.2 408.6 614.1 409.4 613.8 410.2C613.6 411 613.3 411.8 613 412.6C612.8 413.4 612.4 414.2 612.1 414.9C611.7 415.7 611.3 416.5 610.9 417.2C610.5 417.8 610 418.5 609.6 419.2C609 419.9 608.5 420.6 608 421.3C607.4 421.8 606.8 422.5 606.3 423.1C605.7 423.7 605.1 424.3 604.6 424.9C604 425.5 603.4 426.2 602.8 426.7C602.3 427.3 601.6 428 601 428.4C600.6 428.9 600 429.1 599.8 429.2L440.3 521.4ZM596.1 417.6L576.9 428.8L531 402.3L550.4 391.2ZM353.9 441L293.6 475.8L276.3 465.7L336.5 431ZM498.1 481.7L478.6 492.9L423.7 461.3L443.2 450ZM374.5 483.1L343.5 501L326.6 491.3L357.6 473.4ZM603.5 540.4L584 551.7L531.7 521.5L551.2 510.2ZM272.6 534.1L272.6 633.6L255.3 623.6L255.3 524.1ZM320.8 561.3L320.8 596.5L303.7 586.6L303.7 551.5ZM363.7 585.2L363.7 684.2L348.4 675.4L348.4 576.4ZM320.8 609.7L320.8 629.8L302.9 619.4L302.9 599.3ZM320.8 642.9L320.8 661.4L303.3 651.2L303.3 632.9Z"/></clipPath></defs><path fill="url(#labgIsoHo)" fill-rule="evenodd" d="M414 0L828 232.9L828 713.3L414 946.2L0 713.3L0 232.9ZM414 36.6L796 251.5L796 694.7L414 909.6L32 694.7L32 251.5Z"/><path fill="#000" d="M414 36.6L796 251.5L796 694.7L414 909.6L32 694.7L32 251.5Z"/><path class="iso-cubo" fill="url(#labgIsoHo)" fill-rule="evenodd" d="M440.8 246.5L421.7 257.7L404.8 247.9L424 236.8ZM318.9 256.4L301.7 266.3L285.7 257.1L302.9 247.2ZM522.2 260.9L438.6 309.1L420.1 298.5L503.7 250.2ZM392.5 269.9L373.4 280.9L356.1 271L375.3 260ZM277 277.3L235 301.6L219.9 292.9L261.9 268.6ZM576.1 291.8L398.2 394.4L380.4 384.1L558.3 281.5ZM348.1 295.6L287.5 330.5L270.1 320.5L330.6 285.6ZM404.3 419.1L577.9 318.9L579.2 318.1C579.6 318 580.7 317.9 581.5 317.6C582.2 317.4 583 317 583.8 316.6C584.5 316.2 585.3 315.8 586 315.5C586.8 315.1 587.6 314.8 588.3 314.4C589 314.1 589.8 313.8 590.6 313.5C591.4 313.2 592.2 313 593 312.9C593.8 312.6 594.6 312.5 595.5 312.4C596.3 312.2 597.1 312.2 597.9 312.1C598.9 312.1 599.7 312.1 600.4 312.1C601.4 312.1 602.2 312.1 603 312.2C603.9 312.3 604.7 312.4 605.5 312.5C606.3 312.7 607.1 313 607.9 313.2C608.7 313.5 609.5 313.9 610.1 314.2C610.9 314.6 611.6 315 612.4 315.5C613.1 315.8 613.8 316.3 614.5 316.7C615.2 317.3 615.8 317.8 616.5 318.3C617.1 318.8 617.8 319.4 618.3 319.9C618.9 320.6 619.5 321.2 620.1 321.9C620.6 322.4 621.1 323.1 621.7 323.8C622.1 324.5 622.6 325.2 623 325.8C623.5 326.5 623.9 327.2 624.4 328C624.8 328.7 625.2 329.4 625.6 330.2C626 330.9 626.4 331.7 626.8 332.3C627.1 333.1 627.5 333.8 627.9 334.6C628.3 335.4 628.6 336.1 628.9 336.9C629.3 337.7 629.6 338.4 630 339.2C630.3 340 630.7 340.7 630.9 341.5C631.2 342.3 631.6 343.1 631.9 343.9C632.1 344.5 632.5 345.3 632.7 346.1C632.9 346.9 633.3 347.7 633.5 348.5C633.7 349.3 634 350.1 634.3 350.9C634.5 351.7 634.8 352.5 635.1 353.3C635.3 354.1 635.7 354.9 635.9 355.7C636.1 356.5 636.5 357.3 636.7 358.1C636.9 358.9 637.2 359.7 637.3 360.5C637.5 361.3 637.7 362.1 638 362.9C638.1 363.8 638.3 364.6 638.5 365.4C638.6 366.2 638.9 367 639.1 367.8C639.2 368.6 639.4 369.4 639.7 370.3C639.9 371.1 640 371.9 640.2 372.7C640.3 373.5 640.5 374.3 640.7 375.2C640.8 376 640.9 376.8 641 377.6C641.1 378.5 641.3 379.3 641.4 380.1C641.5 381 641.5 381.8 641.6 382.6C641.7 383.4 641.7 384.3 641.8 385.1C641.9 385.9 641.9 386.8 642.1 387.6C642.1 388.4 642.2 389.3 642.3 390.1C642.3 390.9 642.4 391.9 642.4 392.7C642.5 393.5 642.6 394.2 642.6 395.2C642.7 396 642.7 396.8 642.9 397.7C642.9 398.5 642.9 399.3 642.9 400.2C642.9 401 642.9 401.8 642.9 402.7C642.9 403.5 642.9 404.3 642.7 405.2C642.6 406 642.6 406.8 642.5 407.7C642.4 408.5 642.3 409.3 642.2 410.1C642.1 411 641.9 411.8 641.7 412.6C641.6 413.4 641.5 414.2 641.3 415.1C641.1 415.9 640.9 416.7 640.8 417.5C640.6 418.3 640.3 419.1 640.2 420C640 420.8 639.8 421.6 639.6 422.4C639.4 423.2 639.2 424 638.9 424.8C638.6 425.6 638.4 426.4 638.2 427.2C637.8 428 637.6 428.8 637.3 429.6C637 430.4 636.8 431.2 636.6 432C636.4 432.8 636.2 433.6 636.1 434.5C636.1 435.3 636.2 436.1 636.4 436.9C636.5 437.8 636.8 438.6 637 439.3C637.4 440.1 637.8 440.9 638.2 441.6C638.6 442.2 639.1 442.9 639.6 443.7C640 444.4 640.5 445.1 640.9 445.8C641.4 446.5 641.8 447.1 642.3 447.9C642.6 448.6 643.1 449.3 643.4 450.1C643.9 450.8 644.2 451.6 644.6 452.4C644.9 453.1 645.3 453.9 645.6 454.7C645.9 455.5 646.2 456.2 646.5 456.9C646.8 457.7 647.1 458.5 647.4 459.3C647.6 460.1 647.9 460.9 648.2 461.7C648.4 462.5 648.7 463.3 648.9 464.1C649.1 464.9 649.2 465.7 649.5 466.5C649.7 467.3 649.8 468.2 650 469C650.2 469.8 650.4 470.6 650.5 471.4C650.6 472.3 650.8 473.1 651 473.9C651.1 474.7 651.3 475.5 651.4 476.4C651.5 477.2 651.7 478 651.9 478.8C652 479.6 652.1 480.5 652.2 481.3C652.3 482.1 652.4 483.1 652.5 483.9C652.7 484.7 652.7 485.4 652.8 486.4C652.8 487.2 652.9 488 652.9 488.9C652.9 489.7 653 490.5 653 491.4C653 492.2 653 493 653 493.9C653 494.7 653 495.5 653 496.4C653 497.2 653 498 653 498.9C653 499.7 653 500.5 652.9 501.4C652.9 502.2 652.9 503 652.9 503.9C652.9 504.7 652.8 505.5 652.8 506.4C652.7 507.2 652.7 508 652.5 508.9C652.5 509.7 652.4 510.5 652.3 511.4C652.3 512.2 652.2 513 652.1 513.8C652 514.7 651.9 515.5 651.7 516.3C651.6 517.1 651.5 518.1 651.3 518.9C651.2 519.6 651.1 520.4 651 521.4C650.8 522.2 650.6 523 650.5 523.8C650.4 524.7 650.3 525.5 650 526.3C649.9 527.1 649.7 527.9 649.6 528.8C649.4 529.6 649.2 530.4 649 531.2C648.9 532 648.7 532.8 648.6 533.7C648.3 534.5 648.1 535.3 648 536.1C647.8 536.9 647.5 537.7 647.3 538.5C647.2 539.3 647 540.2 646.7 541C646.4 541.8 646.2 542.6 645.9 543.4C645.7 544 645.4 544.8 645 545.6C644.8 546.4 644.5 547.2 644.1 548C643.8 548.7 643.5 549.5 643.2 550.3C642.9 551.1 642.5 551.8 642.2 552.6C641.8 553.4 641.6 554.2 641.3 554.9C640.9 555.7 640.6 556.5 640.2 557.3C639.9 558 639.6 558.8 639.2 559.5C638.8 560.2 638.4 561 638 561.7C637.6 562.4 637.2 563.2 636.7 563.9C636.4 564.6 635.9 565.4 635.4 566C635 566.7 634.5 567.4 634 568.1C633.5 568.8 633.1 569.5 632.5 570.2C632 570.7 631.5 571.4 630.9 572.1C630.4 572.7 629.9 573.3 629.3 573.9C628.7 574.6 628.2 575.2 627.6 575.7C626.9 576.3 626.3 576.9 625.6 577.4C625.1 578 624.4 578.5 623.7 579C623 579.5 622.3 580 621.7 580.4C621 581 620.3 581.4 619.6 581.9C618.9 582.3 618 582.9 617.5 583.4C617.2 583.8 617.3 584.4 617.2 584.6L403.2 708.2L380.8 695.3L380.8 575.7L220.4 483.2L218.9 482.3C218.5 482.1 217.4 481.9 216.6 481.7C215.9 481.3 215.1 480.9 214.3 480.5C213.6 480.3 212.8 479.9 212.1 479.7C211.3 479.5 210.3 479.4 209.5 479.4C208.7 479.5 207.5 479.7 207 479.9C206.7 479.9 207 479.9 207 479.9L207 596.8L175.1 578.4L175.1 319.8L203.6 303.3L404.3 419.1ZM400.8 328.5L342.4 362.2L325.6 352.6L384.1 318.8ZM381.2 446.6L381.2 536.9L206.8 436.2L206.8 345.9ZM440.3 521.4L440.3 561.1L605.9 465.6L606.9 464.9C607.2 465.3 607.7 466.4 608.3 467C608.9 467.7 609.7 468 610.4 468.5C610.9 469 611.7 469.5 612.3 470.1C612.9 470.6 613.4 471.2 614 471.9C614.5 472.6 614.9 473.3 615.4 473.9C615.8 474.7 616.2 475.4 616.5 476.2C616.9 476.9 617.2 477.7 617.5 478.5C617.9 479.3 618.1 480.1 618.3 480.9C618.7 481.7 618.9 482.5 619.1 483.3C619.4 484.1 619.6 484.9 619.8 485.7C619.9 486.5 620.2 487.3 620.3 488.1C620.4 489 620.6 489.8 620.7 490.6C620.9 491.4 621 492.3 621 493.1C621.1 493.9 621.2 494.8 621.3 495.6C621.3 496.4 621.4 497.2 621.4 498.1C621.5 498.9 621.5 499.7 621.7 500.6C621.7 501.4 621.8 502.2 621.8 503.1C621.8 503.9 621.8 504.7 621.8 505.6C621.8 506.4 621.8 507.2 621.8 508.1C621.8 508.9 621.7 509.7 621.7 510.6C621.7 511.4 621.5 512.2 621.4 513.2C621.4 513.9 621.3 514.7 621.2 515.5C621.1 516.5 621.1 517.3 621 518.1C620.9 519 620.7 519.8 620.6 520.6C620.5 521.4 620.5 522.3 620.3 523.1C620.2 523.9 620.1 524.8 619.9 525.6C619.7 526.4 619.5 527.2 619.4 528C619.1 528.8 618.8 529.6 618.6 530.4C618.2 531.2 618 532 617.7 532.8C617.3 533.4 617 534.2 616.6 535C616.3 535.8 616 536.5 615.6 537.3C615.3 538.1 614.9 538.8 614.6 539.6C614.1 540.3 613.8 541.1 613.3 541.8C612.9 542.4 612.4 543.1 612 543.8C611.5 544.5 610.9 545.2 610.4 545.8C609.8 546.4 609.2 547 608.7 547.6C608.1 548.1 607.4 548.7 606.7 549.3C606.1 549.7 605.5 550.3 604.8 550.8C604.1 551.3 603.4 552 602.8 552.4C602.2 552.6 601.1 552.8 600.8 552.8C600.4 552.8 600.6 552.6 600.6 552.6L415.5 659.3L415.5 455.6L595.9 351.5L597.6 350.6C597.8 350.8 598.6 351.8 599.3 352.3C600 352.6 600.9 352.6 601.7 352.9C602.5 353.1 603.3 353.6 604 353.9C604.7 354.3 605.4 354.8 606 355.4C606.6 355.9 607.2 356.5 607.7 357.2C608.3 357.9 608.8 358.6 609.2 359.3C609.7 359.9 610.1 360.6 610.5 361.4C610.9 362.1 611.3 362.9 611.6 363.6C612 364.4 612.3 365.2 612.6 366C612.9 366.7 613.2 367.5 613.4 368.3C613.8 369.1 614 369.9 614.4 370.7C614.6 371.4 614.8 372.2 615 373C615.2 373.8 615.4 374.8 615.5 375.6C615.7 376.4 615.8 377.1 616 377.9C616.1 378.9 616.2 379.7 616.3 380.5C616.3 381.4 616.4 382.2 616.5 383C616.5 383.8 616.6 384.7 616.6 385.5C616.8 386.3 616.8 387.2 616.9 388C616.9 388.8 616.9 389.7 616.9 390.5C616.9 391.3 616.9 392.2 616.9 393C616.8 393.8 616.8 394.7 616.8 395.5C616.6 396.3 616.5 397.2 616.5 398C616.4 398.8 616.3 399.6 616.2 400.5C616.1 401.3 615.8 402.1 615.7 402.9C615.5 403.8 615.4 404.6 615.2 405.4C614.9 406.2 614.7 407 614.5 407.8C614.2 408.6 614.1 409.4 613.8 410.2C613.6 411 613.3 411.8 613 412.6C612.8 413.4 612.4 414.2 612.1 414.9C611.7 415.7 611.3 416.5 610.9 417.2C610.5 417.8 610 418.5 609.6 419.2C609 419.9 608.5 420.6 608 421.3C607.4 421.8 606.8 422.5 606.3 423.1C605.7 423.7 605.1 424.3 604.6 424.9C604 425.5 603.4 426.2 602.8 426.7C602.3 427.3 601.6 428 601 428.4C600.6 428.9 600 429.1 599.8 429.2L440.3 521.4ZM596.1 417.6L576.9 428.8L531 402.3L550.4 391.2ZM353.9 441L293.6 475.8L276.3 465.7L336.5 431ZM498.1 481.7L478.6 492.9L423.7 461.3L443.2 450ZM374.5 483.1L343.5 501L326.6 491.3L357.6 473.4ZM603.5 540.4L584 551.7L531.7 521.5L551.2 510.2ZM272.6 534.1L272.6 633.6L255.3 623.6L255.3 524.1ZM320.8 561.3L320.8 596.5L303.7 586.6L303.7 551.5ZM363.7 585.2L363.7 684.2L348.4 675.4L348.4 576.4ZM320.8 609.7L320.8 629.8L302.9 619.4L302.9 599.3ZM320.8 642.9L320.8 661.4L303.3 651.2L303.3 632.9Z"/><g clip-path="url(#labgIsoHc)"><rect class="iso-brillo" x="-300" y="-40" width="220" height="1030" fill="url(#labgIsoHb)" transform="skewX(-18)"/></g></svg>
+          <span class="suite-text">LABG Suite</span>
+        </a>
+        <div class="seg lang-seg" role="group" aria-label="Idioma / Language">
+          <button type="button" data-lang="es" title="Español">ES</button><button type="button" data-lang="en" title="English">EN</button>
+        </div>
+        <button type="button" class="icon-btn theme-btn" id="themeBtn" title="Cambiar entre tema claro y oscuro" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="helpBtn" data-es-title="Atajos de teclado (?)" data-en-title="Keyboard shortcuts (?)" title="Atajos de teclado (?)" aria-label="Atajos de teclado (?)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="stepper" id="stepper" aria-label="Bloques"></nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- ==================== BLOCK 1 · HOME ==================== -->
+<section class="step-panel active" id="panel-1">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span data-l="es">Fisiología y tecnología poscosecha</span><span data-l="en">Postharvest physiology and technology</span></div>
+        <h1><span data-l="es">Mide la <span class="naranja">calidad</span>, predice la <span class="verde">vida de anaquel</span> y decide con datos</span><span data-l="en">Measure <span class="naranja">quality</span>, predict <span class="verde">shelf life</span> and decide with data</span></h1>
+        <p class="lead"><span data-l="es">Índices de <b>calidad y color</b>, <b>cinética de deterioro</b> con Arrhenius y Q10, <b>tiempo hasta el rechazo</b> con censura,
+          <b>respiración, etileno y atmósferas modificadas</b>, <b>pérdidas en la cadena</b>, <b>evaluación sensorial</b> completa, análisis de
+          <b>ensayos</b> y calculadoras de <b>empaque y almacén</b>. Cada resultado dice su método y su fuente, y todo sale listo para el informe.
+          Funciona en tu navegador: sin instalar nada y sin que tus datos salgan de tu computadora.</span><span data-l="en"><b>Quality and colour</b> indices,
+          <b>deterioration kinetics</b> with Arrhenius and Q10, <b>time to rejection</b> with censoring, <b>respiration, ethylene and modified
+          atmospheres</b>, <b>losses along the chain</b>, complete <b>sensory evaluation</b>, analysis of <b>trials</b> and <b>packaging and storage</b>
+          calculators. Every result states its method and source, and everything is ready for the report. It runs in your browser: nothing to
+          install and your data never leave your computer.</span></p>
+        <div class="hero-cta">
+          <button type="button" class="btn btn-primary btn-lg" id="startBtn"><span data-l="es">Empezar con un ejemplo →</span><span data-l="en">Start with an example →</span></button>
+          <button type="button" class="btn btn-secondary btn-lg" id="examplesBtn"><span data-l="es">Ver los datos de ejemplo</span><span data-l="en">See the example data</span></button>
+          <button type="button" class="btn btn-ghost btn-lg" id="methodsBtn"><span data-l="es">Métodos y fuentes</span><span data-l="en">Methods and sources</span></button>
+          <button type="button" class="btn btn-ghost btn-lg" id="citeBtn"><span data-l="es">Cómo citar</span><span data-l="en">How to cite</span></button>
+        </div>
+        <div class="badge-row">
+          <span class="badge ok"><span data-l="es">Funciona completo en tu navegador</span><span data-l="en">Runs entirely in your browser</span></span>
+          <span class="badge ok"><span data-l="es">Validado contra implementaciones independientes</span><span data-l="en">Validated against independent implementations</span></span>
+          <span class="badge ok"><span data-l="es">Español e inglés</span><span data-l="en">Spanish and English</span></span>
+          <span class="badge ok"><span data-l="es">Figuras SVG y PNG a 300 ppp</span><span data-l="en">SVG figures and 300 ppi PNG</span></span>
+        </div>
+      </div>
+      <div class="hero-art" id="heroArt" role="img" data-es-title="Un fruto que madura en cinco etapas y la firmeza de tres lotes almacenados a 13, 20 y 25 °C, con el límite comercial que termina su vida de anaquel" data-en-title="A fruit ripening in five stages and the firmness of three lots stored at 13, 20 and 25 °C, with the market limit that ends their shelf life" aria-label="Un fruto que madura en cinco etapas y la firmeza de tres lotes almacenados a 13, 20 y 25 °C"></div>
+    </div>
+  </div>
+
+  <h2 class="section-title"><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></h2>
+  <p class="section-sub"><span data-l="es">La ruta sigue al producto desde la cosecha hasta el consumidor. Cada bloque recibe tus datos (o un ejemplo),
+    revisa que estén completos, calcula, explica el resultado en palabras y deja su parte en el informe.</span><span data-l="en">The route follows the produce from harvest
+    to the consumer. Each block takes your data (or an example), checks that they are complete, computes, explains the result in words and leaves its part in the report.</span></p>
+  <div class="workflow" id="workflow"></div>
+
+  <h2 class="section-title"><span data-l="es">Los nueve bloques</span><span data-l="en">The nine blocks</span></h2>
+  <p class="section-sub"><span data-l="es">Un bloque es un módulo de la app y un capítulo del manual. Dentro de cada uno, las pestañas separan las herramientas.</span><span data-l="en">A block is a module of the app and a chapter of the manual. Inside each one, tabs separate the tools.</span></p>
+  <div class="feature-grid" id="blockGrid" data-lnav-skip></div>
+
+  <h2 class="section-title" id="examples"><span data-l="es">Datos de ejemplo</span><span data-l="en">Example data</span></h2>
+  <p class="section-sub"><span data-l="es">Diez tablas simuladas con modelos y parámetros del orden de los publicados para cada cultivo. <b>No son mediciones</b>: sirven para
+    aprender la app y para comprobar que cada análisis responde como se espera. Cada botón abre la herramienta con el ejemplo cargado.</span><span data-l="en">Ten tables simulated with
+    models and parameters of the order published for each crop. <b>They are not measurements</b>: they are there to learn the app and to check that each analysis responds as expected. Each button opens the tool with the example loaded.</span></p>
+  <div class="ex-grid" id="exampleGrid"></div>
+
+  <h2 class="section-title" id="methods"><span data-l="es">Métodos y fuentes</span><span data-l="en">Methods and sources</span></h2>
+  <p class="section-sub"><span data-l="es">Cada método está programado desde su fórmula publicada y comparado con una implementación independiente; las tolerancias y los
+    resultados de esa comparación están en la carpeta de pruebas.</span><span data-l="en">Every method is programmed from its published formula and compared with an independent
+    implementation; the tolerances and the results of that comparison are in the tests folder.</span></p>
+  <div class="method-gallery" id="methodGallery"></div>
+
+  <h2 class="section-title"><span data-l="es">La poscosecha en breve</span><span data-l="en">Postharvest in brief</span></h2>
+  <p class="section-sub"><span data-l="es">Las ideas que sostienen los cálculos, en lenguaje llano.</span><span data-l="en">The ideas behind the computations, in plain words.</span></p>
+  <div class="card theory-card" id="theoryHost"></div>
+
+  <h2 class="section-title"><span data-l="es">Lo que no hace</span><span data-l="en">What it does not do</span></h2>
+  <div class="notdo">
+    <div><b><span data-l="es">No reemplaza la medición</span><span data-l="en">It does not replace measurement</span></b><span data-l="en">The models summarise data; extrapolating far from the temperatures, times or cultivars measured is the user's responsibility, and the app warns when it happens.</span><span data-l="es">Los modelos resumen los datos; extrapolar lejos de las temperaturas, tiempos o cultivares medidos queda bajo tu responsabilidad, y la app avisa cuando ocurre.</span></div>
+    <div><b><span data-l="es">No trae normas comerciales</span><span data-l="en">It brings no trade standards</span></b><span data-l="es">Las tablas de calibres, permeabilidades y compatibilidad son orientativas y editables: usa las de tu norma, tu película y tu cultivar.</span><span data-l="en">The tables of sizes, permeabilities and compatibility are orientative and editable: use those of your standard, your film and your cultivar.</span></div>
+    <div><b><span data-l="es">No modela la cinética no isotérmica</span><span data-l="en">It does not model non-isothermal kinetics</span></b><span data-l="es">Las predicciones son a temperatura constante; para historias de temperatura variable hay que integrar k(T(t)) en el tiempo.</span><span data-l="en">Predictions are at constant temperature; variable temperature histories need k(T(t)) integrated over time.</span></div>
+    <div><b><span data-l="es">No sube nada</span><span data-l="en">It uploads nothing</span></b><span data-l="es">No hay servidor, cuentas ni conexión: lo que guardas es un archivo de proyecto en tu equipo.</span><span data-l="en">There is no server, account or connection: what you save is a project file on your computer.</span></div>
+  </div>
+
+  <h2 class="section-title" id="refs"><span data-l="es">Referencias</span><span data-l="en">References</span></h2>
+  <details class="refs-box"><summary id="refsSummary"></summary><ol class="ref-list" id="refList"></ol></details>
+
+  <h2 class="section-title" id="cite"><span data-l="es">Cómo citar</span><span data-l="en">How to cite</span></h2>
+  <div class="cite-box">
+    <p style="margin:0 0 8px"><span data-l="es">Si PostHarvestPro te sirve en un trabajo, cítalo así:</span><span data-l="en">If PostHarvestPro helps your work, please cite it as:</span></p>
+    <div class="cite-ref" id="citeApa"></div>
+    <div class="btn-row" style="margin:0 0 10px"><button type="button" class="btn btn-ghost btn-sm" id="copyApa"><span data-l="es">Copiar la cita</span><span data-l="en">Copy the citation</span></button></div>
+    <div class="cite-ref" id="citeBib"></div>
+    <div class="btn-row" style="margin:0"><button type="button" class="btn btn-ghost btn-sm" id="copyBib"><span data-l="es">Copiar BibTeX</span><span data-l="en">Copy BibTeX</span></button></div>
+  </div>
+
+  <p class="footer-note"><span data-l="es">PostHarvestPro 1.0.0 · Luis Ángel Barrera-Guzmán · Software libre GPL-3.0 · parte de la LABG Suite</span><span data-l="en">PostHarvestPro 1.0.0 · Luis Ángel Barrera-Guzmán · Free software GPL-3.0 · part of the LABG Suite</span></p>
+</section>
+
+<section class="step-panel" id="panel-2"></section>
+<section class="step-panel" id="panel-3"></section>
+<section class="step-panel" id="panel-4"></section>
+<section class="step-panel" id="panel-5"></section>
+<section class="step-panel" id="panel-6"></section>
+<section class="step-panel" id="panel-7"></section>
+<section class="step-panel" id="panel-8"></section>
+<section class="step-panel" id="panel-9"></section>
+
+</main>
+
+<script src="js/labg-core.js"></script>
+<script src="js/labg-figure-studio.js" defer></script>
+<script src="js/labg-navigator.js" defer></script>
+<script src="js/labg-fx.js" data-app="postharvestpro" defer></script>
+<script src="js/num.js"></script>
+<script src="js/color.js"></script>
+<script src="js/quality.js"></script>
+<script src="js/kinetics.js"></script>
+<script src="js/survival.js"></script>
+<script src="js/resp.js"></script>
+<script src="js/losses.js"></script>
+<script src="js/sensory.js"></script>
+<script src="js/trials.js"></script>
+<script src="js/logistics.js"></script>
+<script src="js/datasets_data.js"></script>
+<script src="js/datasets.js"></script>
+<script src="js/refs.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/zip.js"></script>
+<script src="js/plot.js"></script>
+<script src="js/art.js"></script>
+<script src="js/core.js"></script>
+<script src="js/labg-figedit.js" data-key="postharvestpro:figedit" data-title=".fig-title"></script>
+<script src="js/home.js"></script>
+<script src="js/b2.js"></script>
+<script src="js/b3.js"></script>
+<script src="js/b4.js"></script>
+<script src="js/b5.js"></script>
+<script src="js/b6.js"></script>
+<script src="js/b7.js"></script>
+<script src="js/b8.js"></script>
+<script src="js/b9.js"></script>
+</body>
+</html>

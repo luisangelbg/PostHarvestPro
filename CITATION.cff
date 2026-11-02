@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser"
+abstract: >-
+  PostHarvestPro is a self-contained web application for postharvest research and teaching that
+  runs entirely in the browser, with no installation and no server-side computation. It covers
+  quality and maturity indices and CIELAB colour (conversions, ΔE*ab, ΔE94, ΔE00 and colour indices),
+  ripeness and damage scales and size grading; deterioration kinetics of zero, first and second
+  order with AIC, Arrhenius, Q10 and square-root temperature models, shelf life by attribute limit,
+  accelerated shelf-life tests and time to rejection with right censoring (Kaplan–Meier, log-rank,
+  Weibull, log-normal and log-logistic models); respiration rate and ethylene in static and
+  flow-through systems, climacteric classification, steady-state modified-atmosphere design and
+  precooling with its refrigeration load; postharvest losses along the value chain with a Sankey
+  diagram, critical points and what-if simulation, and mechanical damage curves with logistic
+  dose estimation; sensory discrimination tests with Thurstonian d′, power and sample size,
+  hedonic, just-about-right penalty, CATA and descriptive profile analyses with panel performance,
+  and Williams serving designs; factorial and repeated-measures analysis of postharvest trials with
+  Tukey, LSD and Dunnett comparisons and slope comparison; packaging and cold-storage calculators
+  (pallet and container loads, vent area, psychrometrics and vapour-pressure deficit, storage cost
+  and product compatibility); and a self-contained HTML report. Every engine was validated against
+  independent implementations.
+type: software
+authors:
+  - given-names: "Luis Ángel"
+    family-names: "Barrera-Guzmán"
+    orcid: "https://orcid.org/0000-0001-8057-2583"
+version: "1.0.0"
+date-released: "2026-10-04"
+license: GPL-3.0-or-later
+repository-code: "https://github.com/luisangelbg/PostHarvestPro"
+url: "https://luisangelbg.github.io/PostHarvestPro/"
+keywords:
+  - postharvest
+  - fruit and vegetable quality
+  - shelf life
+  - deterioration kinetics
+  - Arrhenius
+  - survival analysis
+  - respiration rate
+  - modified atmosphere packaging
+  - postharvest losses
+  - sensory evaluation
+  - Thurstonian models
+  - JavaScript
+  - browser-based

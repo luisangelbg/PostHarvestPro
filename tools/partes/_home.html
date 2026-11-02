@@ -1,0 +1,81 @@
+<!-- ==================== BLOCK 1 · HOME ==================== -->
+<section class="step-panel active" id="panel-1">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span data-l="es">Fisiología y tecnología poscosecha</span><span data-l="en">Postharvest physiology and technology</span></div>
+        <h1><span data-l="es">Mide la <span class="naranja">calidad</span>, predice la <span class="verde">vida de anaquel</span> y decide con datos</span><span data-l="en">Measure <span class="naranja">quality</span>, predict <span class="verde">shelf life</span> and decide with data</span></h1>
+        <p class="lead"><span data-l="es">Índices de <b>calidad y color</b>, <b>cinética de deterioro</b> con Arrhenius y Q10, <b>tiempo hasta el rechazo</b> con censura,
+          <b>respiración, etileno y atmósferas modificadas</b>, <b>pérdidas en la cadena</b>, <b>evaluación sensorial</b> completa, análisis de
+          <b>ensayos</b> y calculadoras de <b>empaque y almacén</b>. Cada resultado dice su método y su fuente, y todo sale listo para el informe.
+          Funciona en tu navegador: sin instalar nada y sin que tus datos salgan de tu computadora.</span><span data-l="en"><b>Quality and colour</b> indices,
+          <b>deterioration kinetics</b> with Arrhenius and Q10, <b>time to rejection</b> with censoring, <b>respiration, ethylene and modified
+          atmospheres</b>, <b>losses along the chain</b>, complete <b>sensory evaluation</b>, analysis of <b>trials</b> and <b>packaging and storage</b>
+          calculators. Every result states its method and source, and everything is ready for the report. It runs in your browser: nothing to
+          install and your data never leave your computer.</span></p>
+        <div class="hero-cta">
+          <button type="button" class="btn btn-primary btn-lg" id="startBtn"><span data-l="es">Empezar con un ejemplo →</span><span data-l="en">Start with an example →</span></button>
+          <button type="button" class="btn btn-secondary btn-lg" id="examplesBtn"><span data-l="es">Ver los datos de ejemplo</span><span data-l="en">See the example data</span></button>
+          <button type="button" class="btn btn-ghost btn-lg" id="methodsBtn"><span data-l="es">Métodos y fuentes</span><span data-l="en">Methods and sources</span></button>
+          <button type="button" class="btn btn-ghost btn-lg" id="citeBtn"><span data-l="es">Cómo citar</span><span data-l="en">How to cite</span></button>
+        </div>
+        <div class="badge-row">
+          <span class="badge ok"><span data-l="es">Funciona completo en tu navegador</span><span data-l="en">Runs entirely in your browser</span></span>
+          <span class="badge ok"><span data-l="es">Validado contra implementaciones independientes</span><span data-l="en">Validated against independent implementations</span></span>
+          <span class="badge ok"><span data-l="es">Español e inglés</span><span data-l="en">Spanish and English</span></span>
+          <span class="badge ok"><span data-l="es">Figuras SVG y PNG a 300 ppp</span><span data-l="en">SVG figures and 300 ppi PNG</span></span>
+        </div>
+      </div>
+      <div class="hero-art" id="heroArt" role="img" data-es-title="Un fruto que madura en cinco etapas y la firmeza de tres lotes almacenados a 13, 20 y 25 °C, con el límite comercial que termina su vida de anaquel" data-en-title="A fruit ripening in five stages and the firmness of three lots stored at 13, 20 and 25 °C, with the market limit that ends their shelf life" aria-label="Un fruto que madura en cinco etapas y la firmeza de tres lotes almacenados a 13, 20 y 25 °C"></div>
+    </div>
+  </div>
+
+  <h2 class="section-title"><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></h2>
+  <p class="section-sub"><span data-l="es">La ruta sigue al producto desde la cosecha hasta el consumidor. Cada bloque recibe tus datos (o un ejemplo),
+    revisa que estén completos, calcula, explica el resultado en palabras y deja su parte en el informe.</span><span data-l="en">The route follows the produce from harvest
+    to the consumer. Each block takes your data (or an example), checks that they are complete, computes, explains the result in words and leaves its part in the report.</span></p>
+  <div class="workflow" id="workflow"></div>
+
+  <h2 class="section-title"><span data-l="es">Los nueve bloques</span><span data-l="en">The nine blocks</span></h2>
+  <p class="section-sub"><span data-l="es">Un bloque es un módulo de la app y un capítulo del manual. Dentro de cada uno, las pestañas separan las herramientas.</span><span data-l="en">A block is a module of the app and a chapter of the manual. Inside each one, tabs separate the tools.</span></p>
+  <div class="feature-grid" id="blockGrid" data-lnav-skip></div>
+
+  <h2 class="section-title" id="examples"><span data-l="es">Datos de ejemplo</span><span data-l="en">Example data</span></h2>
+  <p class="section-sub"><span data-l="es">Diez tablas simuladas con modelos y parámetros del orden de los publicados para cada cultivo. <b>No son mediciones</b>: sirven para
+    aprender la app y para comprobar que cada análisis responde como se espera. Cada botón abre la herramienta con el ejemplo cargado.</span><span data-l="en">Ten tables simulated with
+    models and parameters of the order published for each crop. <b>They are not measurements</b>: they are there to learn the app and to check that each analysis responds as expected. Each button opens the tool with the example loaded.</span></p>
+  <div class="ex-grid" id="exampleGrid"></div>
+
+  <h2 class="section-title" id="methods"><span data-l="es">Métodos y fuentes</span><span data-l="en">Methods and sources</span></h2>
+  <p class="section-sub"><span data-l="es">Cada método está programado desde su fórmula publicada y comparado con una implementación independiente; las tolerancias y los
+    resultados de esa comparación están en la carpeta de pruebas.</span><span data-l="en">Every method is programmed from its published formula and compared with an independent
+    implementation; the tolerances and the results of that comparison are in the tests folder.</span></p>
+  <div class="method-gallery" id="methodGallery"></div>
+
+  <h2 class="section-title"><span data-l="es">La poscosecha en breve</span><span data-l="en">Postharvest in brief</span></h2>
+  <p class="section-sub"><span data-l="es">Las ideas que sostienen los cálculos, en lenguaje llano.</span><span data-l="en">The ideas behind the computations, in plain words.</span></p>
+  <div class="card theory-card" id="theoryHost"></div>
+
+  <h2 class="section-title"><span data-l="es">Lo que no hace</span><span data-l="en">What it does not do</span></h2>
+  <div class="notdo">
+    <div><b><span data-l="es">No reemplaza la medición</span><span data-l="en">It does not replace measurement</span></b><span data-l="en">The models summarise data; extrapolating far from the temperatures, times or cultivars measured is the user's responsibility, and the app warns when it happens.</span><span data-l="es">Los modelos resumen los datos; extrapolar lejos de las temperaturas, tiempos o cultivares medidos queda bajo tu responsabilidad, y la app avisa cuando ocurre.</span></div>
+    <div><b><span data-l="es">No trae normas comerciales</span><span data-l="en">It brings no trade standards</span></b><span data-l="es">Las tablas de calibres, permeabilidades y compatibilidad son orientativas y editables: usa las de tu norma, tu película y tu cultivar.</span><span data-l="en">The tables of sizes, permeabilities and compatibility are orientative and editable: use those of your standard, your film and your cultivar.</span></div>
+    <div><b><span data-l="es">No modela la cinética no isotérmica</span><span data-l="en">It does not model non-isothermal kinetics</span></b><span data-l="es">Las predicciones son a temperatura constante; para historias de temperatura variable hay que integrar k(T(t)) en el tiempo.</span><span data-l="en">Predictions are at constant temperature; variable temperature histories need k(T(t)) integrated over time.</span></div>
+    <div><b><span data-l="es">No sube nada</span><span data-l="en">It uploads nothing</span></b><span data-l="es">No hay servidor, cuentas ni conexión: lo que guardas es un archivo de proyecto en tu equipo.</span><span data-l="en">There is no server, account or connection: what you save is a project file on your computer.</span></div>
+  </div>
+
+  <h2 class="section-title" id="refs"><span data-l="es">Referencias</span><span data-l="en">References</span></h2>
+  <details class="refs-box"><summary id="refsSummary"></summary><ol class="ref-list" id="refList"></ol></details>
+
+  <h2 class="section-title" id="cite"><span data-l="es">Cómo citar</span><span data-l="en">How to cite</span></h2>
+  <div class="cite-box">
+    <p style="margin:0 0 8px"><span data-l="es">Si PostHarvestPro te sirve en un trabajo, cítalo así:</span><span data-l="en">If PostHarvestPro helps your work, please cite it as:</span></p>
+    <div class="cite-ref" id="citeApa"></div>
+    <div class="btn-row" style="margin:0 0 10px"><button type="button" class="btn btn-ghost btn-sm" id="copyApa"><span data-l="es">Copiar la cita</span><span data-l="en">Copy the citation</span></button></div>
+    <div class="cite-ref" id="citeBib"></div>
+    <div class="btn-row" style="margin:0"><button type="button" class="btn btn-ghost btn-sm" id="copyBib"><span data-l="es">Copiar BibTeX</span><span data-l="en">Copy BibTeX</span></button></div>
+  </div>
+
+  <p class="footer-note"><span data-l="es">PostHarvestPro 1.0.0 · Luis Ángel Barrera-Guzmán · Software libre GPL-3.0 · parte de la LABG Suite</span><span data-l="en">PostHarvestPro 1.0.0 · Luis Ángel Barrera-Guzmán · Free software GPL-3.0 · part of the LABG Suite</span></p>
+</section>
