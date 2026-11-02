@@ -3,35 +3,39 @@ message: "If you use this software, please cite it as below."
 title: "PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser"
 abstract: >-
   PostHarvestPro is a self-contained web application for postharvest research and teaching that
-  runs entirely in the browser, with no installation and no server-side computation. It covers
-  quality and maturity indices and CIELAB colour (conversions, ΔE*ab, ΔE94, ΔE00 and colour indices),
-  ripeness and damage scales and size grading; deterioration kinetics of zero, first and second
-  order with AIC, Arrhenius, Q10 and square-root temperature models, shelf life by attribute limit,
-  accelerated shelf-life tests and time to rejection with right censoring (Kaplan–Meier, log-rank,
-  Weibull, log-normal and log-logistic models); respiration rate and ethylene in static and
-  flow-through systems, climacteric classification, steady-state modified-atmosphere design and
-  precooling with its refrigeration load; postharvest losses along the value chain with a Sankey
-  diagram, critical points and what-if simulation, and mechanical damage curves with logistic
-  dose estimation; sensory discrimination tests with Thurstonian d′, power and sample size,
-  hedonic, just-about-right penalty, CATA and descriptive profile analyses with panel performance,
-  and Williams serving designs; factorial and repeated-measures analysis of postharvest trials with
-  Tukey, LSD and Dunnett comparisons and slope comparison; packaging and cold-storage calculators
-  (pallet and container loads, vent area, psychrometrics and vapour-pressure deficit, storage cost
-  and product compatibility); and a self-contained HTML report. Every engine was validated against
-  independent implementations.
+  runs entirely in the browser, with no installation, no third-party libraries and no server-side
+  computation. It covers quality and maturity indices and CIELAB colour (conversions, ΔE*ab, ΔE94,
+  ΔE00 and colour indices), ripeness and damage scales and size grading; deterioration kinetics of
+  zero, first and second order with AIC, Arrhenius, Q10 and square-root temperature models, shelf
+  life by attribute limit, accelerated shelf-life tests and time to rejection with right censoring
+  (Kaplan–Meier, log-rank, Weibull, log-normal, log-logistic and exponential models); respiration
+  rate and ethylene in static and flow-through systems, climacteric classification, steady-state
+  modified-atmosphere design and precooling with its refrigeration load; postharvest losses along
+  the value chain with a Sankey diagram, critical points and what-if simulation, and mechanical
+  damage curves with logistic dose estimation; sensory discrimination tests with Thurstonian d′,
+  power and sample size, hedonic, just-about-right penalty, CATA and descriptive profile analyses
+  with panel performance, and Williams serving designs; factorial and repeated-measures analysis of
+  postharvest trials with Tukey, LSD and Dunnett comparisons and slope comparison; packaging and
+  cold-storage calculators (pallet and container loads, vent area, psychrometrics and
+  vapour-pressure deficit, storage cost and product compatibility); and a self-contained HTML
+  report. Bilingual interface (Spanish and English). Ten simulated example data sets are built in.
+  Every engine was compared against independent implementations in R, published tables or hand
+  calculations: 443 tests and 71,199 comparisons, none failed.
 type: software
 authors:
   - given-names: "Luis Ángel"
     family-names: "Barrera-Guzmán"
     orcid: "https://orcid.org/0000-0001-8057-2583"
 version: "1.0.0"
-date-released: "2026-10-04"
-license: GPL-3.0-or-later
+date-released: "2026-11-02"
+doi: 10.5281/zenodo.XXXXXXX
 repository-code: "https://github.com/luisangelbg/PostHarvestPro"
 url: "https://luisangelbg.github.io/PostHarvestPro/"
+license: GPL-3.0-or-later
 keywords:
   - postharvest
   - fruit and vegetable quality
+  - CIELAB colour
   - shelf life
   - deterioration kinetics
   - Arrhenius
@@ -41,5 +45,17 @@ keywords:
   - postharvest losses
   - sensory evaluation
   - Thurstonian models
-  - JavaScript
   - browser-based
+preferred-citation:
+  type: software
+  title: "PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser"
+  authors:
+    - given-names: "Luis Ángel"
+      family-names: "Barrera-Guzmán"
+      orcid: "https://orcid.org/0000-0001-8057-2583"
+  version: "1.0.0"
+  year: 2026
+  doi: 10.5281/zenodo.XXXXXXX
+  publisher:
+    name: "Zenodo"
+  url: "https://doi.org/10.5281/zenodo.XXXXXXX"
