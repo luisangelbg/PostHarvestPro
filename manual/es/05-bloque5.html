@@ -107,57 +107,58 @@
   <h2 id="s5-4"><span class="num">5.4</span>Simular mejoras</h2>
   <p class="lead">¿Qué pasaría si una etapa perdiera la mitad de lo que pierde hoy? La pestaña <span class="ui">Simular mejoras</span> lo calcula sobre la cadena de <span class="ui">Pérdidas por etapa</span> y compara la misma mejora en todas las etapas.</p>
   <p>La tarjeta <span class="ui">¿Qué pasa si se reduce la pérdida de una etapa?</span> tiene dos controles: <span class="ui">Etapa</span>, con las etapas de la cadena, y <span class="ui">Reducción de su pérdida (%)</span> (50), relativa: 50 % es perder la mitad de lo que se pierde hoy en esa etapa. Si la cadena todavía no existe, avisa: «Primero arma la cadena en «Pérdidas por etapa».». Los resultados, en <span class="ui">Resultado de la simulación</span>, son tres mosaicos —<span class="ui">Llegan además</span>, <span class="ui">Valor ganado al precio final</span> y <span class="ui">Nuevo índice de pérdidas</span> con el de antes—, la lectura, la gráfica <span class="ui">Valor ganado al reducir 50 % la pérdida de cada etapa</span> (la etapa elegida en naranja) y la tabla con los kilos que llegan además, el valor ganado y el nuevo índice de cada etapa.</p>
+  <p>La <span class="ui">Etapa</span> propuesta es la que más valor pierde en la cadena. Cuando la cadena cambia de etapas —al cargar el ejemplo del jitomate, por ejemplo—, el selector vuelve a proponer la que más valor pierde en la cadena nueva; si sólo corriges una cifra de la misma cadena, conserva la etapa que elegiste.</p>
 
   <figure class="w60">
-    <div class="marco"><img src="../img/b5-mejoras.png" alt="La pestaña Simular mejoras con la etapa Transporte y 50 por ciento: tres mosaicos, la lectura y las barras del valor ganado en cada etapa"></div>
-    <figcaption><b>Figura 5.5.</b> Reducir a la mitad la pérdida del transporte hace llegar 157 kg más, que valen $ 3445, y baja el índice de 28.6 a 27.0 %. Con la misma reducción, Selección y empaque rinde casi el doble: $ 6648.</figcaption>
+    <div class="marco"><img src="../img/b5-mejoras.png" alt="La pestaña Simular mejoras con la etapa Venta al menudeo y 50 por ciento: tres mosaicos, la lectura y las barras del valor ganado en cada etapa"></div>
+    <figcaption><b>Figura 5.5.</b> La pestaña abre en Venta al menudeo, la etapa que más valor pierde: reducir a la mitad su pérdida hace llegar 285 kg más, que valen $ 6280, y baja el índice de 28.6 a 25.7 %. Con la misma reducción, Selección y empaque rinde algo más: $ 6648.</figcaption>
   </figure>
 
   <div class="caja ejemplo">
     <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Dónde invertir en la cadena del jitomate</div>
-    <p>Con la cadena del ejemplo y una reducción de 50 %, el transporte (4.2 % → 2.1 %) hace llegar <b>157 kg</b> más al final, que valen <b>$ 3445</b> al precio final, y el índice baja a <b>27.0 %</b>. La comparación de las seis etapas da Selección y empaque $ 6648 (302 kg), Venta al menudeo $ 6280 (285 kg), Central de abasto $ 5105, Cosecha $ 3703, Transporte $ 3445 y Acopio $ 2098. La lectura concluye: «la etapa que más rinde es <b>Selección y empaque</b> ($ 6648): ahí conviene invertir primero, si el costo de la mejora es parecido».</p>
+    <p>Con la cadena del ejemplo, la pestaña propone Venta al menudeo. Con una reducción de 50 %, su pérdida pasa de 7.4 % a 3.7 % y hace llegar <b>285 kg</b> más al final, que valen <b>$ 6280</b> al precio final; el índice baja a <b>25.7 %</b>. Si eliges Transporte (4.2 % → 2.1 %), llegan 157 kg más, que valen $ 3445, y el índice queda en 27.0 %. La comparación de las seis etapas da Selección y empaque $ 6648 (302 kg), Venta al menudeo $ 6280 (285 kg), Central de abasto $ 5105, Cosecha $ 3703, Transporte $ 3445 y Acopio $ 2098. La lectura concluye: «la etapa que más rinde es <b>Selección y empaque</b> ($ 6648): ahí conviene invertir primero, si el costo de la mejora es parecido».</p>
   </div>
 
   <div class="caja importante">
     <div class="caja-t"><span class="ico">!</span>El valor ganado se cuenta al precio final</div>
     <p>Un kilo que se salva en cualquier etapa llega al final y se vende al precio del menudeo; por eso la simulación lo valora a ese precio, y por eso salvar kilos al principio de la cadena rinde tanto aunque ahí el kilo valga poco. Venta al menudeo, la etapa que más dinero pierde (sección 5.3), no es la que más rinde mejorar. Compara siempre el valor ganado con lo que cuesta la mejora: la app no conoce ese costo.</p>
   </div>
-  <p>Al abrir la pestaña, la <span class="ui">Etapa</span> propuesta es la que más valor pierde en la cadena con que se abrió la app. Después de cargar el ejemplo del jitomate, el selector conserva la posición de la etapa que estaba elegida (la cuarta), que en la cadena nueva es Transporte, y no Venta al menudeo, la que más valor pierde ahora: elige tú la etapa que quieres simular.</p>
 
   <!-- 5.5 -->
   <h2 id="s5-5"><span class="num">5.5</span>Daño mecánico: curvas y umbral</h2>
   <p class="lead">Los golpes de la cosecha, la línea de empaque y el transporte dejan magulladuras que no se ven al principio pero que se pudren o se rechazan después. Un ensayo de caídas desde varias alturas dice cuánto daño produce cada altura y desde cuál empieza.</p>
-  <p>La tarjeta <span class="ui">Ensayo de impacto o compresión</span> pide, una fila por fruto, <span class="ui">Altura, energía o fuerza</span> —obligatoria— y tres columnas opcionales: <span class="ui">Tamaño del daño</span> (área, volumen o profundidad de la magulladura), <span class="ui">Dañado (0/1)</span> y <span class="ui">Masa del fruto (g)</span>. Con el ejemplo, la app elige <code>altura_cm</code>, <code>area_mm2</code>, <code>danado</code> y <code>masa_g</code>; la tabla trae además <code>energia_J</code> y <code>volumen_mm3</code>, que puedes elegir en lugar de las propuestas.</p>
+  <p>La tarjeta <span class="ui">Ensayo de impacto o compresión</span> pide, una fila por fruto, <span class="ui">Altura, energía o fuerza</span> —obligatoria— y cinco columnas opcionales: <span class="ui">Tamaño del daño (curvas)</span> (área, volumen o profundidad de la magulladura), <span class="ui">Dañado (0/1)</span>, <span class="ui">Volumen del daño (mm³), para la susceptibilidad</span>, <span class="ui">Energía del impacto (J)</span> y <span class="ui">Masa del fruto (g), si no hay energía</span>. La pista de la tarjeta lo resume: «opcionalmente si quedó dañado (0/1), el volumen del daño y la energía del impacto (o la masa, para calcularla como m·g·h), con los que se obtiene la susceptibilidad». Con el ejemplo, la app elige <code>altura_cm</code>, <code>area_mm2</code> para las curvas, <code>danado</code>, <code>volumen_mm3</code>, <code>energia_J</code> y <code>masa_g</code>.</p>
 
   <figure class="w70">
     <div class="marco"><img src="../img/b5-dano.png" alt="La tarjeta Curvas de daño del jitomate de ejemplo: seis mosaicos, la lectura, el área del daño contra la altura con la recta, la incidencia con la curva logística y la tabla de las cuatro curvas"></div>
-    <figcaption><b>Figura 5.6.</b> Sesenta jitomates de ejemplo dejados caer desde 10 a 60 cm. A la izquierda, el área del daño contra la altura con la recta, la curva de menor AIC; a la derecha, la proporción de frutos dañados en cada altura con la curva logística (sección 5.6). La tabla compara las cuatro curvas.</figcaption>
+    <figcaption><b>Figura 5.6.</b> Sesenta jitomates de ejemplo dejados caer desde 10 a 60 cm. A la izquierda, <span class="ui">Daño contra altura</span>: el área del daño contra la altura con la recta, la curva de menor AIC; a la derecha, la proporción de frutos dañados en cada altura con la curva logística (sección 5.6). La tabla compara las cuatro curvas.</figcaption>
   </figure>
 
-  <p>Con el tamaño del daño, la app ajusta cuatro curvas por mínimos cuadrados y las compara por su AIC: lineal (y = a + b·x), cuadrática (y = a + b·x + c·x²), potencia (y = a·xᵇ) y exponencial (y = a·e^(b·x)); las dos últimas se ajustan en escala logarítmica, como se acostumbra en la literatura de impactos, y sólo con los frutos de tamaño y altura positivos (Mohsenin 1986). La tabla da los coeficientes, el R², el AIC y el número de frutos de cada curva, y sombrea la de menor AIC. La figura <span class="ui">Daño contra</span> la columna elegida dibuja los frutos, la recta y, si es otra, la curva de menor AIC.</p>
+  <p>Con el tamaño del daño, la app ajusta cuatro curvas por mínimos cuadrados y las compara por su AIC: lineal (y = a + b·x), cuadrática (y = a + b·x + c·x²), potencia (y = a·xᵇ) y exponencial (y = a·e^(b·x)); las dos últimas se ajustan en escala logarítmica, como se acostumbra en la literatura de impactos, y sólo con los frutos de tamaño y altura positivos (Mohsenin 1986). La tabla da los coeficientes en la columna <span class="ui">Coeficientes (a · b · c)</span> —los de la ecuación tal como se escribe, con <i>a</i> en la escala original también en la potencia y la exponencial—, el R², el AIC y el número de frutos de cada curva, y sombrea la de menor AIC. La figura <span class="ui">Daño contra</span> la variable elegida dibuja los frutos, la recta y, si es otra, la curva de menor AIC. Los títulos y los ejes leen el nombre de la columna como un rótulo con su unidad: <code>altura_cm</code> se escribe «Altura (cm)» y <code>area_mm2</code>, «Área del daño (mm²)».</p>
   <table class="compacta">
     <caption><b>Tabla 5.2.</b> Las cuatro curvas del área del daño contra la altura en el jitomate de ejemplo</caption>
-    <thead><tr><th>Curva</th><th>Coeficientes que muestra la app</th><th class="num">R²</th><th class="num">AIC</th></tr></thead>
+    <thead><tr><th>Curva</th><th>Coeficientes (a · b · c)</th><th class="num">R²</th><th class="num">AIC</th></tr></thead>
     <tbody>
       <tr><td><b>Lineal</b></td><td>−13.85 · 3.964</td><td class="num">0.9226</td><td class="num"><b>533.41</b></td></tr>
       <tr><td>Cuadrática</td><td>−15.75 · 4.107 · −0.002041</td><td class="num">0.9226</td><td class="num">535.37</td></tr>
-      <tr><td>Potencia</td><td>0.1559 · 1.298</td><td class="num">0.9095</td><td class="num">542.75</td></tr>
-      <tr><td>Exponencial</td><td>3.042 · 0.04364</td><td class="num">0.7248</td><td class="num">609.50</td></tr>
+      <tr><td>Potencia</td><td>1.169 · 1.298</td><td class="num">0.9095</td><td class="num">542.75</td></tr>
+      <tr><td>Exponencial</td><td>20.95 · 0.04364</td><td class="num">0.7248</td><td class="num">609.50</td></tr>
     </tbody>
   </table>
-  <p>En las curvas de potencia y exponencial, el primer número que muestra la tabla es ln <i>a</i>, el intercepto de la recta en escala logarítmica, aunque la columna esté rotulada con la ecuación en <i>a</i>: la curva de potencia del ejemplo es y = e<sup>0.1559</sup>·x<sup>1.298</sup> = 1.17·x<sup>1.298</sup>.</p>
+  <p>Aunque la potencia y la exponencial se ajustan en escala logarítmica, la tabla da <i>a</i> = e<sup>ln <i>a</i></sup>, el coeficiente de la curva tal como está escrita: la curva de potencia del ejemplo es y = 1.169·x<sup>1.298</sup>, y la exponencial, y = 20.95·e<sup>0.04364·x</sup>.</p>
 
   <h3>El umbral y la susceptibilidad</h3>
-  <p>El <span class="ui">Umbral de daño</span> es la altura donde la recta cruza el cero, −a/b: por debajo de ella, según la recta, no se espera daño visible. La <span class="ui">Susceptibilidad</span> es el tamaño del daño por joule de energía de impacto, con la energía calculada de la masa y la altura, E = m·g·h (Bajema y Hyde 1998). Aparece sólo si eliges la masa; la app usa la energía que calcula, no la columna <code>energia_J</code>.</p>
+  <p>El <span class="ui">Umbral de daño</span> es la altura donde la recta cruza el cero, −a/b, con la unidad de la columna (aquí, cm): por debajo de ella, según la recta, no se espera daño visible.</p>
+  <p>La <span class="ui">Susceptibilidad al daño</span> es la medida de Bajema y Hyde (1998): el <b>volumen</b> de la magulladura por cada joule de energía, en mm³/J. La app la calcula fruto por fruto, volumen entre energía, y promedia sobre los frutos con daño medido (volumen mayor que cero). Toma el volumen de <span class="ui">Volumen del daño (mm³), para la susceptibilidad</span>; si no lo eliges, usa el tamaño de las curvas. Toma la energía de <span class="ui">Energía del impacto (J)</span>; si no hay, la del eje x cuando éste es una energía; y si no, la calcula de la masa y la altura, E = m·g·h. El mosaico dice de dónde salió: «volumen del daño por joule» y el número de frutos. La lectura lo explica en un párrafo propio.</p>
 
   <div class="caja ejemplo">
     <div class="caja-t"><span class="ico">▸</span>Ejemplo resuelto · Las caídas del jitomate</div>
-    <p>La curva de menor AIC es la <b>lineal</b> (R² 0.923, AIC 533.41): el área del daño crece 3.964 mm² por cada centímetro de caída. La cuadrática ajusta igual (R² 0.9226) pero paga un parámetro más. La recta cruza el cero a <b>3.5 cm</b>: «por debajo de 3.5 no se espera daño visible» —la lectura no escribe la unidad, que es la de la altura, centímetros—. La susceptibilidad es <b>237 mm² por joule</b>; la app la rotula con el nombre de la columna, «area_mm2 por joule».</p>
+    <p>La curva de menor AIC es la <b>lineal</b> (R² 0.923, AIC 533.41): el área del daño crece 3.964 mm² por cada centímetro de caída. La cuadrática ajusta igual (R² 0.9226) pero paga un parámetro más. La recta cruza el cero a <b>3.5 cm</b>: «Por la recta, por debajo de 3.5 cm no se espera daño visible». La susceptibilidad es <b>135 mm³/J</b> («volumen del daño por joule · 60 frutos»): la media, en los 60 frutos, del volumen del daño entre la energía medida, la columna <code>energia_J</code>.</p>
   </div>
 
   <div class="caja nota">
-    <div class="caja-t"><span class="ico">i</span>Área o volumen</div>
-    <p>Bajema y Hyde (1998) definen la susceptibilidad como <b>volumen</b> del daño por joule absorbido. Con el área, como propone la app por omisión, la cifra no es comparable con las publicadas; elige <code>volumen_mm3</code> en <span class="ui">Tamaño del daño</span> si quieres la definición del artículo. En el jitomate de ejemplo, con el volumen, la susceptibilidad es 135 mm³ por joule, la curva de menor AIC pasa a ser la cuadrática (R² 0.791) y el umbral de la recta sube a 11.1 cm: el volumen del daño es mucho más ruidoso que su área.</p>
+    <div class="caja-t"><span class="ico">i</span>Energía absorbida o energía del impacto</div>
+    <p>Bajema y Hyde (1998) definen la susceptibilidad con la energía que el fruto <b>absorbe</b> en el golpe, no con la del impacto: parte de la energía de la caída se devuelve en el rebote. Un ensayo de caídas suele dar la del impacto, medida o calculada como m·g·h, que es mayor que la absorbida; por eso la susceptibilidad que da la app sale algo menor que la del artículo. La lectura lo advierte: «Es la medida de Bajema y Hyde (1998), que la definen con la energía absorbida; con la del impacto, que es mayor, el valor sale algo menor». Si no tienes el volumen y la app usa el área, la cifra sale en mm²/J, el mosaico se vuelve ámbar y la lectura avisa que no se compara con los valores publicados en mm³/J.</p>
   </div>
 
   <!-- 5.6 -->
@@ -192,9 +193,9 @@
     <ul>
       <li><b>La cadena no aparece.</b> Cada fila necesita nombre y un porcentaje o unos kilos, y la cantidad inicial debe ser mayor que cero.</li>
       <li><b>El índice parece demasiado alto.</b> Revisa que el porcentaje de cada etapa sea sobre <b>lo que entra a ella</b>, no sobre la cantidad inicial; si lo mediste sobre el total, escríbelo en kilos en <span class="ui">o pérdida (kg)</span>.</li>
-      <li><b>La simulación muestra la etapa equivocada.</b> Después de cambiar la cadena, vuelve a elegir la <span class="ui">Etapa</span>: el selector conserva la posición, no el nombre.</li>
+      <li><b>La simulación muestra otra etapa.</b> Si cambiaste las etapas de la cadena, el selector propuso de nuevo la que más valor pierde: elige la que quieres simular.</li>
       <li><b>No sale la logística.</b> La columna de incidencia debe traer sólo 0 y 1; un «sí», un 2 o una celda vacía la descartan.</li>
-      <li><b>No sale la susceptibilidad.</b> Elige la columna de masa en <span class="ui">Masa del fruto (g)</span>, en gramos.</li>
+      <li><b>No sale la susceptibilidad.</b> Hace falta un tamaño del daño (mejor el volumen) y una energía: elige <span class="ui">Energía del impacto (J)</span> o, si no la mediste, la masa en <span class="ui">Masa del fruto (g), si no hay energía</span> con la altura en el eje x.</li>
       <li><b>Un umbral negativo o ausente.</b> Si la recta no sube con la altura (pendiente cero o negativa), no hay umbral: revisa que elegiste la columna del daño y no otra.</li>
     </ul>
   </div>

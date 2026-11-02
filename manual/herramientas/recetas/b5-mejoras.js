@@ -1,5 +1,5 @@
 // ventana 1400x1000
-/* Capítulo 5: Simular mejoras sobre la cadena del jitomate de ejemplo (Transporte, 50 %): controles, mosaicos, lectura y barras */
+/* Capítulo 5: Simular mejoras sobre la cadena del jitomate de ejemplo (abre en Venta al menudeo, 50 %): controles, mosaicos, lectura y barras */
 (async () => {
   await ejemplo('b5c');
   Tabs.go(5, 'mejoras'); await listo();
