@@ -202,6 +202,39 @@ TEST('sensory', 'hedonic: sums of squares add up, balanced case', a => {
   a.ok(isFinite(r.tukey.hsd), 'balanced: HSD defined');
 });
 
+TEST('sensory', 'notes for the interface: readable, without internal names', a => {
+  /* unbalanced hedonic data: the note explains the adjusted product effect in words, not by its key */
+  const rows = [];
+  for (let c = 0; c < 8; c++) ['X', 'Y', 'Z'].forEach((p, i) => { if (!(c === 0 && p === 'Z')) rows.push({ consumer: 'k' + c, product: p, score: 5 + i + (c % 3) * 0.5 }); });
+  const r = S().hedonic(rows);
+  a.ok(!r.balanced && r.productAdjusted, 'unbalanced: adjusted effect');
+  a.ok(r.notes.length === 1, 'one note');
+  a.ok(r.notes.every(n => n.es && n.en && !/productAdjusted/.test(n.es + n.en)), 'the note does not show the internal key');
+  a.ok(/ajustado por consumidor/.test(r.notes[0].es) && /adjusted for consumers/.test(r.notes[0].en), 'the note names the adjusted effect');
+  /* paired preference: the treatment of the «no preference» answers comes as a note in both languages */
+  const p1 = S().preference(38, 22, { noPref: 5, ties: 'ignore' });
+  a.ok(p1.notes.length === 1 && /no entran/.test(p1.notes[0].es) && /left out/.test(p1.notes[0].en), 'excluded answers: note');
+  const p2 = S().preference(38, 22, { noPref: 5, ties: 'split' });
+  a.ok(p2.notes.length === 1 && /impar/.test(p2.notes[0].es), 'odd number split: note');
+  a.eq([p2.x, p2.n], [40, 64], 'split: two to each side, one left out');
+  const p3 = S().preference(38, 22, { noPref: 0 });
+  a.eq(p3.notes.length, 0, 'no «no preference» answers: no note');
+});
+
+TEST('sensory', 'example of the descriptive profile: its description names the judges the panel performance flags', a => {
+  /* the same flags as Block 6: median p above 0.20, median agreement below 0.5, residual SD above 1.5 times the
+     panel's median */
+  const D = window.Datasets;
+  const rows = D.rows('cafeQDA');
+  const attrs = Object.keys(rows[0]).filter(k => !['juez', 'sesion', 'cafe'].includes(k));
+  const Q = S().qda(rows.map(r => Object.assign({ panelist: r.juez, product: r.cafe, session: r.sesion }, r)), { attributes: attrs });
+  const ps = Q.panelSummary, med = NUM().median(ps.map(p => p.meanRepeatability));
+  const flagged = ps.filter(p => p.medianP > 0.2 || p.medianAgreement < 0.5 || p.meanRepeatability > 1.5 * med).map(p => p.panelist).sort();
+  a.eq(flagged, ['J4', 'J6', 'J8'], 'judges flagged');
+  const d = D.INFO.cafeQDA.d;
+  flagged.forEach(j => a.ok(d[0].includes(j) && d[1].includes(j), 'the description names ' + j));
+});
+
 TEST('sensory', 'correspondence analysis and PCA: internal identities', a => {
   const T = [[12, 5, 7, 3], [4, 15, 6, 9], [8, 8, 14, 2], [3, 6, 5, 16], [9, 2, 4, 6]];
   const c = S().ca(T);

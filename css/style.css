@@ -344,6 +344,12 @@ tr.best td { background: rgba(var(--accent-rgb), .10); }
 .ballot h4 { margin: 0 0 6px; }
 .ballot .codes { display: flex; gap: 6px; flex-wrap: wrap; }
 .ballot .code { font-family: var(--mono); font-weight: 700; font-size: 1rem; padding: 4px 8px; border: 1.5px solid var(--border-strong); border-radius: 8px; }
+/* the lists of products and attributes need room to show what they hold */
+.form-grid.b6-lists { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+/* the table of discrimination tests fits the card: numbers and short choices do not need the browser's
+   default input width */
+#b6dTable .edit-table td input[type="number"] { width: 6.5em; }
+#b6dTable .edit-table td select { width: auto; }
 
 /* ---------- Kinetics (Block 3) and trials (Block 7) ---------- */
 /* a word as the value of a tile («extrapolación»): smaller, never split inside */
@@ -357,6 +363,10 @@ tr.best td { background: rgba(var(--accent-rgb), .10); }
 /* ---------- Report preview (Block 9) ---------- */
 .report-frame { width: 100%; height: 640px; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
 .check-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 14px; }
+.check-list .checkbox-label { align-items: baseline; }
+.check-list .sec-block { white-space: nowrap; }
+.check-list > p { grid-column: 1 / -1; margin: 2px 0; }
+.check-list > p.check-group { margin: 10px 0 0; font-size: 0.82rem; color: var(--text-muted); }
 
 /* ---------- Top bar on phones ---------- */
 @media (max-width: 480px) {

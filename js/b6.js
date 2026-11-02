@@ -20,6 +20,8 @@
 const S = {};
 const MNAME = { triangle: ['Triangular', 'Triangle'], duotrio: ['Dúo-trío', 'Duo-trio'], twoAFC: ['2-AFC (dos alternativas)', '2-AFC (two alternatives)'], threeAFC: ['3-AFC (tres alternativas)', '3-AFC (three alternatives)'], tetrad: ['Tétrada', 'Tetrad'] };
 const mName = m => T(MNAME[m][0], MNAME[m][1]);
+/* the name inside a sentence: «la prueba triangular», «la prueba 3-AFC» (the acronyms keep their capitals) */
+const MPROSE = { triangle: ['triangular', 'triangle'], duotrio: ['dúo-trío', 'duo-trio'], twoAFC: ['2-AFC', '2-AFC'], threeAFC: ['3-AFC', '3-AFC'], tetrad: ['de tétrada', 'tetrad'] };
 const METH_OPTS = Sens.METHODS.map(m => [m, MNAME[m][0], MNAME[m][1]]);
 const HEDONIC = [['Me gusta muchísimo', 'Like extremely'], ['Me gusta mucho', 'Like very much'], ['Me gusta moderadamente', 'Like moderately'], ['Me gusta un poco', 'Like slightly'], ['No me gusta ni me disgusta', 'Neither like nor dislike'], ['Me disgusta un poco', 'Dislike slightly'], ['Me disgusta moderadamente', 'Dislike moderately'], ['Me disgusta mucho', 'Dislike very much'], ['Me disgusta muchísimo', 'Dislike extremely']];
 
@@ -35,13 +37,13 @@ const tools = [
       <div id="b6pTiles"></div><div id="b6pRead"></div><div class="figs-2"><div id="b6pFig1"></div><div id="b6pFig2"></div></div><div id="b6pTab"></div></div>
     <div class="cols-2">
       <div class="card"><h2>${L2('A–no A', 'A–not A')}</h2><div class="form-grid tight">${UI.num('b6aX1', '«A» ante muestras A', '«A» to A samples', 33)}${UI.num('b6aN1', 'Muestras A', 'A samples', 40)}${UI.num('b6aX2', '«A» ante muestras no A', '«A» to not-A samples', 18)}${UI.num('b6aN2', 'Muestras no A', 'Not-A samples', 40)}</div><div id="b6aOut"></div></div>
-      <div class="card"><h2>${L2('Preferencia pareada', 'Paired preference')}</h2><div class="form-grid tight">${UI.num('b6fA', 'Prefieren A', 'Prefer A', 38)}${UI.num('b6fB', 'Prefieren B', 'Prefer B', 22)}${UI.num('b6fN', 'Sin preferencia', 'No preference', 5)}${UI.sel('b6fT', 'Los «sin preferencia»', 'The «no preference»', [['ignore', 'se excluyen', 'are excluded'], ['split', 'se reparten mitad y mitad', 'are split half and half']], 'ignore')}</div><div id="b6fOut"></div></div>
+      <div class="card"><h2>${L2('Preferencia pareada', 'Paired preference')}</h2><div class="form-grid tight">${UI.num('b6fA', 'Prefieren A', 'Prefer A', 38)}${UI.num('b6fB', 'Prefieren B', 'Prefer B', 22)}${UI.num('b6fN', 'Sin preferencia', 'No preference', 5)}${UI.sel('b6fT', 'Los «sin preferencia»', 'The «no preference»', [['ignore', 'se excluyen', 'are excluded'], ['split', 'se reparten mitad y mitad', 'are split half and half']], 'ignore')}</div><div id="b6fOut"></div><div id="b6fNote"></div></div>
     </div>` },
   { id: 'hedonica', es: 'Hedónica', en: 'Hedonic', html: `
     <div class="card"><h2>${L2('Agrado de los consumidores', 'Consumer liking')}</h2><p class="hint">${L2('Una fila por consumidor y producto, con la calificación en la escala hedónica (1 = me disgusta muchísimo … 9 = me gusta muchísimo).', 'One row per consumer and product, with the score on the hedonic scale (1 = dislike extremely … 9 = like extremely).')}</p><div id="b6hIn"></div></div>
     <div id="b6hOut" hidden><div class="card"><h2>${L2('Análisis de varianza y comparación de productos', 'Analysis of variance and product comparison')}</h2><div id="b6hTiles"></div><div id="b6hRead"></div><div id="b6hFig"></div><div id="b6hAnova"></div><div id="b6hMeans"></div><h3>${L2('Alternativa por rangos (Friedman)', 'Rank alternative (Friedman)')}</h3><div id="b6hFr"></div><div id="b6hCite"></div></div></div>` },
   { id: 'jar', es: 'Punto justo (JAR)', en: 'Just-about-right', html: `
-    <div class="card"><h2>${L2('Escalas de punto justo', 'Just-about-right scales')}</h2><p class="hint">${L2('Una fila por consumidor y producto: el agrado y una columna por atributo en escala de punto justo (1 = muy poco … centro = justo … máximo = demasiado).', 'One row per consumer and product: liking and one column per attribute on a just-about-right scale (1 = far too little … centre = just right … top = far too much).')}</p><div id="b6jIn"></div><div class="form-grid tight">${UI.num('b6jL', 'Niveles de la escala', 'Scale levels', 5, { step: 2, min: 3 })}${UI.num('b6jTh', 'Umbral de consumidores (%)', 'Consumer threshold (%)', 20)}</div></div>
+    <div class="card"><h2>${L2('Escalas de punto justo', 'Just-about-right scales')}</h2><p class="hint">${L2('Una fila por consumidor y producto: el agrado y una columna por atributo en escala de punto justo (1 = muy poco … centro = justo … máximo = demasiado).', 'One row per consumer and product: liking and one column per attribute on a just-about-right scale (1 = far too little … center = just right … top = far too much).')}</p><div id="b6jIn"></div><div class="form-grid tight">${UI.num('b6jL', 'Niveles de la escala', 'Scale levels', 5, { step: 2, min: 3 })}${UI.num('b6jTh', 'Umbral de consumidores (%)', 'Consumer threshold (%)', 20)}</div><div class="messages" id="b6jMsg"></div></div>
     <div id="b6jOut" hidden><div class="card"><h2>${L2('Análisis de penalidades', 'Penalty analysis')}</h2><div id="b6jRead"></div><div id="b6jFig"></div><div id="b6jFig2"></div><div id="b6jTab"></div><div id="b6jCite"></div></div></div>` },
   { id: 'cata', es: 'CATA', en: 'CATA', html: `
     <div class="card"><h2>${L2('Marque todo lo que aplique', 'Check all that apply')}</h2><p class="hint">${L2('Una fila por consumidor y producto, con 1 en cada término que el consumidor marcó y 0 en los demás.', 'One row per consumer and product, with 1 in each term the consumer checked and 0 in the others.')}</p><div id="b6cIn"></div></div>
@@ -54,7 +56,8 @@ const tools = [
     </div>` },
   { id: 'fichas', es: 'Fichas de cata', en: 'Ballots', html: `
     <div class="card"><h2>${L2('Diseño de la sesión', 'Session design')}</h2><p class="hint">${L2('Órdenes de presentación de Williams (balanceados por posición y por arrastre de primer orden) y códigos de tres dígitos al azar. Para que el balance sea completo, el número de jueces debe ser múltiplo del número de órdenes.', 'Williams presentation orders (balanced for position and first-order carry-over) and random three-digit codes. For a complete balance the number of judges must be a multiple of the number of orders.')}</p>
-      <div class="form-grid tight">${UI.sel('b6bType', 'Prueba', 'Test', [['hedonic', 'Hedónica de 9 puntos', '9-point hedonic'], ['qda', 'Perfil (atributos)', 'Profile (attributes)'], ['triangle', 'Triangular', 'Triangle']], 'hedonic')}${UI.text('b6bProds', 'Productos (separados por coma)', 'Products (comma separated)', 'Altura lavado, Natural, Honey, Comercial')}${UI.num('b6bN', 'Jueces', 'Judges', 12)}${UI.num('b6bSeed', 'Semilla', 'Seed', 2026)}${UI.text('b6bAttrs', 'Atributos (perfil)', 'Attributes (profile)', 'Fragancia, Acidez, Amargor, Cuerpo, Dulzor')}${UI.text('b6bTitle', 'Título de la ficha', 'Ballot title', 'Evaluación de café')}</div>
+      <div class="form-grid">${UI.sel('b6bType', 'Prueba', 'Test', [['hedonic', 'Hedónica de 9 puntos', '9-point hedonic'], ['qda', 'Perfil (atributos)', 'Profile (attributes)'], ['triangle', 'Triangular', 'Triangle']], 'hedonic')}${UI.num('b6bN', 'Jueces', 'Judges', 12)}${UI.num('b6bSeed', 'Semilla', 'Seed', 2026)}${UI.text('b6bTitle', 'Título de la ficha', 'Ballot title', 'Evaluación de café')}</div>
+      <div class="form-grid b6-lists">${UI.text('b6bProds', 'Productos (separados por coma)', 'Products (comma separated)', 'Altura lavado, Natural, Honey, Comercial')}${UI.text('b6bAttrs', 'Atributos (perfil)', 'Attributes (profile)', 'Fragancia, Acidez, Amargor, Cuerpo, Dulzor')}</div>
       ${UI.check('b6bPer', 'Un código distinto por juez para cada producto', 'A different code per judge for each product', false)}
       <div class="btn-row"><button type="button" class="btn btn-primary btn-sm" id="b6bGo">${L2('Generar el plan', 'Generate the plan')}</button><button type="button" class="btn btn-secondary btn-sm" id="b6bPrint" disabled>${L2('Imprimir las fichas', 'Print the ballots')}</button><button type="button" class="btn btn-ghost btn-sm" id="b6bCSV" disabled>${L2('⤓ Plan de servicio (CSV)', '⤓ Serving plan (CSV)')}</button></div></div>
     <div class="card" id="b6bOut" hidden><h2>${L2('Plan de servicio', 'Serving plan')}</h2><div id="b6bRead"></div><div id="b6bTab"></div><div class="ballot-grid" id="b6bPrev"></div><div id="b6bCite"></div></div>` },
@@ -65,7 +68,7 @@ let dTable;
 function discrimRun() {
   const conf = +UI.s('b6dConf'), stat = UI.s('b6dStat');
   const rows = dTable.get().filter(r => Sens.METHODS.includes(r.method) && Number.isInteger(+r.x) && Number.isInteger(+r.n) && +r.n > 0);
-  if (!rows.length) { el('b6dOut').hidden = true; return; }
+  if (!rows.length) { el('b6dOut').hidden = true; if (Report.sections['sensory:discrim']) { delete Report.sections['sensory:discrim']; blockDone('sensory'); } return; }
   const res = rows.map(r => Object.assign({ name: r.name }, Sens.discrim(r.method, +r.x, +r.n, { conf, statistic: stat, test: r.test || 'difference', pd0: r.test === 'similarity' ? (+r.pd0 || 0.2) : 0 })));
   S.d = res;
   el('b6dOut').hidden = false;
@@ -91,7 +94,7 @@ function planRun() {
   statTiles('b6pTiles', [[T('Jueces necesarios', 'Judges needed'), isFinite(need) ? need : '—', T('para potencia ', 'for power ') + Fmt.num(pw, 2), 'hi'], [T('Potencia con ', 'Power with ') + nAv, Fmt.num(powNow, 3), powNow < 0.8 ? T('baja', 'low') : '', powNow < 0.8 ? 'warn' : 'good'], [T('Aciertos críticos con ', 'Critical correct with ') + nAv, Sens.critical(m, nAv, a)], ['pc / pd', Fmt.num(Sens.pc(m, d), 3) + ' / ' + Fmt.num(pd, 3)]]);
   const others = Sens.METHODS.map(mm => ({ m: mm, n: Sens.sampleSize(mm, pw, { dA: d }, a) }));
   const best = others.filter(o => isFinite(o.n)).sort((x, y) => x.n - y.n)[0];
-  el('b6pRead').innerHTML = `<div class="reading"><p>${L2(`Para detectar d′ = ${Fmt.num(d, 1)} con α = ${a} y potencia ${pw}, con la prueba ${mName(m).toLowerCase()} hacen falta <b>${need}</b> jueces. El método más eficiente para esta diferencia es <b>${best ? mName(best.m).toLowerCase() : '—'}</b> (${best ? best.n : '—'} jueces). La potencia exacta sube en dientes de sierra: un juez más no siempre la aumenta.`, `To detect d′ = ${Fmt.num(d, 1)} with α = ${a} and power ${pw}, the ${mName(m).toLowerCase()} test needs <b>${need}</b> judges. The most efficient method for this difference is the <b>${best ? mName(best.m).toLowerCase() : '—'}</b> (${best ? best.n : '—'} judges). Exact power rises in a saw-tooth: one more judge does not always raise it.`)}</p></div>`;
+  el('b6pRead').innerHTML = `<div class="reading"><p>${L2(`Para detectar d′ = ${Fmt.num(d, 1)} con α = ${a} y potencia ${pw}, con la prueba ${MPROSE[m][0]} hacen falta <b>${need}</b> jueces. El método más eficiente para esta diferencia es ${best ? `la prueba <b>${MPROSE[best.m][0]}</b>` : '<b>—</b>'} (${best ? best.n : '—'} jueces). La potencia exacta sube en dientes de sierra: un juez más no siempre la aumenta.`, `To detect d′ = ${Fmt.num(d, 1)} with α = ${a} and power ${pw}, the ${MPROSE[m][1]} test needs <b>${need}</b> judges. The most efficient method for this difference is ${best ? `the <b>${MPROSE[best.m][1]}</b> test` : '<b>—</b>'} (${best ? best.n : '—'} judges). Exact power rises in a saw-tooth: one more judge does not always raise it.`)}</p></div>`;
   buildTable('b6pTab', [{ key: 'm', label: L2('Método', 'Method'), get: o => mName(o.m) }, { key: 'n', label: L2('Jueces para la potencia deseada', 'Judges for the desired power'), num: true }, { key: 'p', label: L2('Potencia con ', 'Power with ') + nAv, num: true, get: o => Fmt.num(Sens.power(o.m, nAv, { dA: d }, a), 3) }], others);
   const dg = Array.from({ length: 41 }, (_, i) => 3.5 * i / 40);
   el('b6pFig1').innerHTML = ''; el('b6pFig2').innerHTML = '';
@@ -106,6 +109,8 @@ function aNotARun() {
 function prefRun() {
   const r = Sens.preference(UI.v('b6fA'), UI.v('b6fB'), { noPref: UI.v('b6fN'), ties: UI.s('b6fT') });
   statTiles('b6fOut', [[T('Prefieren A', 'Prefer A'), Fmt.pct(100 * r.estimate), Fmt.ci(100 * r.ci[0], 100 * r.ci[1], 1) + ' %', r.p < 0.05 ? 'hi' : ''], [T('Prueba binomial bilateral', 'Two-sided binomial test'), Fmt.pEq(r.p), r.x + ' / ' + r.n]]);
+  /* the engine's notes: what happened to the «no preference» answers */
+  el('b6fNote').innerHTML = (r.notes || []).map(n => `<p class="hint">${L2(n.es, n.en)}</p>`).join('');
 }
 
 /* ---------------- 2. hedonic ---------------- */
@@ -127,7 +132,11 @@ function hedRun(D) {
   el('b6hFig').innerHTML = '';
   Fig.put('b6hFig', Plot.bars({ name: 'b6-hedonica', cats: H.means.map(x => x.product), values: H.means.map(x => x.mean), err: H.means.map(x => x.se), letters: H.means.map(x => H.tukey.letters[x.product]), ylab: T('Agrado medio (1–9)', 'Mean liking (1–9)'), yr: [0, 9.6] }),
     { name: 'b6-hedonica', title: L2('Agrado por producto', 'Liking by product'), caption: L2('Media ± error estándar (del ANOVA); letras distintas, diferencia de Tukey al 5 %.', 'Mean ± standard error (from the ANOVA); different letters, Tukey difference at 5 %.'), block: 6 });
-  buildTable('b6hAnova', [{ key: 'source', label: L2('Fuente', 'Source'), get: r => ({ product: T('Producto', 'Product'), consumer: T('Consumidor', 'Consumer'), residual: T('Error', 'Error'), Residuals: T('Error', 'Error') }[r.source] || r.source) }, { key: 'df', label: 'gl', num: true }, { key: 'ss', label: 'SC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'ms', label: 'CM', num: true, fmt: v => Fmt.num(v, 3) }, { key: 'F', label: 'F', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'p', label: 'p', num: true, fmt: Fmt.p }], H.anova);
+  /* unbalanced: the product effect adjusted for consumers (the one the tiles and the reading use) joins the
+     sequential table, just above the error */
+  const aov = H.anova.slice();
+  if (H.productAdjusted) aov.splice(aov.length - 1, 0, Object.assign({}, H.productAdjusted, { source: 'productAdjusted' }));
+  buildTable('b6hAnova', [{ key: 'source', label: L2('Fuente', 'Source'), get: r => ({ product: T('Producto', 'Product'), consumer: T('Consumidor', 'Consumer'), productAdjusted: T('Producto, ajustado por consumidor', 'Product, adjusted for consumers'), residual: T('Error', 'Error'), Residuals: T('Error', 'Error') }[r.source] || r.source) }, { key: 'df', label: 'gl', num: true }, { key: 'ss', label: 'SC', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'ms', label: 'CM', num: true, fmt: v => Fmt.num(v, 3) }, { key: 'F', label: 'F', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'p', label: 'p', num: true, fmt: Fmt.p }], aov);
   buildTable('b6hMeans', [{ key: 'product', label: L2('Producto', 'Product') }, { key: 'n', label: 'n', num: true }, { key: 'mean', label: L2('Media', 'Mean'), num: true, fmt: v => Fmt.num(v, 2) }, { key: 'sd', label: 'DE', num: true, fmt: v => Fmt.num(v, 2) }, { key: 'se', label: 'EE', num: true, fmt: v => Fmt.num(v, 3) }, { key: 'l', label: L2('Grupo', 'Group'), html: true, get: r => `<span class="letters">${H.tukey.letters[r.product]}</span>` }], H.means, { csvName: 'hedonica' });
   if (F) buildTable('b6hFr', [{ key: 'p', label: L2('Producto', 'Product') }, { key: 'rs', label: L2('Suma de rangos', 'Rank sum'), num: true }, { key: 'mr', label: L2('Rango medio', 'Mean rank'), num: true, fmt: v => Fmt.num(v, 2) }, { key: 'l', label: L2('Grupo', 'Group'), html: true, get: r => `<span class="letters">${F.letters[r.p]}</span>` }], F.names.map(p => ({ p, rs: F.rankSums[p], mr: F.meanRanks[p] })));
   el('b6hCite').innerHTML = '';
@@ -142,7 +151,16 @@ function jarRun(D) {
   const long = [];
   D.rows.forEach(r => (m.attrs || []).forEach(a => { if (r[a] != null && isFinite(r[a]) && r[m.liking] != null) long.push({ consumer: r[m.consumer], product: r[m.product], attribute: a.replace(/^jar_/i, ''), jar: +r[a], liking: +r[m.liking] }); }));
   let J;
-  try { J = Sens.jar(long, { levels, threshold: th }); } catch (e) { clearMessages('b6jIn'); showMessage(el('b6jIn'), 'warn', T('Con un número par de niveles no hay centro: usa 3, 5, 7 o 9.', 'With an even number of levels there is no centre: use 3, 5, 7 or 9.')); return; }
+  /* the warning has its own box (clearing the data loader's host would wipe the loader) and the results of
+     the previous scale are hidden and leave the report: they no longer answer the settings on screen */
+  clearMessages('b6jMsg');
+  try { J = Sens.jar(long, { levels, threshold: th }); } catch (e) {
+    showMessage('b6jMsg', 'warn', T('Con un número par de niveles no hay centro: usa 3, 5, 7 o 9.', 'With an even number of levels there is no center: use 3, 5, 7 or 9.'));
+    el('b6jOut').hidden = true; S.j = null;
+    if (state.sensory) delete state.sensory.jar;
+    if (Report.sections['sensory:jar']) { delete Report.sections['sensory:jar']; blockDone('sensory'); }
+    return;
+  }
   S.j = J;
   el('b6jOut').hidden = false;
   const flagged = [];
@@ -156,14 +174,14 @@ function jarRun(D) {
   const pts = [];
   J.results.forEach((r, i) => {
     const pi = J.products.indexOf(r.product);
-    if (isFinite(r.dropLow) && r.nLow) pts.push({ x: r.pctLow, y: r.dropLow, label: r.product.slice(0, 10) + ' · ' + r.attribute + ' −', color: Plot.color(pi), shape: 'down' });
-    if (isFinite(r.dropHigh) && r.nHigh) pts.push({ x: r.pctHigh, y: r.dropHigh, label: r.product.slice(0, 10) + ' · ' + r.attribute + ' +', color: Plot.color(pi), shape: 'triangle' });
+    if (isFinite(r.dropLow) && r.nLow) pts.push({ x: r.pctLow, y: r.dropLow, label: r.product + ' · ' + r.attribute + ' −', color: Plot.color(pi), shape: 'down' });
+    if (isFinite(r.dropHigh) && r.nHigh) pts.push({ x: r.pctHigh, y: r.dropHigh, label: r.product + ' · ' + r.attribute + ' +', color: Plot.color(pi), shape: 'triangle' });
     void i;
   });
   el('b6jFig').innerHTML = ''; el('b6jFig2').innerHTML = '';
-  Fig.put('b6jFig', Plot.labelled({ name: 'b6-penalidades', pts, xlab: T('% de consumidores', '% of consumers'), ylab: T('Caída del agrado (puntos)', 'Drop in liking (points)'), xline: th, yline: 1, items: J.products.map((p, i) => ({ name: p, color: Plot.color(i), shape: 'circle', kind: 'pt' })), h: 420 }),
+  Fig.put('b6jFig', Plot.labelled({ name: 'b6-penalidades', pts, xlab: T('% de consumidores', '% of consumers'), ylab: T('Caída del agrado (puntos)', 'Drop in liking (points)'), xline: th, yline: 1, items: J.products.map((p, i) => ({ name: p, color: Plot.color(i), shape: 'circle', kind: 'pt' })), w: 760, h: 480 }),
     { name: 'b6-penalidades', title: L2('Gráfica de penalidades', 'Penalty plot'), caption: L2('▲ demasiado · ▼ muy poco. Zona sombreada: mucha gente y mucha caída.', '▲ too much · ▼ too little. Shaded zone: many people and a large drop.'), block: 6 });
-  const cats = J.results.map(r => r.product.slice(0, 12) + ' · ' + r.attribute);
+  const cats = J.results.map(r => r.product + ' · ' + r.attribute);
   Fig.put('b6jFig2', Plot.bars({ name: 'b6-jar-dist', cats, groups: [T('Muy poco', 'Too little'), T('Justo', 'Just right'), T('Demasiado', 'Too much')], values: [J.results.map(r => r.pctLow), J.results.map(r => r.pctJar), J.results.map(r => r.pctHigh)], stacked: true, horizontal: true, ylab: '%', colors: ['var(--s2)', 'var(--s3)', 'var(--s1)'], h: Math.max(300, 26 * cats.length + 80) }),
     { name: 'b6-jar-dist', title: L2('Distribución de las respuestas de punto justo', 'Distribution of just-about-right answers'), block: 6 });
   buildTable('b6jTab', [{ key: 'product', label: L2('Producto', 'Product') }, { key: 'attribute', label: L2('Atributo', 'Attribute') }, { key: 'pctLow', label: L2('% poco', '% low'), num: true, fmt: v => Fmt.num(v, 1) }, { key: 'pctJar', label: L2('% justo', '% JAR'), num: true, fmt: v => Fmt.num(v, 1) }, { key: 'pctHigh', label: L2('% mucho', '% high'), num: true, fmt: v => Fmt.num(v, 1) },
@@ -213,7 +231,7 @@ function qdaRun(D) {
   const pca = Q.products.length >= 3 ? Sens.pca(meansM, { rowNames: Q.products, colNames: Q.attributes }) : null;
   S.q.pca = pca; S.q.meansM = meansM;
   statTiles('b6qTiles', [[T('Jueces', 'Judges'), Q.panelists.length], [T('Productos', 'Products'), Q.products.length], [T('Atributos que discriminan', 'Discriminating attributes'), disc.length + ' / ' + Q.attributes.length, T('producto contra la interacción', 'product against the interaction'), 'hi'], pca ? [T('ACP: dos primeras dimensiones', 'PCA: first two dimensions'), Fmt.pct(pca.cum[Math.min(1, pca.cum.length - 1)])] : null]);
-  el('b6qRead').innerHTML = `<div class="reading"><p>${L2(`Los productos difieren en <b>${disc.map(r => esc(r.attribute)).join(', ') || 'ningún atributo'}</b>. Con repeticiones, el efecto de producto se prueba contra la interacción producto × juez, que trata a los jueces como una muestra de jueces posibles: así la conclusión vale para el panel, no sólo para estos ocho.`, `The products differ in <b>${disc.map(r => esc(r.attribute)).join(', ') || 'no attribute'}</b>. With replicates, the product effect is tested against the product × judge interaction, which treats the judges as a sample of possible judges: the conclusion then holds for the panel, not only for these judges.`)}</p></div>`;
+  el('b6qRead').innerHTML = `<div class="reading"><p>${L2(`Los productos difieren en <b>${disc.map(r => esc(r.attribute)).join(', ') || 'ningún atributo'}</b>. Con repeticiones, el efecto de producto se prueba contra la interacción producto × juez, que trata a los jueces como una muestra de jueces posibles: así la conclusión vale para el panel, no sólo para estos ${Q.panelists.length} jueces.`, `The products differ in <b>${disc.map(r => esc(r.attribute)).join(', ') || 'no attribute'}</b>. With replicates, the product effect is tested against the product × judge interaction, which treats the judges as a sample of possible judges: the conclusion then holds for the panel, not only for these ${Q.panelists.length} judges.`)}</p></div>`;
   el('b6qFig1').innerHTML = ''; el('b6qFig2').innerHTML = '';
   Fig.put('b6qFig1', Plot.radar({ name: 'b6-arana', w: 560, h: 420, axes: Q.attributes, series: Q.products.map((p, i) => ({ name: p, values: meansM[i] })), min: 0, max: Math.ceil(Math.max(...meansM.flat()) + 0.5) }), { name: 'b6-arana', title: L2('Perfil sensorial (gráfica de araña)', 'Sensory profile (spider chart)'), block: 6 });
   if (pca && pca.eig.length >= 2) {
@@ -309,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.I18N) I18N.apply(P);
   dTable = EditTable.mount('b6dTable', {
     id: 'b6d',
-    columns: [{ key: 'name', es: 'Prueba', en: 'Test', type: 'text', width: 180 }, { key: 'method', es: 'Método', en: 'Method', type: 'select', options: METH_OPTS }, { key: 'x', es: 'Correctas', en: 'Correct', type: 'num', step: 1 }, { key: 'n', es: 'Total', en: 'Total', type: 'num', step: 1 }, { key: 'test', es: 'Tipo', en: 'Kind', type: 'select', options: [['difference', 'Diferencia', 'Difference'], ['similarity', 'Similitud', 'Similarity']] }, { key: 'pd0', es: 'pd₀ (similitud)', en: 'pd₀ (similarity)', type: 'num' }],
+    columns: [{ key: 'name', es: 'Prueba', en: 'Test', type: 'text', width: 215 }, { key: 'method', es: 'Método', en: 'Method', type: 'select', options: METH_OPTS }, { key: 'x', es: 'Correctas', en: 'Correct', type: 'num', step: 1 }, { key: 'n', es: 'Total', en: 'Total', type: 'num', step: 1 }, { key: 'test', es: 'Tipo', en: 'Kind', type: 'select', options: [['difference', 'Diferencia', 'Difference'], ['similarity', 'Similitud', 'Similarity']] }, { key: 'pd0', es: 'pd₀ (similitud)', en: 'pd₀ (similarity)', type: 'num' }],
     rows: [{ name: T('Prueba 1', 'Test 1'), method: 'triangle', x: 21, n: 42, test: 'difference', pd0: 0.2 }],
     blank: () => ({ name: '', method: 'triangle', x: null, n: null, test: 'difference', pd0: 0.2 }),
     onChange: discrimRun,

@@ -631,7 +631,7 @@ Sens.hedonic = function (rows, o) {
     const f2 = seqAnova(y, [{ name: 'consumer', cols: dummies(ci, C.names.length) }, { name: 'product', cols: dummies(pi, kP) }]);
     const t = f2.terms[1], ms = t.ss / t.df, F = ms / mse;
     productAdjusted = { source: 'product', df: t.df, ss: t.ss, ms, F, p: Num.pf(F, t.df, dfe, true) };
-    notes.push(note('Diseño desbalanceado: la tabla de ANOVA es secuencial (producto primero); «productAdjusted» da el efecto de producto ajustado por consumidor. Las comparaciones usan las medias observadas.', 'Unbalanced design: the ANOVA table is sequential (product first); "productAdjusted" gives the product effect adjusted for consumers. Comparisons use the observed means.'));
+    notes.push(note('Diseño desbalanceado (no todos los consumidores calificaron todos los productos): la tabla de ANOVA es secuencial, con el producto primero, y el efecto de producto que se informa es el ajustado por consumidor (producto al final). Las comparaciones usan las medias observadas.', 'Unbalanced design (not every consumer scored every product): the ANOVA table is sequential, with product first, and the product effect reported is the one adjusted for consumers (product entered last). The comparisons use the observed means.'));
   }
   const cmp = compareMeans(P.names, means.map(m => m.mean), ns, mse, dfe, alpha, 'HSD', true);
   return {
@@ -993,7 +993,7 @@ Sens.pca = function (X, o) {
     s[j] = sqrt(v);
   }
   const Z = X.map(r => r.map((v, j) => (v - m[j]) / (scale ? (s[j] > 0 ? s[j] : 1) : 1)));
-  if (scale && s.some(v => !(v > 0))) notes.push(note('Hay variables constantes: no se pueden estandarizar y no aportan a los ejes.', 'Some variables are constant: they cannot be standardised and add nothing to the axes.'));
+  if (scale && s.some(v => !(v > 0))) notes.push(note('Hay variables constantes: no se pueden estandarizar y no aportan a los ejes.', 'Some variables are constant: they cannot be standardized and add nothing to the axes.'));
   const A = Z.map(r => r.map(v => v / sqrt(n)));
   const sv = Num.mat.svd(A);
   let K = min(n - 1, p, o.ncp || Infinity);

@@ -26,8 +26,8 @@ const INFO = {
   },
   cafeQDA: {
     es: 'Café: perfil descriptivo cuantitativo', en: 'Coffee: quantitative descriptive profile',
-    d: ['8 jueces evalúan 4 cafés en 2 sesiones, 7 atributos en escala de 0 a 10. El juez J6 repite mal y el J8 discrimina poco: el desempeño del panel lo muestra.',
-      '8 judges rate 4 coffees in 2 sessions, 7 attributes on a 0–10 scale. Judge J6 repeats poorly and J8 barely discriminates: the panel performance shows it.'],
+    d: ['8 jueces evalúan 4 cafés en 2 sesiones, 7 atributos en escala de 0 a 10. El juez J6 se simuló con más ruido (repite mal) y el J8 casi sin diferencias entre cafés (discrimina poco); por azar, J4 también salió débil. El desempeño del panel señala a los tres.',
+      '8 judges rate 4 coffees in 2 sessions, 7 attributes on a 0–10 scale. Judge J6 was simulated with more noise (repeats poorly) and J8 with hardly any differences between coffees (barely discriminates); by chance, J4 also came out weak. The panel performance flags all three.'],
   },
   cafeConsumidores: {
     es: 'Café: 80 consumidores (agrado, punto justo y CATA)', en: 'Coffee: 80 consumers (liking, just-about-right and CATA)',

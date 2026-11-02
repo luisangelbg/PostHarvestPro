@@ -331,24 +331,58 @@ Plot.biplot = function (o) {
 };
 
 /* ---------------- labelled scatter (penalty analysis) ----------------
-   pts [{x, y, label, color?}], xline, yline */
+   pts [{x, y, label, color?, shape?}], xline, yline, items? (legend, drawn outside the plot on the right).
+   Every label is placed where it overlaps least the other labels and the markers, inside the plot: next
+   to its point when there is room, farther away with a leader line when there is not. Points are placed
+   in order of importance (inside the shaded zone first, then by distance to its corner). */
 Plot.labelled = function (o) {
   const W = o.w || 620, H = o.h || 380;
-  const x0 = 58, x1 = W - 20, y1 = o.title ? 32 : 18, y0 = H - 46;
-  const ex = o.xr || Plot.extent([o.pts.map(p => p.x), o.xline != null ? [o.xline] : []], 0.1, true);
-  const ey = o.yr || Plot.extent([o.pts.map(p => p.y), o.yline != null ? [o.yline] : []], 0.12, true);
+  const legW = o.items && o.items.length ? Math.min(190, legendWidth(o.items)) : 0;
+  const x0 = 58, x1 = W - 16 - legW, y1 = o.title ? 32 : 18, y0 = H - 46;
+  const ex = o.xr || Plot.extent([o.pts.map(p => p.x), o.xline != null ? [o.xline] : []], 0.06, true);
+  const ey = o.yr || Plot.extent([o.pts.map(p => p.y), o.yline != null ? [o.yline] : []], 0.1, true);
   const sx = Plot.scale(ex[0], ex[1], x0, x1), sy = Plot.scale(ey[0], ey[1], y0, y1);
+  /* at least four numbers on each axis (the nice rounding of a short range can leave only two) */
+  const ticks = (lo, hi) => { let t = Plot.ticks(lo, hi, 6); for (let c = 8; t.ticks.length < 4 && c <= 20; c += 2) t = Plot.ticks(lo, hi, c); return t; };
   let s = Plot.open(W, H, o, { x0, x1, y0, y1, ex, ey }, o.label);
   if (o.xline != null && o.yline != null) s += `<rect class="pl-zone-bad" x="${f(sx(o.xline))}" y="${f(y1)}" width="${f(x1 - sx(o.xline))}" height="${f(sy(o.yline) - y1)}"/>`;
-  s += Plot.frame({ x0, x1, y0, y1, sx, sy, xt: Plot.ticks(ex[0], ex[1], 6), yt: Plot.ticks(ey[0], ey[1], 6), xlab: o.xlab, ylab: o.ylab, title: o.title });
+  s += Plot.frame({ x0, x1, y0, y1, sx, sy, xt: ticks(ex[0], ex[1]), yt: ticks(ey[0], ey[1]), xlab: o.xlab, ylab: o.ylab, title: o.title });
   if (o.xline != null) s += `<line class="pl-ref" x1="${f(sx(o.xline))}" y1="${f(y0)}" x2="${f(sx(o.xline))}" y2="${f(y1)}"/>`;
   if (o.yline != null) s += `<line class="pl-ref" x1="${f(x0)}" y1="${f(sy(o.yline))}" x2="${f(x1)}" y2="${f(sy(o.yline))}"/>`;
-  o.pts.forEach((p, i) => {
-    const X = sx(p.x), Y = sy(p.y);
-    s += Plot.marker(p.shape || 'circle', X, Y, 4.5, p.color || Plot.color(i));
-    s += `<text class="pl-note" x="${f(X + 6)}" y="${f(Y - 5)}">${esc(p.label)}</text>`;
+  const P = o.pts.map((p, i) => ({ p, i, X: sx(p.x), Y: sy(p.y) })).filter(q => isFinite(q.X) && isFinite(q.Y));
+  /* the boxes already taken: the markers, then each label placed */
+  const taken = P.map(q => [q.X - 5, q.Y - 6, q.X + 5, q.Y + 6]);
+  const over = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
+  const TH = 11; /* height of a 10 px label */
+  const cands = [];
+  [[8, 3.5, 'start'], [-8, 3.5, 'end'], [6, -7, 'start'], [-6, -7, 'end'], [6, 14, 'start'], [-6, 14, 'end'], [0, -9, 'middle'], [0, 17, 'middle']].forEach(c => cands.push(c.concat([0])));
+  [18, 30, 44].forEach(d => [[1, 0], [-1, 0], [0.7, -0.7], [-0.7, -0.7], [0.7, 0.7], [-0.7, 0.7], [0, -1], [0, 1]].forEach(([u, v]) => cands.push([u * d, v * d + 3.5, u > 0.1 ? 'start' : u < -0.1 ? 'end' : 'middle', 1])));
+  const zx = o.xline != null ? sx(o.xline) : x1, zy = o.yline != null ? sy(o.yline) : y1;
+  const order = P.slice().sort((a, b) => ((a.X >= zx && a.Y <= zy) ? 0 : 1) - ((b.X >= zx && b.Y <= zy) ? 0 : 1) || Math.hypot(x1 - a.X, y1 - a.Y) - Math.hypot(x1 - b.X, y1 - b.Y));
+  const labels = [];
+  order.forEach(q => {
+    const tw = String(q.p.label).length * 5.5 + 2;
+    let best = null;
+    cands.forEach(([dx, dy, anc, far], k) => {
+      const tx = q.X + dx, ty = q.Y + dy;
+      const l = anc === 'start' ? tx : anc === 'end' ? tx - tw : tx - tw / 2;
+      const box = [l, ty - TH + 2, l + tw, ty + 2];
+      const out = Math.max(0, x0 + 2 - box[0]) + Math.max(0, box[2] - (x1 - 2)) + Math.max(0, y1 - box[1]) + Math.max(0, box[3] - (y0 - 2));
+      const cost = taken.reduce((a, t) => a + over(box, t), 0) + out * 400 + k * 0.5 + (far ? 25 : 0);
+      if (!best || cost < best.cost) best = { cost, tx, ty, anc, box, far };
+    });
+    taken.push(best.box);
+    labels.push({ q, b: best });
   });
-  if (o.items) s += Plot.legend(o.items, x0 + 8, y1 + 12, {});
+  labels.forEach(({ q, b }) => {
+    if (b.far) {
+      const ex2 = Math.max(b.box[0], Math.min(b.box[2], q.X)), ey2 = Math.max(b.box[1], Math.min(b.box[3], q.Y));
+      s += `<line class="pl-leader" x1="${f(q.X)}" y1="${f(q.Y)}" x2="${f(ex2)}" y2="${f(ey2)}" stroke="var(--fig-muted)" stroke-width="0.6" stroke-opacity="0.7"/>`;
+    }
+  });
+  P.forEach(q => { s += Plot.marker(q.p.shape || 'circle', q.X, q.Y, 4.5, q.p.color || Plot.color(q.i)); });
+  labels.forEach(({ q, b }) => { s += `<text class="pl-note" x="${f(b.tx)}" y="${f(b.ty)}"${b.anc !== 'start' ? ` text-anchor="${b.anc}"` : ''}>${esc(q.p.label)}</text>`; });
+  if (o.items) s += Plot.legend(o.items, x1 + 14, y1 + 10, {});
   return s + `</svg>`;
 };
 
