@@ -410,7 +410,7 @@
   <p>Below each analysis there are three things besides the figures and the tables: some <b>tiles</b> with the numbers that matter (the chosen order, the life to the limit, the p-value), a <b>reading in words</b> of what they mean for the product, and the line <span class="ui">Method and source:</span> with the method and the citation. When something calls for care—an extrapolation, a straight line with a low R², a time that not all treatments have—a warning says so in the same place.</p>
 
   <h3>The figures</h3>
-  <p>Every figure in the app can be opened in the <b>figure studio</b>, a window shared by the whole suite where you change the texts, the font size, the legend and the colors without touching the data, and export to PNG, SVG, PDF or TIFF at 300, 600 or 1200 dpi. Next to each figure, the <span class="ui">✎</span> button opens the figure editor, and two quick buttons download it as SVG or as a 170 mm PNG at 300 ppi. Downloads and the report always use the colors of the light theme, even if you are working in the dark one. Chapter 9 explains this in depth.</p>
+  <p>Every figure in the app can be opened in the <b>figure studio</b>, a window shared by the whole suite where you change the texts, the font size, the legend and the colors without touching the data, and export to PNG, SVG, PDF or TIFF at 300, 600 or 1200 ppi. Next to each figure, the <span class="ui">✎</span> button opens the figure editor, and two quick buttons download it as SVG or as a 170 mm PNG at 300 ppi. Downloads and the report always use the colors of the light theme, even if you are working in the dark one. Chapter 9 explains this in depth.</p>
 
   <!-- I.7 -->
   <h2 id="si-7"><span class="num">I.7</span>The example data</h2>
@@ -470,8 +470,8 @@
   <h2 id="si-9"><span class="num">I.9</span>How it was checked</h2>
   <p>A computing program is worth what its numbers are worth. Every engine in PostHarvestPro was programmed from the published formula and compared, number by number, with an independent implementation: the R statistical environment (version 4.4.2) and its reference packages for nonlinear kinetics, survival analysis, sensory evaluation and trial analysis; published tables for color and psychrometrics; and hand computations written into the tests themselves for the calculators. Every comparison has its tolerance written down.</p>
   <div class="caja dato">
-    <div class="dato-cifra">71,278</div>
-    <div class="dato-txt"><div class="caja-t">Comparisons without failures</div>In 449 automated tests, which run in the browser by double-clicking <code>tests/run.html</code> and in the console with <code>node tests/run-node.js</code>. The table below breaks them down by engine.</div>
+    <div class="dato-cifra">71,283</div>
+    <div class="dato-txt"><div class="caja-t">Comparisons without failures</div>In 450 automated tests, which run in the browser by double-clicking <code>tests/run.html</code> and in the console with <code>node tests/run-node.js</code>. The table below breaks them down by engine.</div>
   </div>
   <table class="compacta">
     <caption><b>Validation by area</b> (<code>node tests/run-node.js</code>; the details, in <code>tests/validacion/</code>)</caption>
@@ -488,8 +488,8 @@
       <tr><td>Time to failure</td><td class="num">143</td><td class="num">38,488</td><td>Kaplan–Meier, log-rank and parametric models from two R survival packages</td></tr>
       <tr><td>Sensory</td><td class="num">32</td><td class="num">11,669</td><td>R packages for sensory analysis, factor analysis and multiple comparisons</td></tr>
       <tr><td>Trials</td><td class="num">8</td><td class="num">242</td><td>Type I and III analysis of variance, Tukey, Dunnett, repeated measures with Mauchly and comparison of slopes in R</td></tr>
-      <tr><td>Figures</td><td class="num">6</td><td class="num">74</td><td>Geometry and text written into the test: thousands on the axes, labels that do not overlap, distinct strokes and the percent sign of each language</td></tr>
-      <tr class="total"><td><b>Total</b></td><td class="num"><b>449</b></td><td class="num"><b>71,278</b></td><td>0 failures</td></tr>
+      <tr><td>Figures</td><td class="num">7</td><td class="num">79</td><td>Geometry and text written into the test: thousands on the axes, labels that do not overlap, distinct strokes and the percent sign of each language</td></tr>
+      <tr class="total"><td><b>Total</b></td><td class="num"><b>450</b></td><td class="num"><b>71,283</b></td><td>0 failures</td></tr>
     </tbody>
   </table>
   <p>The comparison also served to correct. It caught, among others, a cutoff in the studentized range that set probabilities to zero with five or more means, standard errors of the logistic regression computed with the weights of the next-to-last iteration and an optimizer that declared convergence next to the pole of a second-order curve; all three were corrected before version 1.0. The details, with the tolerances of each test, are in the <code>tests/validacion/</code> folder, which is the only part of the program that names software packages: the app and the rest of this manual describe the methods and cite the articles.</p>

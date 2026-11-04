@@ -234,13 +234,13 @@
   };
   /* preajustes de un clic: tamaño, resolución, formato, texto mínimo, líneas, paleta y fondo */
   const PRESETS = [
-    { id: 'col1', name: ['Artículo · 1 columna', 'Article · 1 column'], w: 85, dpi: 600, fmt: 'tiff', minPt: 7, desc: ['85 mm · 600 ppp · TIFF · texto ≥ 7 pt', '85 mm · 600 dpi · TIFF · text ≥ 7 pt'] },
-    { id: 'col15', name: ['Artículo · 1.5 columnas', 'Article · 1.5 columns'], w: 114, dpi: 600, fmt: 'tiff', minPt: 7, desc: ['114 mm · 600 ppp · TIFF · texto ≥ 7 pt', '114 mm · 600 dpi · TIFF · text ≥ 7 pt'] },
-    { id: 'col2', name: ['Artículo · 2 columnas', 'Article · 2 columns'], w: 180, dpi: 600, fmt: 'tiff', minPt: 7, desc: ['180 mm · 600 ppp · TIFF · texto ≥ 7 pt', '180 mm · 600 dpi · TIFF · text ≥ 7 pt'] },
-    { id: 'lines', name: ['Dibujo de líneas', 'Line art'], w: 85, dpi: 1200, fmt: 'tiff', minPt: 7, line: 1.25, desc: ['85 mm · 1200 ppp · líneas más firmes', '85 mm · 1200 dpi · firmer lines'] },
+    { id: 'col1', name: ['Artículo · 1 columna', 'Article · 1 column'], w: 85, dpi: 600, fmt: 'tiff', minPt: 7, desc: ['85 mm · 600 ppp · TIFF · texto ≥ 7 pt', '85 mm · 600 ppi · TIFF · text ≥ 7 pt'] },
+    { id: 'col15', name: ['Artículo · 1.5 columnas', 'Article · 1.5 columns'], w: 114, dpi: 600, fmt: 'tiff', minPt: 7, desc: ['114 mm · 600 ppp · TIFF · texto ≥ 7 pt', '114 mm · 600 ppi · TIFF · text ≥ 7 pt'] },
+    { id: 'col2', name: ['Artículo · 2 columnas', 'Article · 2 columns'], w: 180, dpi: 600, fmt: 'tiff', minPt: 7, desc: ['180 mm · 600 ppp · TIFF · texto ≥ 7 pt', '180 mm · 600 ppi · TIFF · text ≥ 7 pt'] },
+    { id: 'lines', name: ['Dibujo de líneas', 'Line art'], w: 85, dpi: 1200, fmt: 'tiff', minPt: 7, line: 1.25, desc: ['85 mm · 1200 ppp · líneas más firmes', '85 mm · 1200 ppi · firmer lines'] },
     { id: 'vector', name: ['Vectorial para editar', 'Editable vector'], w: 180, fmt: 'svg', minPt: 7, desc: ['180 mm · SVG · texto ≥ 7 pt', '180 mm · SVG · text ≥ 7 pt'] },
     { id: 'slides', name: ['Presentación', 'Slides'], w: 254, dpi: 192, fmt: 'png', minPt: 16, line: 1.6, desc: ['254 mm (1920 px) · PNG · texto ≥ 16 pt', '254 mm (1920 px) · PNG · text ≥ 16 pt'] },
-    { id: 'poster', name: ['Póster', 'Poster'], w: 300, dpi: 300, fmt: 'pdf', minPt: 20, line: 1.8, desc: ['300 mm · 300 ppp · PDF · texto ≥ 20 pt', '300 mm · 300 dpi · PDF · text ≥ 20 pt'] },
+    { id: 'poster', name: ['Póster', 'Poster'], w: 300, dpi: 300, fmt: 'pdf', minPt: 20, line: 1.8, desc: ['300 mm · 300 ppp · PDF · texto ≥ 20 pt', '300 mm · 300 ppi · PDF · text ≥ 20 pt'] },
     { id: 'web', name: ['Web y redes', 'Web and social'], w: 127, dpi: 240, fmt: 'png', minPt: 10, desc: ['1200 px · PNG · texto ≥ 10 pt', '1200 px · PNG · text ≥ 10 pt'] },
     { id: 'cvdsafe', name: ['Apta para daltonismo', 'Color-blind safe'], pal: 'okabe', desc: ['Paleta de Okabe e Ito', 'Okabe and Ito palette'] },
     { id: 'gray', name: ['Impresión en gris', 'Grayscale print'], pal: 'grises', desc: ['Paleta de grises', 'Gray palette'] },
@@ -1352,7 +1352,7 @@
   function fmtSize() {
     const px = expPx();
     const w = expW(), h = expH();
-    return fmtN(w, 1) + ' × ' + fmtN(h, 1) + ' mm  ·  ' + fmtN(w / MM_IN, 2) + ' × ' + fmtN(h / MM_IN, 2) + ' in' + (ST.exp.fmt === 'svg' || pdfVec() ? '  ·  ' + T('vectorial', 'vector') : '  ·  ' + ST.exp.dpi + ' ' + T('ppp', 'dpi') + ' → ' + px.w + ' × ' + px.h + ' px');
+    return fmtN(w, 1) + ' × ' + fmtN(h, 1) + ' mm  ·  ' + fmtN(w / MM_IN, 2) + ' × ' + fmtN(h / MM_IN, 2) + ' in' + (ST.exp.fmt === 'svg' || pdfVec() ? '  ·  ' + T('vectorial', 'vector') : '  ·  ' + ST.exp.dpi + ' ' + T('ppp', 'ppi') + ' → ' + px.w + ' × ' + px.h + ' px');
   }
   function ringBox(r) { const g = $('.lfs-ring', over); Object.assign(g.style, { left: (r.left - 3) + 'px', top: (r.top - 3) + 'px', width: (r.width + 6) + 'px', height: (r.height + 6) + 'px' }); }
   /* un destello dorado alrededor de lo que cambió */
@@ -1692,14 +1692,14 @@
       row(T('Ancho', 'Width'), '<div class="lfs-seg lfs-seg-w">' + WIDTHS.map(([mm, nm]) => '<button type="button" data-exp="wmm" data-v="' + mm + '" aria-pressed="' + (Math.abs(expW() - mm) < 0.5) + '" title="' + esc(TT(nm)) + '">' + mm + '</button>').join('') + '</div>' +
         '<input type="number" data-exp="w" min="' + (u === 'in' ? 0.5 : 10) + '" max="' + (u === 'in' ? 40 : 1000) + '" step="' + (u === 'in' ? 0.01 : 0.5) + '" value="' + wv + '"><select data-exp="unit"><option value="mm"' + (u === 'mm' ? ' selected' : '') + '>mm</option><option value="in"' + (u === 'in' ? ' selected' : '') + '>in</option></select>', 'lfs-r-w') +
       row(T('Alto', 'Height'), '<label class="lfs-inl"><input type="checkbox" data-exp="hauto"' + (E.h ? '' : ' checked') + '>' + esc(T('el de la figura', 'the figure’s')) + '</label><input type="number" data-exp="h" step="' + (u === 'in' ? 0.01 : 0.5) + '" value="' + fmtN(u === 'in' ? expH() / MM_IN : expH(), u === 'in' ? 2 : 1) + '"' + (E.h ? '' : ' disabled') + '>', 'lfs-r-h') +
-      row(T('Resolución', 'Resolution'), '<div class="lfs-seg">' + [300, 600, 1200].map(d => '<button type="button" data-exp="dpi" data-v="' + d + '" aria-pressed="' + (E.dpi === d) + '"' + (isVec ? ' disabled' : '') + '>' + d + '</button>').join('') + '</div><small class="lfs-unit">' + esc(T('ppp', 'dpi')) + '</small>', 'lfs-r-seg') +
+      row(T('Resolución', 'Resolution'), '<div class="lfs-seg">' + [300, 600, 1200].map(d => '<button type="button" data-exp="dpi" data-v="' + d + '" aria-pressed="' + (E.dpi === d) + '"' + (isVec ? ' disabled' : '') + '>' + d + '</button>').join('') + '</div><small class="lfs-unit">' + esc(T('ppp', 'ppi')) + '</small>', 'lfs-r-seg') +
       row(T('Fondo', 'Background'), '<div class="lfs-seg">' + [['white', ['Blanco', 'White']], ['screen', ['Como se ve', 'As shown']], ['none', ['Transparente', 'Transparent']]].map(([v, n]) => '<button type="button" data-exp="bg" data-v="' + v + '" aria-pressed="' + (E.bg === v) + '">' + esc(TT(n)) + '</button>').join('') + '</div>', 'lfs-r-seg') +
       /* la app en tema oscuro: la figura puede salir con los colores del tema claro */
       (darkTheme() && lib === 'svg' && !nativeFmt() ? row(T('Colores', 'Colors'), '<div class="lfs-seg">' + [['light', ['Del tema claro', 'Light theme'], ['Como en el tema claro de la app, para papel', 'As in the app’s light theme, for paper']], ['screen', ['Como se ven', 'As shown'], ['Como se ven ahora, en tema oscuro', 'As they look now, in dark theme']]].map(([v, n, tip]) => '<button type="button" data-exp="colors" data-v="' + v + '" aria-pressed="' + ((E.colors || 'light') === v) + '" title="' + esc(TT(tip)) + '">' + esc(TT(n)) + '</button>').join('') + '</div>', 'lfs-r-seg lfs-r-colors') : '') +
       '<div class="lfs-readout"></div>' +
       (ST.native ? '<p class="lfs-note lfs-note-native">' + ico('check') + '<span>' + esc(T('La dibuja ' + (ST.native.label || 'la app') + ': al exportar, el estudio le pide la figura a este tamaño y resolución, no la amplía. En SVG y PDF sale vectorial y el texto conserva su tamaño en puntos.', 'Drawn by ' + (ST.native.label || 'the app') + ': on export the studio asks for the figure at this size and resolution instead of enlarging it. SVG and PDF come out as vectors and the text keeps its size in points.')) + '</span></p>' +
         (ST.native.preview !== false && nativeCan(ST.native, 'png') && !ST.noLift ? '<div class="lfs-row lfs-r-check"><label><input type="checkbox" data-exp="pv"' + (ST.pvOn ? ' checked' : '') + '><span>' + esc(T('Ver en el papel cómo sale a este tamaño', 'Show on the paper how it comes out at this size')) + '</span></label></div>' : '')
-        : (lib !== 'svg' ? '<p class="lfs-note">' + esc(T('Esta figura es una imagen de píxeles: exportarla a más ppp no agrega detalle. Para más resolución usa la descarga de la app.', 'This figure is a pixel image: exporting it at a higher dpi adds no detail. For more resolution use the app’s own download.')) + '</p>' : '')) +
+        : (lib !== 'svg' ? '<p class="lfs-note">' + esc(T('Esta figura es una imagen de píxeles: exportarla a más ppp no agrega detalle. Para más resolución usa la descarga de la app.', 'This figure is a pixel image: exporting it at a higher ppi adds no detail. For more resolution use the app’s own download.')) + '</p>' : '')) +
       '<div class="lfs-actions"><button type="button" class="lfs-btn lfs-btn-pri" data-a="export">' + ico('download') + esc(T('Exportar', 'Export')) + '</button><button type="button" class="lfs-btn" data-a="copy">' + ico('copy') + esc(T('Copiar imagen', 'Copy image')) + '</button><button type="button" class="lfs-btn" data-a="real">' + ico('ruler') + esc(T('Ver a tamaño real', 'View at real size')) + '</button></div>';
     readout();
   }
@@ -1780,7 +1780,7 @@
         (pdfVec() ? '<span class="lfs-ok">' + ico('check') + esc(T('PDF vectorial: trazos y texto. El texto va con las letras estándar del PDF (sans, serif o mono).', 'Vector PDF: paths and text. The text uses the standard PDF fonts (sans, serif or mono).')) + '</span>' : '') +
         (fmtNote(ST.exp.fmt) ? '<span class="lfs-note-s">' + ico('info') + esc(fmtNote(ST.exp.fmt)) + '</span>' : '') +
         (darkTheme() && !nativeFmt() ? themeNote() : '') +
-        (big && ST.exp.fmt !== 'svg' && !pdfVec() ? '<span class="lfs-warn">' + ico('info') + esc(T('Muy grande para el navegador: baja los ppp o el tamaño.', 'Too large for the browser: lower the dpi or the size.')) + '</span>' : '');
+        (big && ST.exp.fmt !== 'svg' && !pdfVec() ? '<span class="lfs-warn">' + ico('info') + esc(T('Muy grande para el navegador: baja los ppp o el tamaño.', 'Too large for the browser: lower the ppi or the size.')) + '</span>' : '');
     }
     const p = $('.lfs-pt', body);
     if (p) p.innerHTML = pt != null ? '<span class="' + (pt < 6 ? 'lfs-warn' : 'lfs-ok') + '">' + esc(T('Al tamaño de salida, el texto más chico mide ', 'At the output size, the smallest text measures ') + pt.toFixed(1) + ' pt') + '</span>' : '';
@@ -1796,7 +1796,7 @@
   function describe(p) {
     const parts = [];
     if (p.w) parts.push(fmtN(p.w, 1) + ' mm');
-    if (p.dpi) parts.push(p.dpi + ' ' + T('ppp', 'dpi'));
+    if (p.dpi) parts.push(p.dpi + ' ' + T('ppp', 'ppi'));
     if (p.fmt) parts.push(p.fmt.toUpperCase());
     if (p.txt && p.txt !== 1) parts.push(T('texto ', 'text ') + Math.round(p.txt * 100) + '%');
     if (p.pal) { const P = PALETTES.find(x => x.id === p.pal); if (P) parts.push(TT(P.name)); }
@@ -1981,7 +1981,7 @@
     if (ex) {
       const k = ex.dataset.exp, v = ex.dataset.v;
       if (k === 'fmt') setExp({ fmt: v }, T('Formato: ', 'Format: ') + v.toUpperCase());
-      else if (k === 'dpi') setExp({ dpi: +v }, v + ' ' + T('ppp', 'dpi'));
+      else if (k === 'dpi') setExp({ dpi: +v }, v + ' ' + T('ppp', 'ppi'));
       else if (k === 'bg') setExp({ bg: v }, T('Fondo: ', 'Background: ') + ex.textContent);
       else if (k === 'colors') setExp({ colors: v }, T('Colores: ', 'Colors: ') + ex.textContent);
       else if (k === 'pdf') setExp({ pdf: v }, 'PDF: ' + ex.textContent);

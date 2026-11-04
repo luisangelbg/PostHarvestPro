@@ -24,7 +24,7 @@ TEST('color', 'The reading of ΔE00 fits the sentence «the difference is …» 
     a.ok(!/^(se |diferencia )/.test(R.isEs), 'no «es se …» nor «es diferencia …» at ' + d);
   });
   a.eq(Color.dEReading(4).isEs, 'clara', 'clear');
-  a.eq(Color.dEReading(7).isEn, 'so large that they are seen as different colors', 'different colours');
+  a.eq(Color.dEReading(7).isEn, 'so large that they are perceived as different colors', 'different colours');
 });
 
 TEST('refs', 'Every source named in the catalogue of methods is in the reference list', a => {

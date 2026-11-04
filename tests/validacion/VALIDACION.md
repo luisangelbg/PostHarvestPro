@@ -14,7 +14,7 @@ Cada guion `.R` escribe `ref_<area>.json` y `ref_<area>.js`. El `.js` existe par
 
 ## Resultado (2 nov 2026)
 
-**449 pruebas, 71 278 comparaciones, 0 fallas**, tanto en node como en el navegador (10 s).
+**450 pruebas, 71 283 comparaciones, 0 fallas**, tanto en node como en el navegador (10 s).
 
 | Área | Motor | Pruebas | Comparaciones | Referencia | Detalle |
 |---|---|---:|---:|---|---|
@@ -29,7 +29,7 @@ Cada guion `.R` escribe `ref_<area>.json` y `ref_<area>.js`. El `.js` existe par
 | Sensorial | `js/sensory.js` | 32 | 11 669 | `sensR`, `SensoMineR`, `FactoMineR`, `agricolae`, `DescTools`, `stats` | [LEEME_sensory.md](LEEME_sensory.md) |
 | Ensayos | `js/trials.js` | 8 | 242 | `lm`/`anova`, `car::Anova` (tipo III), `TukeyHSD`, `pairwise.t.test`, `multcomp::glht` (Dunnett), `agricolae::HSD.test`, `aov` con `Error()`, `anova.mlm` y `mauchly.test`, `emmeans::emtrends` | [LEEME_trials.md](LEEME_trials.md) |
 | Referencias | `js/refs.js` | 2 | 96 | coherencia interna: cada fuente que nombra el catálogo de métodos está en la lista de obras; índices de color con sus fuentes | — |
-| Figuras | `js/plot.js` | 6 | 74 | geometría escrita en la prueba: miles en los ejes, rótulos sin encimarse ni cruzar líneas, nombres de la araña dentro de la figura, trazos distintos en el plano O₂–CO₂, «90 %» en español y «90%» en inglés en la carta psicrométrica | — |
+| Figuras | `js/plot.js` | 7 | 79 | geometría escrita en la prueba: miles en los ejes, rótulos sin encimarse ni cruzar líneas, nombres de la araña dentro de la figura, trazos distintos en el plano O₂–CO₂, «90 %» en español y «90%» en inglés en la carta psicrométrica | — |
 
 ## Errores que atrapó la validación
 

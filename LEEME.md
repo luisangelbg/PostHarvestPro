@@ -120,7 +120,7 @@ Cada motor se programó desde la fórmula publicada y se comparó con una
 implementación independiente: R 4.4.2 y sus paquetes, tablas publicadas o
 cálculos a mano escritos en la prueba, cada comparación con su tolerancia.
 Abre `tests/run.html` con doble clic, o corre `node tests/run-node.js`:
-**449 pruebas y 71 278 comparaciones, ninguna falla**.
+**450 pruebas y 71 283 comparaciones, ninguna falla**.
 
 | Área | Motor | Pruebas | Comparaciones | Referencia |
 |---|---|---:|---:|---|
@@ -135,8 +135,8 @@ Abre `tests/run.html` con doble clic, o corre `node tests/run-node.js`:
 | Evaluación sensorial | `js/sensory.js` | 32 | 11 669 | R (modelos de Thurstone, desempeño del panel, ANOVA, CATA, correspondencias y componentes principales) |
 | Ensayos poscosecha | `js/trials.js` | 8 | 242 | R (tipos I y III, Tukey, DMS, Dunnett, medidas repetidas, pendientes) |
 | Catálogo de métodos y referencias | `js/refs.js` | 2 | 96 | toda fuente citada en los métodos está en la lista de referencias |
-| Figuras (números de los ejes, rótulos, signo de porcentaje) | `js/plot.js` | 6 | 74 | geometría y texto escritos en la prueba: miles en los ejes, rótulos que no se enciman ni cruzan líneas, trazos distintos en el plano O₂–CO₂, «90 %» en español y «90%» en inglés |
-| **Total** | | **449** | **71 278** | **0 fallas** |
+| Figuras (números de los ejes, rótulos, signo de porcentaje) | `js/plot.js` | 7 | 79 | geometría y texto escritos en la prueba: miles en los ejes, rótulos que no se enciman ni cruzan líneas, trazos distintos en el plano O₂–CO₂, «90 %» en español y «90%» en inglés |
+| **Total** | | **450** | **71 283** | **0 fallas** |
 
 Los guiones de R, los valores de referencia y un informe por área (qué se
 comparó, las tolerancias, las diferencias máximas y los errores que la

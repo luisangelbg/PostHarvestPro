@@ -27,7 +27,7 @@ const tools = [
       <div class="btn-row"><button type="button" class="btn btn-accent btn-sm" id="b5cSend">${L2('Enviar a EconomicsPro →', 'Send to EconomicsPro →')}</button></div><div id="b5cCite"></div></div></div>` },
   { id: 'mejoras', es: 'Simular mejoras', en: 'Simulate improvements', html: `
     <div class="card"><h2>${L2('¿Qué pasa si se reduce la pérdida de una etapa?', 'What if the loss of one stage falls?')}</h2>
-      <p class="hint">${L2('Usa la cadena de «Pérdidas por etapa». La reducción es relativa: 50 % quiere decir perder la mitad de lo que se pierde hoy en esa etapa.', 'It uses the chain of «Losses by stage». The reduction is relative: 50% means losing half of what is lost today at that stage.')}</p>
+      <p class="hint">${L2('Usa la cadena de «Pérdidas por etapa». La reducción es relativa: 50 % quiere decir perder la mitad de lo que se pierde hoy en esa etapa.', 'It uses the chain of “Losses by stage”. The reduction is relative: 50% means losing half of what is lost today at that stage.')}</p>
       <div class="form-grid tight">${UI.sel('b5mStage', 'Etapa', 'Stage', [], '')}${UI.num('b5mRed', 'Reducción de su pérdida (%)', 'Reduction of its loss (%)', 50, { min: 0, max: 100 })}</div>
       <div id="b5mMsg" class="messages"></div></div>
     <div class="card" id="b5mOut" hidden><h2>${L2('Resultado de la simulación', 'Result of the simulation')}</h2><div id="b5mTiles"></div><div id="b5mRead"></div><div id="b5mFig"></div><div id="b5mTab"></div></div>` },
@@ -84,7 +84,7 @@ function paintStages() {
   sel.value = same && v && +v < st.length ? v : String(S.ch ? S.ch.ch.byValue[0].i : 0);
 }
 function simRun() {
-  if (!S.ch) { el('b5mOut').hidden = true; clearMessages('b5mMsg'); showMessage('b5mMsg', 'info', T('Primero arma la cadena en «Pérdidas por etapa».', 'First build the chain in «Losses by stage».')); return; }
+  if (!S.ch) { el('b5mOut').hidden = true; clearMessages('b5mMsg'); showMessage('b5mMsg', 'info', T('Primero arma la cadena en «Pérdidas por etapa».', 'First build the chain in “Losses by stage”.')); return; }
   clearMessages('b5mMsg');
   const k = +UI.s('b5mStage'), red = Math.max(0, Math.min(100, UI.v('b5mRed')));
   const r = Loss.simulate(S.ch.st, S.ch.ini, k, red), sens = Loss.sensitivity(S.ch.st, S.ch.ini, red);
@@ -94,7 +94,7 @@ function simRun() {
   el('b5mRead').innerHTML = `<div class="reading"><p>${L2(`Reducir ${Fmt.num(red, 0)} % la pérdida de <b>${esc(S.ch.st[k].name)}</b> hace llegar ${Fmt.num(r.gainKg, 0)} kg más al final, que valen ${money(r.gainValue)}. Con la misma reducción relativa, la etapa que más rinde es <b>${esc(best.name)}</b> (${money(best.gainValue)}): ahí conviene invertir primero, si el costo de la mejora es parecido.`, `Reducing the loss of <b>${esc(S.ch.st[k].name)}</b> by ${Fmt.num(red, 0)}% brings ${Fmt.num(r.gainKg, 0)} kg more to the end, worth ${money(r.gainValue)}. With the same relative reduction, the stage that pays most is <b>${esc(best.name)}</b> (${money(best.gainValue)}): invest there first, if the cost of the improvement is similar.`)}</p></div>`;
   el('b5mFig').innerHTML = '';
   Fig.put('b5mFig', Plot.bars({ name: 'b5-sensibilidad', cats: sens.map(s => s.name), values: sens.map(s => s.gainValue), ylab: T('Valor ganado', 'Value gained') + ' (' + cur() + ')', horizontal: true, colors: sens.map((s, i) => (i === k ? 'var(--s1)' : 'var(--s3)')), valueLabels: v => Fmt.num(v, 0) }),
-    { name: 'b5-sensibilidad', title: L2('Valor ganado al reducir ', 'Value gained by reducing ') + Fmt.num(red, 0) + L2(' % la pérdida de cada etapa', '% the loss of each stage'), block: 5 });
+    { name: 'b5-sensibilidad', title: L2('Valor ganado al reducir ', 'Value gained by reducing the loss of each stage by ') + Fmt.num(red, 0) + L2(' % la pérdida de cada etapa', '%'), block: 5 });
   buildTable('b5mTab', [{ key: 'name', label: L2('Etapa', 'Stage') }, { key: 'gainKg', label: L2('Kilos que llegan además', 'Extra kilograms arriving'), num: true, fmt: v => Fmt.num(v, 0) }, { key: 'gainValue', label: L2('Valor ganado', 'Value gained'), num: true, fmt: v => Fmt.num(v, 0) }, { key: 'newIndex', label: L2('Nuevo índice (%)', 'New index (%)'), num: true, fmt: v => Fmt.num(v, 2) }], sens, { csvName: T('simulacion_mejoras', 'improvement_simulation') });
   Report.set('losses:sim', { order: 51, title: ['Simulación de mejoras', 'Improvement what-if'], html: () => el('b5mRead').innerHTML + PHRep.fig('b5-sensibilidad') });
 }
@@ -120,7 +120,7 @@ function colInfo(c) {
   const w = WORDS[base];
   const own = (unit ? raw.slice(0, raw.length - last.length - 1) : raw).replace(/_/g, ' ');
   const name = w ? T(w[0], w[1]) : own.charAt(0).toUpperCase() + own.slice(1);
-  return { unit, base, name, label: name + (unit ? ' (' + unit + ')' : ''), inText: w ? T(w[2], w[3]) : '«' + esc(own) + '»' };
+  return { unit, base, name, label: name + (unit ? ' (' + unit + ')' : ''), inText: w ? T(w[2], w[3]) : T('«', '“') + esc(own) + T('»', '”') };
 }
 const withUnit = (v, d, u) => Fmt.num(v, d) + (u ? ' ' + u : '');
 function damageRun(D) {
@@ -149,7 +149,7 @@ function damageRun(D) {
     if (E) {
       const q = Loss.susceptibilityMean(colNum(rows, sizeCol), E);
       const su = isVol ? (si.unit || 'mm³') : isArea ? (si.unit || 'mm²') : '';
-      if (q.n) res.bs = Object.assign(q, { col: sizeCol, isVol, isArea, unit: su ? su + '/J' : '«' + esc(sizeCol) + '»/J', eSrc });
+      if (q.n) res.bs = Object.assign(q, { col: sizeCol, isVol, isArea, unit: su ? su + '/J' : T('«', '“') + esc(sizeCol) + T('»', '”') + '/J', eSrc });
     }
   }
   S.d = res;
@@ -159,8 +159,8 @@ function damageRun(D) {
   const NAMES = { linear: [T('Lineal', 'Linear'), 'y = a + b·x'], quadratic: [T('Cuadrático', 'Quadratic'), 'y = a + b·x + c·x²'], power: [T('Potencia', 'Power'), 'y = a·xᵇ'], exponential: [T('Exponencial', 'Exponential'), 'y = a·e^(b·x)'] };
   const e50 = res.logit ? res.logit.dose(0.5) : null, e10 = res.logit ? res.logit.dose(0.1) : null;
   const bs = res.bs;
-  const eTxt = !bs ? '' : bs.eSrc === 'col' ? T('la energía medida («' + esc(m.en) + '»)', 'the measured energy («' + esc(m.en) + '»)') : bs.eSrc === 'x' ? T('la energía del eje x', 'the energy of the x axis') : T('la energía del impacto calculada como m·g·h', 'the impact energy computed as m·g·h');
-  const what = !bs ? '' : bs.isVol ? T('volumen', 'volume') : bs.isArea ? T('área', 'area') : '«' + esc(bs.col) + '»';
+  const eTxt = !bs ? '' : bs.eSrc === 'col' ? T('la energía medida («' + esc(m.en) + '»)', 'the measured energy (“' + esc(m.en) + '”)') : bs.eSrc === 'x' ? T('la energía del eje x', 'the energy of the x axis') : T('la energía del impacto calculada como m·g·h', 'the impact energy computed as m·g·h');
+  const what = !bs ? '' : bs.isVol ? T('volumen', 'volume') : bs.isArea ? T('área', 'area') : T('«', '“') + esc(bs.col) + T('»', '”');
   statTiles('b5dTiles', [
     [T('Frutos', 'Fruit'), rows.length],
     best ? [T('Mejor curva (AIC)', 'Best curve (AIC)'), NAMES[best.id][0], 'R² ' + Fmt.num(best.r2, 3)] : null,
@@ -210,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ['b5cIni', 'b5cCur'].forEach(id => el(id).addEventListener('input', chainRun));
   el('b5cSend').addEventListener('click', () => {
     if (!S.ch) return;
-    const h = ['etapa', 'entra_kg', 'pierde_kg', 'perdida_pct', 'precio_kg', 'valor_perdido', 'sale_kg'];
+    const h = T(['etapa', 'entra_kg', 'pierde_kg', 'perdida_pct', 'precio_kg', 'valor_perdido', 'sale_kg'], ['stage', 'in_kg', 'lost_kg', 'loss_pct', 'price_kg', 'value_lost', 'out_kg']);
     const rows = S.ch.ch.rows.map(r => [r.name, r.input, r.lost, r.pct, r.price, r.value, r.output]);
-    Send.to('EconomicsPro', { kind: 'chain-losses', name: 'perdidas_cadena', csv: Out.csvText(h, rows), note: 'Losses by stage of a postharvest chain' });
+    Send.to('EconomicsPro', { kind: 'chain-losses', name: T('perdidas_cadena', 'chain_losses'), csv: Out.csvText(h, rows), note: 'Losses by stage of a postharvest chain' });
   });
   ['b5mStage', 'b5mRed'].forEach(id => { el(id).addEventListener('change', simRun); el(id).addEventListener('input', simRun); });
   chainRun();

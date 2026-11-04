@@ -119,7 +119,7 @@ Every engine was written from the published formula and compared against an
 independent implementation: R 4.4.2 and its packages, published tables or
 hand calculations written out in the test, each comparison with its own
 tolerance. Open `tests/run.html` with a double click, or run
-`node tests/run-node.js`: **449 tests and 71,278 comparisons, none failed**.
+`node tests/run-node.js`: **450 tests and 71,283 comparisons, none failed**.
 
 | Area | Engine | Tests | Comparisons | Reference |
 |---|---|---:|---:|---|
@@ -134,8 +134,8 @@ tolerance. Open `tests/run.html` with a double click, or run
 | Sensory evaluation | `js/sensory.js` | 32 | 11,669 | R (Thurstonian models, panel performance, ANOVA, CATA, correspondence and principal components) |
 | Postharvest trials | `js/trials.js` | 8 | 242 | R (types I and III, Tukey, LSD, Dunnett, repeated measures, slopes) |
 | Catalog of methods and references | `js/refs.js` | 2 | 96 | every source cited in the methods is in the reference list |
-| Figures (axis numbers, labels, percent sign) | `js/plot.js` | 6 | 74 | geometry and text written out in the test: thousands on the axes, labels that neither overlap nor cross lines, distinct traces on the O₂–CO₂ plane, «90%» in English |
-| **Total** | | **449** | **71,278** | **0 failed** |
+| Figures (axis numbers, labels, percent sign) | `js/plot.js` | 7 | 79 | geometry and text written out in the test: thousands on the axes, labels that neither overlap nor cross lines, distinct traces on the O₂–CO₂ plane, «90%» in English |
+| **Total** | | **450** | **71,283** | **0 failed** |
 
 The reference scripts in R, the reference values and one report per area
 (what was compared, the tolerances, the largest differences and the errors the

@@ -109,7 +109,7 @@ const METHODS = [
   [6, 'Pruebas discriminativas con d′ de Thurstone, potencia y tamaño de muestra', 'Discrimination tests with Thurstonian d′, power and sample size', ['ennis1993', 'ennis2011', 'brockhoff2010', 'bi2006', 'clopper1934']],
   [6, 'Escala hedónica, ANOVA y Tukey; ordenamiento de Friedman', 'Hedonic scale, ANOVA and Tukey; Friedman ranking', ['peryam1957', 'friedman1937', 'lawless2010']],
   [6, 'Punto justo (JAR) con análisis de penalidades', 'Just-about-right (JAR) with penalty analysis', ['xiong2006', 'lawless2010']],
-  [6, 'CATA: Q de Cochran, McNemar y análisis de correspondencias', 'CATA: Cochran\'s Q, McNemar and correspondence analysis', ['meyners2013', 'cochran1950', 'mcnemar1947', 'greenacre2007']],
+  [6, 'CATA: Q de Cochran, McNemar y análisis de correspondencias', 'CATA: Cochran’s Q, McNemar and correspondence analysis', ['meyners2013', 'cochran1950', 'mcnemar1947', 'greenacre2007']],
   [6, 'Perfil descriptivo: ANOVA juez × producto, desempeño del panel y ACP', 'Descriptive profile: judge × product ANOVA, panel performance and PCA', ['stone1974', 'naes2010', 'jolliffe2002']],
   [6, 'Órdenes de presentación de Williams y códigos de tres dígitos', 'Williams presentation orders and three-digit codes', ['williams1949', 'macfie1989']],
   [7, 'ANOVA factorial tratamiento × tiempo (tipos I y III) y comparación de medias', 'Treatment × time factorial ANOVA (types I and III) and mean comparison', ['steel1997', 'kramer1956', 'dunnett1955', 'copenhaver1988', 'piepho2004']],

@@ -20,7 +20,7 @@ abstract: >-
   vapor-pressure deficit, storage cost and product compatibility); and a self-contained HTML
   report. Bilingual interface (Spanish and English). Ten simulated example data sets are built in.
   Every engine was compared against independent implementations in R, published tables or hand
-  calculations: 449 tests and 71,278 comparisons, none failed.
+  calculations: 450 tests and 71,283 comparisons, none failed.
 type: software
 authors:
   - given-names: "Luis Ángel"

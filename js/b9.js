@@ -18,12 +18,14 @@
 (function () {
 'use strict';
 const VERSION = '1.0.0';
+/* the report's title by default, in the language of the interface (switched with it while untouched) */
+const TITLE0 = { es: 'Ensayo de poscosecha', en: 'Postharvest trial' };
 const BLOCK_OF = { quality: 2, kinetics: 3, resp: 4, losses: 5, sensory: 6, trials: 7, logistics: 8 };
 const html = `
   <div class="panel-title"><div class="pt-num">9</div><div><h2>${L2('Informe y proyecto', 'Report and project')}</h2><p>${L2('Todo lo que calculaste, en un documento para compartir; y tu trabajo, en un archivo para seguir después', 'Everything you computed, in a document to share; and your work, in a file to continue later')}</p></div></div>
   <div class="card"><h2>${L2('El informe', 'The report')}</h2>
     <p class="hint">${L2('Reúne las secciones que dejaron los bloques, con sus gráficas (en SVG, con los colores del tema claro), tablas, interpretación, recomendaciones de manejo, métodos y referencias. Es un solo archivo HTML que se abre en cualquier navegador y se imprime a PDF.', 'It gathers the sections the blocks left, with their charts (SVG, in the light-theme colors), tables, interpretation, handling recommendations, methods and references. It is a single HTML file that opens in any browser and prints to PDF.')}</p>
-    <div class="form-grid tight">${UI.text('b9Title', 'Título', 'Title', 'Ensayo de poscosecha')}${UI.text('b9Author', 'Autor o responsable', 'Author or person in charge', '')}${UI.text('b9Crop', 'Producto o cultivo', 'Produce or crop', '')}${UI.text('b9Date', 'Fecha', 'Date', new Date().toISOString().slice(0, 10))}</div>
+    <div class="form-grid tight">${UI.text('b9Title', 'Título', 'Title', T(TITLE0))}${UI.text('b9Author', 'Autor o responsable', 'Author or person in charge', '')}${UI.text('b9Crop', 'Producto o cultivo', 'Produce or crop', '')}${UI.text('b9Date', 'Fecha', 'Date', new Date().toISOString().slice(0, 10))}</div>
     <div class="field"><label for="b9Notes">${L2('Resumen o notas del ensayo (opcional)', 'Summary or notes of the trial (optional)')}</label><textarea id="b9Notes" rows="3"></textarea></div>
     <h3>${L2('Secciones disponibles', 'Available sections')}</h3><div id="b9Secs" class="check-list"></div>
     <div class="btn-row"><button type="button" class="btn btn-primary" id="b9Go">${L2('Generar el informe', 'Generate the report')}</button><button type="button" class="btn btn-secondary" id="b9Dl" disabled>${L2('⤓ Descargar HTML', '⤓ Download HTML')}</button><button type="button" class="btn btn-secondary" id="b9Print" disabled>${L2('Imprimir o guardar PDF', 'Print or save PDF')}</button></div>
@@ -80,7 +82,7 @@ function recommendations(keys) {
   if (Rp.static && isFinite(Rp.static.co2) && Rp.static.co2 > 40 && on.has('resp:static')) add('La respiración es alta: el producto genera mucho calor; dimensiona el preenfriamiento y la refrigeración con ese calor vital.', 'Respiration is high: the produce generates much heat; size precooling and refrigeration including that vital heat.');
   if (Rp.map && on.has('resp:map')) add(Rp.map.inWin ? 'El empaque elegido llega a la atmósfera recomendada; verifica con lecturas reales de O₂ y CO₂ en el empaque.' : 'El empaque elegido no llega a la atmósfera recomendada: cambia película, espesor, área o masa (ver el Bloque 4).', Rp.map.inWin ? 'The chosen package reaches the recommended atmosphere; check with real O₂ and CO₂ readings inside the package.' : 'The chosen package does not reach the recommended atmosphere: change film, thickness, area or mass (see Block 4).');
   const L = st.losses || {};
-  if (L.chain && on.has('losses:chain') && S0.chain()) { const c = S0.chain(); add(`Concentra la inversión en «${c.byValue[0].name}», donde se pierde más valor (${Fmt.pct(c.byValue[0].share)} del total).`, `Focus investment on «${c.byValue[0].name}», where most value is lost (${Fmt.pct(c.byValue[0].share)} of the total).`); }
+  if (L.chain && on.has('losses:chain') && S0.chain()) { const c = S0.chain(); add(`Concentra la inversión en «${c.byValue[0].name}», donde se pierde más valor (${Fmt.pct(c.byValue[0].share)} del total).`, `Focus investment on “${c.byValue[0].name}”, where most value is lost (${Fmt.pct(c.byValue[0].share)} of the total).`); }
   /* the drop height that bruises 10 % of the fruit (logistic regression of Block 5), with its unit */
   const D = L.damage;
   if (D && isFinite(D.e10) && on.has('losses:damage')) {
@@ -89,7 +91,7 @@ function recommendations(keys) {
     else add('Aun las caídas más bajas del ensayo dañan a más del 10 % de los frutos: acolcha los puntos de transferencia y evita cualquier caída libre.', 'Even the lowest drops of the trial bruise more than 10% of the fruit: pad the transfer points and avoid any free fall.');
   }
   const Sn = st.sensory || {};
-  if (Sn.hedonic && Sn.hedonic.best && on.has('sensory:hedonic')) add(`En agrado destaca «${Sn.hedonic.best}»; usa el análisis de penalidades para ajustar a los demás.`, `«${Sn.hedonic.best}» stands out in liking; use the penalty analysis to adjust the others.`);
+  if (Sn.hedonic && Sn.hedonic.best && on.has('sensory:hedonic')) add(`En agrado destaca «${Sn.hedonic.best}»; usa el análisis de penalidades para ajustar a los demás.`, `“${Sn.hedonic.best}” stands out in liking; use the penalty analysis to adjust the others.`);
   const Lg = st.logistics || {};
   if (Lg.air && isFinite(Lg.air.loss) && Lg.air.loss * 7 > 2 && on.has('logistics:air')) add('La pérdida de agua estimada pasa de 2 % por semana: sube la humedad relativa, baja la temperatura del producto o usa un empaque que frene la transpiración.', 'The estimated water loss exceeds 2% per week: raise relative humidity, lower the produce temperature or use packaging that slows transpiration.');
   /* box venting leaves no section: it counts when the person worked in its tool */
@@ -146,7 +148,7 @@ function buildReport() {
     <h2>${t('Resumen', 'Summary')}</h2>${notes ? `<p>${esc(notes)}</p>` : ''}<ol class="toc">${list.map(([k, s], i) => `<li><a href="#s${i + 1}">${esc(t(s.title[0], s.title[1]))}</a></li>`).join('')}</ol>
     ${sec}
     <section><h2>${list.length + 1}. ${t('Recomendaciones de manejo poscosecha', 'Postharvest handling recommendations')}</h2>${rec.length ? '<ul>' + rec.map(r => `<li>${esc(r)}</li>`).join('') + '</ul>' : `<p class="hint">${t('Sin recomendaciones automáticas para estas secciones.', 'No automatic recommendations for these sections.')}</p>`}<p class="hint">${t('Las recomendaciones salen de reglas aplicadas a los resultados; deben revisarse con el conocimiento del cultivo y del mercado.', 'The recommendations come from rules applied to the results; they must be checked against knowledge of the crop and the market.')}</p></section>
-    <section><h2>${list.length + 2}. ${t('Métodos y referencias', 'Methods and references')}</h2><p class="hint">${t('Todos los cálculos se hicieron en el navegador con PostHarvestPro, cuyos métodos se validaron contra implementaciones independientes (las comparaciones y sus tolerancias están en la carpeta tests/ del programa).', 'All computations were done in the browser with PostHarvestPro, whose methods were validated against independent implementations (the comparisons and their tolerances are in the program\'s tests/ folder).')}</p><ul>${Refs.METHODS.filter(m => blocks.includes(m[0])).map(m => `<li>${esc(t(m[1], m[2]))} — ${m[3].map(k => esc(Refs.short(k))).join('; ')}</li>`).join('')}</ul><ol class="refs">${refKeys.map(k => `<li>${esc(Refs.REFS[k])}</li>`).join('')}</ol></section>
+    <section><h2>${list.length + 2}. ${t('Métodos y referencias', 'Methods and references')}</h2><p class="hint">${t('Todos los cálculos se hicieron en el navegador con PostHarvestPro, cuyos métodos se validaron contra implementaciones independientes (las comparaciones y sus tolerancias están en la carpeta tests/ del programa).', 'All computations were done in the browser with PostHarvestPro, whose methods were validated against independent implementations (the comparisons and their tolerances are in the program’s tests/ folder).')}</p><ul>${Refs.METHODS.filter(m => blocks.includes(m[0])).map(m => `<li>${esc(t(m[1], m[2]))} — ${m[3].map(k => esc(Refs.short(k))).join('; ')}</li>`).join('')}</ul><ol class="refs">${refKeys.map(k => `<li>${esc(Refs.REFS[k])}</li>`).join('')}</ol></section>
     <section><h2>${t('Cómo citar', 'How to cite')}</h2><div class="cite">${esc(t(CITE.apa, CITE.apaEn))}</div><div class="cite" style="margin-top:8px">${esc(CITE.bib)}</div></section>
     <footer>PostHarvestPro ${VERSION} · Luis Ángel Barrera-Guzmán · GPL-3.0 · https://luisangelbg.github.io/PostHarvestPro/</footer></main></body></html>`;
   return doc;
@@ -226,6 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 document.addEventListener('resultchange', () => { if (el('b9Secs')) paintSecs(); });
 document.addEventListener('stepchange', e => { if (e.detail.step === 9) paintSecs(); });
-document.addEventListener('langchange', () => { el('b9Apa').textContent = T(CITE.apa, CITE.apaEn); paintSecs(); });
+document.addEventListener('langchange', () => {
+  el('b9Apa').textContent = T(CITE.apa, CITE.apaEn);
+  if (el('b9Title').value === TITLE0.es || el('b9Title').value === TITLE0.en) el('b9Title').value = T(TITLE0);
+  paintSecs();
+});
 window.PHProject = { save: projectSave, open: projectOpen, report: buildReport, recommendations };
 })();

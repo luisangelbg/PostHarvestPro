@@ -17,6 +17,20 @@ TEST('plot', 'axis numbers: thousands with a thin space from five digits on', a 
   a.eq(t(0.25, 0.05), '0.25', 'small');
 });
 
+TEST('plot', 'axis numbers: the thousands separator of the interface (comma in English)', a => {
+  /* the page's Fmt.sep() gives a thin space in Spanish and a comma in English; a stand-in plays each */
+  const t = P().tickLabel, had = window.Fmt;
+  try {
+    window.Fmt = { dec: () => '.', sep: () => ',' };
+    a.eq(t(10000, 2000), '10,000', 'English: 10,000');
+    a.eq(t(-12000, 2000), '−12,000', 'English: negative');
+    a.eq(t(12500.5, 0.5), '12,500.5', 'English: with decimals');
+    a.eq(t(2000, 500), '2000', 'English: four digits without a separator');
+    window.Fmt = { dec: () => '.', sep: () => ' ' };
+    a.eq(t(125000, 25000), '125 000', 'Spanish: thin space');
+  } finally { window.Fmt = had; }
+});
+
 TEST('plot', 'labels: none crosses a line it can avoid, none on another', a => {
   /* three points next to a vertical line: the label of each must not cross it */
   const items = [0, 1, 2].map(i => ({ X: 200 - 1, Y: 100 + 30 * i, w: 60, th: 11, r: 4.5 }));

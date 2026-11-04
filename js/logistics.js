@@ -27,7 +27,7 @@
      overlap, ethylene producers next to sensitive products, chilling
      injury, odor transfer (Kader 2002, UC ANR 3311; Gross, Wang and Saltveit
      2016, USDA Agric. Handb. 66; McGregor 1989, USDA Agric. Handb. 668). The
-     table of products holds orientative values to be adjusted. */
+     table of products holds indicative values to be adjusted. */
 function LogiCore(g) {
 'use strict';
 const Num = g.Num;
@@ -142,7 +142,7 @@ Lg.productVPD = (tProduct, tAir, rhAir) => Lg.pws(tProduct) - rhAir / 100 * Lg.p
 /* water loss (% of the weight per day) from a transpiration coefficient k
    (mg kg⁻¹ s⁻¹ MPa⁻¹) and a deficit (Pa) */
 Lg.waterLoss = (k, vpdPa) => k * (vpdPa / 1e6) * 86400 / 1e6 * 100;
-/* orientative transpiration coefficients, mg kg⁻¹ s⁻¹ MPa⁻¹ (Sastry et al. 1978) */
+/* indicative transpiration coefficients, mg kg⁻¹ s⁻¹ MPa⁻¹ (Sastry et al. 1978) */
 Lg.TRANSPIRATION = [
   { es: 'Manzana', en: 'Apple', k: 42 }, { es: 'Pera', en: 'Pear', k: 69 }, { es: 'Naranja', en: 'Orange', k: 117 },
   { es: 'Toronja', en: 'Grapefruit', k: 81 }, { es: 'Limón', en: 'Lemon', k: 186 }, { es: 'Uva', en: 'Grape', k: 79 },
@@ -187,7 +187,7 @@ Lg.convert = function (kind, v, from, to) {
    (VL < 0.1, L 0.1–1, M 1–10, H 10–100, VH > 100 µL kg⁻¹ h⁻¹), sens:
    sensitivity to ethylene (L, M, H), chill: chilling injury (0 none,
    1 moderate, 2 sensitive), odor: 'p' gives off strong odors, 'a' absorbs
-   them. Orientative values compiled from Kader (2002) and Gross et al.
+   them. Indicative values compiled from Kader (2002) and Gross et al.
    (2016) for the most common cultivars; adjust them to your own. */
 Lg.PRODUCTS = [
   ['aguacate', 'Aguacate (Hass, verde maduro)', 'Avocado (Hass, mature green)', 5, 7, 85, 90, 'H', 'H', 2, ''],

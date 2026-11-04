@@ -44,7 +44,7 @@ const tools = [
       <div class="btn-row" style="margin-top:0"><button type="button" class="btn btn-ghost btn-sm" id="b2dUse">${L2('Usar el color del conversor como color 2', 'Use the converter color as color 2')}</button></div>
       <div class="swatch-row" id="b2dSw" style="margin-top:10px"></div><div id="b2dTiles"></div><div class="de-meter" id="b2dMeter" aria-hidden="true"><i></i></div><div id="b2dRead"></div></div>
     <div class="card"><h2>${L2('El color de tus datos', 'The color of your data')}</h2>
-      <p class="hint">${L2('Columnas L*, a* y b*, con grupo y tiempo: el color medio de cada grupo en cada tiempo, su diferencia ΔE00 con el color inicial del grupo y la evolución del tono.', 'L*, a* and b* columns, with group and time: the mean color of each group at each time, its ΔE00 from the group\'s initial color and the course of hue.')}</p>
+      <p class="hint">${L2('Columnas L*, a* y b*, con grupo y tiempo: el color medio de cada grupo en cada tiempo, su diferencia ΔE00 con el color inicial del grupo y la evolución del tono.', 'L*, a* and b* columns, with group and time: the mean color of each group at each time, its ΔE00 from the group’s initial color and the course of hue.')}</p>
       <div id="b2cIn"></div><div id="b2cOut" hidden><div id="b2cStrip"></div><div class="figs-2"><div id="b2cDE"></div><div id="b2cHue"></div></div><div id="b2cTab"></div><div id="b2cCite"></div></div></div>` },
   { id: 'calc', es: 'Acidez, humedad y firmeza', en: 'Acidity, moisture and firmness', html: `
     <div class="cols-2">
@@ -73,13 +73,13 @@ const tools = [
       <p class="hint">${L2('Una calificación por fruto (columna con la clase), con grupo y tiempo opcionales; o, abajo, los conteos de cada lote.', 'One grade per fruit (a column with the class), with optional group and time; or, below, the counts of each lot.')}</p>
       <div id="b2gIn"></div>
       <details style="margin-top:10px"><summary class="hint" style="cursor:pointer">${L2('…o escribe conteos por lote', '…or type counts by lot')}</summary>
-        <textarea id="b2gCounts" rows="4" class="code" data-es-ph="Un lote por línea: nombre: conteo de la clase 0, de la 1, … (por ejemplo «Lote A: 50, 20, 15, 10, 5»)" data-en-ph="One lot per line: name: count of class 0, of class 1, … (e.g. «Lot A: 50, 20, 15, 10, 5»)" aria-label="${T('Conteos por lote', 'Counts by lot')}"></textarea>
+        <textarea id="b2gCounts" rows="4" class="code" data-es-ph="Un lote por línea: nombre: conteo de la clase 0, de la 1, … (por ejemplo «Lote A: 50, 20, 15, 10, 5»)" data-en-ph="One lot per line: name: count of class 0, of class 1, … (e.g. “Lot A: 50, 20, 15, 10, 5”)" aria-label="${T('Conteos por lote', 'Counts by lot')}"></textarea>
         <div class="btn-row"><button type="button" class="btn btn-primary btn-sm" id="b2gUse">${L2('Usar los conteos', 'Use the counts')}</button></div></details>
       <div class="messages" id="b2gMsg"></div></div>
     <div class="card" id="b2gOut" hidden><h2>${L2('Índices de la escala', 'Scale indices')}</h2><div id="b2gTiles"></div><div id="b2gRead"></div><div id="b2gFig"></div><div id="b2gFig2"></div><div id="b2gTab"></div><div id="b2gCite"></div></div>` },
   { id: 'calibres', es: 'Calibres', en: 'Size grades', html: `
     <div class="card"><h2>${L2('Las clases', 'The classes')}</h2>
-      <p class="hint">${L2('Cada calibre con su mínimo (incluido) y su máximo (excluido, salvo en la última clase), en la unidad de tus datos. Las plantillas son orientativas: usa las de tu norma.', 'Each grade with its minimum (included) and maximum (excluded, except in the last class), in the unit of your data. The templates are orientative: use those of your standard.')}</p>
+      <p class="hint">${L2('Cada calibre con su mínimo (incluido) y su máximo (excluido, salvo en la última clase), en la unidad de tus datos. Las plantillas son orientativas: usa las de tu norma.', 'Each grade with its minimum (included) and maximum (excluded, except in the last class), in the unit of your data. The templates are indicative: use those of your standard.')}</p>
       <div class="btn-row" style="margin:0 0 8px"><button type="button" class="btn btn-ghost btn-sm" data-cal="weight">${L2('Por peso (g)', 'By weight (g)')}</button><button type="button" class="btn btn-ghost btn-sm" data-cal="count">${L2('Frutos por caja de 4 kg', 'Fruit per 4 kg box')}</button><button type="button" class="btn btn-ghost btn-sm" data-cal="diam">${L2('Por diámetro (mm)', 'By diameter (mm)')}</button></div>
       <div id="b2kTable"></div></div>
     <div class="card"><h2>${L2('Los frutos', 'The fruit')}</h2><div id="b2kIn"></div></div>
@@ -160,7 +160,7 @@ function qualityPaint() {
     svg = Plot.bars({ name: 'b2-calidad', cats: cs.map(c => c.group), values: cs.map(c => c[v] ? c[v].mean : NaN), err: cs.map(c => c[v] ? c[v].se : NaN), ylab: varName(v), label: varName(v) });
   }
   Fig.put(host, svg, { name: 'b2-calidad', title: L2('Evolución de ', 'Course of ') + esc(varName(v)), caption: L2('Media ± error estándar.', 'Mean ± standard error.'), block: 2,
-    data: { header: ['grupo', 'tiempo', 'n', 'media', 'de', 'ee'], rows: Q.cells.filter(c => c[v]).map(c => [c.group, c.time, c[v].n, c[v].mean, c[v].sd, c[v].se]) } });
+    data: { header: T(['grupo', 'tiempo', 'n', 'media', 'de', 'ee'], ['group', 'time', 'n', 'mean', 'sd', 'se']), rows: Q.cells.filter(c => c[v]).map(c => [c.group, c.time, c[v].n, c[v].mean, c[v].sd, c[v].se]) } });
   /* reading: change from the first to the last time of each group */
   const rd = el('b2qRead');
   if (Q.keyT) {
@@ -207,7 +207,7 @@ function colorFrom(kind) {
     const I = Color.indices(L, a, b), st = Color.hueStage(I.h);
     el('b2cSw').innerHTML = `<div class="swatch"><div class="sw${H.inGamut ? '' : ' out'}" style="background:${H.hex}"></div><div class="sd"><b>${H.hex}</b> · L* ${Fmt.num(L, 1)} a* ${Fmt.num(a, 1)} b* ${Fmt.num(b, 1)}<br>${H.inGamut ? L2('dentro de la gama de una pantalla sRGB', 'inside the gamut of an sRGB screen') : L2('fuera de la gama sRGB: se muestra el más cercano con el mismo L* y h°', 'outside the sRGB gamut: shown is the nearest with the same L* and h°')}</div></div>`;
     statTiles('b2cTiles', [
-      ['Croma C*', Fmt.num(I.C, 2)], [T('Tono h°', 'Hue h°'), Fmt.num(I.h, 1) + '°', st ? T(st.es, st.en) : ''],
+      [T('Croma C*', 'Chroma C*'), Fmt.num(I.C, 2)], [T('Tono h°', 'Hue h°'), Fmt.num(I.h, 1) + '°', st ? T(st.es, st.en) : ''],
       ['a*/b*', Fmt.num(I.aOverB, 3)], [T('Índice de cítricos (CCI)', 'Citrus color index (CCI)'), Fmt.num(I.cci, 2)],
       [T('Pardeamiento (BI)', 'Browning (BI)'), Fmt.num(I.bi, 1)], [T('Blancura (WI)', 'Whiteness (WI)'), Fmt.num(I.whiteness, 1)],
       [T('Amarillez (YI)', 'Yellowness (YI)'), Fmt.num(I.yellowness, 1)], [T('Índice de jitomate (TCI)', 'Tomato color index (TCI)'), Fmt.num(I.tci, 1)],
@@ -227,7 +227,7 @@ function deltaPaint() {
   el('b2dSw').innerHTML = sw(c1) + sw(c2);
   statTiles('b2dTiles', [['ΔE*ab (1976)', Fmt.num(d76, 2)], ['ΔE94', Fmt.num(d94, 2)], ['ΔE00 (CIEDE2000)', Fmt.num(d00, 2), T(R.es, R.en), d00 >= 3.5 ? 'hi' : ''], ['ΔL*', Fmt.num(c2[0] - c1[0], 2)], ['ΔC*', Fmt.num(Color.chroma(c2[1], c2[2]) - Color.chroma(c1[1], c1[2]), 2)], ['Δh°', Fmt.num(Color.hue(c2[1], c2[2]) - Color.hue(c1[1], c1[2]), 1)]]);
   el('b2dMeter').querySelector('i').style.left = Math.min(100, d00 / 8 * 100) + '%';
-  el('b2dRead').innerHTML = `<div class="reading"><p>${L2(`Con ΔE00 = ${Fmt.num(d00, 2)} la diferencia es <b>${R.isEs}</b> (umbrales orientativos de Mokrzycki y Tatol 2011: menos de 1 no se percibe; de 2 a 3.5 la nota cualquiera; más de 5 son colores distintos). ΔE00 corrige las distorsiones de ΔE*ab en los azules, los grises y los colores muy saturados: es la que conviene reportar.`, `With ΔE00 = ${Fmt.num(d00, 2)} the difference is <b>${R.isEn}</b> (orientative thresholds of Mokrzycki and Tatol 2011: below 1 it is not perceived; from 2 to 3.5 anyone notices it; above 5 they are different colors). ΔE00 corrects the distortions of ΔE*ab in blues, grays and highly saturated colors: it is the one to report.`)}</p></div>`;
+  el('b2dRead').innerHTML = `<div class="reading"><p>${L2(`Con ΔE00 = ${Fmt.num(d00, 2)} la diferencia es <b>${R.isEs}</b> (umbrales orientativos de Mokrzycki y Tatol 2011: menos de 1 no se percibe; de 2 a 3.5 la nota cualquiera; más de 5 son colores distintos). ΔE00 corrige las distorsiones de ΔE*ab en los azules, los grises y los colores muy saturados: es la que conviene reportar.`, `With ΔE00 = ${Fmt.num(d00, 2)} the difference is <b>${R.isEn}</b> (indicative thresholds of Mokrzycki and Tatol 2011: below 1 it is not perceived; from 2 to 3.5 anyone notices it; above 5 they are different colors). ΔE00 corrects the distortions of ΔE*ab in blues, grays and highly saturated colors: it is the one to report.`)}</p></div>`;
 }
 function colorDataRun(D) {
   const m = D.map;
@@ -335,7 +335,7 @@ function scaleRun(groupsData) {
   el('b2gFig').innerHTML = '';
   Fig.put('b2gFig', Plot.bars({ name: 'b2-escala', cats: res.map(r => r.name), groups: cl.map(c => c.value + ' · ' + c.label), values: cl.map((c, j) => res.map(r => r.pct[j])), stacked: true, ylab: T('% de las unidades', '% of the units'), horizontal: res.length > 6, legendTitle: T('Clase', 'Class'),
     colors: cl.map((c, j) => ['#6B9E2F', '#C4C23A', '#F2A51C', '#EF6C00', '#C8461A', '#7A2E10', '#4A2010'][Math.round(j * 6 / Math.max(1, cl.length - 1))]) }),
-  { name: 'b2-escala', title: L2('Distribución por clase', 'Distribution by class'), block: 2, data: { header: ['grupo'].concat(cl.map(c => 'clase_' + c.value)), rows: res.map(r => [r.name].concat(r.pct)) } });
+  { name: 'b2-escala', title: L2('Distribución por clase', 'Distribution by class'), block: 2, data: { header: [T('grupo', 'group')].concat(cl.map(c => T('clase_', 'class_') + c.value)), rows: res.map(r => [r.name].concat(r.pct)) } });
   el('b2gFig2').innerHTML = '';
   if (S.gTimes) {
     Fig.put('b2gFig2', Plot.lines({ name: 'b2-indice', series: S.gTimes.groups.map(gq => { const rr = S.gTimes.rows.filter(r => r.group === gq && res.some(q => q.name === r.name)); return { name: gq, x: rr.map(r => +r.time), y: rr.map(r => res.find(q => q.name === r.name).index) }; }), xlab: S.gTimes.keyT, ylab: T('Índice ponderado', 'Weighted index'), yZero: true }), { name: 'b2-indice', title: L2('Índice ponderado en el tiempo', 'Weighted index over time'), block: 2 });
@@ -437,11 +437,11 @@ function calRun(D) {
   } else {
     el('b2kRead').innerHTML = `<div class="reading"><p>${L2(`El ${Fmt.pct(Math.max(...all.pct))} de los frutos cae en <b>${esc(all.mode)}</b>.`, `${Fmt.pct(Math.max(...all.pct))} of the fruit fall in <b>${esc(all.mode)}</b>.`)} ${cls.map((c, j) => esc(c.name) + ' ' + Fmt.pct(all.pct[j])).join(' · ')}${all.out ? L2(` · fuera de las clases ${Fmt.pct(100 * all.out / all.N)}`, ` · outside the classes ${Fmt.pct(100 * all.out / all.N)}`) : ''}</p></div>`;
     Fig.put('b2kFig', Plot.bars({ name: 'b2-calibres', cats: cls.map(c => c.name), groups: keyG ? groups.map(gq => keyG + ' ' + gq) : null, values: keyG ? res.map(r => r.pct) : [all.pct], ylab: T('% de los frutos', '% of the fruit'), valueLabels: keyG ? null : v => Fmt.num(v, 1) }),
-      { name: 'b2-calibres', title: L2('Distribución por calibre', 'Distribution by grade'), block: 2, data: { header: ['calibre'].concat(keyG ? groups : ['todos']), rows: cls.map((c, j) => [c.name].concat(keyG ? res.map(r => r.pct[j]) : [all.pct[j]])) } });
+      { name: 'b2-calibres', title: L2('Distribución por calibre', 'Distribution by grade'), block: 2, data: { header: [T('calibre', 'grade')].concat(keyG ? groups : [T('todos', 'all')]), rows: cls.map((c, j) => [c.name].concat(keyG ? res.map(r => r.pct[j]) : [all.pct[j]])) } });
   }
   buildTable('b2kTab', [{ key: 'name', label: L2('Grupo', 'Group') }, { key: 'N', label: 'N', num: true }].concat(cls.map((c, j) => ({ key: 'k' + j, label: esc(c.name), num: true, get: r => r.counts[j] + ' (' + Fmt.pct(r.pct[j]) + ')' }))).concat([{ key: 'mean', label: L2('Media', 'Mean'), num: true, fmt: v => Fmt.num(v, 1) }, { key: 'out', label: L2('Fuera', 'Outside'), num: true }]), res, { csvName: T('calibres', 'size_grades') });
   el('b2kCite').innerHTML = '';
-  citeMethod('b2kCite', [['Clases editables; las plantillas son orientativas (' + Refs.short('kader2002') + ').', 'Editable classes; the templates are orientative (' + Refs.short('kader2002') + ').']]);
+  citeMethod('b2kCite', [['Clases editables; las plantillas son orientativas (' + Refs.short('kader2002') + ').', 'Editable classes; the templates are indicative (' + Refs.short('kader2002') + ').']]);
   state.quality = Object.assign(state.quality || {}, { calibre: { n: all.N } });
   Report.set('quality:calibre', { order: 23, title: ['Calibres', 'Size grades'], html: () => el('b2kRead').innerHTML + reportFig('b2-calibres') + reportTable('b2kTab') });
 }

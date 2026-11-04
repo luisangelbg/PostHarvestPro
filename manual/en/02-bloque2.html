@@ -121,7 +121,7 @@
     <caption><b>Table 2.1.</b> The converter indices for L* 62, a* 8, b* 48</caption>
     <thead><tr><th style="width:1.9in">Tile</th><th class="num" style="width:0.7in">Value</th><th>Formula and source</th></tr></thead>
     <tbody>
-      <tr><td><span class="ui">Croma C*</span></td><td class="num">48.66</td><td>C* = √(a*² + b*²): the intensity of the color (McGuire 1992)</td></tr>
+      <tr><td><span class="ui">Chroma C*</span></td><td class="num">48.66</td><td>C* = √(a*² + b*²): the intensity of the color (McGuire 1992)</td></tr>
       <tr><td><span class="ui">Hue h°</span></td><td class="num">80.5°</td><td>h° = atan2(b*, a*), from 0 to 360°; with its reading, <span class="ui">yellow</span></td></tr>
       <tr><td><span class="ui">a*/b*</span></td><td class="num">0.167</td><td>From negative (green) to positive (red); widely used in tomato and mango</td></tr>
       <tr><td><span class="ui">Citrus color index (CCI)</span></td><td class="num">2.69</td><td>CCI = 1000·a* ∕ (L*·b*): negative green, near 0 at color break, positive orange (Jiménez-Cuesta et al. 1981)</td></tr>
@@ -146,7 +146,7 @@
     <div class="marco"><img src="../img/en/b2-diferencia.png" alt="The Difference between two colors card with its starting values: the two swatches, seven tiles, the color bar and the reading"></div>
     <figcaption><b>Figure 2.4.</b> <span class="ui">Difference between two colors</span> with the starting values. The bar at the bottom runs from green (no difference) to red; its marker is at the end because ΔE00 exceeds 8.</figcaption>
   </figure>
-  <p>The tiles give the three difference formulas and their components: <span class="ui">ΔE*ab (1976)</span> 25.79, <span class="ui">ΔE94</span> 14.66 and <span class="ui">ΔE00 (CIEDE2000)</span> 15.45, the latter with its reading (<span class="ui">perceived as different colors</span>) and highlighted when it reaches 3.5; and <span class="ui">ΔL*</span> 3.00, <span class="ui">ΔC*</span> 15.13 and <span class="ui">Δh°</span> −26.8°, the difference in hue angle (color 2 is 26.8° less green). The reading puts it in one sentence—<span class="ui">With ΔE00 = 15.45 the difference is so large that they are seen as different colors</span>—, gives the guide thresholds and recommends reporting ΔE00. In that sentence, the two highest grades are written <span class="ui">clear</span> and <span class="ui">so large that they are seen as different colors</span>; in the tile, as in the table below.</p>
+  <p>The tiles give the three difference formulas and their components: <span class="ui">ΔE*ab (1976)</span> 25.79, <span class="ui">ΔE94</span> 14.66 and <span class="ui">ΔE00 (CIEDE2000)</span> 15.45, the latter with its reading (<span class="ui">perceived as different colors</span>) and highlighted when it reaches 3.5; and <span class="ui">ΔL*</span> 3.00, <span class="ui">ΔC*</span> 15.13 and <span class="ui">Δh°</span> −26.8°, the difference in hue angle (color 2 is 26.8° less green). The reading puts it in one sentence—<span class="ui">With ΔE00 = 15.45 the difference is so large that they are perceived as different colors</span>—, gives the guide thresholds and recommends reporting ΔE00. In that sentence, the two highest grades read <span class="ui">clear</span> and <span class="ui">so large that they are perceived as different colors</span>; in the tile, as in the table below.</p>
   <div class="caja regla">
     <div class="caja-t"><span class="ico">✓</span>Decision rule: is the color difference noticed?</div>
     <table class="compacta">
@@ -163,7 +163,7 @@
   </div>
 
   <h3>The color of your data</h3>
-  <p>The third card reads a table with L*, a* and b* per fruit: <span class="ui">L*, a* and b* columns, with group and time: the mean color of each group at each time, its ΔE00 from the group's initial color and the course of hue.</span> It asks for <span class="ui">L*</span>, <span class="ui">a*</span> and <span class="ui">b*</span> (required) and <span class="ui">Group</span> and <span class="ui">Time</span> (optional). Its <span class="ui">Load example</span> loads the mango.</p>
+  <p>The third card reads a table with L*, a* and b* per fruit: <span class="ui">L*, a* and b* columns, with group and time: the mean color of each group at each time, its ΔE00 from the group’s initial color and the course of hue.</span> It asks for <span class="ui">L*</span>, <span class="ui">a*</span> and <span class="ui">b*</span> (required) and <span class="ui">Group</span> and <span class="ui">Time</span> (optional). Its <span class="ui">Load example</span> loads the mango.</p>
 
   <figure class="w70">
     <div class="marco"><img src="../img/en/b2-color-datos.png" alt="The mean color of the example mango by temperature and day as a strip of colors, the ΔE00 color change from the start and the hue angle over time"></div>
@@ -233,7 +233,7 @@
   <!-- 2.7 -->
   <h2 id="s2-7"><span class="num">2.7</span>Size grades</h2>
   <p class="lead">The last tab sorts the fruit by size: how many fall in each grade, which one is the most frequent and how many are left outside the classes.</p>
-  <p>The <span class="ui">The classes</span> card has an editable table with <span class="ui">Grade</span>, <span class="ui">Minimum</span> and <span class="ui">Maximum</span>: <span class="ui">Each grade with its minimum (included) and maximum (excluded, except in the last class), in the unit of your data. The templates are orientative: use those of your standard.</span> There are three templates:</p>
+  <p>The <span class="ui">The classes</span> card has an editable table with <span class="ui">Grade</span>, <span class="ui">Minimum</span> and <span class="ui">Maximum</span>: <span class="ui">Each grade with its minimum (included) and maximum (excluded, except in the last class), in the unit of your data. The templates are indicative: use those of your standard.</span> There are three templates:</p>
   <table class="compacta">
     <caption><b>Table 2.2.</b> The size-grade templates</caption>
     <thead><tr><th style="width:1.75in">Template</th><th>Classes</th></tr></thead>

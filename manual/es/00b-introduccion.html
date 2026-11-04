@@ -471,8 +471,8 @@
   <h2 id="si-9"><span class="num">I.9</span>Cómo se comprobó</h2>
   <p>Un programa de cálculo vale lo que valen sus números. Cada motor de PostHarvestPro se programó desde la fórmula publicada y se comparó, número por número, con una implementación independiente: el entorno estadístico R (versión 4.4.2) y sus paquetes de referencia para la cinética no lineal, el análisis de supervivencia, la evaluación sensorial y el análisis de ensayos; tablas publicadas para el color y la psicrometría; y cálculos a mano escritos en las propias pruebas para las calculadoras. Cada comparación lleva escrita su tolerancia.</p>
   <div class="caja dato">
-    <div class="dato-cifra">71&nbsp;278</div>
-    <div class="dato-txt"><div class="caja-t">Comparaciones sin fallas</div>En 449 pruebas automáticas, que corren en el navegador con doble clic en <code>tests/run.html</code> y en la consola con <code>node tests/run-node.js</code>. La tabla de abajo las reparte por motor.</div>
+    <div class="dato-cifra">71&nbsp;283</div>
+    <div class="dato-txt"><div class="caja-t">Comparaciones sin fallas</div>En 450 pruebas automáticas, que corren en el navegador con doble clic en <code>tests/run.html</code> y en la consola con <code>node tests/run-node.js</code>. La tabla de abajo las reparte por motor.</div>
   </div>
   <table class="compacta">
     <caption><b>La validación por área</b> (<code>node tests/run-node.js</code>; el detalle, en <code>tests/validacion/</code>)</caption>
@@ -489,8 +489,8 @@
       <tr><td>Tiempo de falla</td><td class="num">143</td><td class="num">38 488</td><td>Kaplan–Meier, rango logarítmico y modelos paramétricos de dos paquetes de supervivencia de R</td></tr>
       <tr><td>Sensorial</td><td class="num">32</td><td class="num">11 669</td><td>Paquetes de R de análisis sensorial, análisis factorial y comparaciones múltiples</td></tr>
       <tr><td>Ensayos</td><td class="num">8</td><td class="num">242</td><td>Análisis de varianza de tipos I y III, Tukey, Dunnett, medidas repetidas con Mauchly y comparación de pendientes en R</td></tr>
-      <tr><td>Figuras</td><td class="num">6</td><td class="num">74</td><td>Geometría y texto escritos en la prueba: miles en los ejes, rótulos que no se enciman, trazos distintos y el signo de porcentaje de cada idioma</td></tr>
-      <tr class="total"><td><b>Total</b></td><td class="num"><b>449</b></td><td class="num"><b>71 278</b></td><td>0 fallas</td></tr>
+      <tr><td>Figuras</td><td class="num">7</td><td class="num">79</td><td>Geometría y texto escritos en la prueba: miles en los ejes, rótulos que no se enciman, trazos distintos y el signo de porcentaje de cada idioma</td></tr>
+      <tr class="total"><td><b>Total</b></td><td class="num"><b>450</b></td><td class="num"><b>71 283</b></td><td>0 fallas</td></tr>
     </tbody>
   </table>
   <p>La comparación también sirvió para corregir. Atrapó, entre otros, un corte del rango estudentizado que anulaba probabilidades con cinco o más medias, unos errores estándar de la regresión logística calculados con los pesos de la penúltima iteración y un optimizador que se daba por convergido junto al polo de una curva de segundo orden; los tres se corrigieron antes de la versión 1.0. Los detalles, con las tolerancias de cada prueba, están en la carpeta <code>tests/validacion/</code>, que es la única parte del programa que nombra paquetes de software: la app y el resto de este manual describen los métodos y citan los artículos.</p>

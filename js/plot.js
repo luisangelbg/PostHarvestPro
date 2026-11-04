@@ -55,9 +55,10 @@ Plot.tickLabel = function (v, step) {
   const d = Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
   const s = v.toFixed(Math.min(6, d));
   const dec = g.Fmt && g.Fmt.dec ? g.Fmt.dec() : '.';
-  /* thousands with a thin space from five digits on, as Fmt.num writes them in the tiles */
+  /* thousands from five digits on, as Fmt.num writes them in the tiles (thin space; comma in English) */
+  const sep = g.Fmt && g.Fmt.sep ? g.Fmt.sep() : '\u2009';
   const [i, fr] = s.replace('-', '').split('.');
-  const ii = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : i;
+  const ii = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, sep) : i;
   return (s.charAt(0) === '-' ? '−' : '') + ii + (fr ? dec + fr : '');
 };
 Plot.scale = (d0, d1, r0, r1) => { const k = (r1 - r0) / ((d1 - d0) || 1); const s = v => r0 + (v - d0) * k; s.inv = p => d0 + (p - r0) / k; return s; };

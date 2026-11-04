@@ -76,9 +76,11 @@ function clearMessages(container) { if (typeof container === 'string') container
 
 /* ---------------- numbers ----------------
    Point as the decimal mark in both languages (Mexican usage and the
-   journals); the true minus sign; thousands with a thin space. */
+   journals); the true minus sign; thousands, from five digits on, with a
+   thin space in Spanish and a comma in English («18 863.90», «18,863.90»). */
 const Fmt = {
   dec: () => '.',
+  sep: () => (window.I18N && I18N.lang === 'en' ? ',' : ' '),
   num(v, d) {
     if (v == null || v === '' || (typeof v === 'number' && !isFinite(v))) return '—';
     const x = +v;
@@ -86,7 +88,7 @@ const Fmt = {
     let s = x.toFixed(d);
     if (/^-0\.?0*$/.test(s)) s = s.slice(1);
     const [i, f] = s.replace('-', '').split('.');
-    const ii = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : i;
+    const ii = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, Fmt.sep()) : i;
     return (x < 0 && !/^0\.?0*$/.test(s.replace('-', '')) ? '−' : '') + ii + (f ? '.' + f : '');
   },
   sig(v, n) { if (!isFinite(v)) return '—'; if (v === 0) return '0'; const d = Math.max(0, (n || 3) - 1 - Math.floor(Math.log10(Math.abs(v)))); return Fmt.num(v, Math.min(d, 8)); },
@@ -709,7 +711,7 @@ const Send = {
     const rec = { from: 'PostHarvestPro', to: app, kind: o.kind, name: o.name, date: new Date().toISOString(), csv: o.csv, note: o.note || '' };
     try { localStorage.setItem('labg:handoff', JSON.stringify(rec)); } catch (e) { /* private mode */ }
     download(o.csv, o.name + '.csv', 'text/csv;charset=utf-8');
-    if (window.LABG) LABG.toast(T('Se descargó «', 'Downloaded «') + o.name + T('.csv»: ábrelo en ', '.csv»: open it in ') + app + T(' (Bloque de datos).', ' (data block).'), { type: 'success', timeout: 6000 });
+    if (window.LABG) LABG.toast(T('Se descargó «', 'Downloaded “') + o.name + T('.csv»: ábrelo en ', '.csv”: open it in ') + app + T(' (Bloque de datos).', ' (data block).'), { type: 'success', timeout: 6000 });
     window.open(Send.APPS[app], '_blank', 'noopener');
   },
 };

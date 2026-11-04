@@ -159,7 +159,7 @@ R.climacteric = function (t, resp, eth, o) {
 
 /* ---------------- modified-atmosphere packaging ----------------
    Films: permeability P in mL·µm m⁻² d⁻¹ atm⁻¹ at 23–25 °C (oxygen and carbon
-   dioxide). Orientative values for common films, to be replaced by the
+   dioxide). Indicative values for common films, to be replaced by the
    supplier's sheet (Mangaraj, Goswami and Mahajan 2009, Food Eng. Rev.
    1:133–158; Exama et al. 1993); Ea in kJ/mol for the temperature
    correction P(T) = P(Tref)·exp(−Ea/R·(1/T − 1/Tref)). */

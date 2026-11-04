@@ -221,8 +221,8 @@ Sens.preference = function (nA, nB, o) {
   if (ties === 'split' && noPref > 0) {
     const half = floor(noPref / 2);
     x = nA + half; n = nA + nB + 2 * half;
-    if (noPref % 2) notes.push(note('Número impar de respuestas «sin preferencia»: una se descartó al repartirlas.', 'Odd number of "no preference" answers: one was left out when splitting them.'));
-  } else if (noPref > 0) notes.push(note('Las respuestas «sin preferencia» no entran en la prueba.', '"No preference" answers are left out of the test.'));
+    if (noPref % 2) notes.push(note('Número impar de respuestas «sin preferencia»: una se descartó al repartirlas.', 'Odd number of “no preference” answers: one was left out when splitting them.'));
+  } else if (noPref > 0) notes.push(note('Las respuestas «sin preferencia» no entran en la prueba.', '“No preference” answers are left out of the test.'));
   const t = Sens.binomTest(x, n, 0.5, 'two.sided', conf);
   return { nA, nB, noPref, ties, x, n, estimate: t.estimate, p: t.p, ci: t.ci, conf, notes: notes.concat(t.notes || []) };
 };

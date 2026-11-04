@@ -104,7 +104,7 @@ function kinRun(D) {
   const ks = res.map(r => r.fit.k).filter(v => isFinite(v) && v !== 0);
   const ratio = ks.length > 1 ? Math.max(...ks.map(Math.abs)) / Math.min(...ks.map(Math.abs)) : NaN;
   const agreeOrder = new Set(res.map(r => r.cmp.best)).size === 1;
-  el('b3kRead').innerHTML = `<div class="reading"><ul style="margin:0 0 6px;padding-left:18px">${lines}</ul><p>${L2(`${agreeOrder ? 'El AIC elige el mismo orden en todos los grupos.' : 'El AIC no elige el mismo orden en todos los grupos: conviene usar uno solo para comparar sus k.'}${isFinite(ratio) ? ` La constante más rápida es ${Fmt.num(ratio, 1)} veces la más lenta.` : ''} Los intervalos son de Wald con la t de Student (${Math.round(S.k.conf * 100)} %).`, `${agreeOrder ? 'AIC picks the same order in every group.' : 'AIC does not pick the same order in every group: better use a single one to compare their k.'}${isFinite(ratio) ? ` The fastest constant is ${Fmt.num(ratio, 1)} times the slowest.` : ''} The intervals are Wald intervals with Student's t (${Math.round(S.k.conf * 100)}%).`)}</p>${res.some(r => r.fit.k < 0) ? `<p>${L2('k negativa: el atributo aumenta con el tiempo (formación).', 'Negative k: the attribute increases with time (formation).')}</p>` : ''}${kinNotes(res, keyG)}</div>`;
+  el('b3kRead').innerHTML = `<div class="reading"><ul style="margin:0 0 6px;padding-left:18px">${lines}</ul><p>${L2(`${agreeOrder ? 'El AIC elige el mismo orden en todos los grupos.' : 'El AIC no elige el mismo orden en todos los grupos: conviene usar uno solo para comparar sus k.'}${isFinite(ratio) ? ` La constante más rápida es ${Fmt.num(ratio, 1)} veces la más lenta.` : ''} Los intervalos son de Wald con la t de Student (${Math.round(S.k.conf * 100)} %).`, `${agreeOrder ? 'AIC picks the same order in every group.' : 'AIC does not pick the same order in every group: better use a single one to compare their k.'}${isFinite(ratio) ? ` The fastest constant is ${Fmt.num(ratio, 1)} times the slowest.` : ''} The intervals are Wald intervals with Student’s t (${Math.round(S.k.conf * 100)}%).`)}</p>${res.some(r => r.fit.k < 0) ? `<p>${L2('k negativa: el atributo aumenta con el tiempo (formación).', 'Negative k: the attribute increases with time (formation).')}</p>` : ''}${kinNotes(res, keyG)}</div>`;
   /* figure */
   const tMax = Math.max(...res.flatMap(r => r.t));
   const grid = Array.from({ length: 61 }, (_, i) => tMax * i / 60);
@@ -117,7 +117,7 @@ function kinRun(D) {
   el('b3kFig').innerHTML = '';
   Fig.put('b3kFig', Plot.lines({ name: 'b3-cinetica', series, xlab: m.t, ylab: m.y, hlines: isFinite(lim) ? [{ y: lim, label: T('límite', 'limit'), at: 'start' }] : [], legend: true }),
     { name: 'b3-cinetica', title: L2('Cinética de ', 'Kinetics of ') + esc(m.y), caption: L2('Puntos: datos; líneas: modelo ajustado con su banda de confianza de la media.', 'Points: data; lines: fitted model with the confidence band of the mean.'), block: 3,
-      data: { header: ['grupo', 't', 'y'], rows: res.flatMap(r => r.t.map((t, i) => [r.group, t, r.y[i]])) } });
+      data: { header: [T('grupo', 'group'), 't', 'y'], rows: res.flatMap(r => r.t.map((t, i) => [r.group, t, r.y[i]])) } });
   buildTable('b3kTab', [
     keyG ? { key: 'group', label: esc(keyG) } : null,
     { key: 'order', label: L2('Orden', 'Order'), get: r => ordName(r.order) },

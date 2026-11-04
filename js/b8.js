@@ -42,9 +42,9 @@ const tools = [
       <div class="form-grid tight">${UI.num('b8kE', 'Energía (kWh por día)', 'Energy (kWh per day)', 180)}${UI.num('b8kT', 'Tarifa por kWh', 'Tariff per kWh', 2.8)}${UI.num('b8kL', 'Mano de obra por día', 'Labor per day', 900)}${UI.num('b8kO', 'Otros gastos por día', 'Other costs per day', 250)}${UI.num('b8kC', 'Depreciación y renta por año', 'Depreciation and rent per year', 420000)}${UI.num('b8kCap', 'Capacidad (tarimas)', 'Capacity (pallets)', 60)}${UI.num('b8kOcc', 'Ocupación (%)', 'Occupancy (%)', 75)}${UI.num('b8kLoss', 'Merma por día (% del peso)', 'Shrink per day (% of weight)', 0.08)}${UI.num('b8kP', 'Valor de una tarima', 'Value of one pallet', 18000)}</div>
       <div id="b8kTiles"></div><div id="b8kRead"></div></div>` },
   { id: 'compat', es: 'Compatibilidad', en: 'Compatibility', html: `
-    <div class="card"><h2>${L2('¿Pueden compartir la cámara?', 'Can they share the room?')}</h2><p class="hint">${L2('Elige los productos que piensas almacenar o transportar juntos. Los valores son orientativos y se pueden editar abajo.', 'Pick the products you plan to store or ship together. The values are orientative and can be edited below.')}</p>
+    <div class="card"><h2>${L2('¿Pueden compartir la cámara?', 'Can they share the room?')}</h2><p class="hint">${L2('Elige los productos que piensas almacenar o transportar juntos. Los valores son orientativos y se pueden editar abajo.', 'Pick the products you plan to store or ship together. The values are indicative and can be edited below.')}</p>
       <div class="btn-row" id="b8xChips"></div>
-      <details style="margin-top:10px"><summary class="hint" style="cursor:pointer">${L2('Tabla de productos (editable)', 'Table of products (editable)')}</summary><p class="hint">${L2('Temperatura y HR recomendadas; producción de etileno a 20 °C (VL < 0.1, L 0.1–1, M 1–10, H 10–100, VH > 100 µL kg⁻¹ h⁻¹); sensibilidad al etileno (L, M, H); daño por frío (0 no, 1 moderado, 2 sensible); olor («p» desprende, «a» absorbe).', 'Recommended temperature and RH; ethylene production at 20 °C (VL < 0.1, L 0.1–1, M 1–10, H 10–100, VH > 100 µL kg⁻¹ h⁻¹); ethylene sensitivity (L, M, H); chilling injury (0 none, 1 moderate, 2 sensitive); odor («p» gives off, «a» absorbs).')}</p><div id="b8xTable"></div></details></div>
+      <details style="margin-top:10px"><summary class="hint" style="cursor:pointer">${L2('Tabla de productos (editable)', 'Table of products (editable)')}</summary><p class="hint">${L2('Temperatura y HR recomendadas; producción de etileno a 20 °C (VL < 0.1, L 0.1–1, M 1–10, H 10–100, VH > 100 µL kg⁻¹ h⁻¹); sensibilidad al etileno (L, M, H); daño por frío (0 no, 1 moderado, 2 sensible); olor («p» desprende, «a» absorbe).', 'Recommended temperature and RH; ethylene production at 20 °C (VL < 0.1, L 0.1–1, M 1–10, H 10–100, VH > 100 µL kg⁻¹ h⁻¹); ethylene sensitivity (L, M, H); chilling injury (0 none, 1 moderate, 2 sensitive); odor (“p” gives off, “a” absorbs).')}</p><div id="b8xTable"></div></details></div>
     <div class="card" id="b8xOut" hidden><h2>${L2('Diagnóstico', 'Diagnosis')}</h2><div id="b8xTiles"></div><div id="b8xRead"></div><div id="b8xFig"></div><div id="b8xCite"></div></div>` },
   { id: 'unidades', es: 'Unidades', en: 'Units', html: `
     <div class="card"><h2>${L2('Conversión de unidades', 'Unit conversion')}</h2>
@@ -72,7 +72,7 @@ function palletRun() {
   const cl = Logi.layer(cont.L, cont.W, pallet.L, pallet.W);
   Fig.put('b8cFig', Plot.layout({ name: 'b8-contenedor', L: cont.L, W: cont.W, blocks: cl.blocks, caption: T(cont.es, cont.en) + ' · ' + cl.n + T(' tarimas por piso', ' pallets per floor'), w: 460, h: 380 }), { name: 'b8-contenedor', title: L2('Piso del contenedor', 'Container floor'), block: 8 });
   el('b8pCite').innerHTML = '';
-  citeMethod('b8pCite', [Refs.short('steudel1979'), Refs.short('smith1980'), [T('Medidas de contenedores orientativas: verifica la ficha del transportista.', 'Orientative container sizes: check the carrier\'s sheet.'), 'Orientative container sizes: check the carrier\'s sheet.']]);
+  citeMethod('b8pCite', [Refs.short('steudel1979'), Refs.short('smith1980'), [T('Medidas de contenedores orientativas: verifica la ficha del transportista.', 'Indicative container sizes: check the carrier’s sheet.'), 'Indicative container sizes: check the carrier’s sheet.']]);
   state.logistics = Object.assign(state.logistics || {}, { pallet: { boxes: r.boxes, pallets: c.pallets } });
   Report.set('logistics:pallet', { order: 80, title: ['Carga por tarima y contenedor', 'Pallet and container load'], html: () => el('b8pRead').innerHTML + PHRep.fig('b8-tarima') + PHRep.fig('b8-contenedor') });
 }
@@ -162,7 +162,7 @@ function compatRun() {
   el('b8xFig').innerHTML = '';
   Fig.put('b8xFig', s, { name: 'b8-compatibilidad', title: L2('Matriz de compatibilidad', 'Compatibility matrix'), block: 8 });
   el('b8xCite').innerHTML = '';
-  citeMethod('b8xCite', [[T('Valores orientativos: ', 'Orientative values: ') + Refs.short('kader2002') + '; ' + Refs.short('gross2016') + '; ' + Refs.short('mcgregor1989'), 'Orientative values: ' + Refs.short('kader2002') + '; ' + Refs.short('gross2016') + '; ' + Refs.short('mcgregor1989')]]);
+  citeMethod('b8xCite', [[T('Valores orientativos: ', 'Indicative values: ') + Refs.short('kader2002') + '; ' + Refs.short('gross2016') + '; ' + Refs.short('mcgregor1989'), 'Indicative values: ' + Refs.short('kader2002') + '; ' + Refs.short('gross2016') + '; ' + Refs.short('mcgregor1989')]]);
   state.logistics = Object.assign(state.logistics || {}, { compat: { bad: nBad } });
   Report.set('logistics:compat', { order: 82, title: ['Compatibilidad en almacén', 'Storage compatibility'], html: () => el('b8xRead').innerHTML + PHRep.fig('b8-compatibilidad') });
 }

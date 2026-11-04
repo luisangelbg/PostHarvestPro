@@ -185,7 +185,7 @@ Color.dEReading = function (dE) {
   if (dE < 2) return { k: 'expert', es: 'perceptible sólo para un observador entrenado', en: 'perceptible only to a trained observer', isEs: 'perceptible sólo para un observador entrenado', isEn: 'perceptible only to a trained observer' };
   if (dE < 3.5) return { k: 'unskilled', es: 'perceptible para cualquier observador', en: 'perceptible to any observer', isEs: 'perceptible para cualquier observador', isEn: 'perceptible to any observer' };
   if (dE < 5) return { k: 'clear', es: 'diferencia clara', en: 'clear difference', isEs: 'clara', isEn: 'clear' };
-  return { k: 'different', es: 'se perciben como colores distintos', en: 'perceived as different colors', isEs: 'tan grande que se perciben como colores distintos', isEn: 'so large that they are seen as different colors' };
+  return { k: 'different', es: 'se perciben como colores distintos', en: 'perceived as different colors', isEs: 'tan grande que se perciben como colores distintos', isEn: 'so large that they are perceived as different colors' };
 };
 
 /* ---------------- color indices of the postharvest literature ----------------

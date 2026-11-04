@@ -104,8 +104,13 @@ Correcciones hechas al revisar cada bloque con el manual nuevo, sin cambiar el n
   - los encabezados de las tablas en CSV y XLSX salen en el idioma activo; antes salían los dos idiomas juntos;
   - SD, SE, RQ y SSC/TA en lugar de DE, EE, CR y SST/AT; los calibres por peso, el título y los atributos de las fichas de cata y el nombre de cada bloque para los lectores de pantalla siguen al idioma;
   - las tablas editables de películas y de productos muestran y editan el nombre del idioma activo; una fila nueva escrita en un idioma toma ese nombre en el otro (antes, en las películas, el nombre inglés se quedaba con la primera letra).
+  - comillas inglesas (“ ”) y apóstrofo tipográfico (’) en los textos ingleses, en lugar de «» y de la comilla recta;
+  - el separador de miles es la coma en inglés («18,863.90»), en las tablas, los mosaicos y los ejes; en español sigue el espacio fino («18 863.90»);
+  - df, SS y MS en las tablas de ANOVA de la hedónica y del panel; «Cochran’s Q», «Chroma C*», «indicative» (no «orientative»), «ppi» también en el estudio de figuras, y la lectura de ΔE00 con las mismas palabras que su mosaico;
+  - el título del informe abre con «Postharvest trial» y cambia con el idioma mientras no se edite; el título de la gráfica de mejoras dice «Value gained by reducing the loss of each stage by 50%»;
+  - el CSV que va a EconomicsPro (`chain_losses.csv`), el que va a PCAPro (`profile_product_means.csv`) y los «Figure data (CSV)» llevan nombre y columnas en inglés.
 - **Bloque 4. Respiración, etileno y atmósferas:** en la tabla editable de películas, la columna del nombre es tan ancha como el nombre más largo: «Polietileno lineal de baja densidad» ya no se corta.
-- **Pruebas:** casos nuevos para estas correcciones (`tests/unit_color_refs.js`, el signo de porcentaje en la logística y en la carta psicrométrica, y ampliaciones de las de calidad, sensorial y ensayos). Ahora son **449 pruebas y 71 278 comparaciones, sin fallas**.
+- **Pruebas:** casos nuevos para estas correcciones (`tests/unit_color_refs.js`, el signo de porcentaje en la logística y en la carta psicrométrica, y ampliaciones de las de calidad, sensorial y ensayos). Ahora son **450 pruebas y 71 283 comparaciones, sin fallas** (la última, el separador de miles de los ejes en cada idioma).
 - **Documentación:**
   - manual de usuario nuevo en `manual/`, en español e inglés (HTML y PDF), que reemplaza al manual viejo de `docs/`; éste se retiró junto con `tools/armar_manual.js`, que lo armaba;
   - README en inglés y LEEME en español;

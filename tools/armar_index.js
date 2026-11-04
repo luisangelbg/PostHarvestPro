@@ -30,7 +30,7 @@ const scripts = [
   '<script src="js/labg-figedit.js" data-key="postharvestpro:figedit" data-title=".fig-title"></script>',
   ...blocks.map(tag),
 ].join('\n');
-const desc = 'Postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser: quality and colour indices, deterioration kinetics with Arrhenius and Q10, time to rejection, respiration and modified atmospheres, losses along the value chain, discrimination, affective and descriptive sensory tests, trials, packaging and cold-storage calculators.';
+const desc = 'Postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser: quality and color indices, deterioration kinetics with Arrhenius and Q10, time to rejection, respiration and modified atmospheres, losses along the value chain, discrimination, affective and descriptive sensory tests, trials, packaging and cold-storage calculators.';
 const html = `<!DOCTYPE html>
 <!--
   PostHarvestPro — postharvest physiology and technology, quality, shelf life

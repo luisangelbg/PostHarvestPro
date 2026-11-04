@@ -10,7 +10,7 @@
 const D = g.PH_DATA || {};
 const INFO = {
   mango: {
-    es: 'Mango «Ataulfo» almacenado a 13, 20 y 25 °C', en: '«Ataulfo» mango stored at 13, 20 and 25 °C',
+    es: 'Mango «Ataulfo» almacenado a 13, 20 y 25 °C', en: '“Ataulfo” mango stored at 13, 20 and 25 °C',
     d: ['Muestreo destructivo de 4 frutos por temperatura y día: firmeza (N), color L*a*b*, sólidos solubles (°Brix), acidez titulable (% de ácido cítrico), pH, pérdida de peso (%) y antracnosis (escala 0–4). La firmeza baja con cinética de primer orden y su constante sigue a Arrhenius.',
       'Destructive sampling of 4 fruit per temperature and day: firmness (N), L*a*b* color, soluble solids (°Brix), titratable acidity (% citric acid), pH, weight loss (%) and anthracnose (0–4 scale). Firmness falls with first-order kinetics whose rate constant follows Arrhenius.'],
   },
@@ -50,12 +50,12 @@ const INFO = {
       '10 fruit per height (10 to 60 cm): mass, impact energy, bruise area and volume, and whether the fruit was bruised (0/1).'],
   },
   aguacateEstatico: {
-    es: 'Aguacate «Hass»: respiración en sistema estático', en: '«Hass» avocado: respiration in a static system',
+    es: 'Aguacate «Hass»: respiración en sistema estático', en: '“Hass” avocado: respiration in a static system',
     d: ['3 frascos de 3.8 L a 20 °C con lecturas de CO₂ (%), O₂ (%) y etileno (µL/L) cada 30 minutos.',
       '3 jars of 3.8 L at 20 °C with CO₂ (%), O₂ (%) and ethylene (µL/L) read every 30 minutes.'],
   },
   aguacateClimaterico: {
-    es: 'Aguacate «Hass»: curva climatérica', en: '«Hass» avocado: climacteric curve',
+    es: 'Aguacate «Hass»: curva climatérica', en: '“Hass” avocado: climacteric curve',
     d: ['Respiración (mg CO₂ kg⁻¹ h⁻¹) y etileno (µL kg⁻¹ h⁻¹) diarios durante 12 días a 20 °C.',
       'Daily respiration (mg CO₂ kg⁻¹ h⁻¹) and ethylene (µL kg⁻¹ h⁻¹) over 12 days at 20 °C.'],
   },
