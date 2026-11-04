@@ -1,9 +1,11 @@
 # Cómo publicar PostHarvestPro
 
-Estado (2 de noviembre de 2026): repositorio git local en la rama `main`, sin remoto. Los metadatos ya están listos
-para GitHub Pages y Zenodo: `README.md` (inglés), `LEEME.md` (español), `CITATION.cff` y `codemeta.json` sin correo,
-`.zenodo.json`, `.nojekyll` y `<meta name="labg-repo" content="PostHarvestPro">` en `index.html` (lo escribe
-`tools/armar_index.js`). El DOI aparece como `10.5281/zenodo.XXXXXXX` hasta que Zenodo lo asigne.
+**Publicada el 3 de noviembre de 2026.** Repositorio `luisangelbg/PostHarvestPro` en GitHub (rama `main`), con GitHub
+Pages y la versión 1.0.0 archivada en Zenodo. DOI de concepto (siempre lleva a la versión más reciente):
+[10.5281/zenodo.23935616](https://doi.org/10.5281/zenodo.23935616); DOI de la versión 1.0.0:
+[10.5281/zenodo.23935617](https://doi.org/10.5281/zenodo.23935617). El DOI de concepto ya está en `README.md`,
+`LEEME.md`, `CITATION.cff`, `codemeta.json`, la cita de la app (`js/home.js`, que usan también el Bloque 9 y el
+informe) y los dos manuales, reimpresos ese día. Lo que sigue es el procedimiento que se siguió, para consulta.
 
 Antes de empezar: `node tests/run-node.js` debe decir «0 failed tests», y los manuales en PDF deben estar en
 `manual/PostHarvestPro_Manual_de_usuario_ES.pdf` y `manual/en/PostHarvestPro User's Manual (English).pdf`, porque el
@@ -28,10 +30,10 @@ y abrir `tests/run.html` (debe decir que todo pasa).
 1. En <https://zenodo.org/account/settings/github/>, activar `luisangelbg/PostHarvestPro` (antes de crear la versión).
 2. Crear la versión: `gh release create v1.0.0 --title "PostHarvestPro 1.0.0" --notes-file CHANGELOG.md`. Zenodo toma
    el título, la descripción, el autor, la licencia y las palabras clave de `.zenodo.json`.
-3. Cambiar `XXXXXXX` por el DOI de concepto en `README.md` y `LEEME.md` (insignia y cita), `CITATION.cff` (`doi:` y
+3. Se cambió `XXXXXXX` por el DOI de concepto en `README.md` y `LEEME.md` (insignia y cita), `CITATION.cff` (`doi:` y
    `preferred-citation`) y `codemeta.json` (`identifier` y `relatedLink`). La cita de la app (`js/home.js`, objeto con
-   `apa`, `apaEn` y `bib`) todavía no lleva DOI: si se quiere, agregarlo ahí también y volver a correr las pruebas.
-   Subir el cambio.
+   `apa`, `apaEn` y `bib`) también lleva ya el DOI de concepto («Zenodo. https://doi.org/…» y el campo `doi`).
+   Cambio subido el 3 de noviembre de 2026.
 
 ## 3. Ficha en el portal (`luisangelbg.github.io/data/apps.js`)
 
@@ -44,7 +46,7 @@ apps publicadas (PalynoPro, ForestPro). La categoría `agronomia` es la de AgriD
     id: "PostHarvestPro", nombre: "PostHarvestPro",
     lema: "Del campo al consumidor: calidad, vida de anaquel y sensorial con datos",
     descripcion: "Fisiología y tecnología poscosecha en el navegador: índices de calidad y color CIELAB con ΔE00, cinética de deterioro con Arrhenius, Q10 y vida de anaquel, tiempo hasta el rechazo con censura, respiración, etileno y atmósferas modificadas, preenfriamiento, pérdidas en la cadena de valor con Sankey, daño mecánico, evaluación sensorial discriminativa, afectiva y descriptiva con desempeño del panel, ensayos factoriales y de medidas repetidas, calculadoras de empaque y almacén, e informe autocontenido. Tus datos no salen de tu computadora. Validada contra implementaciones independientes.",
-    categoria: "agronomia", estado: "enlinea", version: "1.0.0", doi: "10.5281/zenodo.XXXXXXX", licencia: "GPL-3.0",
+    categoria: "agronomia", estado: "enlinea", version: "1.0.0", doi: "10.5281/zenodo.23935616", licencia: "GPL-3.0",
     manualPdf: "PostHarvestPro_Manual_de_usuario_ES.pdf", manualMb: 0, manualHtml: true, datos: true,
     manualEn: { pdf: "PostHarvestPro User's Manual (English).pdf", mb: 0, html: true },
     idiomas: ["es", "en"],

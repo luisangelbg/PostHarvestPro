@@ -139,9 +139,9 @@ function buildRefs() {
   el('refsSummary').innerHTML = L2(`Ver las ${keys.length} referencias`, `See the ${keys.length} references`);
 }
 const CITE = {
-  apa: 'Barrera-Guzmán, L. Á. (2026). PostHarvestPro: fisiología y tecnología poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador (versión 1.0.0) [Programa de cómputo]. https://luisangelbg.github.io/PostHarvestPro/',
-  apaEn: 'Barrera-Guzmán, L. Á. (2026). PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser (Version 1.0.0) [Computer software]. https://luisangelbg.github.io/PostHarvestPro/',
-  bib: '@software{barreraguzman2026postharvestpro,\n  author  = {Barrera-Guzmán, Luis Ángel},\n  title   = {PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser},\n  version = {1.0.0},\n  year    = {2026},\n  license = {GPL-3.0-or-later},\n  url     = {https://luisangelbg.github.io/PostHarvestPro/}\n}',
+  apa: 'Barrera-Guzmán, L. Á. (2026). PostHarvestPro: fisiología y tecnología poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador (versión 1.0.0) [Programa de cómputo]. Zenodo. https://doi.org/10.5281/zenodo.23935616',
+  apaEn: 'Barrera-Guzmán, L. Á. (2026). PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser (Version 1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23935616',
+  bib: '@software{barreraguzman2026postharvestpro,\n  author  = {Barrera-Guzmán, Luis Ángel},\n  title   = {PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser},\n  version = {1.0.0},\n  year    = {2026},\n  license = {GPL-3.0-or-later},\n  doi     = {10.5281/zenodo.23935616},\n  url     = {https://doi.org/10.5281/zenodo.23935616}\n}',
 };
 window.CITE = CITE;
 function buildCite() {

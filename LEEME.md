@@ -1,6 +1,6 @@
 # PostHarvestPro
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23935616.svg)](https://doi.org/10.5281/zenodo.23935616)
 
 **Del campo al consumidor: calidad, vida de anaquel y sensorial con datos** · *English: [README.md](README.md)*
 
@@ -181,7 +181,7 @@ proyecto Lucide con licencia ISC (los derivados de Feather, también MIT).
 Barrera-Guzmán, L. Á. (2026). *PostHarvestPro: fisiología y tecnología
 poscosecha, calidad, vida de anaquel y evaluación sensorial en el navegador*
 (versión 1.0.0) [Programa de cómputo]. Zenodo.
-https://doi.org/10.5281/zenodo.XXXXXXX
+https://doi.org/10.5281/zenodo.23935616
 
 El DOI de arriba lleva siempre a la versión más reciente; cada versión tiene
 además el suyo en la página de Zenodo. Cita la versión que usaste. Código:

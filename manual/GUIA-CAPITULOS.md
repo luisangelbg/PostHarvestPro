@@ -45,7 +45,7 @@ estados de madurez —Verde maduro, Rayado, Pintón, Maduro, Sobremaduro— y la
 | 1.5 Métodos y fuentes | las 28 tarjetas de `Refs.METHODS` por bloque | `b1-metodos` |
 | 1.6 La poscosecha en breve | los 9 desplegables de `THEORY` (madurez fisiológica y de consumo; climatéricos; cinética; Arrhenius y Q10; vida de anaquel y rechazo; atmósferas; el agua; pérdidas; medir con personas) | `b1-teoria` (el primero abierto) |
 | 1.7 Lo que no hace | las 4 tarjetas (la introducción ya las tabula: aquí, con más detalle o remitiendo) | — |
-| 1.8 Referencias y cómo citar | «Ver las 78 referencias», «Cómo citar» con «Copiar la cita» y «Copiar BibTeX»; sin DOI todavía | `b1-cita` |
+| 1.8 Referencias y cómo citar | «Ver las 78 referencias», «Cómo citar» con «Copiar la cita» y «Copiar BibTeX»; con el DOI de concepto | `b1-cita` |
 
 ### Capítulo 2 · Calidad y madurez (`02-bloque2.html`, `--b2`)
 
@@ -175,7 +175,7 @@ Tarjetas (sin pestañas): «El informe», «Recomendaciones de manejo», «Proye
 | 9.4 Recomendaciones de manejo | reglas explícitas: vida al límite (13: 25.9; 20: 10.4; 25: 6.3), cadena de frío según Eₐ (≈ 88 kJ/mol → ~12 % menos vida por grado, con las k de partida de 3.3), climatérico, respiración alta, empaque fuera de ventana, invertir en «Venta al menudeo», alturas de caída, agrado, incompatibles | `b9-recomendaciones` |
 | 9.5 Las figuras, el estudio y el editor | botones SVG y PNG (170 mm, 300 ppp), estudio de figuras (`Ctrl + K` o botón de la figura; PNG, SVG, PDF, TIFF a 300/600/1200 ppp), editor ✎ | `b9-estudio` |
 | 9.6 Guardar y abrir el proyecto | «⤓ Guardar proyecto», «Abrir proyecto…»: tablas cargadas, columnas elegidas, tablas editadas y ajustes; al abrirlo recalcula. No hay `Ctrl + S` | — |
-| 9.7 Cómo citar PostHarvestPro | cita y BibTeX de la app (sin DOI todavía) | — |
+| 9.7 Cómo citar PostHarvestPro | cita y BibTeX de la app (con el DOI de concepto) | — |
 
 En el título de las capturas del informe usa datos neutros («Vida de anaquel del mango de ejemplo»).
 
@@ -189,7 +189,7 @@ alza respiratoria 1.5×, etileno 10× o 1 µL kg⁻¹ h⁻¹, O₂ < 1 % anaerob
 C glosario (vida de anaquel, límite, orden de reacción, Eₐ, Q10, Tmín, censura, Kaplan–Meier, razón de tiempos,
 climatérico, CR, β, estado estacionario, j y C del enfriamiento, índice de pérdidas, susceptibilidad, d′, pd, pc,
 JAR, penalidad, CATA, Q de Cochran, esfericidad, ε, BrimA, CCI, McKinney…); D cuando algo no sale; E licencia
-(GPL-3.0-or-later) y cita (sin DOI todavía: «se añadirá al publicar»); F referencias, escritas por
+(GPL-3.0-or-later) y cita (con el DOI de concepto 10.5281/zenodo.23935616 y el de la versión 1.0.0); F referencias, escritas por
 `genera-referencias.js` entre `<!-- REFERENCIAS -->` y `<!-- /REFERENCIAS -->` (81 obras en siete temas).
 
 ## 2. Cómo se marca

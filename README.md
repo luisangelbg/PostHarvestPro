@@ -1,6 +1,6 @@
 # PostHarvestPro
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23935616.svg)](https://doi.org/10.5281/zenodo.23935616)
 
 **From the field to the consumer: quality, shelf life and sensory evaluation with data** · *Español: [LEEME.md](LEEME.md)*
 
@@ -188,7 +188,7 @@ project under the ISC license (those derived from Feather also under MIT).
 Barrera-Guzmán, L. Á. (2026). PostHarvestPro: postharvest physiology and
 technology, quality, shelf life and sensory evaluation in the browser
 (Version 1.0.0) [Computer software]. Zenodo.
-https://doi.org/10.5281/zenodo.XXXXXXX
+https://doi.org/10.5281/zenodo.23935616
 
 The DOI above always resolves to the latest version; each version has its own
 DOI on the Zenodo page. Cite the version you used. Code:
