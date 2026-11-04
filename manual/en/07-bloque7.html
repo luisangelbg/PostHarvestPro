@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-7" data-pestana="7" data-orden="7" style="--acento: var(--b7)">
+  <div class="cap-apertura">
+    <div class="cap-num">7</div>
+    <div class="cap-etiqueta">Chapter seven · Block 7</div>
+    <h1 data-corto="Postharvest trials">Postharvest trials</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A postharvest trial almost always crosses treatments with storage times: coatings, temperatures or atmospheres, measured every so many days. How it is analyzed depends on a single question: are different fruit measured each day, or the same ones? This block analyzes both cases—the factorial with destructive sampling and repeated measures—, compares the rate of change of each treatment and, before you start, randomizes the trial and writes its field book.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k7"></span><span class="k7"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>7.1</b>Treatment × time factorial</li>
+      <li><b>7.2</b>Comparing treatments within each time</li>
+      <li><b>7.3</b>Repeated measures</li>
+      <li><b>7.4</b>Sphericity and corrections</li>
+      <li><b>7.5</b>Slopes</li>
+      <li><b>7.6</b>Randomization and field book</li>
+    </ul>
+  </div>
+
+  <p class="lead">The block is called <span class="ui">Postharvest trials</span> (in the bar, <span class="ui">Trials</span>) and introduces itself as “Treatment × time factorials, repeated measures, slopes and randomization.” It has four tabs: <span class="ui">Treatment × time factorial</span>, <span class="ui">Repeated measures</span>, <span class="ui">Slopes</span> and <span class="ui">Randomization</span>.</p>
+  <p>The first three take a table in long format—one row per fruit and time, with the response, the treatment and the time in columns—and compute as soon as the table is loaded. The examples are two simulated data sets that already appeared in Chapters 2 and 3: the <b>example mango</b> at 13, 20 and 25 °C, which was sampled destructively (four new fruit were measured each day), and the <b>example chayote</b> with two coatings, whose eighteen tagged fruit were weighed every five days. The chayote treatments are named in the data as <code>Testigo</code> (control), <code>Cera vegetal</code> (vegetable wax) and <code>Quitosano</code> (chitosan), and the app shows them with those names.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · choose the tab by how the data were taken</div>
+    <p>If each fruit was measured only once (it was cut, squeezed, destroyed), use the <b>factorial</b>. If the same fruit were measured at every time (weight, color with a colorimeter, nondestructive firmness), use <b>repeated measures</b>: the measurements of one fruit resemble each other and a factorial would treat them as independent, with p-values that are too small. The unit of analysis is the one that was randomized.</p>
+  </div>
+
+  <!-- 7.1 -->
+  <h2 id="s7-1"><span class="num">7.1</span>Treatment × time factorial</h2>
+  <p class="lead">The <span class="ui">Destructive sampling</span> card explains it: “Each sampling time uses different fruit (destroyed when measured): the trial is a treatment × time factorial, completely randomized or in blocks.”</p>
+  <p>The roles are <span class="ui">Response variable</span>, <span class="ui">Treatment</span>, <span class="ui">Time</span> and <span class="ui">Block (optional)</span>; with a block, the design is a randomized complete block design and the block enters the model as one more effect. Time is treated as a factor (each day is a level), not as a number: this lets the response change in any way over time. With the example mango the app picks <code>firmeza_N</code>, <code>temperatura</code> as the treatment and <code>dia</code>; you can switch the response to any other column of the table (<code>sst</code>, <code>at</code>, <code>L</code>…).</p>
+  <table class="compacta">
+    <caption><b>Table 7.1.</b> The controls of the factorial</caption>
+    <thead><tr><th style="width:1.9in">Control</th><th style="width:1.45in">Default</th><th>What it decides</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Sums of squares</span></td><td><span class="ui">Type III (each effect last)</span></td><td>How the sums of squares are split when the trial is unbalanced. <span class="ui">Type I (sequential)</span> assigns them in the order treatment, time, interaction. With balanced data both give the same result</td></tr>
+      <tr><td>“Use only the times measured in every treatment”</td><td>checked</td><td>Leaves out the times at which some treatment is missing, so that the factorial is complete</td></tr>
+      <tr><td><span class="ui">Mean comparison</span></td><td><span class="ui">Tukey (HSD)</span></td><td>How treatments are compared within each time: <span class="ui">Tukey (HSD)</span>, <span class="ui">Fisher's LSD</span>, <span class="ui">Bonferroni</span> or <span class="ui">Dunnett (against the control)</span></td></tr>
+      <tr><td><span class="ui">Control (Dunnett)</span></td><td>the level named “testigo” or “control”; if there is none, the first one</td><td>Which treatment Dunnett compares against. With the mango, 13 °C</td></tr>
+      <tr><td>α</td><td>0.05</td><td>The significance level of the comparisons (0.05, 0.01 or 0.10)</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b7-datos.png" alt="The Destructive sampling card with the example mango: roles firmeza_N, temperatura, dia and block none, type III sums of squares, the common-times checkbox ticked and the mean comparison"></div>
+    <figcaption><b>Figure 7.1.</b> The <span class="ui">Destructive sampling</span> card with the example mango and the default controls: type III, only the times measured in every treatment, Tukey, 13 °C as the Dunnett control and α = 0.05.</figcaption>
+  </figure>
+
+  <h3>The analysis of variance</h3>
+  <p>The app fits the model y<sub>ijk</sub> = μ + τ<sub>i</sub> + δ<sub>j</sub> + (τδ)<sub>ij</sub> + ε<sub>ijk</sub> (plus the block, if there is one), with τ the treatment, δ the time and (τδ) their interaction (Steel et al. 1997). In the mango, the 13 °C temperature was measured up to day 21 and those of 20 and 25 °C only up to day 12; with the box checked, the reading warns “Times lacking some treatment were left out: 15, 18, 21.” and the analysis uses 60 fruit (3 temperatures × 5 days × 4 fruit).</p>
+  <p>The <span class="ui">Analysis of variance</span> card opens with five tiles—the F and p-value of the <span class="ui">Treatment</span>, the <span class="ui">Time</span> and the <span class="ui">Interaction</span>, the CV and the R²—and continues with the reading, the analysis table and the figure <span class="ui">Course by treatment</span>:</p>
+  <table class="compacta">
+    <caption><b>Table 7.2.</b> Analysis of variance of the firmness of the example mango (days 0 to 12, type III)</caption>
+    <thead><tr><th>Source</th><th class="num">df</th><th class="num">SS</th><th class="num">MS</th><th class="num">F</th><th class="num">p</th></tr></thead>
+    <tbody>
+      <tr><td>temperatura</td><td class="num">2</td><td class="num">18,863.90</td><td class="num">9,431.949</td><td class="num">211.21</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>dia</td><td class="num">4</td><td class="num">68,825.82</td><td class="num">17,206.455</td><td class="num">385.30</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>temperatura:dia</td><td class="num">8</td><td class="num">7,112.76</td><td class="num">889.095</td><td class="num">19.91</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>Error</td><td class="num">45</td><td class="num">2,009.60</td><td class="num">44.658</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr class="total"><td>Total</td><td class="num">59</td><td class="num">96,812.07</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+    </tbody>
+  </table>
+  <p>The CV is 10.3% and the R², 0.979. All three sources are significant, and the one that rules the reading is the interaction: “The <b>interaction is significant</b> (p &lt; 0.001): the effect of temperatura changes with storage time, so treatments are compared within each time (table below), not by their overall averages.” The interaction tile turns amber when it is significant, as a warning.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b7-factorial.png" alt="Tiles, reading, analysis of variance table and the figure of mean mango firmness by temperature and day with standard error bars"></div>
+    <figcaption><b>Figure 7.2.</b> <span class="ui">Analysis of variance</span> of the example mango. In the figure, the mean ± standard error of each temperature on each day: all three start between 116 and 129 N and separate from day 3 on, when the 25 °C one has already fallen by half. The lines are not parallel: that is the interaction.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · what the interaction means in postharvest</div>
+    <p>In a storage trial, the effect of time is almost always huge (the fruit ripen) and there is no point in testing it. The question is whether the treatments change <b>the way</b> the attribute evolves, and that is what the interaction answers. If it is significant, the “treatment effect” is not a single number: on day 0 the temperatures do not differ in any way that matters, and on day 12 the firmness at 13 °C is more than ten times that at 25 °C. An overall average of each temperature over all days would mix different situations. To summarize the difference in one number per treatment, use its rate of change (Section 7.5) or its kinetic constant (Chapter 3).</p>
+  </div>
+
+  <h3>When combinations are missing</h3>
+  <p>If you untick “Use only the times measured in every treatment,” the analysis takes all the days and the factorial is left with <b>empty cells</b>: combinations of treatment and time without any fruit. In the mango there are six (20 and 25 °C lack days 15, 18 and 21), and the <span class="ui">Analysis of variance</span> card opens with a warning that names them and says what is lost:</p>
+  <p class="cita">“6 combinations of temperatura and dia have no data (20 × 15, 20 × 18, 20 × 21, 25 × 15, 25 × 18, 25 × 21). With empty cells, type III sums of squares cannot test the main effects of temperatura and dia: each would be averaged over cells that do not exist, so those rows are left without df, SS, MS, F or p. The interaction (with fewer degrees of freedom) and the comparisons within each time remain valid.”</p>
+  <p>With type III, the <span class="ui">Treatment</span> and <span class="ui">Time</span> tiles turn amber with “F = —” and <span class="ui">not estimable (empty cells)</span>, and in the table those two rows say <span class="ui">not estimable</span> in the F column and carry dashes in df, SS, MS and p: without the hypothesis, what would remain after dropping the factor from the model is not the sum of squares of any effect. The interaction is tested, with 8 degrees of freedom instead of 14 (F = 23.03, p &lt; 0.001), against an error of 38.610 with 54 df; the analysis uses the 72 fruit and the R² rises to 0.980. The table of means adds days 15, 18 and 21 with a dash for the temperatures that were not measured. At the foot of the warning, the app proposes the two ways out: “To test the main effects, tick «Use only the times measured in every treatment» again or choose type I.”</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b7-vacias.png" alt="The warning about the six combinations without data, the treatment and time tiles as not estimable, the reading and the analysis of variance table with days 0 to 21"></div>
+    <figcaption><b>Figure 7.3.</b> The mango factorial with all the days (box unticked) and type III: the amber warning lists the empty cells, treatment and time are left <span class="ui">not estimable</span> and only the interaction carries F and p.</figcaption>
+  </figure>
+  <p>With <span class="ui">Type I (sequential)</span> each effect is tested in order and all three have an F; the warning, now informative, explains it: “With type I each effect is tested in order (dia adjusted for temperatura) and the interaction loses 6 degrees of freedom.” In the mango, temperature gives F = 100.24 (2 df), day adjusted for temperature F = 320.65 (7 df) and the interaction the same F = 23.03, all with p &lt; 0.001. Even so, the cleanest way to test the main effects is the default one: compare only the common times.</p>
+
+  <!-- 7.2 -->
+  <h2 id="s7-2"><span class="num">7.2</span>Comparing treatments within each time</h2>
+  <p class="lead">The table <span class="ui">Treatments within each time</span> has one row per time and one column per treatment, with the mean of each cell and its letters: “At each time, treatments sharing a letter do not differ.”</p>
+  <p>The comparisons use the error mean square of the full analysis (44.658 with 45 df in the mango), not only the fruit of that day, and the letters are assigned with the insert-and-absorb algorithm of Piepho (2004). Tukey uses the Tukey–Kramer version for cells of different size (Kramer 1956); Bonferroni divides α by the number of pairs; LSD corrects nothing and is recommended only when there are few treatments and the F was already significant.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b7-letras.png" alt="The table of mean mango firmness by day and temperature with Tukey letters"></div>
+    <figcaption><b>Figure 7.4.</b> The mean firmness (N) of the example mango within each day, with Tukey letters. On day 0 the three temperatures overlap (13 °C <b>b</b>, 20 °C <b>a</b>, 25 °C <b>ab</b>); from day 3 on all three differ from each other, always in the order 13 &gt; 20 &gt; 25 °C.</figcaption>
+  </figure>
+  <p>With <span class="ui">Dunnett (against the control)</span>, the letters are replaced by an asterisk next to each treatment that differs from the control (“* differs from the control (Dunnett, α = 0.05).”). With the mango and the control at 13 °C, 20 °C differs already from day 0 (129.43 versus 115.83 N) and 25 °C from day 3 (60.33 versus 107.65 N). Dunnett has more power than Tukey when all that matters is each treatment against the control (Dunnett 1955), as in a coating trial. The table is downloaded with <span class="ui">⤓ CSV</span> and <span class="ui">⤓ XLSX</span> (<code>means_by_time</code>).</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · when it is fine to summarize with averages</div>
+    <p>If the interaction is not significant, the reading changes: “The interaction is not significant (…): the effect of … is similar at every time and can be summarized by its averages.” Then it does make sense to say that one treatment keeps, on average, so many newtons more than another. Even so, the table within each time is still available, and in a report it is worth showing it together with the figure.</p>
+  </div>
+
+  <!-- 7.3 -->
+  <h2 id="s7-3"><span class="num">7.3</span>Repeated measures</h2>
+  <p class="lead">The <span class="ui">Repeated measures</span> tab analyzes trials in which the same fruit are always measured. Its card, <span class="ui">The same fruit over time</span>, sums it up: “Weight, color or another non-destructive measure taken on the same fruit (units) at each time: a split plot in time, with the correction of the degrees of freedom when the measurements of a unit are not equally correlated.”</p>
+  <p>One role is added to those of the factorial: <span class="ui">Unit (fruit)</span>, the identifier of each fruit, which must be repeated at all its times. The example is the weight loss of the chayote: 6 tagged fruit per treatment (control, vegetable wax and chitosan), weighed every 5 days up to day 25 (<span class="ui">See the data (108 × 4)</span>); the app picks <code>perdida_peso</code>, <code>tratamiento</code>, <code>dia</code> and <code>fruto</code>. The comparison controls are the same as in the factorial: <span class="ui">Mean comparison</span>, <span class="ui">Control (Dunnett)</span> (here, <span class="ui">Testigo</span>) and α.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · the split plot in time</div>
+    <p>The classic analysis (Steel et al. 1997) treats the fruit as a main plot that received the treatment, and each time as a subplot within it. That is why there are two errors: <b>error a</b>, the variation among fruit of the same treatment, against which the treatment is tested; and <b>error b</b>, the variation within each fruit, against which time and the interaction are tested. Error a is usually much larger: two fruit of the same treatment differ more from each other than one fruit does from one day to the next. Testing the treatment against error b, as a factorial would, would exaggerate its significance.</p>
+  </div>
+  <p>Before analyzing, the app removes the times at which all units have the same value, because they carry no information; with weight loss this is day 0, when all fruit are at zero, and the reading warns about it: “Times at which every unit has the same value were left out (they carry no information): 0.” Units that lack some time are also left out, and the <span class="ui">Units</span> tile says how many.</p>
+  <table class="compacta">
+    <caption><b>Table 7.3.</b> Split plot in time: weight loss (%) of the example chayote, days 5 to 25</caption>
+    <thead><tr><th>Source</th><th class="num">df</th><th class="num">SS</th><th class="num">MS</th><th class="num">F</th><th class="num">p</th><th class="num">p (GG)</th><th class="num">p (HF)</th></tr></thead>
+    <tbody>
+      <tr><td>Treatment</td><td class="num">2</td><td class="num">94.881</td><td class="num">47.4406</td><td class="num">18.09</td><td class="num">&lt; 0.001</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr><td>Error a (units)</td><td class="num">15</td><td class="num">39.336</td><td class="num">2.6224</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr><td>Time</td><td class="num">4</td><td class="num">545.484</td><td class="num">136.3711</td><td class="num">795.45</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>Treatment × time</td><td class="num">8</td><td class="num">22.619</td><td class="num">2.8274</td><td class="num">16.49</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td><td class="num">&lt; 0.001</td></tr>
+      <tr><td>Error b</td><td class="num">60</td><td class="num">10.286</td><td class="num">0.1714</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+      <tr class="total"><td>Total</td><td class="num">89</td><td class="num">712.607</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+    </tbody>
+  </table>
+  <p>Error a (2.6224) is fifteen times error b (0.1714): that is the reason for testing the treatment against the units, as its tile says, “p &lt; 0.001 (against the units).” Even so, the treatment is significant (F = 18.09 with 2 and 15 df), as are time (F = 795.45) and the interaction (F = 16.49).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b7-repetidas.png" alt="Tiles, reading, split plot in time table with corrected p-values and the figure of weight loss profiles by treatment"></div>
+    <figcaption><b>Figure 7.5.</b> <span class="ui">Split plot in time</span> with the example chayote. The tiles give the F of each source with its corrected p (GG) and the epsilons; the figure <span class="ui">Treatment profiles</span> shows that the control loses weight faster and that vegetable wax and chitosan almost overlap. The <span class="ui">ε GG / HF</span> tile gives both epsilons (Section 7.4) and Mauchly’s p-value.</figcaption>
+  </figure>
+
+  <!-- 7.4 -->
+  <h2 id="s7-4"><span class="num">7.4</span>Sphericity and corrections</h2>
+  <p class="lead">The split-plot analysis assumes that all differences between two times of the same fruit have the same variance (<b>sphericity</b>). In storage this almost never holds: two consecutive weighings resemble each other more than the first and the last do.</p>
+  <p>The app checks the assumption with <b>Mauchly’s test</b> (1940) and computes two correction factors, the epsilons of <b>Greenhouse–Geisser</b> (1959) and <b>Huynh–Feldt</b> (1976, with the correction of Lecoutre 1991). An ε of 1 indicates perfect sphericity; the smallest possible is 1/(t − 1), with t times. The degrees of freedom of time and of the interaction are multiplied by ε, and their p-values are recomputed with them: the columns <span class="ui">p (GG)</span> and <span class="ui">p (HF)</span> of the table.</p>
+  <div class="formula">ε<sub>GG</sub> = (Σ λ)² / [(t − 1)·Σ λ²] &nbsp;·&nbsp; corrected df = ε·df</div>
+  <p>With the chayote, Mauchly rejects sphericity (p &lt; 0.001) and the epsilons are <b>0.280</b> (GG) and <b>0.286</b> (HF), close to the minimum of 0.25 for five times: the correlation between weighings is very uneven, as expected for a cumulative loss. The reading says so: “Mauchly's test <b>rejects sphericity</b> (p &lt; 0.001), so read the Greenhouse–Geisser (ε = 0.280) or Huynh–Feldt corrected p-values.” Even after correction, time and the interaction remain significant (p &lt; 0.001), and the reading refers you to the <span class="ui">Slopes</span> tab to compare the rates.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · which of the two corrections to read</div>
+    <p>Greenhouse–Geisser is conservative: it overcorrects when the violation is mild. Huynh–Feldt corrects less and is preferred when ε exceeds 0.75. With ε near the minimum, as here, both agree. If the conclusion changes depending on which one you read, report it that way.</p>
+  </div>
+
+  <h3>The treatments within each time</h3>
+  <p>The table of means by time is the same as in the factorial, with one difference that the app notes at the foot: “Within each time the pooled error of the two strata is used, with Satterthwaite degrees of freedom.” Comparing treatments on a fixed day mixes the variation among fruit and that within each fruit, so the error is the combination (Ea + (t − 1)·Eb)/t, with degrees of freedom approximated by the Satterthwaite method (1946).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b7-repetidas-medias.png" alt="The table of mean chayote weight loss by day and treatment with Tukey letters"></div>
+    <figcaption><b>Figure 7.6.</b> The mean weight loss (%) of the example chayote within each day. On day 5 the three treatments share the letter <b>a</b>; from day 10 on, the control (<b>a</b>) loses more weight than vegetable wax and chitosan, which do not differ from each other (<b>b</b>). On day 25, 11.22% versus 7.29 and 7.66%.</figcaption>
+  </figure>
+  <p>With Dunnett against the control, vegetable wax and chitosan differ from the control from day 10 on (asterisk) and not on day 5. The methods cited are Steel et al. (1997), Greenhouse and Geisser (1959), Huynh and Feldt (1976), Lecoutre (1991), Mauchly (1940) and Satterthwaite (1946).</p>
+
+  <!-- 7.5 -->
+  <h2 id="s7-5"><span class="num">7.5</span>Slopes</h2>
+  <p class="lead">When the attribute changes almost linearly with time, the most direct way to compare treatments is to compare their rates. The <span class="ui">Slopes</span> tab, with the card <span class="ui">Rate of change by treatment</span>, fits “A straight line of the attribute against time for each treatment and the test of whether the slopes (the rates) are equal: analysis of covariance.”</p>
+  <p>The roles are <span class="ui">Attribute</span>, <span class="ui">Time (numeric)</span>—here time is indeed a number—and <span class="ui">Treatment</span>. The example is again the weight loss of the chayote, now with day 0 included (the lines start from zero). The card <span class="ui">Lines and comparison of slopes</span> gives three tiles: <span class="ui">Equal slopes</span> (the F of the test), <span class="ui">Fastest</span> and <span class="ui">Slowest</span>.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · analysis of covariance in two steps</div>
+    <p>First, the app tests whether the lines are parallel: a model with one slope per treatment against another with a common slope (Snedecor and Cochran 1989). If the slopes differ, that is the conclusion and the treatments are compared in pairs, with p-values adjusted by Holm (1979). If they are not shown to differ, the common slope is fitted and the app tests whether the levels (the intercepts) differ, and the reading says: “It is not shown that the rates differ (…); with a common slope (…), the levels do/do not differ.”</p>
+  </div>
+  <p>With the chayote, the rates differ (F = 39.05, p &lt; 0.001): the control loses 0.4473% of its weight per day, vegetable wax 0.2924% and chitosan 0.3078%. The reading sums it up: “Testigo changes 1.53 times faster than Cera vegetal.” The pairs with Holm confirm what the table of means showed: the control differs from both coatings (p &lt; 0.001 in both pairs) and vegetable wax and chitosan do not differ from each other (difference −0.01536% per day, p = 0.428). Significant rows are shaded green.</p>
+  <table class="compacta">
+    <caption><b>Table 7.4.</b> The lines of weight loss (%) against day, example chayote</caption>
+    <thead><tr><th>Treatment</th><th class="num">n</th><th class="num">Intercept</th><th class="num">Slope (% d⁻¹)</th><th class="num">95% CI</th><th class="num">R²</th></tr></thead>
+    <tbody>
+      <tr><td>Testigo</td><td class="num">36</td><td class="num">−0.005556</td><td class="num">0.4473 ± 0.021</td><td class="num">[0.405, 0.490]</td><td class="num">0.931</td></tr>
+      <tr><td>Cera vegetal</td><td class="num">36</td><td class="num">0.02071</td><td class="num">0.2924 ± 0.0050</td><td class="num">[0.282, 0.303]</td><td class="num">0.990</td></tr>
+      <tr><td>Quitosano</td><td class="num">36</td><td class="num">0.03508</td><td class="num">0.3078 ± 0.010</td><td class="num">[0.287, 0.328]</td><td class="num">0.965</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b7-pendientes.png" alt="Tiles, reading, figure of weight loss lines by treatment, table of slopes and pairs with Holm adjustment"></div>
+    <figcaption><b>Figure 7.7.</b> <span class="ui">Lines and comparison of slopes</span> with the example chayote: the points are the fruit and the lines the straight line of each treatment. The control line pulls away from day 5 on; those of vegetable wax and chitosan almost overlap.</figcaption>
+  </figure>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>With the same fruit, these tests are optimistic</div>
+    <p>The reading always warns: “If the same units were measured at every time, the observations are not independent: these tests are optimistic and the repeated-measures one is the reference.” In the chayote, the 36 observations of each treatment are only 6 fruit weighed six times, and the standard errors of the slopes come out smaller than they really are. Use the slopes to describe and summarize (how much faster the control loses weight) and Section 7.3 to decide whether the treatments differ.</p>
+  </div>
+
+  <!-- 7.6 -->
+  <h2 id="s7-6"><span class="num">7.6</span>Randomization and field book</h2>
+  <p class="lead">The <span class="ui">Randomization</span> tab is used before the trial: “Generates the random assignment of treatments (and sampling times) to the units, with a seed to repeat it.” Its card is <span class="ui">Field book of the trial</span>.</p>
+  <table class="compacta">
+    <caption><b>Table 7.5.</b> The fields of <span class="ui">Randomization</span> and their preset values</caption>
+    <thead><tr><th style="width:2.1in">Field</th><th style="width:1.8in">Preset value</th><th>What for</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Treatments (comma separated)</span></td><td>Testigo, Cera vegetal, Quitosano</td><td>The levels of the treatment</td></tr>
+      <tr><td><span class="ui">Sampling times</span></td><td>0, 5, 10, 15, 20</td><td>The days (or hours, or weeks) on which you measure</td></tr>
+      <tr><td><span class="ui">Replicates</span></td><td>4</td><td>Units per treatment and time (destructive) or per treatment (repeated)</td></tr>
+      <tr><td><span class="ui">Design</span></td><td><span class="ui">Completely randomized</span></td><td>Or <span class="ui">Randomized complete blocks</span>: each replicate is a block and the randomization is done within it</td></tr>
+      <tr><td><span class="ui">Seed</span></td><td>2026</td><td>The same seed always gives the same randomization</td></tr>
+      <tr><td><span class="ui">Variables to measure</span></td><td>firmeza_N, perdida_peso, sst</td><td>Empty columns of the book, to fill in the field</td></tr>
+      <tr><td>“Repeated measures: the same unit is measured at every time”</td><td>unchecked</td><td>Changes the unit: one per treatment and replicate, measured at every time</td></tr>
+    </tbody>
+  </table>
+  <p>The <span class="ui">Generate</span> button randomizes and shows the <span class="ui">Field book</span> card, with three tiles (<span class="ui">Units</span>, <span class="ui">Measurements</span> and <span class="ui">Design</span>) and the table, of which up to 300 rows are shown. With the preset values, destructive sampling gives 60 units and 60 measurements (3 treatments × 5 times × 4 replicates, each fruit measured once); with the repeated-measures box, 12 units and 60 measurements (each of the 12 fruit, 3 × 4, is measured at the 5 times).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b7-libro.png" alt="The Field book of the trial card with its fields and the generated table with the first ten units"></div>
+    <figcaption><b>Figure 7.8.</b> The field book with the preset values and seed 2026 (destructive sampling, completely randomized): the first ten of 60 units. Plot 1 is a control on day 0, plot 2 a chitosan on day 15, plot 3 another chitosan on day 20.</figcaption>
+  </figure>
+  <p>The columns are <code>Plot</code>, <code>Replicate</code> (or <code>Block</code> in complete blocks), <code>Treatment</code>, <code>Time</code> and the variables to measure. In blocks, plots are numbered by block (101, 102… in block 1). In repeated measures, each plot appears in as many rows as there are times, already sorted: that way each fruit is weighed on its date. <span class="ui">⤓ CSV</span> and <span class="ui">⤓ XLSX</span> download the whole book (<code>field_book</code>), and <span class="ui">Open the experimental-design app →</span> opens, in another tab, the experimental-design program of the LABG suite, whose data block recognizes those columns. Once measured, the same file with the columns filled in is loaded in the <span class="ui">Treatment × time factorial</span> tab or in <span class="ui">Repeated measures</span> (with <code>Plot</code> as the unit).</p>
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Write down the seed</div>
+    <p>Write the seed in the trial protocol. With it, anyone can redo the same randomization and check that the assignment was random; without it, the randomization cannot be reproduced.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>If</b> each fruit was measured only once</td><td><b>then</b> the trial is a factorial: tab <span class="ui">Treatment × time factorial</span>.</td></tr>
+      <tr><td><b>If</b> the same fruit were measured at every time</td><td><b>then</b> it is repeated measures: the treatment is tested against the units, and time and the interaction with corrected p-values.</td></tr>
+      <tr><td><b>If</b> the interaction is significant</td><td><b>then</b> compare the treatments within each time, or their rates; not with overall averages.</td></tr>
+      <tr><td><b>If</b> the interaction is not significant</td><td><b>then</b> the treatment effect can be summarized by its averages.</td></tr>
+      <tr><td><b>If</b> Mauchly rejects sphericity (p &lt; 0.05)</td><td><b>then</b> read <span class="ui">p (GG)</span>, or <span class="ui">p (HF)</span> if ε exceeds 0.75.</td></tr>
+      <tr><td><b>If</b> only each treatment against the control matters</td><td><b>then</b> use <span class="ui">Dunnett (against the control)</span>; if all pairs matter, Tukey.</td></tr>
+      <tr><td><b>If</b> the slopes differ but the fruit were the same</td><td><b>then</b> use them to describe how much faster a treatment changes and confirm with repeated measures.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">These are guides for interpretation, not laws: what you know about the crop, the cultivar and how the trial was run always comes first.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <p><b>Treatment and time come out “not estimable.”</b> You unticked “Use only the times measured in every treatment,” cells are missing and you are on type III (Section 7.1, “When combinations are missing”): tick the box again or choose <span class="ui">Type I (sequential)</span>. <b>The table of means has dashes.</b> That treatment was not measured at that time. <b>In repeated measures the units tile says “incomplete left out.”</b> Those units lack some time; check that the fruit identifier is the same on all its dates (“F1” and “f1” are different). <b>Nothing appears in Slopes.</b> Time must be a number; “day 5” or “5 d” are not. <b>Generate does not change the randomization.</b> That is expected with the same seed; change the seed for another randomization.</p>
+  </div>
+</section>
+
+</body>
+</html>
