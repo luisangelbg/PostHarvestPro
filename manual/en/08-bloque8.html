@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-8" data-pestana="8" data-orden="8" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">8</div>
+    <div class="cap-etiqueta">Chapter eight · Block 8</div>
+    <h1 data-corto="Packaging and logistics">Packaging and logistics</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The everyday calculations of a packinghouse and a cold store: how many boxes fit on a pallet and how many pallets in a container, whether a box lets the precooling air through, how much water the produce loses in the room, how much it costs to keep it one more day, which products can share a room and how to go from one unit to another.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k8"></span><span class="k8"></span><span class="k5"></span></div>
+    <ul class="cap-contenido">
+      <li><b>8.1</b>Pallet and container</li>
+      <li><b>8.2</b>Box venting</li>
+      <li><b>8.3</b>Store environment</li>
+      <li><b>8.4</b>The psychrometric chart and water loss</li>
+      <li><b>8.5</b>Storage cost</li>
+      <li><b>8.6</b>Compatibility</li>
+      <li><b>8.7</b>Units</li>
+    </ul>
+  </div>
+
+  <p>Block 8 is subtitled “Loads, venting, room environment, costs, compatibility and units.” It has six tabs: <span class="ui">Pallet and container</span>, <span class="ui">Box venting</span>, <span class="ui">Store environment</span>, <span class="ui">Storage cost</span>, <span class="ui">Compatibility</span> and <span class="ui">Units</span>. None reads a data table: all open with example values written in their fields and recompute as soon as you change one, so there is no example to load. The figures in this chapter are those of the starting values.</p>
+
+  <!-- 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>Pallet and container</h2>
+  <p class="lead">A box that does not fill the pallet well wastes space in every layer, every pallet and every container; a box that overhangs gets crushed. The tab looks for the best arrangement of the boxes on the pallet and of the pallets in the container.</p>
+  <p>The <span class="ui">Boxes per pallet</span> card has two groups of fields. The pallet: <span class="ui">Pallet</span> (<span class="ui">ISO 120 × 100 cm</span>, <span class="ui">European 120 × 80 cm</span>, <span class="ui">North American 121.9 × 101.6 cm (48 × 40 in)</span> or <span class="ui">Other size</span>), which fills <span class="ui">Pallet length (cm)</span>, <span class="ui">Pallet width (cm)</span> and <span class="ui">Pallet height (cm)</span>; if you change a dimension by hand, the selector switches to <span class="ui">Other size</span>. The box and the limits: <span class="ui">Box length (cm)</span> 40, <span class="ui">Box width (cm)</span> 30, <span class="ui">Box height (cm)</span> 20, <span class="ui">Full box weight (kg)</span> 10, <span class="ui">Maximum load height (cm)</span> 210 (including the pallet), <span class="ui">Maximum load weight per pallet (kg)</span> 1000—the produce with its boxes, without the pallet—and <span class="ui">Empty pallet weight (kg)</span> 25, that of a wooden pallet; a plastic one or one of another size weighs differently, and this weight only counts in the container.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Arranging boxes in a layer</div>
+    <p>Packing equal rectangles into a rectangle is a classic cutting problem. The app tries both orientations of the box over the whole layer and, in addition, every two-block pattern: it splits the pallet once along its length or width, at a multiple of the box side, and arranges each part with a different orientation. It keeps the pattern that places the most boxes (guillotine-cutting heuristics of Steudel 1979 and of Smith and De Cani 1980). The layers are those that fit under the maximum height, or fewer if the maximum weight is reached first.</p>
+  </div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b8-tarima.png" alt="The Pallet and container tab with the starting values: the pallet and box fields, four tiles, the layer seen from above, the container floor, the container selector, four more tiles and the reading"></div>
+    <figcaption><b>Figure 8.1.</b> Boxes of 40 × 30 × 20 cm on an ISO pallet of 120 × 100 cm: ten boxes per layer, combining six laid one way and four the other (100% of the area), in nine layers: 90 boxes and 900 kg. A 40 ft high-cube reefer carries 20 pallets on the floor: 1800 boxes.</figcaption>
+  </figure>
+
+  <p>The pallet tiles are <span class="ui">Boxes per layer</span> (with the area it uses), <span class="ui">Layers</span> (with what limits them: “limited by height” or “limited by weight”), <span class="ui">Boxes per pallet</span> and <span class="ui">Load weight</span>, with the total height. The <span class="ui">One layer seen from above</span> plot draws the arrangement, with one color per block. In the example, nine 20 cm layers on a 15 cm pallet add up to 195 cm, below the 210; a tenth would exceed the limit. With the European 120 × 80 cm pallet, 8 boxes fit per layer and 72 per pallet.</p>
+
+  <h3>Pallets per container</h3>
+  <p>Below, <span class="ui">Container</span> chooses among <span class="ui">20 ft reefer</span>, <span class="ui">40 ft high-cube reefer</span> and <span class="ui">53 ft refrigerated trailer</span>, with their indicative inside dimensions and payload, and the <span class="ui">Stack pallets (two tiers if they fit)</span> box puts one pallet on top of another if the container height allows it. The app arranges the pallets on the floor with the same method as the boxes and limits their number by the payload, adding to each pallet the <span class="ui">Empty pallet weight (kg)</span>. The tiles are <span class="ui">Pallets per container</span>, <span class="ui">Boxes per container</span>, <span class="ui">Payload</span>—the produce and boxes plus the empty pallets, as it explains below: “produce and boxes, plus 25 kg per empty pallet”; in the 40 ft container, 20 × (900 + 25) = 18,500 kg—and <span class="ui">Floor used</span>, and the <span class="ui">Container floor</span> plot draws the arrangement.</p>
+  <table class="compacta">
+    <caption><b>Table 8.1.</b> The starting pallet (90 boxes, 900 kg) in the three containers</caption>
+    <thead><tr><th>Container</th><th class="num">Pallets</th><th class="num">Boxes</th><th class="num">Payload (kg)</th><th class="num">Floor used</th><th>Limit</th></tr></thead>
+    <tbody>
+      <tr><td>20 ft reefer</td><td class="num">9</td><td class="num">810</td><td class="num">8325</td><td class="num">86.7%</td><td>the floor</td></tr>
+      <tr><td>40 ft high-cube reefer</td><td class="num">20</td><td class="num">1800</td><td class="num">18,500</td><td class="num">90.5%</td><td>the floor</td></tr>
+      <tr><td>53 ft refrigerated trailer</td><td class="num">21</td><td class="num">1890</td><td class="num">19,425</td><td class="num">90.9%</td><td>the weight</td></tr>
+    </tbody>
+  </table>
+  <p>With 195 cm pallets, checking <span class="ui">Stack pallets</span> changes nothing: two do not fit in the 255 cm of the 40 ft container. The reading reminds you that a use below 85% suggests changing the box size, that boxes must not overhang the pallet, and that air channels must be left. Container dimensions vary with the make: “check the carrier’s sheet.”</p>
+
+  <!-- 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Box venting</h2>
+  <p class="lead">In forced-air cooling, the air has to pass through the boxes. If the faces where it enters and leaves have little open area, cooling takes longer; if they have too much, the box loses strength and is crushed in the stack.</p>
+  <p>The <span class="ui">Open area of the faces</span> card asks for the dimensions of the two faces—<span class="ui">Long face: length (cm)</span> 50, <span class="ui">Long face: height (cm)</span> 25, <span class="ui">Short face: width (cm)</span> 30 and <span class="ui">Short face: height (cm)</span> 25—and an editable table of holes with <span class="ui">Face</span> (<span class="ui">Long</span> or <span class="ui">Short</span>), <span class="ui">Shape</span> (<span class="ui">Rounded slot</span>, <span class="ui">Rectangle</span> or <span class="ui">Circle</span>), <span class="ui">Length or diameter (cm)</span>, <span class="ui">Width (cm)</span> and <span class="ui">Count</span>. The area of a rounded slot of length <i>a</i> and width <i>b</i> is (<i>a</i> − <i>b</i>)·<i>b</i> + π<i>b</i>²/4; that of a circle, π<i>a</i>²/4. The result is the area of the holes on each face over the area of the face, in %.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b8-ventilacion.png" alt="The Open area of the faces card with the face dimensions, the table of three kinds of hole, two tiles and the reading"></div>
+    <figcaption><b>Figure 8.2.</b> A 50 × 30 × 25 cm box with four 8 × 2.5 cm slots on each long face and, on each short face, two 7 × 2.5 cm slots and two 3 cm circles: 6.0% open area on the long face and 6.2% on the short one, both “enough.”</figcaption>
+  </figure>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · Open area of a face</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:30%"><b>Less than 3%</b></td><td>Not enough (red tile): forced air barely gets through.</td></tr>
+      <tr><td><b>From 3 to 5%</b></td><td>Not enough (amber tile): cooling takes much longer.</td></tr>
+      <tr><td><b>From 5 to 8%</b></td><td>Enough: the recommended range.</td></tr>
+      <tr><td><b>More than 8%</b></td><td>The app marks it enough, but the reading warns that the box loses compression strength.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Several elongated slots near the corners distribute the air better than one large hole, and the holes must line up between boxes and with the pallet (Thompson et al. 2008).</p>
+  </div>
+
+  <!-- 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>Store environment</h2>
+  <p class="lead">The temperature and relative humidity of the room decide how much water the produce loses. What drives it is the <b>vapor pressure deficit</b> between the surface of the produce, saturated at its own temperature, and the surrounding air.</p>
+  <p>The <span class="ui">Air, produce and water loss</span> card has eight fields, with these starting values: <span class="ui">Air temperature (°C)</span> 5, <span class="ui">Relative humidity (%)</span> 85, <span class="ui">Altitude (m)</span> 0, <span class="ui">Produce temperature (°C)</span> 6, <span class="ui">Produce (transpiration coefficient)</span> Tomato · 140, <span class="ui">Coefficient (mg kg⁻¹ s⁻¹ MPa⁻¹)</span> 140, <span class="ui">Outside air (°C)</span> 28 and <span class="ui">Outside RH (%)</span> 55. The produce selector has fourteen indicative coefficients from Sastry et al. (1978), from apple (42) to lettuce (7400); if you type another coefficient, the selector switches to <span class="ui">Other (type it)</span>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b8-ambiente.png" alt="The Air, produce and water loss card with eight fields, eight tiles and the reading"></div>
+    <figcaption><b>Figure 8.3.</b> A room at 5 °C and 85% RH with tomato at 6 °C: dew point at 2.7 °C, wet bulb at 3.9 °C, a deficit of 0.131 kPa in the air and of 0.194 kPa between produce and air, and a water loss of 0.234% per day, 1.64% per week.</figcaption>
+  </figure>
+
+  <p>The tiles give the state of the room air (ASHRAE 2017): the <span class="ui">Pressure</span>, which comes from the altitude; the <span class="ui">Absolute humidity</span> in g/m³, with the humidity ratio in g per kg of dry air; the <span class="ui">Dew point</span>, the <span class="ui">Wet bulb</span> and the <span class="ui">Enthalpy</span>; the <span class="ui">Air deficit</span> and the <span class="ui">Produce–air deficit</span>; and the <span class="ui">Water loss</span> per day and per week. The saturation pressure comes from the equations of Wagner and Pruss (2002) over water and of Wagner et al. (2011) over ice, the same ones used in the 2017 tables.</p>
+  <div class="formula">produce–air deficit = <i>p</i><sub>ws</sub>(<i>T</i><sub>produce</sub>) − RH/100 · <i>p</i><sub>ws</sub>(<i>T</i><sub>air</sub>) &nbsp;·&nbsp; loss (% d⁻¹) = <i>k</i> · deficit (MPa) · 86,400 / 10⁶ · 100</div>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · The tomato in the room</div>
+    <p>At 5 °C and 85% RH, the air holds 5.78 g of water per m³ (4.59 g/kg of dry air), its dew point is 2.7 °C and its deficit, 0.131 kPa. But the tomato is at 6 °C, one degree warmer than the air, and the deficit that actually dries it is <b>0.194 kPa</b>. With a coefficient of 140 mg kg⁻¹ s⁻¹ MPa⁻¹, it loses <b>0.234% of its weight per day, 1.64% per week</b>. The reading adds: “The produce is warmer than the air: finishing precooling before storage greatly reduces the loss,” and computes what more humidity would do, from the RH you wrote: “With RH at 95% instead of 85%, the produce–air deficit would fall to 0.106 kPa and the loss to 0.90% per week.” If the RH is already 95% or more, the reading warns instead that raising it brings the air close to saturation and to water condensing on the produce.</p>
+  </div>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Dew point and cold produce</div>
+    <p>If the dew point of the air is above the produce temperature, water condenses on it: the dew-point tile turns amber and says “the produce will sweat.” It happens when cold produce is taken out to a warm, humid dock, and free water on the fruit favors decay.</p>
+  </div>
+
+  <!-- 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>The psychrometric chart and water loss</h2>
+  <p class="lead">The psychrometric chart puts the temperature and the water content of the air in a single figure. It shows at a glance how far the room air is from saturation and what happens to outside air when it comes in.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b8-psicrometrica.png" alt="The psychrometric chart with the relative humidity curves from 10 to 100 percent, the room point at 5 degrees and the outside air point at 28 degrees"></div>
+    <figcaption><b>Figure 8.4.</b> The starting psychrometric chart, at 101.3 kPa: humidity ratio against dry-bulb temperature, with the saturation curve as a thick line and the 10 to 90% curves below it, each with its RH label at the end of the curve, on the right edge. The orange dot is the room (5 °C, 85%), with a dash down to its dew point; the blue square, the outside air (28 °C, 55%).</figcaption>
+  </figure>
+
+  <p>The <span class="ui">Psychrometric chart</span> plot is drawn at the site pressure, so it changes with altitude, and its temperature axis runs from −2 °C to 35 °C, extended if the room is below 1 °C or the outside air above 32 °C, to leave a 3 °C margin. The vertical distance between the room point and the saturation curve is the water the air can still take up. The outside air in the example carries almost three times more water per kilogram than the room air: when it comes in through an open door and cools to 5 °C, it passes its dew point and condenses on the evaporators, which is part of the “other loads” of Section 4.7. Each curve carries its RH percentage on the right edge, at the height of its end.</p>
+
+  <table class="compacta">
+    <caption><b>Table 8.2.</b> Weekly water loss of the starting tomato at other humidities (5 °C, produce at 6 °C)</caption>
+    <thead><tr><th>Relative humidity</th><th class="num">Air deficit (kPa)</th><th class="num">Produce–air deficit (kPa)</th><th class="num">Loss (% per week)</th></tr></thead>
+    <tbody>
+      <tr><td>85%</td><td class="num">0.131</td><td class="num">0.194</td><td class="num">1.64</td></tr>
+      <tr><td>95%</td><td class="num">0.044</td><td class="num">0.106</td><td class="num">0.90</td></tr>
+    </tbody>
+  </table>
+  <p>A water loss of 3 to 5% of the weight already shows as wilting or shriveling in many products; the loss tile turns amber when it exceeds 3% per week. The transpiration coefficient varies almost two hundredfold between products: the lettuce in the selector loses water fifty times faster than tomato in the same room.</p>
+
+  <!-- 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>Storage cost</h2>
+  <p class="lead">Keeping produce in cold storage to sell it later only pays if the price rises more than each day of waiting costs. The tab computes that daily cost per pallet, shrinkage included.</p>
+  <p>The <span class="ui">Cost per day and per pallet</span> card asks for <span class="ui">Energy (kWh per day)</span> 180, <span class="ui">Tariff per kWh</span> 2.8, <span class="ui">Labor per day</span> 900, <span class="ui">Other costs per day</span> 250, <span class="ui">Depreciation and rent per year</span> 420,000, <span class="ui">Capacity (pallets)</span> 60, <span class="ui">Occupancy (%)</span> 75, <span class="ui">Shrink per day (% of weight)</span> 0.08 and <span class="ui">Value of one pallet</span> 18,000. Amounts of money are in whatever currency you use; the app writes no symbol.</p>
+  <div class="formula">daily cost = kWh·tariff + labor + other + depreciation/365 &nbsp;·&nbsp; per pallet = daily cost / (capacity · occupancy) &nbsp;·&nbsp; shrink = %/100 · value</div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b8-costos.png" alt="The Cost per day and per pallet card with nine fields, five tiles and the reading"></div>
+    <figcaption><b>Figure 8.5.</b> A 60-pallet room at 75%: 2805 per day, 62.33 per pallet for operation plus 14.40 of shrinkage, 76.73 per pallet and day.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · One more day in the room</div>
+    <p>Energy costs 180 × 2.8 = 504 a day; with 900 for labor, 250 for other costs and 420,000/365 = 1151 for depreciation and rent, the room costs <b>2805 a day</b>. At 75% there are 45 pallets, and each one bears <b>62.33</b> of operation. A shrinkage of 0.08% a day on an 18,000 pallet is 14.40: the total is <b>76.73 per pallet and day</b>, of which “19% is weight shrinkage.” Storing a pallet only pays if its price rises more than that for each day of waiting.</p>
+  </div>
+  <p>Occupancy weighs heavily: with the room full (100%) the operating cost falls to 46.74 per pallet and the total to 61.14, because the fixed costs are spread over more pallets. Shrinkage, on the other hand, does not depend on occupancy: it depends on the humidity and temperature of the room (Section 8.3).</p>
+
+  <!-- 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>Compatibility</h2>
+  <p class="lead">In practice many products share a room or a container. It is not always possible: one needs a temperature that causes chilling injury to the other, one produces the ethylene that ripens or yellows the other, or one gives off odors the other absorbs.</p>
+  <p>The <span class="ui">Can they share the room?</span> card shows a button for each of the 38 products in the table; a click selects or deselects it (the selected ones are highlighted). At the start, green banana, apple, lettuce and carrot are selected. The <span class="ui">Table of products (editable)</span> drop-down holds, for each product, the recommended temperature and RH (<span class="ui">T min (°C)</span>, <span class="ui">T max (°C)</span>, <span class="ui">RH min</span>, <span class="ui">RH max</span>), the ethylene production class at 20 °C (<span class="ui">Ethylene</span>: VL &lt; 0.1, L 0.1–1, M 1–10, H 10–100 and VH &gt; 100 µL kg⁻¹ h⁻¹), the ethylene <span class="ui">Sensitivity</span> (L, M, H), <span class="ui">Chilling</span> injury (0 none, 1 moderate, 2 sensitive) and <span class="ui">Odor</span> (“p” gives off, “a” absorbs). These are indicative values for the most common cultivars (Kader 2002; Gross et al. 2016; McGregor 1989): correct them with those of your cultivar or add products with <span class="ui">+ Add row</span>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b8-compatibilidad.png" alt="The card with the buttons of 38 products, four selected, and the Diagnosis card with five tiles and the list of incompatibilities and risks"></div>
+    <figcaption><b>Figure 8.6.</b> Green banana, apple, lettuce and carrot: 5 of the 6 pairs are incompatible and there is no shared temperature or RH. Only lettuce and carrot can go together.</figcaption>
+  </figure>
+
+  <p>The <span class="ui">Diagnosis</span> card appears when at least two products are selected. Its tiles are <span class="ui">Products</span>, <span class="ui">Incompatible pairs</span>, <span class="ui">Pairs at risk</span>, <span class="ui">Shared temperature</span> and <span class="ui">Shared RH</span> (the range all of them share, or “none”). The reading lists each problem, pair by pair. A pair can be incompatible and also carry a risk: each tile counts all the pairs with that kind of problem, the same ones the list names, and the pairs-at-risk tile says below how many are also incompatible. In the example, “Pairs at risk: 3 · 3 also incompatible”: the three “Ethylene risk” items on the list are in pairs that were already incompatible. The shared temperature and RH are written as in the list, with a true minus sign and “to” between the ends when one is negative.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · What the app checks in each pair</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:34%"><b>Incompatible</b> by temperature</td><td>The temperature ranges do not overlap; the reading also says whether the warm-climate product suffers chilling injury.</td></tr>
+      <tr><td><b>Incompatible</b> by ethylene</td><td>A high or very high producer (H, VH) next to a highly sensitive product (H).</td></tr>
+      <tr><td><b>Risk</b> by ethylene</td><td>An H or VH producer next to one of medium sensitivity, or a medium producer (M) next to a highly sensitive one: ventilating or scrubbing ethylene is advisable.</td></tr>
+      <tr><td><b>Risk</b> by humidity</td><td>The recommended humidities are more than 5 points apart.</td></tr>
+      <tr><td><b>Risk</b> by odor</td><td>One gives off odors (“p”) that the other may absorb.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">For ethylene there is a remedy—ventilation, a scrubber—; for temperatures there is none: the one that protects one product harms the other.</p>
+  </div>
+
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · Four products in one room</div>
+    <p>Green banana needs 13–15 °C and suffers chilling injury; apple, −1 to 4 °C, and lettuce and carrot, 0 °C: three pairs incompatible by temperature. Apple produces a lot of ethylene, and banana, lettuce and carrot are highly sensitive to it: three pairs incompatible by ethylene (the apple–banana pair already was by temperature). In addition, green banana produces some ethylene (class M) and apple, lettuce and carrot are highly sensitive: three ethylene risks, all in pairs that were already incompatible. In all, <b>5 incompatible pairs</b> and <b>3 pairs at risk</b>; the only pair without problems is lettuce with carrot. The list writes the ranges as “Apple needs −1 to 4 °C and Banana (green) 13–15 °C” and “Lettuce needs 0 °C.”</p>
+  </div>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b8-matriz.png" alt="The compatibility matrix of four products: red squares with a cross for the incompatible pairs and green for the compatible pair"></div>
+    <figcaption><b>Figure 8.7.</b> The <span class="ui">Compatibility matrix</span> of the four products: red with ✕ for incompatible pairs, amber with ! for pairs at risk and green for compatible ones; an incompatible pair that also carries a risk is painted red. With few products the matrix is drawn centered and at its natural size, without filling the whole width of the card.</figcaption>
+  </figure>
+
+  <!-- 8.7 -->
+  <h2 id="s8-7"><span class="num">8.7</span>Units</h2>
+  <p class="lead">Data sheets, papers and equipment use different units: degrees Fahrenheit, pounds-force, thousandths of an inch, parts per million. The last tab converts them.</p>
+  <p>The <span class="ui">Unit conversion</span> card has three controls: <span class="ui">Quantity</span>, <span class="ui">Value</span> (40) and <span class="ui">From</span>, the unit of the value. The results appear in tiles, one for each other unit of the quantity, with six significant figures.</p>
+  <table class="compacta">
+    <caption><b>Table 8.3.</b> The quantities and their units, with the value 40 converted from the first unit of each</caption>
+    <thead><tr><th style="width:1.7in">Quantity</th><th style="width:2.1in">Units</th><th>40 in the first unit equals</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Temperature</span></td><td>°C, °F, K</td><td>104.000 °F · 313.150 K</td></tr>
+      <tr><td><span class="ui">Pressure</span></td><td>kPa, atm, bar, psi, mmHg, Pa</td><td>0.394769 atm · 0.400000 bar · 5.80151 psi · 300.025 mmHg</td></tr>
+      <tr><td><span class="ui">Mass</span></td><td>kg, g, lb, t, oz</td><td>88.1849 lb · 1410.96 oz</td></tr>
+      <tr><td><span class="ui">Force (firmness)</span></td><td>N, kgf, lbf, gf</td><td>4.07886 kgf · 8.99236 lbf</td></tr>
+      <tr><td><span class="ui">Length (thickness)</span></td><td>mm, cm, m, in, ft, mil (thousandth of an inch), µm</td><td>1.57480 in · 1574.80 mil</td></tr>
+      <tr><td><span class="ui">Gas concentration</span></td><td>%, ppm (µL/L), ppb (nL/L)</td><td>400,000 ppm · 400,000,000 ppb</td></tr>
+    </tbody>
+  </table>
+  <p>Two conversions come up often in postharvest work: the firmness a penetrometer gives in kgf or lbf (1 kgf = 9.807 N; 1 lbf = 4.448 N) and the thickness of films, which many suppliers give in mil, thousandths of an inch (1 mil = 25.4 µm: a 40 µm film is 1.57 mil). In concentration, ppm and µL/L are the same thing, which is why the list names them together, “ppm (µL/L),” like ppb and nL/L.</p>
+
+  <h3>Reading the block’s results</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:38%">What you see</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td>Pallet area used &lt; 85%</td><td>The box does not suit the pallet: try another box size</td></tr>
+      <tr><td>“limited by weight”</td><td>More layers or pallets would fit by height or floor, but not by weight: the payload rules</td></tr>
+      <tr><td>Venting &lt; 5% on one face</td><td>Forced air will not get through well: more or larger slots</td></tr>
+      <tr><td>Produce–air deficit larger than the air deficit</td><td>The produce is warmer than the room: finish precooling before storage</td></tr>
+      <tr><td>Water loss &gt; 3% per week</td><td>Raise the RH, lower the temperature, use packaging that slows transpiration or shorten storage</td></tr>
+      <tr><td>Cost per pallet and day larger than the expected price rise</td><td>Storing does not pay: sell earlier</td></tr>
+      <tr><td>Shared temperature “none”</td><td>Separate rooms are needed</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <ul>
+      <li><b>The boxes per pallet do not update.</b> All the pallet and box dimensions must be greater than zero.</li>
+      <li><b>The water loss is huge.</b> Check the coefficient: it is in mg kg⁻¹ s⁻¹ MPa⁻¹, and that of lettuce (7400) is fifty times that of tomato.</li>
+      <li><b>The diagnosis does not appear.</b> Select at least two products.</li>
+      <li><b>A new product is not compared properly.</b> Fill in all its columns in the table; an empty temperature or RH breaks the comparison for that product.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>

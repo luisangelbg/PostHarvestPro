@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-5" data-pestana="5" data-orden="5" style="--acento: var(--b5)">
+  <div class="cap-apertura">
+    <div class="cap-num">5</div>
+    <div class="cap-etiqueta">Chapter five · Block 5</div>
+    <h1 data-corto="Losses and value chain">Losses and value chain</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Between the field and the consumer, every stage keeps a share of the produce. This block follows the load stage by stage, tells how many kilograms and how much money are lost at each one, which are the critical points and where an improvement pays most; and, with a drop test, from what height the fruit begins to bruise.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k5"></span><span class="k5"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>5.1</b>The chain: stages, loss and price</li>
+      <li><b>5.2</b>Losses in quantity and value</li>
+      <li><b>5.3</b>Critical points</li>
+      <li><b>5.4</b>Simulate improvements</li>
+      <li><b>5.5</b>Mechanical damage: curves and threshold</li>
+      <li><b>5.6</b>Incidence and logistic regression</li>
+    </ul>
+  </div>
+
+  <p>Block 5 is subtitled “Quantity and value lost by stage, critical points, what-if and mechanical damage.” It has three tabs: <span class="ui">Losses by stage</span>, <span class="ui">Simulate improvements</span> and <span class="ui">Mechanical damage</span>. The first two work on the same chain, which you write in an editable table; the third reads a table through the common data entry (Section 2.1). Both examples are the <b>example saladette tomato</b>, simulated: a six-stage chain and a drop test with 60 fruit (Section I.7).</p>
+
+  <!-- 5.1 -->
+  <h2 id="s5-1"><span class="num">5.1</span>The chain: stages, loss and price</h2>
+  <p class="lead">A postharvest chain is a succession of stages—harvest, sorting, collection, transport, wholesale, retail—and what is lost at one never reaches the next. That is why the loss of each stage is expressed over what <i>enters</i> it, and losses accumulate.</p>
+  <p>The <span class="ui">The chain</span> card is an editable table, one row per stage and in order, with four columns:</p>
+  <ul>
+    <li><span class="ui">Stage</span>: the name, as you want it to appear in the plots.</li>
+    <li><span class="ui">Loss (% of input)</span>: the percentage of what reaches that stage that is lost there.</li>
+    <li><span class="ui">or loss (kg)</span>: the loss in kilograms, if you measured it that way; when a row has kilograms, the app uses them and sets the percentage aside (and does not let a stage lose more than entered it).</li>
+    <li><span class="ui">Price per kg</span>: what a kilogram is worth at that stage.</li>
+  </ul>
+  <p>Below come the <span class="ui">Quantity entering the chain (kg)</span> (10,000) and the <span class="ui">Currency</span> ($), which only changes the symbol in the results. The tab opens with a short four-stage chain written at the start (Harvest, Packing, Transport and Retail), in which 7803 of the 10,000 kg reach the end. The <span class="ui">Load example</span> button in the example strip—this card has its own, not the common data entry—replaces it with the tomato chain, and so does <span class="ui">Open in …</span> on the home page. The example chain keeps its stage names in Spanish, as the app shows them: Cosecha (harvest), Selección y empaque (sorting and packing), Acopio (collection), Transporte (transport), Central de abasto (wholesale market) and Venta al menudeo (retail). A row without a name, or without a percentage or kilograms, does not enter the calculation.</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b5-cadena.png" alt="The chain card with the tomato example: six stages with their percentage loss and their price per kilogram, the initial quantity and the currency"></div>
+    <figcaption><b>Figure 5.1.</b> The example tomato chain: six stages from harvest to retail, with their loss (from 2.6 to 7.8% of input) and their price, which rises from $6 to $22 per kilogram.</figcaption>
+  </figure>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Following the load</div>
+    <p>If <i>E</i><sub><i>i</i></sub> kilograms enter stage <i>i</i> and it loses the fraction <i>p</i><sub><i>i</i></sub>, it loses <i>E</i><sub><i>i</i></sub>·<i>p</i><sub><i>i</i></sub> and passes on <i>E</i><sub><i>i</i>+1</sub> = <i>E</i><sub><i>i</i></sub>(1 − <i>p</i><sub><i>i</i></sub>). The <b>loss index</b> is what is lost along the whole chain over what entered, in %. The value of what is lost is counted in two ways: at the <b>price of each stage</b>, what the produce was really worth when it was lost; and at the <b>final price</b>, what the market would have paid had it arrived. It is the load-tracking logic of the FAO food loss index (2019) and of the systems assessment of La Gra et al. (2016).</p>
+  </div>
+
+  <!-- 5.2 -->
+  <h2 id="s5-2"><span class="num">5.2</span>Losses in quantity and value</h2>
+  <p class="lead">The <span class="ui">Losses in quantity and value</span> card sums up the chain in five tiles, a reading, a Sankey diagram, two bar charts and the table by stage.</p>
+  <p>The tiles are <span class="ui">Enters the chain</span>, <span class="ui">Reaches the end</span> (with its percentage), <span class="ui">Is lost</span> (with the loss index), <span class="ui">Value lost</span> (“at the price of each stage”) and <span class="ui">Value at the final price</span> (“what the market would have paid”). The reading says how many kilograms of every 100 reach the end, which stage loses most kilograms and which most money, and names the critical points (Section 5.3).</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b5-sankey.png" alt="The five tiles, the reading and the Sankey diagram of the example tomato chain, with the green band narrowing and the losses in red"></div>
+    <figcaption><b>Figure 5.2.</b> The example tomato: of 10,000 kg, 7144 arrive (71.4%) and 2856 are lost, a loss index of 28.6%. The <span class="ui">Flow of produce along the chain</span> diagram draws in green what passes from one stage to the next and in red what is lost at each one, darker at the critical points by value.</figcaption>
+  </figure>
+
+  <p>In the <b>Sankey diagram</b> the width of each band is proportional to the kilograms: the green band narrows stage by stage and from its lower edge falls, in red, what is lost, with its kilograms and percentage. Each column carries the stage name and the kilograms that leave it. The two bar charts, <span class="ui">Loss by stage (kg)</span> and <span class="ui">Value lost by stage</span>, set the stages side by side to compare them.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b5-barras.png" alt="Two horizontal bar charts: the loss in kilograms of each stage and the value lost at each stage"></div>
+    <figcaption><b>Figure 5.3.</b> The same chain in kilograms and in money. In kilograms, the stage that loses most is Selección y empaque (745 kg); in money, Venta al menudeo ($12,560), where each kilogram is worth $22.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Table 5.1.</b> The table by stage of the example tomato, as the app gives it (kilogram columns rounded)</caption>
+    <thead><tr><th>Stage</th><th class="num">In (kg)</th><th class="num">Lost (kg)</th><th class="num">% of input</th><th class="num">% of the initial total</th><th class="num">Cumulative %</th><th class="num">Price</th><th class="num">Value lost</th><th class="num">Out (kg)</th></tr></thead>
+    <tbody>
+      <tr><td>Cosecha</td><td class="num">10,000</td><td class="num">450</td><td class="num">4.50</td><td class="num">4.50</td><td class="num">4.50</td><td class="num">6.00</td><td class="num">2700</td><td class="num">9550</td></tr>
+      <tr><td>Selección y empaque</td><td class="num">9550</td><td class="num">745</td><td class="num">7.80</td><td class="num">7.45</td><td class="num">11.95</td><td class="num">8.50</td><td class="num">6332</td><td class="num">8805</td></tr>
+      <tr><td>Acopio</td><td class="num">8805</td><td class="num">229</td><td class="num">2.60</td><td class="num">2.29</td><td class="num">14.24</td><td class="num">9.00</td><td class="num">2060</td><td class="num">8576</td></tr>
+      <tr><td>Transporte</td><td class="num">8576</td><td class="num">360</td><td class="num">4.20</td><td class="num">3.60</td><td class="num">17.84</td><td class="num">10.50</td><td class="num">3782</td><td class="num">8216</td></tr>
+      <tr><td>Central de abasto</td><td class="num">8216</td><td class="num">501</td><td class="num">6.10</td><td class="num">5.01</td><td class="num">22.85</td><td class="num">14.00</td><td class="num">7016</td><td class="num">7715</td></tr>
+      <tr><td>Venta al menudeo</td><td class="num">7715</td><td class="num">571</td><td class="num">7.40</td><td class="num">5.71</td><td class="num">28.56</td><td class="num">22.00</td><td class="num">12,560</td><td class="num">7144</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · The tomato from harvest to retail</div>
+    <p>Of every 100 kg that enter, <b>71.4</b> reach the end. The losses by stage are small—none reaches 8% of input—but they add up to a <b>loss index of 28.6%</b>. What was lost was worth <b>$34,450</b> at the price of each stage; at the final price of $22 a kilogram, the market would have paid <b>$62,834</b> for it. The stage that loses most kilograms is <b>Selección y empaque</b> (26.1% of the loss); the one that loses most money is <b>Venta al menudeo</b> (36.5% of the value lost), “because there each kilogram is already worth more.”</p>
+  </div>
+
+  <p>Below the Pareto table (Section 5.3), the <span class="ui">Send to EconomicsPro →</span> button downloads the chain as <code>perdidas_cadena.csv</code>—stage, kilograms in, lost and out, percentage, price and value lost—and opens EconomicsPro, the suite’s application for the economic evaluation of projects, in a new tab; a notice reminds you to open the file in its data block. Opening that application online is the only thing in this block that needs a connection; the CSV is downloaded anyway.</p>
+
+  <!-- 5.3 -->
+  <h2 id="s5-3"><span class="num">5.3</span>Critical points</h2>
+  <p class="lead">Not all stages weigh the same. Pareto analysis sorts the stages from largest to smallest loss and flags those that, together, add up to 80%: the <b>critical points</b>, where it pays to look first.</p>
+  <p>The <span class="ui">Critical points (Pareto)</span> table sorts the stages by <span class="ui">Kilograms lost</span>, with their <span class="ui">Share</span> of the loss and the <span class="ui">Cumulative</span> share, and next to it the order by value (<span class="ui">Stage by value</span>, with its share of the value lost). The shaded rows are the critical points in kilograms. The app takes the stages, in order, until the cumulative share reaches 80%, including the one that crosses it.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b5-pareto.png" alt="The Critical points table with the six stages sorted by kilograms lost and by value, the Send to EconomicsPro button and the method and source line"></div>
+    <figcaption><b>Figure 5.4.</b> The critical points of the example tomato. In kilograms, five of the six stages are needed to go past 80% (Cosecha leaves the cumulative share at 79.4%); in value, four: Venta al menudeo (36.5%), Central de abasto (20.4%), Selección y empaque (18.4%) and Transporte (11.0%).</figcaption>
+  </figure>
+
+  <p>In the example, the critical points in kilograms are Selección y empaque, Venta al menudeo, Central de abasto, Cosecha and Transporte; in value, Venta al menudeo, Central de abasto, Selección y empaque and Transporte. That the kilogram criterion points to the start of the chain and the money criterion to the end is usual: what is lost early weighs more, what is lost late is worth more. In a chain with losses as even as this one, 80% covers almost every stage; Pareto discriminates better when one or two stages concentrate the loss.</p>
+
+  <!-- 5.4 -->
+  <h2 id="s5-4"><span class="num">5.4</span>Simulate improvements</h2>
+  <p class="lead">What would happen if a stage lost half of what it loses today? The <span class="ui">Simulate improvements</span> tab computes it on the chain of <span class="ui">Losses by stage</span> and compares the same improvement at every stage.</p>
+  <p>The <span class="ui">What if the loss of one stage falls?</span> card has two controls: <span class="ui">Stage</span>, with the stages of the chain, and <span class="ui">Reduction of its loss (%)</span> (50), relative: 50% means losing half of what is lost today at that stage. If the chain does not exist yet, it warns: “First build the chain in «Losses by stage».” The results, in <span class="ui">Result of the simulation</span>, are three tiles—<span class="ui">Extra arriving</span>, <span class="ui">Value gained at the final price</span> and <span class="ui">New loss index</span> with the previous one—, the reading, the chart <span class="ui">Value gained by reducing 50% the loss of each stage</span> (the chosen stage in orange) and the table with the extra kilograms arriving, the value gained and the new index for each stage.</p>
+  <p>The proposed <span class="ui">Stage</span> is the one that loses most value in the chain. When the chain changes its stages—when you load the tomato example, for instance—, the selector again proposes the one that loses most value in the new chain; if you only correct a figure of the same chain, it keeps the stage you chose.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b5-mejoras.png" alt="The Simulate improvements tab with the stage Venta al menudeo and 50 percent: three tiles, the reading and the bars of the value gained at each stage"></div>
+    <figcaption><b>Figure 5.5.</b> The tab opens on Venta al menudeo, the stage that loses most value: halving its loss brings 285 kg more to the end, worth $6280, and lowers the index from 28.6 to 25.7%. With the same reduction, Selección y empaque pays somewhat more: $6648.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · Where to invest in the tomato chain</div>
+    <p>With the example chain, the tab proposes Venta al menudeo. With a 50% reduction, its loss goes from 7.4% to 3.7% and brings <b>285 kg</b> more to the end, worth <b>$6280</b> at the final price; the index falls to <b>25.7%</b>. If you choose Transporte (4.2% → 2.1%), 157 kg more arrive, worth $3445, and the index ends at 27.0%. The comparison of the six stages gives Selección y empaque $6648 (302 kg), Venta al menudeo $6280 (285 kg), Central de abasto $5105, Cosecha $3703, Transporte $3445 and Acopio $2098. The reading concludes: “the stage that pays most is <b>Selección y empaque</b> ($ 6648): invest there first, if the cost of the improvement is similar.”</p>
+  </div>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>The value gained is counted at the final price</div>
+    <p>A kilogram saved at any stage reaches the end and is sold at the retail price; that is why the simulation values it at that price, and why saving kilograms at the start of the chain pays so well even though a kilogram is worth little there. Venta al menudeo, the stage that loses most money (Section 5.3), is not the one where an improvement pays most. Always compare the value gained with what the improvement costs: the app does not know that cost.</p>
+  </div>
+
+  <!-- 5.5 -->
+  <h2 id="s5-5"><span class="num">5.5</span>Mechanical damage: curves and threshold</h2>
+  <p class="lead">The impacts of harvest, the packing line and transport leave bruises that are not visible at first but rot or are rejected later. A drop test from several heights tells how much damage each height produces and from which one it begins.</p>
+  <p>The <span class="ui">Impact or compression test</span> card asks, one row per fruit, for <span class="ui">Height, energy or force</span>—required—and five optional columns: <span class="ui">Bruise size (curves)</span> (area, volume or depth of the bruise), <span class="ui">Bruised (0/1)</span>, <span class="ui">Bruise volume (mm³), for the susceptibility</span>, <span class="ui">Impact energy (J)</span> and <span class="ui">Fruit mass (g), if there is no energy</span>. The card’s hint sums it up: “optionally whether it was bruised (0/1), the bruise volume and the impact energy (or the mass, to compute it as m·g·h), which give the susceptibility.” With the example, the app picks <code>altura_cm</code>, <code>area_mm2</code> for the curves, <code>danado</code>, <code>volumen_mm3</code>, <code>energia_J</code> and <code>masa_g</code>.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b5-dano.png" alt="The Damage curves card for the example tomato: six tiles, the reading, the bruise area against height with the line, the incidence with the logistic curve and the table of the four curves"></div>
+    <figcaption><b>Figure 5.6.</b> Sixty example tomatoes dropped from 10 to 60 cm. On the left, <span class="ui">Damage against height</span>: the bruise area against height with the line, the curve with the lowest AIC; on the right, the proportion of bruised fruit at each height with the logistic curve (Section 5.6). The table compares the four curves.</figcaption>
+  </figure>
+
+  <p>With the bruise size, the app fits four curves by least squares and compares them by their AIC: linear (y = a + b·x), quadratic (y = a + b·x + c·x²), power (y = a·xᵇ) and exponential (y = a·e^(b·x)); the last two are fitted on the log scale, as is customary in the impact literature, and only with fruit of positive size and height (Mohsenin 1986). The table gives the coefficients in the <span class="ui">Coefficients (a · b · c)</span> column—those of the equation as written, with <i>a</i> on the original scale also in the power and exponential curves—, the R², the AIC and the number of fruit for each curve, and shades the one with the lowest AIC. The <span class="ui">Damage against</span> plot for the chosen variable draws the fruit, the line and, if it is another one, the curve with the lowest AIC. Titles and axes read the column name as a label with its unit: <code>altura_cm</code> is written “Height (cm)” and <code>area_mm2</code>, “Bruise area (mm²).”</p>
+  <table class="compacta">
+    <caption><b>Table 5.2.</b> The four curves of bruise area against height in the example tomato</caption>
+    <thead><tr><th>Curve</th><th>Coefficients (a · b · c)</th><th class="num">R²</th><th class="num">AIC</th></tr></thead>
+    <tbody>
+      <tr><td><b>Linear</b></td><td>−13.85 · 3.964</td><td class="num">0.9226</td><td class="num"><b>533.41</b></td></tr>
+      <tr><td>Quadratic</td><td>−15.75 · 4.107 · −0.002041</td><td class="num">0.9226</td><td class="num">535.37</td></tr>
+      <tr><td>Power</td><td>1.169 · 1.298</td><td class="num">0.9095</td><td class="num">542.75</td></tr>
+      <tr><td>Exponential</td><td>20.95 · 0.04364</td><td class="num">0.7248</td><td class="num">609.50</td></tr>
+    </tbody>
+  </table>
+  <p>Although the power and exponential curves are fitted on the log scale, the table gives <i>a</i> = e<sup>ln <i>a</i></sup>, the coefficient of the curve as written: the power curve of the example is y = 1.169·x<sup>1.298</sup>, and the exponential one, y = 20.95·e<sup>0.04364·x</sup>.</p>
+
+  <h3>The threshold and the susceptibility</h3>
+  <p>The <span class="ui">Damage threshold</span> is the height where the line crosses zero, −a/b, in the unit of the column (here, cm): below it, according to the line, no visible damage is expected.</p>
+  <p>The <span class="ui">Bruise susceptibility</span> is the measure of Bajema and Hyde (1998): the bruise <b>volume</b> per joule of energy, in mm³/J. The app computes it fruit by fruit, volume over energy, and averages over the fruit with a measured bruise (volume greater than zero). It takes the volume from <span class="ui">Bruise volume (mm³), for the susceptibility</span>; if you do not choose it, it uses the size of the curves. It takes the energy from <span class="ui">Impact energy (J)</span>; if there is none, from the x axis when that is an energy; and otherwise it computes it from the mass and the height, E = m·g·h. The tile says where it came from: “volume of the bruise per joule” and the number of fruit. The reading explains it in a paragraph of its own.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · The tomato drops</div>
+    <p>The curve with the lowest AIC is the <b>linear</b> one (R² 0.923, AIC 533.41): the bruise area grows 3.964 mm² for every centimeter of drop. The quadratic fits just as well (R² 0.9226) but pays for one more parameter. The line crosses zero at <b>3.5 cm</b>: “By the line, below 3.5 cm no visible damage is expected.” The susceptibility is <b>135 mm³/J</b> (“volume of the bruise per joule · 60 fruit”): the mean, over the 60 fruit, of the bruise volume divided by the measured energy, the <code>energia_J</code> column.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Absorbed energy or impact energy</div>
+    <p>Bajema and Hyde (1998) define susceptibility with the energy the fruit <b>absorbs</b> in the impact, not with the impact energy: part of the drop energy is returned in the rebound. A drop test usually gives the impact energy, measured or computed as m·g·h, which is larger than the absorbed one; that is why the susceptibility the app gives comes out somewhat lower than in the paper. The reading warns: “This is the measure of Bajema and Hyde (1998), who define it with the absorbed energy; with the impact energy, which is larger, the value comes out somewhat lower.” If you do not have the volume and the app uses the area, the figure comes out in mm²/J, the tile turns amber and the reading warns that it is not comparable with the published values in mm³/J.</p>
+  </div>
+
+  <!-- 5.6 -->
+  <h2 id="s5-6"><span class="num">5.6</span>Incidence and logistic regression</h2>
+  <p class="lead">The size of the bruise is not everything: for a packer, what matters is what proportion of fruit comes out bruised. With the <span class="ui">Bruised (0/1)</span> column, the app fits a logistic regression of incidence against height and computes the heights that bruise 50% and 10% of the fruit.</p>
+  <div class="formula">logit <i>p</i> = ln[<i>p</i>/(1 − <i>p</i>)] = <i>b</i><sub>0</sub> + <i>b</i><sub>1</sub>·<i>x</i> &nbsp;·&nbsp; <i>x</i><sub><i>p</i></sub> = (logit <i>p</i> − <i>b</i><sub>0</sub>)/<i>b</i><sub>1</sub></div>
+  <p>The coefficients are estimated by iteratively reweighted least squares, and the 95% confidence interval of each height, which is a ratio of two coefficients, by Fieller’s method (Finney 1971). The column must contain only zeros and ones; if it contains anything else, the app does not fit the logistic. The <span class="ui">Bruises 50%</span> and <span class="ui">Bruises 10%</span> tiles give the two heights with their interval, and the <span class="ui">Bruise incidence</span> plot draws the observed proportion at each height, the logistic curve and two dashed lines at 0.5 and 0.1.</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b5-incidencia.png" alt="The logistic curve of the proportion of bruised tomatoes against drop height, with the observed proportion at each height and the lines at 0.5 and 0.1"></div>
+    <figcaption><b>Figure 5.7.</b> Bruise incidence in the example tomato: 1 of 10 fruit bruised at 10 cm, 2 at 20 cm, 5 at 30 cm and all from 40 cm on. The curve crosses 50% at 26.9 cm and 10% at 15.3 cm.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · How far a tomato can fall</div>
+    <p>Half of the example tomatoes bruise with a drop of <b>26.9 cm</b> [21.5, 32.1] and 10% with <b>15.3 cm</b> [1.4, 20.9]. The reading turns it into a rule for the packing line: “drops lower than that on the packing line keep damage below 10%.” The 10% interval is very wide on the low side because there are few bruised fruit at low heights: if the decision depends on that number, repeat the test with more fruit between 5 and 20 cm.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · Losses and damage</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>If</b> the stage that loses most kilograms is not the one that loses most money…</td><td>that is normal: the price rises along the chain. Decide with the value gained in <span class="ui">Simulate improvements</span>, not with the kilograms.</td></tr>
+      <tr><td><b>If</b> the critical points are almost all the stages…</td><td>the losses are spread out: there is no bottleneck, and a general improvement (cold, handling) pays more than a targeted one.</td></tr>
+      <tr><td><b>If</b> a stage is critical both in kilograms and in value…</td><td>it is the first candidate for investment.</td></tr>
+      <tr><td><b>If</b> the drops on the packing line exceed the height that bruises 10%…</td><td>lower the transfer heights or add cushioning material; measure again after the change.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The value gained does not deduct the cost of the improvement nor that of handling more produce: that is what the economic evaluation (EconomicsPro) is for.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <ul>
+      <li><b>The chain does not appear.</b> Each row needs a name and a percentage or kilograms, and the initial quantity must be greater than zero.</li>
+      <li><b>The index looks too high.</b> Check that the percentage of each stage is over <b>what enters it</b>, not over the initial quantity; if you measured it over the total, write it in kilograms in <span class="ui">or loss (kg)</span>.</li>
+      <li><b>The simulation shows another stage.</b> If you changed the stages of the chain, the selector proposed again the one that loses most value: choose the one you want to simulate.</li>
+      <li><b>The logistic does not come out.</b> The incidence column must contain only 0 and 1; a “yes,” a 2 or an empty cell rule it out.</li>
+      <li><b>The susceptibility does not come out.</b> It needs a bruise size (preferably the volume) and an energy: choose <span class="ui">Impact energy (J)</span> or, if you did not measure it, the mass in <span class="ui">Fruit mass (g), if there is no energy</span> with the height on the x axis.</li>
+      <li><b>A negative or missing threshold.</b> If the line does not rise with height (zero or negative slope), there is no threshold: check that you chose the damage column and not another.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>

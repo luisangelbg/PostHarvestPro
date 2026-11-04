@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-4" data-pestana="4" data-orden="4" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">4</div>
+    <div class="cap-etiqueta">Chapter four · Block 4</div>
+    <h1 data-corto="Respiration, ethylene and atmospheres">Respiration, ethylene and atmospheres</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A harvested fruit is still alive: it respires, gives off heat and, if climacteric, produces ethylene and ripens all at once. This block measures respiration and ethylene production, recognizes the climacteric, finds the film and thickness that bring a package atmosphere into the recommended window, and computes how long a lot takes to cool and what refrigeration it needs.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k4"></span><span class="k4"></span><span class="k8"></span></div>
+    <ul class="cap-contenido">
+      <li><b>4.1</b>Static system</li>
+      <li><b>4.2</b>Flow-through</li>
+      <li><b>4.3</b>Climacteric</li>
+      <li><b>4.4</b>Modified atmosphere: produce and package</li>
+      <li><b>4.5</b>The equilibrium atmosphere and the film thickness</li>
+      <li><b>4.6</b>Precooling</li>
+      <li><b>4.7</b>Refrigeration load</li>
+    </ul>
+  </div>
+
+  <p>Block 4 is subtitled “Respiration rates, climacteric, modified-atmosphere packaging and precooling.” It has five tabs: <span class="ui">Static system</span>, <span class="ui">Flow-through</span>, <span class="ui">Climacteric</span>, <span class="ui">Modified atmosphere</span> and <span class="ui">Precooling and heat load</span>. Only two read a table through the common data entry (Section 2.1): the static system and the climacteric, with the simulated <b>example “Hass” avocado</b> in three jars and over twelve days (Section I.7). The other three open with values already written in their fields and tables, and recompute as soon as you change one.</p>
+
+  <div class="caja dato">
+    <div class="dato-cifra">10.7</div>
+    <div class="dato-txt"><div class="caja-t">Key fact</div>Joules of heat for every milligram of CO₂ the produce respires. Oxidizing one mole of hexose releases 2816 kJ and six moles of CO₂ (264 g): 10.67 J/mg. With that figure the app goes from respiration to the heat the room has to remove.</div>
+  </div>
+
+  <!-- 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>Static system</h2>
+  <p class="lead">The simplest way to measure respiration: the produce is sealed in a jar of known volume and you read how CO₂ rises—and, if you have the means, how O₂ falls and ethylene builds up—at several times. The rate comes from the slope of each gas against time.</p>
+  <p>The <span class="ui">Readings in a closed jar</span> card asks for two required columns, <span class="ui">Time (h)</span> and <span class="ui">CO₂ (%)</span>, and five optional ones: <span class="ui">O₂ (%)</span>, <span class="ui">Ethylene (µL/L)</span>, <span class="ui">Jar or replicate</span>, <span class="ui">Mass (kg)</span> and <span class="ui">Jar volume (L)</span>. With the jar column, the app computes each jar separately and then averages. Below there are five fields:</p>
+  <ul>
+    <li><span class="ui">Mass (kg), if there is no column</span> (0.65) and <span class="ui">Jar volume (L), if there is no column</span> (3.8): used only when the table does not have those columns.</li>
+    <li><span class="ui">Produce density (kg/L)</span> (1.0): to subtract from the jar the volume the produce takes up.</li>
+    <li><span class="ui">Temperature (°C)</span> (20) and <span class="ui">Pressure (kPa)</span> (101.325): for the molar volume of the gas, which converts milliliters into milligrams.</li>
+  </ul>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · From the slope to the rate</div>
+    <p>The gas that builds up in the jar fills its <b>free volume</b>, V = jar volume − mass/density. A rise of Δ % in the concentration in that volume is Δ/100·V liters of gas. So, if <i>b</i> is the CO₂ slope in % per hour and <i>m</i> the mass in kilograms:</p>
+    <div class="formula"><i>r</i><sub>CO₂</sub> (mL kg⁻¹ h⁻¹) = <i>b</i>/100 · <i>V</i> · 1000 / <i>m</i> &nbsp;·&nbsp; <i>r</i><sub>CO₂</sub> (mg kg⁻¹ h⁻¹) = <i>b</i>/100 · <i>V</i>/<i>V</i><sub>m</sub> · 44.01 · 1000 / <i>m</i></div>
+    <p>with <i>V</i><sub>m</sub> = <i>RT</i>/<i>P</i>, the molar volume of the gas at the temperature and pressure of the test (24.05 L/mol at 20 °C and 101.325 kPa). O₂ uptake is the same with the sign of the slope changed; ethylene, in µL kg⁻¹ h⁻¹, is the slope in ppm per hour times <i>V</i>/<i>m</i>. The <b>respiratory quotient</b> is RQ = CO₂ produced / O₂ consumed, by volume: close to 1 when the substrate is sugars, lower with lipids or fatty acids, and above 1.3 when fermentation begins (Fonseca et al. 2002; Kader 2002).</p>
+  </div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b4-estatico.png" alt="The Respiration rate and ethylene production card for the example avocado: six tiles, the reading, the CO2 and O2 lines of three jars and the table by jar"></div>
+    <figcaption><b>Figure 4.1.</b> The example avocado in three 3.8 L jars at 20 °C, read every 30 minutes for 2 hours. CO₂ rises and O₂ falls along a straight line in all three jars (R² from 0.9995 to 0.9998), which the legend of each plot names “jar 1,” “jar 2” and “jar 3.” The mean is 59.4 mg CO₂ kg⁻¹ h⁻¹, with an RQ of 0.93.</figcaption>
+  </figure>
+
+  <p>The results card, <span class="ui">Respiration rate and ethylene production</span>, gives six tiles: CO₂ in mg kg⁻¹ h⁻¹—the mean of the jars, with its standard error and the number of jars—and in mL kg⁻¹ h⁻¹, O₂ in mL kg⁻¹ h⁻¹, the <span class="ui">Respiratory quotient</span>, ethylene with its class, and the <span class="ui">Heat of respiration</span> in W per metric ton and in kJ per metric ton and day. Then come the reading, two plots—<span class="ui">CO₂ build-up</span> and <span class="ui">O₂ depletion</span> (or <span class="ui">Ethylene build-up</span> if there is no O₂), with the points and the line of each jar and a legend with their names—and the table by jar with the mass, the free volume, the CO₂ rate and its R², the O₂ rate, the RQ and ethylene.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · The avocado in jars</div>
+    <p>With <span class="ui">Load example</span> the app recognizes the seven columns of <code>aguacate_estatico.csv</code> (<code>tiempo_h</code>, <code>co2_pct</code>, <code>o2_pct</code>, <code>etileno_ppm</code>, <code>frasco</code>, <code>masa_kg</code> and <code>volumen_frasco_L</code>), so the mass and volume fields are not used. The three jars hold 0.657, 0.665 and 0.700 kg of fruit and have a free volume of 3.143, 3.135 and 3.100 L. They respire 54.39, 65.33 and 58.40 mg CO₂ kg⁻¹ h⁻¹: the mean is <b>59.4 ± 3.2</b> (SE, 3 jars), which is 32.5 mL kg⁻¹ h⁻¹. They take up 35.0 mL of O₂ kg⁻¹ h⁻¹, with an <b>RQ of 0.93</b>, and produce <b>0.597 µL of ethylene kg⁻¹ h⁻¹</b>, class “low.” Each metric ton releases <b>176 W</b>, or 15,196 kJ per day.</p>
+  </div>
+
+  <h3>Kader’s classes</h3>
+  <p>The app classifies ethylene with Kader’s (2002) classes, defined at 20 °C: very low below 0.1, low from 0.1 to 1, moderate from 1 to 10, high from 10 to 100 and very high above 100 µL kg⁻¹ h⁻¹. The same author’s respiration classes are defined at 5 °C; that is why the app does not assign a class to a respiration measured at another temperature, and the reading reminds you: “Kader’s (2002) classification is defined at 5 °C: compare it with a measurement at that temperature.” The example avocado, measured at 20 °C, can only be compared with other fruit at 20 °C.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>How long to keep the jar closed</div>
+    <p>The method assumes that respiration does not change while the jar is closed. That holds only while O₂ stays above about 18–19% and CO₂ below 1–2%: beyond that, the jar atmosphere starts to slow respiration and the line curves. In the example, in two hours CO₂ reaches 1.3–1.6% and O₂ falls to 19.3–19.6%, right at the limit. If any CO₂ line has R² &lt; 0.95, the reading adds: “Some CO₂ line has R² &lt; 0.95: check for leaks or outlying readings.”</p>
+  </div>
+
+  <!-- 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Flow-through</h2>
+  <p class="lead">In the flow-through system a stream of air passes through the produce chamber without stopping; once it is steady, the difference in concentration between inlet and outlet, times the flow, is what the produce respires. It is the method for measuring over days without the atmosphere changing.</p>
+  <p>The <span class="ui">Chambers with air flow</span> card is an editable table, one row per chamber, with <span class="ui">Chamber</span>, <span class="ui">Mass (kg)</span>, <span class="ui">Flow (mL/min)</span>, <span class="ui">CO₂ in (%)</span>, <span class="ui">CO₂ out (%)</span>, <span class="ui">O₂ in (%)</span>, <span class="ui">O₂ out (%)</span>, <span class="ui">Ethylene in (µL/L)</span> and <span class="ui">Ethylene out (µL/L)</span>; on a narrow screen the table scrolls sideways. A new row (<span class="ui">+ Add row</span>) comes with the inlet air already written (0.04% CO₂, 20.95% O₂ and 0 ethylene). Below, the <span class="ui">Temperature (°C)</span> (20) is used to convert milliliters into milligrams. A row without mass or without flow is not computed.</p>
+  <div class="formula"><i>r</i> (mL kg⁻¹ h⁻¹) = (<i>C</i><sub>out</sub> − <i>C</i><sub>in</sub>)/100 · <i>F</i> · 60 / <i>m</i> &nbsp;·&nbsp; ethylene (µL kg⁻¹ h⁻¹) = Δppm · <i>F</i> · 60 / 1000 / <i>m</i></div>
+  <p>with <i>F</i> in mL/min. For O₂ the difference is inlet minus outlet. The <span class="ui">Rates by chamber</span> card gives four tiles with the mean of the chambers—CO₂, O₂, RQ and ethylene—and the table by chamber, which adds CO₂ in mL and the heat in W/t and gives ethylene in the <span class="ui">Ethylene µL kg⁻¹ h⁻¹</span> column (Fonseca et al. 2002; Saltveit 2016).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b4-flujo.png" alt="The editable table of three chambers with air flow, the temperature and the Rates by chamber card with four tiles and the results table"></div>
+    <figcaption><b>Figure 4.2.</b> The three chambers written at the start: 2.0 to 2.2 kg of produce with 150 mL/min of air. The mean is 29.8 mg CO₂ kg⁻¹ h⁻¹, 17.1 mL O₂ kg⁻¹ h⁻¹, an RQ of 0.95 and 1.340 µL of ethylene kg⁻¹ h⁻¹. The table at the top continues to the right with the O₂ and ethylene columns.</figcaption>
+  </figure>
+
+  <p>With the starting values, chamber A (2.1 kg; CO₂ from 0.04 to 0.42%) respires 29.80 mg CO₂ kg⁻¹ h⁻¹, B 28.82 and C 30.69; the three release 85 to 91 W per metric ton. Chamber A produces 1.3286 µL of ethylene kg⁻¹ h⁻¹, B 1.2600 and C 1.4318.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>A difference you can measure</div>
+    <p>Choose the flow so that CO₂ rises between 0.1 and 0.5% from inlet to outlet: with less, the analyzer error weighs too much; with more, the chamber atmosphere is no longer air and respiration changes. The three starting chambers rise 0.35–0.41%.</p>
+  </div>
+
+  <!-- 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>Climacteric</h2>
+  <p class="lead">Climacteric fruit—avocado, mango, banana, tomato—show, as they ripen, a rise in respiration together with a burst of autocatalytic ethylene; non-climacteric fruit—citrus, grape, strawberry—do not. Knowing which type a fruit is decides whether it can be harvested green and ripened at destination.</p>
+  <p>The <span class="ui">Respiration and ethylene curves</span> card asks for <span class="ui">Time</span> and <span class="ui">Respiration (CO₂ per kg and hour)</span> and, optionally, <span class="ui">Ethylene (µL kg⁻¹ h⁻¹)</span>, measured on the same fruit along ripening. Below there are five fields. The first two say what units the data are in, to write them in the tiles, the reading and the plot axes:</p>
+  <ul>
+    <li><span class="ui">Time unit</span>: days or hours;</li>
+    <li><span class="ui">Respiration unit</span>: mg CO₂ kg⁻¹ h⁻¹ or mL CO₂ kg⁻¹ h⁻¹.</li>
+  </ul>
+  <p>The app proposes them from the name of the column you choose: <code>dia</code>, <code>dias</code> or <code>day</code> gives days, and <code>hora</code>, <code>hour</code> or a name ending in <code>_h</code> gives hours; a respiration name with “ml” gives mL and one with “mg,” mg. If the proposal is wrong, change it: the units do not change any calculation, only how the results are written. Ethylene is always expected in µL kg⁻¹ h⁻¹. The other three fields set the rule:</p>
+  <ul>
+    <li><span class="ui">Minimum respiratory rise (×)</span>, 1.5 by default;</li>
+    <li><span class="ui">Minimum ethylene rise (×)</span>, 10;</li>
+    <li><span class="ui">Minimum ethylene peak (µL kg⁻¹ h⁻¹)</span>, 1.</li>
+  </ul>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · Climacteric or not</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:36%"><b>Respiratory rise</b></td><td>The respiration peak, after an earlier minimum, exceeds it at least 1.5 times <b>and is not the last reading</b>.</td></tr>
+      <tr><td><b>Ethylene burst</b></td><td>The ethylene peak exceeds its earlier minimum 10 times, <b>or</b> reaches 1 µL kg⁻¹ h⁻¹.</td></tr>
+      <tr><td><b>Climacteric</b></td><td>Both; or the respiratory rise alone if there is no ethylene column.</td></tr>
+      <tr><td><b>Non-climacteric</b></td><td>Neither, with respiration falling or flat.</td></tr>
+      <tr><td><b>Uncertain</b></td><td>Any other case: for instance, respiration is still rising at the last reading, or there is a rise without a burst.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The app itself says so: “The classification follows an explicit rule (below): it is a guide, not a verdict” (Biale 1964; Lelièvre et al. 1997).</p>
+  </div>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b4-climaterio.png" alt="The Ripening pattern card for the example avocado: four tiles, the rule and the reading, and the respiration and ethylene curves with their minimum and peak marked"></div>
+    <figcaption><b>Figure 4.3.</b> The example avocado over 12 days at 20 °C. Respiration rises from 42.3 to 133.0 mg CO₂ kg⁻¹ h⁻¹ (× 3.14) with the peak on day 6; ethylene, from 0.15 to 83.22 µL kg⁻¹ h⁻¹ (× 554.8) on day 7. The vertical lines mark the minimum and the peak of each curve.</figcaption>
+  </figure>
+
+  <p>The <span class="ui">Ripening pattern</span> card gives the <span class="ui">Pattern</span>, the <span class="ui">Respiratory rise</span> with its minimum and its peak in the respiration unit, the <span class="ui">Respiration peak</span> with its time and value, and the <span class="ui">Ethylene peak</span> with its time, value and rise. The reading writes out the rule with the thresholds you set and interprets it. The two plots, <span class="ui">Respiration</span> and <span class="ui">Ethylene production</span>, label the axes with their units—<span class="ui">Time (days)</span>, <span class="ui">Respiration (mg CO₂ kg⁻¹ h⁻¹)</span> and <span class="ui">Ethylene (µL kg⁻¹ h⁻¹)</span> in the example—and mark with vertical lines the minimum and the peak the rule used.</p>
+  <p>For the example avocado, with the columns <code>dia</code> and <code>respiracion_mg</code>, the app proposes days and mg CO₂ kg⁻¹ h⁻¹. The tiles say “Respiration peak: day 6 · 133.0 mg CO₂ kg⁻¹ h⁻¹” and “Ethylene peak: day 7 · 83.22 µL kg⁻¹ h⁻¹ · × 554.8.” The pattern is <b>climacteric</b>, and the reading adds that “ethylene peaks 1 day after respiration.” After the peaks, respiration falls to 42.7 on day 10 and rises a little again at the end (54.5 on day 12), like fruit entering senescence. When ethylene peaks <i>before</i> respiration, the reading attributes it to autocatalytic production; when they coincide (less than half a unit apart), it says the peaks go together.</p>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>A series that ends too early</div>
+    <p>If respiration is still rising at the last reading, there is no way to know whether it has already reached its peak, and the app answers “uncertain”: “extend the series.” For the same reason the series must start before the rise: without an earlier minimum, the peak/minimum ratio makes no sense. Measure at least once a day, and twice a day near the peak if the fruit ripens fast.</p>
+  </div>
+
+  <!-- 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>Modified atmosphere: produce and package</h2>
+  <p class="lead">Inside a sealed bag, the produce consumes O₂ and produces CO₂ while the film lets O₂ in and CO₂ out. Over time the two flows balance and the bag reaches an equilibrium atmosphere. If that atmosphere falls within the window the produce tolerates, respiration slows down and shelf life is extended; if O₂ falls too low, the produce ferments.</p>
+  <p>The tab does not read a table: the <span class="ui">Produce and package</span> card opens with a written case—a bag of avocados—and recomputes with every change. Its fields, in three rows:</p>
+  <table class="compacta">
+    <caption><b>Table 4.1.</b> The fields of <span class="ui">Produce and package</span> and their starting values</caption>
+    <thead><tr><th style="width:2.4in">Field</th><th style="width:1in">At the start</th><th>What for</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Produce (recommended window)</span></td><td>Avocado</td><td>Fills the four window fields with Kader’s (2002) values for the crop; <span class="ui">Other (type the window)</span> lets you type them</td></tr>
+      <tr><td><span class="ui">O₂ minimum (%)</span> · <span class="ui">O₂ maximum (%)</span></td><td>2 · 5</td><td>The O₂ window</td></tr>
+      <tr><td><span class="ui">CO₂ minimum (%)</span> · <span class="ui">CO₂ maximum (%)</span></td><td>3 · 10</td><td>The CO₂ window</td></tr>
+      <tr><td><span class="ui">O₂ uptake (mL kg⁻¹ h⁻¹)</span></td><td>4</td><td>The respiration of the produce <b>at the package temperature</b></td></tr>
+      <tr><td><span class="ui">Respiratory quotient</span></td><td>0.9</td><td>The CO₂ produced for each volume of O₂</td></tr>
+      <tr><td><span class="ui">Mass per package (kg)</span></td><td>0.5</td><td>The produce inside the bag</td></tr>
+      <tr><td><span class="ui">Bag length (cm)</span> · <span class="ui">Bag width (cm)</span></td><td>30 · 25</td><td>The film area: both faces, 2 × 30 × 25 cm = 0.150 m²</td></tr>
+      <tr><td><span class="ui">Temperature (°C)</span></td><td>8</td><td>Corrects the permeability of the film</td></tr>
+      <tr><td><span class="ui">Film</span> · <span class="ui">Thickness (µm)</span></td><td>Low-density polyethylene · 40</td><td>The package being evaluated</td></tr>
+      <tr><td><span class="ui">O₂-limited respiration (Michaelis–Menten)</span>, <span class="ui">Km (% O₂)</span>, <span class="ui">CO₂ Ki (%)</span></td><td>unchecked · 2 · 15</td><td>Respiration falls with O₂ and is slowed by CO₂ (see below)</td></tr>
+    </tbody>
+  </table>
+  <p>The produce list has ten windows: avocado, mango, papaya, banana, mature-green tomato, strawberry, blueberry, sweet cherry, broccoli and apple. Choosing one changes only the four window fields; respiration, mass and package stay as you wrote them, so <b>change them too</b>.</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b4-empaque.png" alt="The Produce and package card with the starting values and the permeabilities drop-down open with nine films"></div>
+    <figcaption><b>Figure 4.4.</b> The <span class="ui">Produce and package</span> card with the starting values and the <span class="ui">Film permeabilities (editable)</span> drop-down open: nine films with their O₂ and CO₂ permeability at 23 °C and their activation energies.</figcaption>
+  </figure>
+
+  <h3>The films</h3>
+  <p>The <span class="ui">Film permeabilities (editable)</span> drop-down holds a table of nine films: low-density polyethylene, linear low-density polyethylene, high-density polyethylene, cast polypropylene, biaxially oriented polypropylene, plasticized poly(vinyl chloride), ethylene–vinyl acetate, oriented polystyrene and polyester (PET). For each one it gives <span class="ui">P O₂</span> and <span class="ui">P CO₂</span> in mL·µm m⁻² d⁻¹ atm⁻¹ at 23 °C and the activation energies <span class="ui">Eₐ O₂</span> and <span class="ui">Eₐ CO₂</span> in kJ/mol, with which the app corrects the permeability to the package temperature:</p>
+  <div class="formula"><i>P</i>(<i>T</i>) = <i>P</i>(23 °C) · exp[−<i>E</i><sub>a</sub>/<i>R</i> · (1/<i>T</i> − 1/296.15)]</div>
+  <p>At 8 °C, low-density polyethylene lets through less than half the O₂ it does at 23 °C: cold closes the film almost as much as it slows respiration. These are indicative values (Mangaraj et al. 2009): the card warns you and asks for those on your film’s data sheet. You can correct a row or add a film with <span class="ui">+ Add row</span>; the new one appears in the <span class="ui">Film</span> selector.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · O₂-limited respiration</div>
+    <p>Unchecked, the app assumes that respiration does not depend on the atmosphere: the produce consumes the same at 4% O₂ as in air. It is the conservative assumption, because it gives the lowest O₂. If you check <span class="ui">O₂-limited respiration (Michaelis–Menten)</span>, respiration follows <i>r</i> = <i>V</i><sub>m</sub>[O₂]/(<i>K</i><sub>m</sub> + [O₂](1 + [CO₂]/<i>K</i><sub>i</sub>)), with uncompetitive inhibition by CO₂ (Lee et al. 1991). The app chooses <i>V</i><sub>m</sub> so that respiration in air equals the uptake you wrote. With the starting values, the inner O₂ rises from 4.64 to 8.10% and CO₂ falls from 2.73 to 2.16%: the produce respires less and the bag keeps more O₂.</p>
+  </div>
+
+  <!-- 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>The equilibrium atmosphere and the film thickness</h2>
+  <p class="lead">At steady state, what the produce respires equals what crosses the film. From that balance come the O₂ and CO₂ of the bag, the thickness that would bring O₂ to the center of the window, and the permeability ratio needed for CO₂ to fall inside it as well.</p>
+  <div class="formula">[O₂]<sub>in</sub> = 20.95 − 100 · <i>r</i><sub>O₂</sub>·<i>W</i>·24·<i>L</i> / (<i>P</i><sub>O₂</sub>·<i>A</i>) &nbsp;·&nbsp; [CO₂]<sub>in</sub> = 0.04 + 100 · RQ·<i>r</i><sub>O₂</sub>·<i>W</i>·24·<i>L</i> / (<i>P</i><sub>CO₂</sub>·<i>A</i>)</div>
+  <p>with <i>W</i> the mass in kg, <i>L</i> the thickness in µm, <i>A</i> the area in m², and the factor 24 because respiration is per hour and permeability per day (Exama et al. 1993; Fishman et al. 1996). A key property follows: all the atmospheres a film can give, whatever the thickness, area or mass, lie on a straight line that starts at air with slope RQ/β, where <b>β = P<sub>CO₂</sub>/P<sub>O₂</sub></b> is the permeability ratio of the film. The thickness only moves the point along its line; to change lines you have to change films.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b4-atmosfera.png" alt="The Equilibrium atmosphere card with five tiles, the reading and the O2-CO2 plane with the lines of nine films, the avocado window and the point of this package"></div>
+    <figcaption><b>Figure 4.5.</b> The equilibrium atmosphere of the starting bag: 4.64% O₂ and 2.73% CO₂. O₂ falls inside the avocado window (green box, 2–5% O₂ and 3–10% CO₂), but CO₂ stays below it: the point “this package” lies on the low-density polyethylene line, one of the lowest in the plane (large β, small slope RQ/β), which passes below the box. The legend, in a column to the right of the plane, names the nine films with their β; the red band on the left is the anaerobic zone.</figcaption>
+  </figure>
+
+  <p>The <span class="ui">Equilibrium atmosphere</span> card gives five tiles: <span class="ui">O₂ inside</span> and <span class="ui">CO₂ inside</span> with their window (green inside it, amber outside and red if there is anaerobiosis), the <span class="ui">Bag area</span>, the <span class="ui">β of the film</span> with the β needed, and the <span class="ui">Thickness for</span> the target O₂—the center of the O₂ window—with the chosen film. The reading says whether the atmosphere falls inside or outside, lists the films that, at the thickness that brings them to the target O₂, also keep CO₂ inside the window, and recalls the assumptions. The <span class="ui">Possible atmospheres of each film</span> plot is the O₂–CO₂ plane with the line of each film—named, with its β, in a column legend on the right—, the window and the package point, labeled “this package” over a light halo so it reads on top of the lines; the table gives for each film its β, the thickness for the target O₂, the resulting CO₂ and whether it stays inside the window.</p>
+
+  <table class="compacta">
+    <caption><b>Table 4.2.</b> The nine films brought to 3.5% O₂, with the starting bag at 8 °C</caption>
+    <thead><tr><th>Film</th><th class="num">β</th><th class="num">Thickness (µm)</th><th class="num">CO₂ (%)</th><th>Inside the window</th></tr></thead>
+    <tbody>
+      <tr><td>Low-density polyethylene</td><td class="num">5.45</td><td class="num">43</td><td class="num">2.92</td><td>no</td></tr>
+      <tr><td>Linear low-density polyethylene</td><td class="num">4.63</td><td class="num">40</td><td class="num">3.43</td><td>yes</td></tr>
+      <tr><td>High-density polyethylene</td><td class="num">4.23</td><td class="num">13</td><td class="num">3.75</td><td>yes</td></tr>
+      <tr><td>Cast polypropylene</td><td class="num">3.19</td><td class="num">20</td><td class="num">4.97</td><td>yes</td></tr>
+      <tr><td>Biaxially oriented polypropylene</td><td class="num">4.07</td><td class="num">8.2</td><td class="num">3.90</td><td>yes</td></tr>
+      <tr><td>Plasticized poly(vinyl chloride)</td><td class="num">6.97</td><td class="num">7.4 (not practical)</td><td class="num">2.29</td><td>no</td></tr>
+      <tr><td>Ethylene–vinyl acetate</td><td class="num">4.67</td><td class="num">71</td><td class="num">3.40</td><td>yes</td></tr>
+      <tr><td>Oriented polystyrene</td><td class="num">4.01</td><td class="num">36</td><td class="num">3.95</td><td>yes</td></tr>
+      <tr><td>Polyester (PET)</td><td class="num">3.56</td><td class="num">0.4 (not practical)</td><td class="num">4.45</td><td>no</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · The avocado bag</div>
+    <p>With the starting values, 40 µm low-density polyethylene leaves the bag at <b>4.64% O₂ and 2.73% CO₂</b>: it “falls outside the window,” because CO₂ does not reach 3%. Its β is 5.45, and the β needed to land at the center of the window (3.5% O₂ and 6.5% CO₂) is <b>2.43</b>: with such a high β, CO₂ leaves the bag too fast. Bringing that same film to 3.5% O₂ takes 43 µm and leaves CO₂ at 2.92%, still outside. Six films do get there: linear low-density polyethylene at 40 µm, high-density polyethylene at 13 µm, cast polypropylene at 20 µm, biaxially oriented polypropylene at 8 µm, ethylene–vinyl acetate at 71 µm and oriented polystyrene at 36 µm. If you choose 40 µm linear low-density polyethylene in <span class="ui">Film</span>, the bag ends up at 3.55% O₂ and 3.42% CO₂, “inside the recommended window.”</p>
+  </div>
+
+  <p>A thickness outside 8–150 µm cannot be made or sealed as a bag: the table marks it “(not practical)” and the film does not count as a solution even if its CO₂ falls in the window, like PET, which would need 0.4 µm. When no film gets there, the reading says so and gives the β that would be needed, “or microperforations”: that is what happens with mango (window 3–5% O₂ and 5–8% CO₂, β needed ≈ 2.36), which with the same bag finds no film in the table.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · Reading the O₂–CO₂ plane</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>If</b> the line of a film crosses the green box…</td><td>there is a thickness of that film that brings the bag into the window: the one in the table, if it is between 8 and 150 µm.</td></tr>
+      <tr><td><b>If</b> the line passes below the box…</td><td>the film lets out too much CO₂ (β larger than needed): look for one with a smaller β.</td></tr>
+      <tr><td><b>If</b> the line passes above…</td><td>the film retains too much CO₂ (β smaller than needed): look for one with a larger β.</td></tr>
+      <tr><td><b>If</b> the inner O₂ falls below 1%…</td><td>risk of anaerobiosis (“<b>Risk of anaerobiosis</b>”): more area, less thickness, a more permeable film or less produce.</td></tr>
+      <tr><td><b>If</b> no film gets there…</td><td>the β needed is smaller than that of any unperforated film; with microperforations, which let both gases through almost equally, the β of the whole package goes down.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The app computes the steady state with an unperforated film and a perfect seal; it does not say how long the bag takes to reach it (Section I.10).</p>
+  </div>
+
+  <!-- 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>Precooling</h2>
+  <p class="lead">Removing field heat as soon as possible is the cheapest way to extend shelf life. Precooling—with forced air, water, ice or vacuum—lowers the pulp temperature following, after an initial lag, an exponential curve toward that of the medium.</p>
+  <p>The <span class="ui">Cooling curve</span> card is an editable table of <span class="ui">Time (h)</span> and <span class="ui">Pulp (°C)</span>, with the <span class="ui">Medium temperature (°C)</span> (1) and the <span class="ui">Target temperature (°C)</span> (5). It opens with a simulated forced-air curve: ten readings from 0 to 5 h that fall from 28.0 to 2.7 °C. At least three readings are needed. The app fits the exponential law to the dimensionless temperature:</p>
+  <div class="formula"><i>Y</i> = (<i>T</i> − <i>T</i><sub>m</sub>)/(<i>T</i><sub>i</sub> − <i>T</i><sub>m</sub>) = <i>j</i> · e<sup>−<i>C t</i></sup> &nbsp;·&nbsp; half cooling = ln(2<i>j</i>)/<i>C</i> &nbsp;·&nbsp; seven-eighths = ln(8<i>j</i>)/<i>C</i></div>
+  <p>by least squares on ln <i>Y</i>, with <i>T</i><sub>i</sub> the first reading. <i>C</i> is the cooling coefficient (h⁻¹) and <i>j</i> the lag factor: how long heat takes to start leaving the center of the fruit or the package; <i>j</i> = 1 means no lag (Thompson et al. 2008).</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b4-enfriamiento.png" alt="The Cooling times card with four tiles, the reading and the pulp curve with the exponential law, the medium, the target and the half and seven-eighths times"></div>
+    <figcaption><b>Figure 4.6.</b> The starting curve: half cooling in 1.33 h, seven-eighths in 3.78 h and 5 °C at 3.48 h. The horizontal lines are the medium (1 °C) and the target (5 °C); the vertical ones, the ½ and ⅞ times.</figcaption>
+  </figure>
+
+  <p>The <span class="ui">Cooling times</span> card gives the <span class="ui">Half cooling</span>, the <span class="ui">Seven-eighths</span> (“commercial reference”), the time <span class="ui">To</span> the target temperature, and <span class="ui">j · C</span> with the R² of the fit. In the starting curve, <b>j = 1.063</b> and <b>C = 0.566 h⁻¹</b> (R² 0.9991). The fitted curve starts slightly above the first reading (28.0 °C) precisely because j &gt; 1.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Why seven-eighths</div>
+    <p>At seven-eighths the pulp has already lost 7/8 of its difference with the medium: in the example, from 28 °C with air at 1 °C, it is left at about 4.4 °C. That is where commercial precooling usually ends: the last stretch, ever slower, is finished in the storage room. The half-cooling time does not depend on the initial temperature, so it is useful for comparing tunnels, packages or stacking patterns.</p>
+  </div>
+
+  <!-- 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>Refrigeration load</h2>
+  <p class="lead">The refrigeration equipment must remove, in the time available, the field heat of the produce, that of the packaging, the heat the produce generates by respiring and whatever comes in from elsewhere. The <span class="ui">Refrigeration load</span> card, on the same tab, adds it up and turns it into capacity.</p>
+  <p>Its fields, with the starting values: <span class="ui">Produce (kg)</span> 10,000, <span class="ui">Water content (%)</span> 85, <span class="ui">Initial temperature (°C)</span> 28, <span class="ui">Final temperature (°C)</span> 8, <span class="ui">Time available (h)</span> 6, <span class="ui">Respiration (mg CO₂ kg⁻¹ h⁻¹)</span> 60, <span class="ui">Packaging (kg)</span> 800, <span class="ui">Packaging specific heat (kJ kg⁻¹ K⁻¹)</span> 1.4 and <span class="ui">Other loads (%)</span> 20 (infiltration, fans, lights and people). The respiration must be that of the produce at the mean temperature of the cooling.</p>
+  <div class="formula"><i>c</i><sub>p</sub> = 0.0335·water(%) + 0.837 &nbsp;·&nbsp; <i>Q</i> = [<i>m c</i><sub>p</sub> Δ<i>T</i> + <i>m</i><sub>e</sub> <i>c</i><sub>e</sub> Δ<i>T</i> + <i>r</i>·10.67 J/mg·<i>m</i>·<i>t</i>] · (1 + other/100) &nbsp;·&nbsp; kW = <i>Q</i>/(3600 <i>t</i>)</div>
+  <p>The specific heat comes from the water content by Siebel’s (1892) formula, and the capacity is also given in tons of refrigeration (1 TR = 3.517 kW).</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b4-carga.png" alt="The Refrigeration load card with nine fields, five tiles and the reading"></div>
+    <figcaption><b>Figure 4.7.</b> Ten metric tons of produce from 28 to 8 °C in 6 h: 737 MJ of field heat, 22 MJ from the packaging and 38.4 MJ of respiration; with 20% other loads, 957 MJ, which call for 44.3 kW or 12.6 tons of refrigeration.</figcaption>
+  </figure>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · Ten metric tons in six hours</div>
+    <p>With 85% water, <i>c</i><sub>p</sub> = 3.68 kJ kg⁻¹ K⁻¹, and the field heat is 10,000 × 3.68 × 20 = <b>737 MJ</b>. The packaging adds 800 × 1.4 × 20 = 22 MJ, and respiration, 60 mg CO₂ kg⁻¹ h⁻¹ for 6 h, 38.4 MJ. With 20% other loads the total is <b>957 MJ</b>, which over 6 h is <b>44.3 kW</b> (12.6 tons of refrigeration). The reading adds that field heat is 77% of the load and that a shorter time needs proportionally more capacity: cooling the same in 3 h would take twice the equipment.</p>
+  </div>
+
+  <h3>Reading the block’s results</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:38%">What you see</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td>RQ between 0.7 and 1.3</td><td>Normal aerobic respiration; above 1.3, the app warns “possible anaerobic respiration”</td></tr>
+      <tr><td>Ethylene class high or very high</td><td>A strong producer: do not store it with sensitive produce (Section 8.6)</td></tr>
+      <tr><td>Pattern “Climacteric”</td><td>It can be harvested at physiological maturity and ripened at destination; cold and ethylene removal delay the peak</td></tr>
+      <tr><td>Inner O₂ inside and CO₂ outside the window</td><td>The film has the wrong β: changing the thickness is not enough, you have to change films</td></tr>
+      <tr><td>j much larger than 1</td><td>Heat is slow to leave the center: a poorly vented package (Section 8.2) or large fruit</td></tr>
+      <tr><td>Field heat near 80% of the load</td><td>Normal: the warm produce is nearly all the equipment has to remove</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <ul>
+      <li><b>An absurdly high or low rate in the static system.</b> Check the units: CO₂ and O₂ in %, ethylene in µL/L (ppm), time in <b>hours</b> (not minutes) and mass in kg. If CO₂ is in ppm, divide it by 10,000.</li>
+      <li><b>The jars are not separated.</b> Choose the column in <span class="ui">Jar or replicate</span>; without it, all the readings are taken as a single jar and the line mixes different jars.</li>
+      <li><b>“Uncertain” in the climacteric.</b> Respiration is still rising at the last reading, there is no minimum before the peak, or there is a rise without an ethylene burst: extend the series or review the thresholds.</li>
+      <li><b>The atmosphere does not change when you choose another produce.</b> The produce only changes the window; respiration, mass and bag stay as you wrote them. Respiration must be that of the produce at the package temperature.</li>
+      <li><b>“Risk of anaerobiosis.”</b> The inner O₂ fell below 1%: less thickness, more area, a more permeable film or less produce per bag.</li>
+      <li><b>The cooling times do not appear.</b> At least three readings with time and temperature are needed, all above the medium temperature: a reading equal to or below the medium does not enter the fit.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>
