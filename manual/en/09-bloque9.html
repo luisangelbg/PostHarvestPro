@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-9" data-pestana="9" data-orden="9" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">9</div>
+    <div class="cap-etiqueta">Chapter nine · Block 9</div>
+    <h1 data-corto="Report and project">Report and project</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">What you computed in Blocks 2 to 8, ready to leave the app: a single-file report, with figures, tables, interpretation, handling recommendations, methods, references and citation, which opens in any browser and prints to PDF; the figures, one by one, from the figure studio; and the project, a small file with which the work opens again exactly as you left it. The block computes nothing new: it gathers what is already on screen.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k5"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>9.1</b>Report details and sections</li>
+      <li><b>9.2</b>Generate, download and print</li>
+      <li><b>9.3</b>What the report contains</li>
+      <li><b>9.4</b>Handling recommendations</li>
+      <li><b>9.5</b>The figures, the studio and the editor</li>
+      <li><b>9.6</b>Saving and opening the project</li>
+      <li><b>9.7</b>How to cite PostHarvestPro</li>
+    </ul>
+  </div>
+
+  <p>The block subtitle says what it does: <span class="ui">Everything you computed, in a document to share; and your work, in a file to continue later</span>. It has no tabs, but four cards, one below the other: <span class="ui">The report</span>, <span class="ui">Handling recommendations</span>, <span class="ui">Project</span> and <span class="ui">How to cite PostHarvestPro</span>.</p>
+
+  <!-- 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>Report details and sections</h2>
+  <p class="lead">Every analysis you run in Blocks 2 to 8 leaves a section ready for the report. The <span class="ui">The report</span> card lets you write the cover, choose which sections go in and generate the document.</p>
+  <p>Its hint sums it up: <span class="ui">It gathers the sections the blocks left, with their charts (SVG, in the light-theme colors), tables, interpretation, handling recommendations, methods and references. It is a single HTML file that opens in any browser and prints to PDF.</span> The cover fields are:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.2in">Field</th><th>What goes in and where it appears</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Title</span></td><td>The title of the report and of the browser tab; it opens with <span class="ui">Ensayo de poscosecha</span></td></tr>
+      <tr><td><span class="ui">Author or person in charge</span></td><td>Appears on the cover as <b>Prepared by</b>; if you leave it empty, it does not appear</td></tr>
+      <tr><td><span class="ui">Produce or crop</span></td><td>Appears as <b>Produce</b>; it is also left out if empty</td></tr>
+      <tr><td><span class="ui">Date</span></td><td>Opens with today’s date, in year-month-day form; you can type another</td></tr>
+      <tr><td><span class="ui">Summary or notes of the trial (optional)</span></td><td>A free paragraph that opens the <b>Summary</b> section, before the table of contents</td></tr>
+    </tbody>
+  </table>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b9-informe.png" alt="The The report card with the title Shelf life of the example mango, the cover fields, six ticked sections, nine unticked ones under the label of the example values, and the Generate the report, Download HTML and Print or save PDF buttons"></div>
+    <figcaption><b>Figure 9.1.</b> <span class="ui">The report</span> after opening five examples (the mango in <span class="ui">Quality summary</span> and in <span class="ui">Kinetic models</span>, the avocado jars, the tomato chain and the coffee hedonic test). At the top, ticked, the six sections used: those of these five analyses and <span class="ui">Improvement what-if</span>, which was redone with the new chain. Below, unticked, the nine that only have the values their tools open with. The two buttons on the right stay disabled until the report is generated.</figcaption>
+  </figure>
+  <p><span class="ui">Available sections</span> lists one check box per section, with its name and its block (<span class="ui">· Block 2</span>…), in block order. There are up to 27, one for each analysis that leaves results:</p>
+  <table class="compacta">
+    <caption><b>Table 9.1.</b> The 27 possible sections of the report</caption>
+    <thead><tr><th style="width:0.55in">Block</th><th>Sections</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td><span class="ui">Quality summary</span>, <span class="ui">Color</span>, <span class="ui">Ripeness or damage scale</span>, <span class="ui">Size grades</span></td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><span class="ui">Deterioration kinetics</span>, <span class="ui">Temperature dependence</span>, <span class="ui">Accelerated test</span>, <span class="ui">Time to rejection</span></td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><span class="ui">Respiration (static system)</span>, <span class="ui">Respiration (flow-through)</span>, <span class="ui">Climacteric</span>, <span class="ui">Modified atmosphere</span>, <span class="ui">Precooling and heat load</span></td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><span class="ui">Losses along the chain</span>, <span class="ui">Improvement what-if</span>, <span class="ui">Mechanical damage</span></td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><span class="ui">Discrimination tests</span>, <span class="ui">Hedonic test</span>, <span class="ui">Just-about-right and penalties</span>, <span class="ui">CATA</span>, <span class="ui">Descriptive profile</span></td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><span class="ui">Factorial trial</span>, <span class="ui">Repeated measures</span>, <span class="ui">Comparison of slopes</span></td></tr>
+      <tr><td><span class="chip k8">8</span></td><td><span class="ui">Pallet and container load</span>, <span class="ui">Store environment</span>, <span class="ui">Storage compatibility</span></td></tr>
+    </tbody>
+  </table>
+  <p>The list has two parts. At the top, <b>ticked</b>, the sections you used: those of the tools where you loaded data, edited a table or changed a setting. Below, <b>unticked</b> and under the label <span class="ui">With the example values the tool opens with (you have not used them; tick them if you want them in):</span>, those that only have the starting values. The tools that open with typed values compute from the moment the app opens and therefore leave their section without your touching them: <span class="ui">Temperature dependence</span>, <span class="ui">Accelerated test</span>, <span class="ui">Respiration (flow-through)</span>, <span class="ui">Modified atmosphere</span>, <span class="ui">Precooling and heat load</span>, <span class="ui">Losses along the chain</span>, <span class="ui">Improvement what-if</span>, <span class="ui">Discrimination tests</span> and the three of Block 8, eleven in all. When the app opens, they are all at the bottom and the top says <span class="ui">No sections yet: run some analysis in Blocks 2 to 8.</span>; as soon as you work in one of those tools, its section moves up and is ticked by itself.</p>
+  <p>You can tick or untick any of them: the report carries exactly the ticked ones, and the app remembers your choice even if the list is rebuilt when another analysis runs. The one-off calculators—acidity, moisture, firmness and weight loss in Block 2, venting, cost and units in Block 8—leave no section.</p>
+
+  <!-- 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>Generate, download and print</h2>
+  <p>Below the sections there are three buttons, and one last step remains before sharing:</p>
+  <ol class="pasos">
+    <li><b><span class="ui">Generate the report</span>.</b> Assembles the document with the ticked sections and shows it in a preview inside the same card; a notice confirms <span class="ui">Report ready.</span> If you ticked none, the app says so: <span class="ui">Pick at least one section (or run some analysis).</span> If you later change something in another block, press it again: the preview does not update by itself.</li>
+    <li><b><span class="ui">⤓ Download HTML</span>.</b> Saves the report as <code>postharvestpro_report.html</code>. It is a single file, with the figures inside as SVG, that opens offline in any browser and can be sent by email.</li>
+    <li><b><span class="ui">Print or save PDF</span>.</b> Opens the browser’s print dialog on the preview. For a PDF, choose <b>Save as PDF</b> as the destination.</li>
+    <li><b>Check before sharing.</b> The report comes out in the language of the interface at the moment it is generated; change the language with <span class="ui">ES</span> · <span class="ui">EN</span> and generate it again if you need it in Spanish. The figures are written with the light-theme colors even if you work in the dark one, and the report’s style sheet has print margins and avoids splitting a figure across two pages.</li>
+  </ol>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b9-vista.png" alt="The report preview: the cover with the title Shelf life of the example mango, the produce, the date and the logo, the summary with the contents of two sections and the beginning of the first"></div>
+    <figcaption><b>Figure 9.2.</b> The preview after <span class="ui">Generate the report</span>, with the example mango in <span class="ui">Quality summary</span> and <span class="ui">Kinetic models</span>: the cover, the contents with those two sections—the only ones used—and the beginning of the first. The download and print buttons are now enabled.</figcaption>
+  </figure>
+
+
+  <!-- 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>What the report contains</h2>
+  <p>The document always has the same structure:</p>
+  <table class="compacta">
+    <caption><b>Table 9.2.</b> The parts of the report</caption>
+    <thead><tr><th style="width:1.7in">Part</th><th>Content</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cover</b></td><td><b>Postharvest report</b>, the title, the produce, the person in charge and the date, the app logo and the line <b>Generated with PostHarvestPro 1.0.0 · LABG Suite</b></td></tr>
+      <tr><td><b>Summary</b></td><td>Your notes, if you wrote any, and the contents of the sections with links</td></tr>
+      <tr><td><b>The sections</b></td><td>Numbered, one for each ticked box, with what its tool left: figures, tables and reading. For instance, <b>Quality summary</b> has the number of observations, the figure variable, the figure of its course, the reading and the table by group and time</td></tr>
+      <tr><td><b>Postharvest handling recommendations</b></td><td>Those of Section 9.4, with the warning that they come from rules and must be checked against knowledge of the crop and the market</td></tr>
+      <tr><td><b>Methods and references</b></td><td>A note that everything was computed in the browser with methods validated against independent implementations; the methods of <b>the blocks of the ticked sections</b>, with their abbreviated sources (the same as in Section 1.5); and the complete list of those works</td></tr>
+      <tr><td><b>How to cite</b></td><td>The reference and the BibTeX entry of the program (Section 9.7)</td></tr>
+      <tr><td><b>Footer</b></td><td>Program, version, author, license and address</td></tr>
+    </tbody>
+  </table>
+  <p>References are chosen by block, not by section: if you include only <span class="ui">Quality summary</span>, the report lists the six methods of Block 2 and their works, even if you did not use the scales or the size grades.</p>
+
+  <!-- 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>Handling recommendations</h2>
+  <p class="lead">The second card turns the results into practical recommendations: <span class="ui">They come from the results of the sections ticked above, through explicit rules; check them with your own judgment before using them.</span> They are redone every time a block changes a result or you tick or untick a section, and they are the same ones that go into the report.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b9-recomendaciones.png" alt="Seven handling recommendations generated with the app’s eighteen examples loaded and the mango’s k values taken to Temperature"></div>
+    <figcaption><b>Figure 9.3.</b> <span class="ui">Handling recommendations</span> after opening the app’s eighteen examples and taking the mango’s k values to <span class="ui">Temperature</span> with <span class="ui">Take the k values to the temperature analysis →</span>. The tools that were not touched (modified atmosphere, store environment, compatibility) give no recommendation.</figcaption>
+  </figure>
+  <p>Each recommendation comes from a fixed rule applied to the result of a section, and it is only written if that section is ticked (the one about boxes, which leaves no section, if you worked in <span class="ruta">Block 8<span class="sep">›</span>Box venting</span>). The table says which; the last column gives what the app writes with the examples loaded.</p>
+  <table class="compacta">
+    <caption><b>Table 9.3.</b> The rules of the recommendations</caption>
+    <thead><tr><th style="width:1.95in">It is written if…</th><th>What it recommends, with the examples</th></tr></thead>
+    <tbody>
+      <tr><td>The kinetic models of Block 3 give a life to the limit</td><td>The life of each group—<span class="ui">13: 25.9; 20: 10.4; 25: 6.3</span>—and scheduling sales before then, with a margin for distribution</td></tr>
+      <tr><td><span class="ui">Temperature</span> (Block 3) has an Eₐ</td><td>How much each extra degree shortens life, computed from 10 to 11 °C: <span class="ui">With Eₐ ≈ 84 kJ/mol, … about 12%</span>, with the mango’s k values taken from the kinetic models; an unbroken cold chain is the most profitable measure</td></tr>
+      <tr><td><span class="ui">Climacteric</span> (Block 4) classifies the produce as climacteric</td><td>Harvest at physiological maturity, cool early and keep away from ethylene until controlled ripening</td></tr>
+      <tr><td>The static system (Block 4) gives more than 40 mg CO₂ kg⁻¹ h⁻¹</td><td>Size precooling and refrigeration with the heat of respiration (the example avocado respires 59.4)</td></tr>
+      <tr><td>There is a modified-atmosphere calculation (Block 4)</td><td>If it reaches the window, verify with real readings; if not, change film, thickness, area or mass (with the starting values it does not reach it, but its section does not go in until you use it or tick it)</td></tr>
+      <tr><td>There is a loss chain (Block 5)</td><td>Invest in the stage that loses most value: <span class="ui">«Venta al menudeo» … (36.5% of the total)</span> with the tomato chain</td></tr>
+      <tr><td>Mechanical damage (Block 5) has the incidence curve</td><td>Keep drops below the height that bruises 10% of the fruit, with its value and its unit, and pad the transfer points: <span class="ui">Keep drops on the packing line and when loading below 15.3 cm, the height that bruises 10% of the fruit (a drop of 26.9 cm bruises 50%); pad the transfer points.</span> If even the lowest drops of the trial bruise more than 10%, it asks for padding and for avoiding any free fall</td></tr>
+      <tr><td>The hedonic test (Block 6) has a preferred product</td><td>Highlight it (<span class="ui">«Altura lavado»</span>) and use the penalties to adjust the others</td></tr>
+      <tr><td>The store environment (Block 8) gives more than 2% water loss per week</td><td>Raise the relative humidity, lower the product temperature or use a package that slows transpiration</td></tr>
+      <tr><td>The boxes (Block 8) have less than 5% open area on any face</td><td>Forced-air cooling will be slow</td></tr>
+      <tr><td>Compatibility (Block 8) finds incompatible pairs</td><td>Separate the products by temperature or by ethylene</td></tr>
+    </tbody>
+  </table>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>The activation energy comes from the Temperature tab</div>
+    <p>The cold-chain recommendation uses the Eₐ of <span class="ruta">Block 3<span class="sep">›</span>Temperature</span>, which opens with the k values of the example mango fit. Its section goes in when you use it: the most direct way is to press <span class="ui">Take the k values to the temperature analysis →</span> in <span class="ruta">Block 3<span class="sep">›</span>Kinetic models</span> (Chapter 3), which copies the k values of your own fit.</p>
+  </div>
+  <p>With no sections ticked—for instance, when the app opens—, the card says <span class="ui">There are no results yet to draw recommendations from.</span>; in the report, if no ticked section yields a recommendation, the recommendations part reads <b>No automatic recommendations for these sections.</b></p>
+
+  <!-- 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>The figures, the studio and the editor</h2>
+  <p class="lead">The figures of the report are the same as those of the app. If you need them separately—for a thesis, an article or a presentation—, each one is downloaded from its box, and polished in the figure studio or in its editor.</p>
+  <p>In the corner of each figure there are two quick downloads: <span class="ui">Download SVG</span>, a vector that can be edited in any drawing program, and <span class="ui">Download PNG at 300 ppi</span>, an image 170 mm wide—that of a journal page—with its resolution written into the file. Both use the light-theme colors. Many figures also have <span class="ui">Figure data (CSV)</span>, with the numbers that were drawn. When you hover over the figure two more buttons appear: <span class="ui">✎</span> (<span class="ui">Edit this figure: titles, axes, series, legend, texts and annotations</span>) and the one with the pencil and ruler (<span class="ui">Open in the figure studio: split screen to edit and export</span>). The <code>Ctrl + K</code> search also finds figures by their title and opens them in the studio.</p>
+
+  <figure class="w80">
+    <div class="marco"><img src="../img/en/b9-estudio.png" alt="The figure studio with the firmness curve of the mango at three temperatures, the outline of its output size and the inspector on the right with the figure settings and fine editing"></div>
+    <figcaption><b>Figure 9.4.</b> The firmness kinetics of the example mango (<span class="ruta">Block 3<span class="sep">›</span>Kinetic models</span>) in the figure studio. Below the figure, its output size: 85 × 49.4 mm at 600 dpi, 2008 × 1166 pixels; the dotted line at the top marks the one-and-a-half-column width of a journal (114 mm).</figcaption>
+  </figure>
+  <p>The studio is shared by the whole suite. It puts the figure on the left, to scale, and the inspector on the right. The top bar undoes and redoes, compares before and now, zooms in and out (<span class="ui">Fit</span> sizes it to the screen), shows a ruler, applies one-click <span class="ui">Presets</span> and exports with <span class="ui">Export</span>; other buttons arrange the inspector and <span class="ui">Close studio</span> goes back to the app. The inspector begins with <span class="ui">Search a control…</span> and has these sections:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.15in">Section</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Figure settings</span></td><td>The controls the figure has in its block. In <span class="ui">Data and options of the section</span>, here, the <span class="ui">CSV</span> and <span class="ui">XLSX</span> downloads of the card’s two tables and <span class="ui">Take the k values to the temperature analysis →</span>; in <span class="ui">Download (the app’s own)</span>, the three buttons from the figure’s corner with their names: <span class="ui">SVG</span>, <span class="ui">PNG at 300 ppi</span> and <span class="ui">Data (CSV)</span></td></tr>
+      <tr><td><span class="ui">Fine editing of this figure (the app’s ✎)</span></td><td>The figure editor, docked and headed with its full title (<span class="ui">Kinetics of firmeza_N</span>), with its tabs <span class="ui">General</span>, <span class="ui">Axes &amp; grid</span>, <span class="ui">Series</span>, <span class="ui">Legend</span>, <span class="ui">Texts</span> and <span class="ui">Annotations</span>: title, subtitle and footnote inside the figure, font, text size, line width, point size, background and frame</td></tr>
+      <tr><td><span class="ui">Palette and color</span></td><td>Replaces the series colors with a palette (<span class="ui">LABG gold and black</span>, <span class="ui">Okabe and Ito</span>, <span class="ui">Viridis (ordered)</span>, <span class="ui">Grays</span>…) and simulates how a person with color blindness sees it (on screen only)</td></tr>
+      <tr><td><span class="ui">Text and lines</span>, <span class="ui">Legend</span></td><td>Studio settings for the texts and the legend; in the app’s figures, the legend is arranged from the editor’s <span class="ui">Legend</span> tab</td></tr>
+      <tr><td><span class="ui">Size and export</span></td><td><span class="ui">Format</span> PNG, SVG, PDF or TIFF; <span class="ui">Width</span> 85, 114 or 180 mm (or in inches); <span class="ui">Resolution</span> 300, 600 or 1200 dpi; <span class="ui">Background</span> white, as shown or transparent. It warns if the text is too small for a journal</td></tr>
+      <tr><td><span class="ui">Presets</span>, <span class="ui">History</span></td><td>Ready-made combinations of size and style, and the list of the changes made</td></tr>
+    </tbody>
+  </table>
+  <p>The studio’s footer recalls the shortcuts: <span class="ui">Click the figure: its section · Double-click a text: change it · Ctrl + wheel: zoom · B: before and now · ?: shortcuts</span>. Changes in the studio and the editor only affect how the figure looks, never the data or the computations.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Text size when exporting</div>
+    <p>An app figure reduced to 85 mm leaves text of about 4 pt, and the studio warns about it (<span class="ui">journals usually ask for 6 to 8 pt</span>). Before exporting for a journal, raise the text size in the editor or use a preset.</p>
+  </div>
+
+  <!-- 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>Saving and opening the project</h2>
+  <p>The app does not keep your data from one session to the next: every time you open it, it starts empty. The <span class="ui">Project</span> card solves that: <span class="ui">Saves into a JSON file the tables you loaded, the columns you chose, the edited tables and the settings. When you open it, the app recomputes everything. The file stays on your computer.</span></p>
+  <ul>
+    <li><b><span class="ui">⤓ Save project</span></b> downloads <code>postharvestpro_project_</code><i>date</i><code>.json</code> with the tables of every tool that read data (with the role of each column), all the editable tables (scales, size grades, chain, films, products…), the value of every field and every selector in Blocks 2 to 8, the language, the report cover details and which sections you used and which ones you ticked or unticked.</li>
+    <li><b><span class="ui">Open project…</span></b> reads that file, puts each value back in its place, runs all the analyses again and leaves the same sections ticked as when it was saved. When it finishes it says how much it restored: <span class="ui">Project opened: …</span> data tables, edited tables and settings. If the file is not from the app, it warns: <span class="ui">The file is not valid JSON.</span> or <span class="ui">The file is not a PostHarvestPro project.</span></li>
+  </ul>
+  <p>There is no keyboard shortcut for saving: it is done with the button. The project does not save the figures or the report, which are redone when it is opened. If you had already worked when you close the tab, the app warns you that you will lose what you did not save.</p>
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✓</span>One project per trial</div>
+    <p>Save one project per trial or per lot, with the date in the name. It is a small text file that can be sent by email: whoever opens it in their own copy of PostHarvestPro sees exactly your results and can review every decision, from the chosen columns to the limits of the size grades.</p>
+  </div>
+
+  <!-- 9.7 -->
+  <h2 id="s9-7"><span class="num">9.7</span>How to cite PostHarvestPro</h2>
+  <p>The last card repeats the citation of the home page (Section 1.8), without copy buttons: the reference in the language of the interface and the BibTeX entry.</p>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser</i> (Version 1.0.0) [Computer software]. https://luisangelbg.github.io/PostHarvestPro/</div>
+  <p>The BibTeX entry has the key <code>barreraguzman2026postharvestpro</code>, the English title, the version, the year, the license <code>GPL-3.0-or-later</code> and the address. The citation does not yet have a DOI; it will be added when the program is published with one. Also cite the method of each result, given by its <span class="ui">Method and source:</span> line and by the <b>Methods and references</b> section of the report.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule: what to take out of the app</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>If</b> you are going to deliver a report to a grower or a client</td><td><b>then</b> generate the report with your sections only, review the recommendations and save it as PDF.</td></tr>
+      <tr><td><b>If</b> a figure is going into a thesis or a journal</td><td><b>then</b> export it from the studio: PDF or SVG if it will be edited, PNG or TIFF at 600 dpi if an image is requested, with the text at 6–8 pt.</td></tr>
+      <tr><td><b>If</b> you need the numbers in a spreadsheet</td><td><b>then</b> use the <span class="ui">⤓ CSV</span> or <span class="ui">⤓ XLSX</span> buttons of each table, or <span class="ui">Figure data (CSV)</span>.</td></tr>
+      <tr><td><b>If</b> you are going to continue another day or share the analysis</td><td><b>then</b> save the project.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The report and the project stay on your computer; nothing is sent to any server.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <p><b>A section I expected is missing from the report.</b> It is in the lower part of the list, unticked: either you did not use it (it only has the tool’s starting values) or you unticked it; tick it and generate again. <b>A recommendation is missing.</b> Its section is not ticked (Section 9.4). <b>The report does not show a recent change.</b> The preview is a snapshot of the moment: press <span class="ui">Generate the report</span> again. <b>The download and print buttons are disabled.</b> They are enabled after the report is generated. <b>The project does not open.</b> The file is not a PostHarvestPro project or it was damaged when edited by hand; open it with a text editor and check that it contains the line <code>"app": "PostHarvestPro"</code>. <b>A table is missing when a project is opened.</b> If the tool changed version, some column or setting may not match; load that table again and save a new project.</p>
+  </div>
+</section>
+
+</body>
+</html>

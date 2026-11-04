@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-2" data-pestana="2" data-orden="2" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">2</div>
+    <div class="cap-etiqueta">Chapter two · Block 2</div>
+    <h1 data-corto="Quality and maturity">Quality and maturity</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Measuring is the first step of any postharvest work: how much the fruit has softened, how much sugar and how much acidity it has, what color it is, how much damage it shows and how large it is. Block 2 summarizes those measurements by lot and by time, converts and compares colors in CIELAB, solves the everyday laboratory calculations and turns damage scales and size grades into indices and percentages. Its results are read on their own or passed on to Block 3, which models their rate, and to Block 7, which decides whether the differences are real.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k2"></span><span class="k3"></span><span class="k7"></span></div>
+    <ul class="cap-contenido">
+      <li><b>2.1</b>The data input of every tool</li>
+      <li><b>2.2</b>Quality summary</li>
+      <li><b>2.3</b>Color: converter and indices</li>
+      <li><b>2.4</b>Difference between two colors and the color of your data</li>
+      <li><b>2.5</b>Acidity, moisture, firmness and weight loss</li>
+      <li><b>2.6</b>Ripeness and damage scales</li>
+      <li><b>2.7</b>Size grades</li>
+    </ul>
+  </div>
+
+  <p>The block title sums it up in one line: <span class="ui">Quality indices, CIELAB color, laboratory calculators, scales and size grades</span>. Its five tabs are <span class="ui">Quality summary</span>, <span class="ui">Color</span>, <span class="ui">Acidity, moisture and firmness</span>, <span class="ui">Ripeness and damage scales</span> and <span class="ui">Size grades</span>. Three of them read a table and the other two are filled in by typing; all of them are recomputed as soon as you change a value. The thread of this chapter is the example mango: 72 simulated fruit, four per temperature and day, stored at 13, 20 and 25 °C.</p>
+
+  <!-- 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>The data input of every tool</h2>
+  <p class="lead">All the tools of the app that analyze a table—from the quality summary to the trials of Block 7—receive the data in the same box. It is explained here once; the other chapters only say which roles each tool asks for.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b2-entrada.png" alt="The Trial data card with the example mango loaded: the example strip, the buttons to open or paste a table, the eight roles with their columns and the See the data link">
+      <span class="marca" style="left:3.7%;top:26.2%">1</span>
+      <span class="marca" style="left:68.1%;top:27.5%">2</span>
+      <span class="marca" style="left:80.9%;top:27.5%">3</span>
+      <span class="marca" style="left:2.4%;top:40.8%">4</span>
+      <span class="marca" style="left:27.1%;top:40.8%">5</span>
+      <span class="marca" style="left:39%;top:40.8%">6</span>
+      <span class="marca" style="left:2.2%;top:53.2%">7</span>
+      <span class="marca" style="left:2.2%;top:78.6%">8</span>
+      <span class="marca" style="left:2.2%;top:92.1%">9</span>
+    </div>
+    <figcaption><b>Figure 2.1.</b> <span class="ruta">Block 2<span class="sep">›</span>Quality summary<span class="sep">›</span>Trial data</span> with the example mango loaded. The numbers refer to the list below.</figcaption>
+  </figure>
+  <ul class="leyenda-marcas">
+    <li><span class="n">1</span><b>The example strip.</b> The name of the data set, the <span class="ui">SIMULATED</span> tag and its description. It is always there, even if you do not load it: it shows the layout of a table the tool understands.</li>
+    <li><span class="n">2</span><b>Load example.</b> Loads the data set and runs the analysis. It is what the <span class="ui">Open in …</span> buttons of the home page press for you.</li>
+    <li><span class="n">3</span><b>⤓ Example CSV.</b> Downloads the example table; it serves as a template for yours.</li>
+    <li><span class="n">4</span><b>Open file (CSV, TXT, XLSX, ODS).</b> Reads a file from your computer: CSV, TSV or TXT separated by comma, semicolon or tab, or an XLSX, XLSM or ODS workbook. If the workbook has several sheets, a selector appears on the right to choose which one to read.</li>
+    <li><span class="n">5</span><b>Paste a table.</b> Opens a box where you paste the cells copied from a spreadsheet, with the column names in the first row, and read them with <span class="ui">Use the pasted table</span>.</li>
+    <li><span class="n">6</span><b>…or drop the file here.</b> Drag the file from your file explorer and drop it on the dashed box.</li>
+    <li><span class="n">7</span><b>The roles.</b> One list for each piece of data the tool needs, with all the columns of the table. The app proposes the matching one by its name; you confirm it or change it. Roles marked <span class="ui">(optional)</span> can be left at <span class="ui">— none —</span>.</li>
+    <li><span class="n">8</span><b>A role with several columns.</b> Some tools ask for several columns for the same role, with one check box per column; here, <span class="ui">Attributes to summarize</span>.</li>
+    <li><span class="n">9</span><b>See the data (72 × 13).</b> Expands the table that was read, with its number of rows and columns, so that you can check it was read correctly (it shows the first 200 rows).</li>
+  </ul>
+  <p>When a table is loaded, the analysis runs by itself, and runs again every time you change a column. If a required role is missing, the app does not compute and says so below the buttons: <span class="ui">Choose the column for: …</span>, with the name of the role. Other messages in the same place are <span class="ui">The table has no rows with data.</span> and <span class="ui">Could not analyze: …</span>, followed by the cause.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Always in long format</div>
+    <p>One row per observed unit—a fruit, a jar, a consumer with a product—and one column per variable. The example mango has one row per fruit with its <code>temperatura</code>, its <code>dia</code> and its attributes; not one column per day. Empty cells, <code>NA</code> or <code>—</code> are taken as missing.</p>
+  </div>
+
+  <h3>What the results have in common</h3>
+  <p>Below the data, every tool shows its results with the same pieces, which the rest of the manual only names:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Piece</th><th>What it is and what you do with it</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tiles</b></td><td>The numbers that matter, in boxes with their label and a line of detail. A tile with a colored border calls attention: amber for a warning or the worst case, green for the best</td></tr>
+      <tr><td><b>Reading</b></td><td>A cream box with a green border that says in words what the numbers mean for the product</td></tr>
+      <tr><td><b>Figures</b></td><td>Each in its own box with a title. In its corner, <span class="ui">Download SVG</span> (arrow), <span class="ui">Download PNG at 300 ppi</span> (picture) and, if the figure has one, <span class="ui">Figure data (CSV)</span> (grid). When you hover over it, <span class="ui">✎</span>, the figure editor, and the figure studio button also appear; in the studio the same downloads appear with their names: <span class="ui">SVG</span>, <span class="ui">PNG at 300 ppi</span> and <span class="ui">Data (CSV)</span> (Chapter 9, Section 9.5)</td></tr>
+      <tr><td><b>Tables</b></td><td>With the <span class="ui">⤓ CSV</span> and <span class="ui">⤓ XLSX</span> buttons below them, to take them to a spreadsheet</td></tr>
+      <tr><td><b>Method and source:</b></td><td>The last line: the method that was applied and the works that define it, with author and year (Appendix F gives the full reference)</td></tr>
+    </tbody>
+  </table>
+  <p>Every analysis you run also leaves its section in the report of Block 9 (Chapter 9), with its figures, its table and its reading.</p>
+
+  <!-- 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>Quality summary</h2>
+  <p class="lead">The first tab summarizes any set of quality attributes by group and by time: the mean with its dispersion, the course of one variable and the change between the first and the last sampling. It is the table that goes into any trial report, before modeling or comparing.</p>
+  <p>The <span class="ui">Trial data</span> card asks for one row per fruit or per sample. All its roles are optional: <span class="ui">Group</span> (temperature, treatment, lot), <span class="ui">Time</span>, <span class="ui">Soluble solids (°Brix)</span>, <span class="ui">Titratable acidity (%)</span>, <span class="ui">L*</span>, <span class="ui">a*</span>, <span class="ui">b*</span> and <span class="ui">Attributes to summarize</span>. With soluble solids and acidity, the app computes SSC/TA and BrimA for each fruit; with L*, a* and b*, chroma, hue, the citrus color index and the browning index (Section 2.3). Those computed variables are added to the attributes you tick.</p>
+  <p>With the mango, the app proposes <code>temperatura</code> as group, <code>dia</code> as time, <code>sst</code>, <code>at</code>, <code>L</code>, <code>a</code> and <code>b</code> in their roles and, as attributes, the numeric columns left free except those that identify the unit (<code>fruto</code>): <code>peso_inicial_g</code>, <code>firmeza_N</code>, <code>ph</code>, <code>perdida_peso</code> and <code>antracnosis</code>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b2-calidad.png" alt="The Summary by group and time card with the example mango: the Show and Variable of the figure selectors, four tiles, the reading and the course of firmness at 13, 20 and 25 °C"></div>
+    <figcaption><b>Figure 2.2.</b> <span class="ui">Summary by group and time</span> with the example mango. Firmness falls at all three temperatures, faster the warmer it is; at 20 and 25 °C the trial ends on day 12, at 13 °C on day 21. The table, which follows below the figure, is not shown.</figcaption>
+  </figure>
+  <p>Above the results there are two controls. <span class="ui">Show</span> chooses what goes with the mean in the table: <span class="ui">mean ± SD</span> (the default), <span class="ui">mean ± SE</span> or <span class="ui">mean and 95% CI</span>, which writes the interval in square brackets. <span class="ui">Variable of the figure</span> chooses which variable is drawn; it opens with <code>firmeza_N</code> if there is one.</p>
+  <ul>
+    <li><b>Tiles.</b> <span class="ui">Observations</span> 72; <span class="ui">Groups</span> 3 (<code>temperatura</code>); <span class="ui">Times</span> 8 (<code>dia</code>: the distinct values of the whole table); <span class="ui">Variables</span> 11, with the note <span class="ui">includes the computed ones</span>: the five ticked plus SSC/TA, BrimA, chroma, hue and the two color indices.</li>
+    <li><b>Reading.</b> The change of the figure variable between the first and the last time of each group, as a value and as a percentage: at 13 °C firmness went from 115.8 to 31.95 N between days 0 and 21 (−72.4%); at 20 °C, from 129.4 to 21.70 N between 0 and 12 (−83.2%); at 25 °C, from 121.5 to 4.75 N between 0 and 12 (−96.1%). It ends by pointing out the group that changed fastest, here 25, and refers to Block 7 to find out whether the differences are real and to Block 3 to model their rate.</li>
+    <li><b>Figure.</b> <span class="ui">Course of firmeza_N</span>: the mean of each group at each time with standard-error bars (<span class="ui">Mean ± standard error.</span>). If you choose no time, the figure is a bar chart, one bar per group.</li>
+    <li><b>Table.</b> One row per group and time—18 for the mango: eight times at 13 °C and five at 20 and at 25 °C—with its <span class="ui">n</span> and one column per variable. For instance, at 13 °C on day 0: firmness 115.8 ± 9.79 N, SSC/TA 7.39 ± 0.512 and hue 109.2 ± 1.42°; on day 21, SSC/TA 54.12 ± 8.59 and hue 79.77 ± 2.01°.</li>
+  </ul>
+  <p>The <span class="ui">Method and source:</span> line reads <span class="ui">Titratable acidity by titration (AOAC 942.15) · BrimA: Jordan et al. 2001 · Color: CIE 2018; McGuire 1992 · CCI: Jiménez-Cuesta et al. 1981 · BI: Palou et al. 1999</span>: the last two are the sources of the color indices the summary computes.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief: SSC/TA and BrimA</div>
+    <p>As it ripens, the fruit accumulates sugars and consumes acids: soluble solids (SSC, in °Brix) rise and titratable acidity (TA, in % of the dominant acid) falls. Their ratio sums up taste, but it exaggerates when acidity is very low. BrimA corrects it by subtracting acidity with more weight, because the tongue perceives it more strongly than sugar (Jordan et al. 2001):</p>
+    <div class="formula">SSC/TA = SSC ∕ TA &nbsp;&nbsp;&nbsp;&nbsp; BrimA = SSC − 2·TA</div>
+    <p>In the example mango at 13 °C, SSC/TA goes from 7.39 to 54.12 in 21 days: the fruit has become much sweeter to the palate.</p>
+  </div>
+
+  <!-- 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>Color: converter and indices</h2>
+  <p class="lead">The <span class="ui">Color</span> tab has three cards. The first, <span class="ui">Color converter</span>, translates a color between its three notations and computes the indices used in the postharvest literature.</p>
+  <p>Its hint says: <span class="ui">Type the color in any of its forms: L*a*b* (D65 illuminant, 2° observer), RGB from 0 to 255 or its hexadecimal code. The others update and the swatch appears.</span> The fields are <span class="ui">L*</span>, <span class="ui">a*</span>, <span class="ui">b*</span>, <span class="ui">R</span>, <span class="ui">G</span>, <span class="ui">B</span>, <span class="ui">Hexadecimal</span> and <span class="ui">Pick</span>, which opens the system color picker. It opens with L* 62, a* 8 and b* 48, the yellow of a ripe mango.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b2-conversor.png" alt="The color converter with L* 62, a* 8, b* 48: the code BA8F3E, the swatch, eight index tiles and the reading of the hue"></div>
+    <figcaption><b>Figure 2.3.</b> The <span class="ui">Color converter</span> with its starting values: the color is <code>#BA8F3E</code> (R 186, G 143, B 62), inside the gamut of an sRGB screen.</figcaption>
+  </figure>
+  <p>Below the fields, the swatch of the color with its code and its coordinates, and a note: <span class="ui">inside the gamut of an sRGB screen</span> or, if the color cannot be displayed, <span class="ui">outside the sRGB gamut: shown is the nearest with the same L* and h°</span>. The eight tiles with the starting values are:</p>
+  <table class="compacta">
+    <caption><b>Table 2.1.</b> The converter indices for L* 62, a* 8, b* 48</caption>
+    <thead><tr><th style="width:1.9in">Tile</th><th class="num" style="width:0.7in">Value</th><th>Formula and source</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Croma C*</span></td><td class="num">48.66</td><td>C* = √(a*² + b*²): the intensity of the color (McGuire 1992)</td></tr>
+      <tr><td><span class="ui">Hue h°</span></td><td class="num">80.5°</td><td>h° = atan2(b*, a*), from 0 to 360°; with its reading, <span class="ui">yellow</span></td></tr>
+      <tr><td><span class="ui">a*/b*</span></td><td class="num">0.167</td><td>From negative (green) to positive (red); widely used in tomato and mango</td></tr>
+      <tr><td><span class="ui">Citrus color index (CCI)</span></td><td class="num">2.69</td><td>CCI = 1000·a* ∕ (L*·b*): negative green, near 0 at color break, positive orange (Jiménez-Cuesta et al. 1981)</td></tr>
+      <tr><td><span class="ui">Browning (BI)</span></td><td class="num">138.8</td><td>BI = 100(x − 0.31) ∕ 0.17, with x = (a* + 1.75L*) ∕ (5.645L* + a* − 3.012b*) (Palou et al. 1999)</td></tr>
+      <tr><td><span class="ui">Whiteness (WI)</span></td><td class="num">38.3</td><td>WI = 100 − √((100 − L*)² + a*² + b*²), the form used for fresh-cut products (Judd and Wyszecki 1975)</td></tr>
+      <tr><td><span class="ui">Yellowness (YI)</span></td><td class="num">110.6</td><td>YI = 142.86·b* ∕ L* (Francis and Clydesdale 1975)</td></tr>
+      <tr><td><span class="ui">Tomato color index (TCI)</span></td><td class="num">5.3</td><td>TCI = 2000·a* ∕ (L*·C*) (Hobson et al. 1983)</td></tr>
+    </tbody>
+  </table>
+  <p>The reading puts the hue into words: <span class="ui">A hue of 80.5° reads as yellow in fruit that turn from green to yellow, orange or red; each crop has its own scale.</span> The words come from fixed cuts of the angle: <b>green</b> from 105°, <b>green-yellow</b> from 85 to 105°, <b>yellow</b> from 70 to 85°, <b>orange</b> from 50 to 70°, <b>red-orange</b> from 25 to 50° and <b>red</b> below. They are a general guide, not the scale of your crop. The reading adds the chroma (<span class="ui">Chroma (48.7) says how intense the color is, and L* how light.</span>), and the method line gives the source of each tile: <span class="ui">CIE 2018 (CIELAB, D65) · C*, h°: McGuire 1992 · CCI: Jiménez-Cuesta et al. 1981 · BI: Palou et al. 1999 · WI: Judd and Wyszecki 1975 · YI: Francis and Clydesdale 1975 · TCI: Hobson et al. 1983</span>.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Why C* and h° and not a* and b* on their own</div>
+    <p>The same change in a* means different things depending on the sign of b*, and averaging angles or ratios of colors from different quadrants misleads. Chroma and hue separate what the eye distinguishes—how intense and what color—and can be compared between fruit (McGuire 1992). The converter works with the D65 illuminant and the 2° observer; if your colorimeter uses another illuminant, its L*a*b* are not directly comparable.</p>
+  </div>
+
+  <!-- 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>Difference between two colors and the color of your data</h2>
+  <h3>Difference between two colors</h3>
+  <p>The second card measures how distinguishable two colors are. Its hint says <span class="ui">Color 1 is the reference (for instance, the initial one or that of a control).</span> The fields are <span class="ui">L* 1</span>, <span class="ui">a* 1</span>, <span class="ui">b* 1</span>, <span class="ui">L* 2</span>, <span class="ui">a* 2</span> and <span class="ui">b* 2</span>; they open with the green of a freshly harvested mango (64, −11, 36) and a ripe yellow (67, 9, 52). The <span class="ui">Use the converter color as color 2</span> button copies the color from the previous card.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b2-diferencia.png" alt="The Difference between two colors card with its starting values: the two swatches, seven tiles, the color bar and the reading"></div>
+    <figcaption><b>Figure 2.4.</b> <span class="ui">Difference between two colors</span> with the starting values. The bar at the bottom runs from green (no difference) to red; its marker is at the end because ΔE00 exceeds 8.</figcaption>
+  </figure>
+  <p>The tiles give the three difference formulas and their components: <span class="ui">ΔE*ab (1976)</span> 25.79, <span class="ui">ΔE94</span> 14.66 and <span class="ui">ΔE00 (CIEDE2000)</span> 15.45, the latter with its reading (<span class="ui">perceived as different colors</span>) and highlighted when it reaches 3.5; and <span class="ui">ΔL*</span> 3.00, <span class="ui">ΔC*</span> 15.13 and <span class="ui">Δh°</span> −26.8°, the difference in hue angle (color 2 is 26.8° less green). The reading puts it in one sentence—<span class="ui">With ΔE00 = 15.45 the difference is so large that they are seen as different colors</span>—, gives the guide thresholds and recommends reporting ΔE00. In that sentence, the two highest grades are written <span class="ui">clear</span> and <span class="ui">so large that they are seen as different colors</span>; in the tile, as in the table below.</p>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule: is the color difference noticed?</div>
+    <table class="compacta">
+      <thead><tr><th style="width:1.2in">ΔE00</th><th>What the app says</th></tr></thead>
+      <tbody>
+        <tr><td>below 1</td><td><span class="ui">not perceptible</span></td></tr>
+        <tr><td>from 1 to 2</td><td><span class="ui">perceptible only to a trained observer</span></td></tr>
+        <tr><td>from 2 to 3.5</td><td><span class="ui">perceptible to any observer</span></td></tr>
+        <tr><td>from 3.5 to 5</td><td><span class="ui">clear difference</span></td></tr>
+        <tr><td>5 or more</td><td><span class="ui">perceived as different colors</span></td></tr>
+      </tbody>
+    </table>
+    <p class="regla-pie">Guide thresholds of Mokrzycki and Tatol (2011). ΔE00 corrects the distortions of ΔE*ab in blues, grays and highly saturated colors: in the example, ΔE*ab overstates the difference by more than 10 units.</p>
+  </div>
+
+  <h3>The color of your data</h3>
+  <p>The third card reads a table with L*, a* and b* per fruit: <span class="ui">L*, a* and b* columns, with group and time: the mean color of each group at each time, its ΔE00 from the group's initial color and the course of hue.</span> It asks for <span class="ui">L*</span>, <span class="ui">a*</span> and <span class="ui">b*</span> (required) and <span class="ui">Group</span> and <span class="ui">Time</span> (optional). Its <span class="ui">Load example</span> loads the mango.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b2-color-datos.png" alt="The mean color of the example mango by temperature and day as a strip of colors, the ΔE00 color change from the start and the hue angle over time"></div>
+    <figcaption><b>Figure 2.5.</b> <span class="ui">The color of your data</span> with the example mango: the strip of mean colors (top), the color change from day 0, with the 3.5 line <span class="ui">noticed by anyone</span> (left), and the hue angle (right).</figcaption>
+  </figure>
+  <p>The app averages L*, a* and b* of the fruit of each group and time, converts that mean into a screen color and computes its chroma, its hue and its ΔE00 with respect to the first time of the same group. The three figures are <span class="ui">Mean color of each group at each time</span> (<span class="ui">Each cell is the mean of L*, a* and b* converted to sRGB.</span>), <span class="ui">Color change from the start (ΔE00)</span> and <span class="ui">Hue angle</span>; below them comes the table with L*, a*, b*, C*, h°, ΔE00 and a <span class="ui">Swatch</span> of the color with its code.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example: the mango changes color</div>
+    <p>At 13 °C the mean hue of the mango falls from 109.2° on day 0 to 79.8° on day 21—from green to yellow—and its ΔE00 reaches 16.96. At 25 °C the change is faster and larger: the hue reaches 71.9° and ΔE00 21.81 on day 12. At all three temperatures the difference from the initial color is already perceptible to anyone (ΔE00 &gt; 3.5) from day 3: 3.96 at 13 °C, 6.70 at 20 °C and 10.52 at 25 °C.</p>
+  </div>
+  <p>The method line cites <span class="ui">CIE 2018 (CIELAB, D65) · ΔE00: Sharma et al. 2005 · C*, h°: McGuire 1992</span>.</p>
+
+  <!-- 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>Acidity, moisture, firmness and weight loss</h2>
+  <p class="lead">The <span class="ui">Acidity, moisture and firmness</span> tab brings together four laboratory calculators that read no tables: you type the readings and the result appears at once. They open with example values typed in.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b2-calculadoras.png" alt="The four calculators: titratable acidity, moisture and dry matter, firmness and weight loss, with their starting values and their results"></div>
+    <figcaption><b>Figure 2.6.</b> The four calculators with their starting values.</figcaption>
+  </figure>
+
+  <h3>Titratable acidity</h3>
+  <p>For a titration with NaOH to pH 8.1 or to the phenolphthalein end point. The fields are <span class="ui">NaOH used (mL)</span> 8.2, <span class="ui">NaOH normality</span> 0.1, <span class="ui">Sample (g or mL)</span> 10, <span class="ui">Made-up volume (mL)</span> and <span class="ui">Aliquot (mL)</span>—empty: only if you diluted the sample and took part of it—, <span class="ui">Dominant acid</span> (<span class="ui">citric</span>, <span class="ui">malic</span>, <span class="ui">tartaric</span>, <span class="ui">oxalic</span>, <span class="ui">lactic</span> or <span class="ui">acetic</span>) and <span class="ui">Soluble solids (°Brix)</span> 14.5.</p>
+  <div class="formula">TA (%) = V<sub>NaOH</sub> · N · meq · (made-up volume ∕ aliquot) · 100 ∕ sample</div>
+  <p>The milliequivalent is that of the chosen acid: 0.064 for citric (citrus, mango, papaya, tomato, strawberry, pineapple), 0.067 for malic (apple, pear, peach, plum, banana), 0.075 for tartaric (grape, tamarind), 0.045 for oxalic, 0.090 for lactic and 0.060 for acetic. With the starting values, acidity is <b>0.525%</b> <span class="ui">as citric</span>, SSC/TA <b>27.6</b> (<span class="ui">maturity index</span>) and BrimA <b>13.45</b>. Below, the same acidity <span class="ui">Expressed as other acids</span>: malic 0.549%, tartaric 0.615%, oxalic 0.369%, lactic 0.738% and acetic 0.492%.</p>
+
+  <h3>Moisture and dry matter</h3>
+  <p>With the three weighings of the dish (<span class="ui">Weights of the empty dish, with the fresh sample and after drying to constant weight.</span>): <span class="ui">Empty dish (g)</span> 32.415, <span class="ui">Dish + fresh (g)</span> 37.418 and <span class="ui">Dish + dry (g)</span> 33.212. They give <span class="ui">Moisture (wet basis)</span> 84.07%, <span class="ui">Dry matter</span> 15.93% and <span class="ui">Moisture (dry basis)</span> 527.7%, that is, grams of water per 100 g of dry matter.</p>
+
+  <h3>Firmness</h3>
+  <p>Converts a penetrometer reading: <span class="ui">Reading</span> 12.5, <span class="ui">Unit</span> (N, kgf, lbf or gf; it opens at kgf) and <span class="ui">Plunger diameter (mm)</span> 8. It gives the force in N (122.58), kgf (12.500) and lbf (27.558), and the <span class="ui">Pressure</span> on the plunger area, 2438.7 kPa. Pressure lets you compare readings taken with different plungers; force does not.</p>
+
+  <h3>Weight loss</h3>
+  <p><span class="ui">Initial weight (g)</span> 312.4, <span class="ui">Current weight (g)</span> 298.7 and <span class="ui">Days elapsed</span> 9 give a <span class="ui">Weight loss</span> of 4.39%, computed on the initial weight, and 0.487% per day. When the loss reaches 5%, the tile turns amber and warns that it is <span class="ui">near the limit at which many fruit shrivel</span>.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>The calculators leave no section in the report</div>
+    <p>They are one-off laboratory calculations: their results do not pass on to Block 9. If you want the weight loss or the acidity of a whole trial in the report, put them as columns of your table and analyze them in <span class="ui">Quality summary</span> or in Block 7.</p>
+  </div>
+
+  <!-- 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>Ripeness and damage scales</h2>
+  <p class="lead">Many attributes are rated by eye on a scale of classes: the ripeness stage from the skin color, the severity of a spot, the progress of a rot. The <span class="ui">Ripeness and damage scales</span> tab turns those ratings into a weighted index, the incidence and the percentage of marketable fruit of each lot.</p>
+  <p>The <span class="ui">The scale</span> card has an editable table with the <span class="ui">Value</span> and the <span class="ui">Description</span> of each class (<span class="ui">Each class with its value (0 = sound, or the first grade) and its description. Edit it or pick a template.</span>). It opens with the <span class="ui">Damage 0–4</span> template—<span class="ui">Sound</span>, <span class="ui">Slight (&lt; 5% of the surface)</span>, <span class="ui">Moderate (5–15%)</span>, <span class="ui">Severe (15–30%)</span> and <span class="ui">Very severe (&gt; 30%)</span>—; the other two are <span class="ui">Ripeness 1–5</span> (from <span class="ui">Mature green</span> to <span class="ui">Overripe</span>) and <span class="ui">Decay 0–3</span> (from <span class="ui">No decay</span> to <span class="ui">Rotten fruit</span>). <span class="ui">+ Add row</span> and <span class="ui">×</span> add or remove classes. Below, <span class="ui">Market tolerance (highest class accepted)</span> chooses the highest class that still sells; it opens at the second class, here class 1.</p>
+  <p>The <span class="ui">The data</span> card accepts two inputs. The first is a table with <span class="ui">Class of each fruit</span> (required) and <span class="ui">Group</span> and <span class="ui">Time</span> (optional); each combination of group and time is a lot. The second, in the <span class="ui">…or type counts by lot</span> panel, are counts typed by hand, one lot per line—for instance <code>Lot A: 50, 20, 15, 10, 5</code>—, which are read with <span class="ui">Use the counts</span>. If any rating matches no class of the scale, a warning says how many were left out of the count.</p>
+
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b2-escalas.png" alt="Scale indices with the anthracnose of the example mango: four tiles, the reading, the distribution by class of the 18 lots and the weighted index over time by temperature"></div>
+    <figcaption><b>Figure 2.7.</b> <span class="ui">Scale indices</span> with the anthracnose of the example mango (scale <span class="ui">Damage 0–4</span>, tolerance at class 1). Each lot is one temperature on one day. The table, below the figures, is not shown.</figcaption>
+  </figure>
+  <p>With the mango, the app takes <code>antracnosis</code> as the class, <code>temperatura</code> as group and <code>dia</code> as time: 18 lots of four fruit. The tiles read <span class="ui">Lots or groups</span> 18, <span class="ui">Units rated</span> 72, <span class="ui">Highest index</span> 50.0 (<span class="ui">25 · dia 12</span>, in amber) and <span class="ui">Most marketable</span> 100.0% (the first lot to reach it, <span class="ui">13 · dia 0</span>, in green). The reading starts with the range of the index for the chosen scale—<span class="ui">The weighted index (McKinney 1923) runs from 0 (everything in the lowest class, 0) to 100 (everything in the highest, 4).</span>—and adds that, with the tolerance at class 1, marketable fruit runs from 50.0% to 100.0%. The figures are <span class="ui">Distribution by class</span>, one stacked bar per lot, and, when there are group and time, <span class="ui">Weighted index over time</span>, one line per group. The table gives for each lot its N, the percentage in each class, the <span class="ui">Index</span>, the <span class="ui">Mean grade</span>, the <span class="ui">Incidence</span> and the <span class="ui">Marketable</span> percentage.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief: the McKinney index</div>
+    <p>The weighted index weights each fruit by its class and expresses it as a percentage of the maximum possible damage (McKinney 1923):</p>
+    <div class="formula">Index = 100 · Σ(class · n) ∕ (N · maximum class)</div>
+    <p>The mean grade is Σ(class · n) ∕ N; the incidence, the percentage of units above the lowest class; and the marketable fruit, the percentage at the tolerance class or below. In the 25 °C lot on day 12, two fruit in class 1 and two in class 3 give 100 · (2·1 + 2·3) ∕ (4 · 4) = 50.0, an incidence of 100% and 50% marketable.</p>
+  </div>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>With scales that start at 1</div>
+    <p>The formula divides by the maximum class, so the index only falls to 0 on scales that start at 0, like those for damage and decay. With <span class="ui">Ripeness 1–5</span>, a whole lot in class 1 gives 20, and the reading says so: <span class="ui">runs from 20 (everything in the lowest class, 1) to 100 (everything in the highest, 5)</span>. Compare indices only between lots rated with the same scale.</p>
+  </div>
+  <p>The method line is <span class="ui">Weighted index: McKinney 1923</span>. The analysis is redone with the same data—the table or the typed counts—as soon as you choose another template, edit a class or change the tolerance.</p>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The scale must match your ratings</div>
+    <p>If you apply <span class="ui">Ripeness 1–5</span> to the anthracnose of the mango, rated from 0 to 4, two warnings appear: <span class="ui">46 grades match no class of the scale and are not counted.</span> and <span class="ui">6 lots have no grade within the classes of the scale and are left out: 13 · dia 0, 13 · dia 9, 13 · dia 21, 20 · dia 0, 20 · dia 3, 25 · dia 0.</span> The result is left with 12 lots and 26 units, the highest index is 40.0 (<span class="ui">25 · dia 9</span>) and marketable fruit runs from 0.0% to 100.0%. Choose or type the scale you rated with. Two other warnings in the same place: <span class="ui">The class column has no number at all.</span> and, if you delete every class, <span class="ui">The scale needs at least one class with its value.</span></p>
+  </div>
+
+  <!-- 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>Size grades</h2>
+  <p class="lead">The last tab sorts the fruit by size: how many fall in each grade, which one is the most frequent and how many are left outside the classes.</p>
+  <p>The <span class="ui">The classes</span> card has an editable table with <span class="ui">Grade</span>, <span class="ui">Minimum</span> and <span class="ui">Maximum</span>: <span class="ui">Each grade with its minimum (included) and maximum (excluded, except in the last class), in the unit of your data. The templates are orientative: use those of your standard.</span> There are three templates:</p>
+  <table class="compacta">
+    <caption><b>Table 2.2.</b> The size-grade templates</caption>
+    <thead><tr><th style="width:1.75in">Template</th><th>Classes</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">By weight (g)</span></td><td><span class="ui">Small</span> 0–200, <span class="ui">Medium</span> 200–280, <span class="ui">Large</span> 280–360 and <span class="ui">Extra large</span> 360–600 g (the starting one)</td></tr>
+      <tr><td><span class="ui">Fruit per 4 kg box</span></td><td><span class="ui">Count 8</span> to <span class="ui">Count 20</span>: count k corresponds to fruit of about 4000 ∕ k g, and the limits are the midpoints between neighboring counts (Count 14: 268–310 g)</td></tr>
+      <tr><td><span class="ui">By diameter (mm)</span></td><td><span class="ui">&lt; 57 mm</span>, <span class="ui">57–67 mm</span>, <span class="ui">67–77 mm</span>, <span class="ui">77–87 mm</span> and <span class="ui">&gt; 87 mm</span></td></tr>
+    </tbody>
+  </table>
+  <p>The <span class="ui">The fruit</span> card asks for <span class="ui">Weight or diameter of each fruit</span> and, optionally, a <span class="ui">Group</span> (lot, variety, origin). With the mango, the app takes <code>peso_inicial_g</code>.</p>
+
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b2-calibres.png" alt="Distribution by grade of the initial weight of the example mango: four tiles, the reading, the bars of the four grades and the table"></div>
+    <figcaption><b>Figure 2.8.</b> <span class="ui">Distribution by grade</span> of the initial weight of the 72 mangoes of the example, with the <span class="ui">By weight (g)</span> template.</figcaption>
+  </figure>
+  <p>The tiles read <span class="ui">Fruit</span> 72, <span class="ui">Mean</span> 298.9 g (SD 36.8), <span class="ui">Most frequent grade</span> <span class="ui">Large</span> and <span class="ui">Outside the classes</span> 0. The reading distributes the fruit: <span class="ui">Large</span> 59.7%, <span class="ui">Medium</span> 36.1%, <span class="ui">Extra large</span> 4.2% and <span class="ui">Small</span> 0.0%. With the <span class="ui">Fruit per 4 kg box</span> template, the most frequent grade is <span class="ui">Count 14</span> (44.4%), followed by <span class="ui">Count 12</span> (36.1%). If you choose a group, the figure shows one series of bars per group and the table one row per group. The method line recalls that the classes are editable and the templates a guide only (Kader 2002).</p>
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The classes must be in the unit of your data</div>
+    <p>If you sort weights with the <span class="ui">By diameter (mm)</span> template, all 72 mangoes fall outside the classes: the <span class="ui">Outside the classes</span> tile reads 72 and asks you to <span class="ui">check the limits</span>, the most-frequent-grade tile is left at <span class="ui">—</span>, there is no figure and, instead of the reading, a warning explains the mismatch: <span class="ui">No fruit falls inside the classes: the data run from 230 to 369 and the classes from 0 to 150. Check the limits and the unit (weight or diameter).</span> If only some fruit fall outside, the reading ends with their percentage (<span class="ui">· outside the classes …</span>).</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule: which Block 2 tool to use</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>If</b> you have attributes measured in several lots and times</td><td><b>then</b> <span class="ui">Quality summary</span>; afterward, Block 3 for their rate and Block 7 to compare.</td></tr>
+      <tr><td><b>If</b> you have L*a*b* readings per fruit</td><td><b>then</b> <span class="ui">The color of your data</span>, and report C*, h° and ΔE00, not a* and b* on their own.</td></tr>
+      <tr><td><b>If</b> ΔE00 between two treatments is less than 2</td><td><b>then</b> the consumer will hardly notice the color difference, even if it is statistically significant.</td></tr>
+      <tr><td><b>If</b> you rated by eye with classes</td><td><b>then</b> <span class="ui">Ripeness and damage scales</span>, with the tolerance of your market.</td></tr>
+      <tr><td><b>If</b> weight loss exceeds 5%</td><td><b>then</b> check the humidity of the store and the package (Block 8).</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The thresholds are a guide only; the standard of your product and your market prevails.</p>
+  </div>
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <p><b>The summary has one row per fruit instead of per time.</b> The time column is at <span class="ui">— none —</span> or the group points to the fruit column; check the roles. <b>Identification columns appear among the variables.</b> Untick their box in <span class="ui">Attributes to summarize</span>. <b>The colors look odd.</b> Check that L*, a* and b* are not swapped (L* runs from 0 to 100) and that your colorimeter uses D65 and 2°. <b>Acidity comes out ten times larger.</b> You diluted the sample and did not type the made-up volume and the aliquot, or the other way around. <b>Lots are missing from the scale indices.</b> Their ratings do not match the class values (for instance, 1.5 on an integer scale, or a 1-to-5 scale with ratings from 0 to 4); the warnings in <span class="ui">The data</span> say how many ratings were discarded and which lots were left out. <b>All the fruit fall outside the size grades.</b> The classes are in another unit or overlap; the warning gives the range of your data and that of the classes: correct the minimums and maximums.</p>
+  </div>
+</section>
+
+</body>
+</html>

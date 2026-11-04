@@ -100,7 +100,7 @@ s += `
     s += logo(x - 39, 362, 78, hex);
     s += `<text x="${x}" y="468" text-anchor="middle" font-family="Jost" font-size="9.5" fill="${PB.gris}">${L('día', 'day')} ${d} · ${hex.toUpperCase()}</text>`;
   });
-  s += `<text x="${W / 2}" y="357" text-anchor="middle" font-family="Jost" font-weight="500" font-size="8.5" letter-spacing="2" fill="${PB.oro}">${L('EL COLOR MEDIDO DEL MANGO A 20 °C', 'THE MEASURED COLOUR OF THE MANGO AT 20 °C')}</text>`;
+  s += `<text x="${W / 2}" y="357" text-anchor="middle" font-family="Jost" font-weight="500" font-size="8.5" letter-spacing="2" fill="${PB.oro}">${L('EL COLOR MEDIDO DEL MANGO A 20 °C', 'THE MEASURED COLOR OF THE MANGO AT 20 °C')}</text>`;
 }
 
 /* ---------------- the shelf-life chart ---------------- */
@@ -186,7 +186,7 @@ const vin = (x, titulo, gg) => `<g transform="translate(${x} 872)"><rect width="
     });
   });
   gg += `<text x="88" y="92" text-anchor="middle" font-family="Jost" font-size="6.8" fill="${PB.gris}">${L('L*a*b* medio por día de muestreo', 'mean L*a*b* by sampling day')}</text>`;
-  s += vin(544, L('EL COLOR', 'COLOUR'), gg);
+  s += vin(544, L('EL COLOR', 'COLOR'), gg);
 }
 
 /* ---------------- footer ---------------- */
@@ -205,7 +205,7 @@ const html = `<!doctype html>
 </head>
 <body>
 <section class="page cover" aria-label="${L('Portada', 'Cover')}">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${L('Portada del manual de PostHarvestPro: cinco mangos con el color medido del ejemplo simulado a 20 °C, la firmeza de los mangos a 13, 20 y 25 °C con sus curvas de primer orden y el límite de aceptación, y tres viñetas (Arrhenius, el rechazo del chayote y el color por día)', 'Cover of the PostHarvestPro manual: five mangoes with the measured colour of the simulated example at 20 °C, the firmness of the mangoes at 13, 20 and 25 °C with their first-order curves and the acceptance limit, and three vignettes (Arrhenius, rejection of the chayote and colour by day)')}">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${L('Portada del manual de PostHarvestPro: cinco mangos con el color medido del ejemplo simulado a 20 °C, la firmeza de los mangos a 13, 20 y 25 °C con sus curvas de primer orden y el límite de aceptación, y tres viñetas (Arrhenius, el rechazo del chayote y el color por día)', 'Cover of the PostHarvestPro manual: five mangoes with the measured color of the simulated example at 20 °C, the firmness of the mangoes at 13, 20 and 25 °C with their first-order curves and the acceptance limit, and three vignettes (Arrhenius, rejection of the chayote and color by day)')}">
 ${s}
 </svg>
 </section>
