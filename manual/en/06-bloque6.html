@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Chapter 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-6" data-pestana="6" data-orden="6" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">6</div>
+    <div class="cap-etiqueta">Chapter six · Block 6</div>
+    <h1 data-corto="Sensory evaluation">Sensory evaluation</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A postharvest treatment is only worth it if the consumer does not punish it. The block answers the four questions of a tasting: can the judges tell the difference, and how large is it? Which product is liked best? Which attribute takes liking away, and in which direction? How does a trained panel describe each product? And, before all that, how many judges are needed and in what order to serve the samples.</p>
+    <div class="cap-franja"><span class="k6"></span><span class="k6"></span><span class="k6"></span><span class="k7"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>6.1</b>Discrimination tests and d′</li>
+      <li><b>6.2</b>Planning: judges and power</li>
+      <li><b>6.3</b>A–not A and paired preference</li>
+      <li><b>6.4</b>Hedonic</li>
+      <li><b>6.5</b>Just-about-right and penalties</li>
+      <li><b>6.6</b>CATA</li>
+      <li><b>6.7</b>Descriptive profile</li>
+      <li><b>6.8</b>Panel performance</li>
+      <li><b>6.9</b>Ballots</li>
+    </ul>
+  </div>
+
+  <p>Under its title, the app sums up the block: “Discrimination, affective and descriptive tests, with the design of the tastings.” One line below, it refers you to <b>SensorialPro</b>, of the same suite, for advanced tests, panels and preference maps, and notes that that app opens the CSV files exported here without changes. The tools are in six tabs: <span class="ui">Discrimination</span>, <span class="ui">Hedonic</span>, <span class="ui">Just-about-right</span>, <span class="ui">CATA</span>, <span class="ui">Descriptive profile</span> and <span class="ui">Ballots</span>.</p>
+  <p>The examples are three <b>simulated</b> coffee tables: <code>cafe_discriminativas.csv</code> (three tests between the “Altura lavado” (washed high-grown) coffee and the “Honey” one), <code>cafe_consumidores.csv</code> (80 consumers who rate four coffees—Altura lavado, Natural, Honey and Comercial (commercial)—on the hedonic scale, three just-about-right scales and ten CATA terms; the same table feeds the <span class="ui">Hedonic</span>, <span class="ui">Just-about-right</span> and <span class="ui">CATA</span> tabs) and <code>cafe_descriptivo.csv</code> (a panel of eight judges). The data are in Spanish, so the products, attributes and terms keep their Spanish names in the app and in this chapter. The data entry and what the results have in common—tiles, reading, figures with SVG, PNG and ✎, tables with <span class="ui">⤓ CSV</span> and <span class="ui">⤓ XLSX</span>, and the <span class="ui">Method and source:</span> line—are explained in Section 2.1.</p>
+
+  <!-- 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>Discrimination tests and d′</h2>
+  <p class="lead">A discrimination test asks whether the judges can tell two samples apart: the coffee with and without a treatment, the fruit from two atmospheres. The app does not stop at the p-value: it turns the correct answers into the <b>Thurstonian d′</b>, which tells <i>how large</i> the difference is on a scale common to every method.</p>
+
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b6-discriminativas.png" alt="The Test results card with the three rows of the example coffee, the Load example button and the Confidence and Statistic selectors"></div>
+    <figcaption><b>Figure 6.1.</b> <span class="ruta">Block 6<span class="sep">›</span>Discrimination</span> with the example loaded: the editable table of the three tests, the <span class="ui">Confidence</span> and the <span class="ui">Statistic</span>. On the right, the <span class="ui">pd₀ (similarity)</span> column, used only by similarity tests.</figcaption>
+  </figure>
+
+  <h3>The table of tests</h3>
+  <p>The <span class="ui">Test results</span> card does not read a file: it is an editable table, one row per test, which already opens with a starting row (“Test 1”, triangle, 21 of 42). <span class="ui">Load example</span> replaces it with the three coffee tests; <span class="ui">+ Add row</span> adds another and <span class="ui">×</span> removes it. Every change recomputes.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Column</th><th>What you write</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Test</span></td><td>A free name (“Altura lavado vs Honey”).</td></tr>
+      <tr><td><span class="ui">Method</span></td><td><span class="ui">Triangle</span>, <span class="ui">Duo-trio</span>, <span class="ui">2-AFC (two alternatives)</span>, <span class="ui">3-AFC (three alternatives)</span> or <span class="ui">Tetrad</span>.</td></tr>
+      <tr><td><span class="ui">Correct</span> · <span class="ui">Total</span></td><td>The correct answers and the number of answers (judges), integers, with 0 ≤ correct ≤ total.</td></tr>
+      <tr><td><span class="ui">Kind</span></td><td><span class="ui">Difference</span> (can they be told apart?) or <span class="ui">Similarity</span> (is the proportion of discriminators below pd₀?).</td></tr>
+      <tr><td><span class="ui">pd₀ (similarity)</span></td><td>For similarity only: the largest proportion of discriminators you consider negligible; 0.2 by default. Difference tests do not use it.</td></tr>
+    </tbody>
+  </table>
+  <p>Below, <span class="ui">Confidence</span> (90, 95 or 99%; 95% by default) sets the level of the intervals and also the α of the test (α = 1 − confidence). <span class="ui">Statistic</span> chooses the test: <span class="ui">Exact binomial</span> (the default, with the Clopper–Pearson interval), <span class="ui">Likelihood ratio</span> (with the profile likelihood interval), <span class="ui">Score</span> (Wilson’s, with continuity correction) or <span class="ui">Wald</span>. With few judges, stay with the exact one.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · pc, pd and d′</div>
+    <p>Each method has a probability of being right by <b>guessing</b>, p<sub>g</sub>: 1/3 in the triangle, the 3-AFC and the tetrad, and 1/2 in the duo-trio and the 2-AFC. The proportion correct, <b>pc</b>, mixes those who notice the difference with those who guess; the proportion of <b>discriminators</b> separates them: pd = (pc − p<sub>g</sub>) / (1 − p<sub>g</sub>). But pd depends on the method: the same difference produces more correct answers in a 3-AFC, which asks “which one is more acidic?”, than in a triangle, which asks “which one is different?”. The Thurstonian model assumes that each sample produces a normal sensation and measures the distance between the two in standard deviations: that is <b>d′</b>. Each method has its psychometric function, pc = f(d′), and the app inverts it. That is why d′ can be compared across methods: 21 correct out of 42 is d′ = 1.47 in a triangle and only d′ = 1.02 in a tetrad.</p>
+  </div>
+
+  <h3>Difference and its size (d′)</h3>
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b6-diferencia.png" alt="The Difference and its size card with the reading of the three tests and the table of pc, pd, d′, its interval and p"></div>
+    <figcaption><b>Figure 6.2.</b> <span class="ui">Difference and its size (d′)</span> with the example: the triangle, 21 of 42 correct, gives d′ = 1.47 [0.31, 2.28] and p = 0.019.</figcaption>
+  </figure>
+  <p>For each difference test, the results card writes the correct answers, whether the samples <b>can be told apart</b> (p &lt; α) or <b>no difference is shown</b>, the p-value with the correct answers that were needed (the minimum with which the test is significant for that total), d′ with its interval, and pd. A note recalls the scale: “a d′ near 1 is a small difference few notice; above 2, a clear one.” The table, downloaded as <code>discrimination_tests.csv</code>, gives pc and pd with their intervals, d′ with its standard error (by the delta method) and the interval of d′, which is that of pc carried through the same function.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · The Altura lavado coffee against the Honey</div>
+    <p>The three tests of the example say that the samples <b>can be told apart</b>, but with nuances. The triangle, 21 of 42 (20 were needed): p = 0.019, pc = 0.500 [0.342, 0.658], pd = 25% and d′ = 1.47 [0.31, 2.28]. The duo-trio, 27 of 40 (26 were needed): p = 0.019, pd = 35% and d′ = 1.57 [0.31, 2.46]. The 2-AFC, which asked which one was <i>more acidic</i> (“más ácido”), 31 of 40: p &lt; 0.001, pd = 55% and d′ = 1.07 [0.42, 1.75]. The pd values are very different (25, 35 and 55%) and yet the three d′ fall between 1 and 1.6, with overlapping intervals: it is the same small difference, measured with three methods. The intervals are wide because 40 judges are few for a d′ like this (Section 6.2).</p>
+  </div>
+
+  <h3>The similarity test</h3>
+  <p>If what you want to show is that a process change is <i>not</i> noticed, change the <span class="ui">Kind</span> to <span class="ui">Similarity</span> and set pd₀. The hypothesis is reversed: the test is significant when the correct answers are <b>few</b>, and the reading says “similarity is shown: the proportion of discriminators is below 0.20” or “similarity cannot be claimed with pd₀ = 0.20”. Not showing a difference is <b>not</b> showing similarity: with the 21 correct of 42 of the triangle, the similarity test with pd₀ = 0.2 gives p = 0.722; with 16 correct of 60, p = 0.001.</p>
+  <p>The <span class="ui">Method and source:</span> line cites the Thurstonian models (Ennis 1993; Brockhoff and Christensen 2010), Bi (2006) and the Clopper–Pearson interval.</p>
+
+  <!-- 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>Planning: judges and power</h2>
+  <p class="lead">The question worth asking before the tasting, not after: for the difference I care to detect, how many judges do I need and which method performs best? The <span class="ui">Plan: number of judges and power</span> card needs no data.</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b6-planear.png" alt="The Plan card with triangle method, d′ 1.5, alpha 0.05, power 0.8 and 30 judges: 53 judges are needed; with 30 the power is 0.600; psychometric functions, power against judges and the table of the five methods"></div>
+    <figcaption><b>Figure 6.3.</b> <span class="ui">Plan: number of judges and power</span> with its starting values. To detect d′ = 1.5 with a triangle, 53 judges are needed; with the 30 available the power is only 0.600. The 3-AFC achieves it with 9.</figcaption>
+  </figure>
+  <p>The fields are <span class="ui">Method</span> (Triangle), <span class="ui">d′ you want to detect</span> (1.5), <span class="ui">α</span> (0.05), <span class="ui">Desired power</span> (0.8) and <span class="ui">Judges available</span> (30). The four tiles give the <span class="ui">Judges needed</span> (53, “for power 0.80”), the <span class="ui">Power with 30</span> (0.600, marked “low” for being below 0.8), the <span class="ui">Critical correct with 30</span> (15: the number of the 30 judges who would have to answer correctly for the test to be significant) and <span class="ui">pc / pd</span> (0.506 / 0.260: the proportion correct and of discriminators that corresponds to d′ = 1.5 in that method).</p>
+  <p>The table compares the five methods with the same d′, the same α and the same power:</p>
+  <table class="compacta">
+    <caption><b>Table 6.1.</b> Judges to detect d′ = 1.5 (α = 0.05, power 0.8) and power with 30 judges</caption>
+    <thead><tr><th>Method</th><th class="num">Judges for the desired power</th><th class="num">Power with 30</th></tr></thead>
+    <tbody>
+      <tr><td>Triangle</td><td class="num">53</td><td class="num">0.600</td></tr>
+      <tr><td>Duo-trio</td><td class="num">60</td><td class="num">0.570</td></tr>
+      <tr><td>2-AFC (two alternatives)</td><td class="num">13</td><td class="num">0.998</td></tr>
+      <tr><td>3-AFC (three alternatives)</td><td class="num">9</td><td class="num">1.000</td></tr>
+      <tr><td>Tetrad</td><td class="num">16</td><td class="num">0.962</td></tr>
+    </tbody>
+  </table>
+  <p>The reading sums it up: “the triangle test needs 53 judges. The most efficient method for this difference is the 3-AFC test (9 judges).” The two figures show why. <span class="ui">Psychometric functions</span> plots pc against d′ for the five methods, with a line at the chosen d′: the 2-AFC and the 3-AFC rise much faster than the triangle and the duo-trio. <span class="ui">Power against number of judges</span> plots the exact power from 6 to 123 judges, with a line at the desired power.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Power in a saw-tooth</div>
+    <p>Power is the probability that the test comes out significant if the difference is the one you assumed. With the exact binomial test, the critical number of correct answers rises in jumps: when one judge is added, sometimes one more correct answer is needed and the power <b>drops</b>. That is why the curve rises in a saw-tooth and the app looks for the first number of judges that exceeds the desired power, starting from a normal approximation (Ennis 1993; Ennis and Jesionka 2011). The directional methods (2-AFC, 3-AFC) are more powerful because they ask about a specific attribute, but they only work if you know beforehand in which attribute the samples differ; the triangle, the duo-trio and the tetrad do not need it.</p>
+  </div>
+
+  <!-- 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>A–not A and paired preference</h2>
+  <p class="lead">Two small cards at the bottom of the tab, with typed fields and an immediate result: the A–not A test, for when the samples cannot be served together, and paired preference.</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b6-anoa.png" alt="The A–not A and Paired preference cards with their starting values: d′ 1.060, hits and false alarms 0.825 and 0.450, p below 0.001; prefer A 63.3 percent, p 0.052"></div>
+    <figcaption><b>Figure 6.4.</b> <span class="ui">A–not A</span> and <span class="ui">Paired preference</span> with the values they come with.</figcaption>
+  </figure>
+  <h3>A–not A</h3>
+  <p>The judges first learn what sample “A” is like and then, for each sample, say whether it is “A” or “not A”. The fields are <span class="ui">«A» to A samples</span> (33), <span class="ui">A samples</span> (40), <span class="ui">«A» to not-A samples</span> (18) and <span class="ui">Not-A samples</span> (40). The hits are H = 33/40 = 0.825 and the false alarms F = 18/40 = 0.450; d′ = z(H) − z(F) = 1.060 [0.460, 1.661], and the p-value (&lt; 0.001) is that of Fisher’s exact test, one-sided, that A samples receive more “A” answers. No proportion may be 0 or 1: with them the model has no finite estimate and the app gives no result.</p>
+  <h3>Paired preference</h3>
+  <p>With <span class="ui">Prefer A</span> (38), <span class="ui">Prefer B</span> (22) and <span class="ui">No preference</span> (5), the app runs a <b>two-sided</b> binomial test that half prefer each product. <span class="ui">The «no preference»</span> answers either <span class="ui">are excluded</span> (the default: 38 of 60, 63.3% [49.9, 75.4]%, p = 0.052) or <span class="ui">are split half and half</span> (40 of 64, 62.5% [49.5, 74.3]%, p = 0.060). Below the tiles, a note says what was done with them: if they are excluded, “"No preference" answers are left out of the test.”; if they are split and their number is odd, like the starting 5, “Odd number of "no preference" answers: one was left out when splitting them.” (two go to A, two to B and one is left out). With the starting values, the preference for A is not shown.</p>
+
+  <!-- 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>Hedonic</h2>
+  <p class="lead">The affective test par excellence: each consumer rates each product on the nine-point hedonic scale, from 1 “dislike extremely” to 9 “like extremely”. The app compares the products treating each consumer as a block.</p>
+  <p>The <span class="ui">Consumer liking</span> card asks for one row per consumer and product with three roles: <span class="ui">Consumer</span>, <span class="ui">Product</span> and <span class="ui">Liking</span>. The example, “Coffee: 80 consumers (liking, just-about-right and CATA)”, has 320 rows and 16 columns (<code>consumidor</code>, <code>cafe</code>, <code>agrado</code>, three <code>jar_…</code> columns and ten terms); only the first three are used here.</p>
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b6-hedonica.png" alt="The Analysis of variance and product comparison card with five tiles, the reading and the bar chart of the mean liking of the four coffees with their letters a, b, ab and c"></div>
+    <figcaption><b>Figure 6.5.</b> <span class="ui">Analysis of variance and product comparison</span> with the 80 consumers of the example: the coffees differ (F = 56.31, p &lt; 0.001); Altura lavado is liked most (6.51) and Comercial least (4.31).</figcaption>
+  </figure>
+  <p>The tiles give the <span class="ui">Consumers</span> (80), the <span class="ui">Products</span> (4), the <span class="ui">Product effect</span> (F = 56.31, p &lt; 0.001), the <span class="ui">Most liked</span> (Altura lavado, 6.51 · a) and the <span class="ui">CV</span> (21.1%). The reading turns the extreme means into words of the scale—6.51 is “like moderately”, 4.31 “dislike slightly”—rounding the mean to the nearest point. The <span class="ui">Liking by product</span> figure shows the mean of each product with its standard error and its letters.</p>
+  <figure class="w55">
+    <div class="marco"><img src="../img/en/b6-hedonica-tablas.png" alt="The tables of the analysis of variance, of the means with their Tukey letters and of the Friedman test"></div>
+    <figcaption><b>Figure 6.6.</b> The tables of the same card: the ANOVA with the consumer as a block, the means with their Tukey letters and the Friedman rank alternative.</figcaption>
+  </figure>
+  <p>The ANOVA is two-way without interaction, liking = mean + product + consumer + error: product (3 df, F = 56.31), consumer (79 df, F = 2.70) and error (237 df, MS 1.505). Removing the variation between consumers—some rate everything high, others everything low—is what makes the test sensitive. The table of means, downloaded as <code>hedonic.csv</code>, gives n, the mean, the SD, the SE (√(MS<sub>error</sub>/n) = 0.137) and the Tukey–Kramer <span class="ui">Group</span> at 5%: Altura lavado 6.51 a, Honey 6.45 ab, Natural 5.99 b and Comercial 4.31 c. Products sharing a letter do not differ: Honey cannot be told apart from either Altura lavado or Natural, but these two do differ from each other.</p>
+  <p>Below, <span class="ui">Rank alternative (Friedman)</span> ranks the products within each consumer and compares the rank sums (χ² = 90.87, p &lt; 0.001), with its own letters: Altura lavado and Honey a (mean rank 2.99), Natural b (2.61) and Comercial c (1.41). Use it if you do not accept that the hedonic scale is an interval scale, that is, that the distance from “like slightly” to “like moderately” is the same as from “moderately” to “very much”. Friedman only uses the consumers who rated every product.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>If not everyone tasted everything</div>
+    <p>When some consumers did not rate a product, the design becomes unbalanced and the app says so below the reading: “Unbalanced design (not every consumer scored every product): the ANOVA table is sequential, with product first, and the product effect reported is the one adjusted for consumers (product last). The comparisons use the observed means.” The ANOVA table then gains a row, <span class="ui">Product, adjusted for consumers</span>, just before the error: it is the F given by the tiles and the reading. If you remove nine of the 320 rows of the example, the <span class="ui">Product</span> row gives F = 55.51 and the adjusted one F = 54.16 (3 and 228 df). With the complete example, which is balanced, neither the warning nor the row appears.</p>
+  </div>
+
+  <!-- 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>Just-about-right and penalties</h2>
+  <p class="lead">Knowing that a coffee is liked less does not say what to change. Just-about-right (JAR) scales ask, for each attribute, whether it is “too little”, “just right” or “too much”, and penalty analysis counts how much liking is lost for each deviation.</p>
+  <p>The <span class="ui">Just-about-right scales</span> card asks for one row per consumer and product with <span class="ui">Consumer</span>, <span class="ui">Product</span>, <span class="ui">Liking</span> and the <span class="ui">Just-about-right attributes</span>, which the app proposes by itself from the columns whose name begins with <code>jar_</code> (in the example, <code>jar_acidez</code>, <code>jar_amargor</code> and <code>jar_cuerpo</code>—acidity, bitterness and body; the prefix is dropped in the results). Below are two fields: <span class="ui">Scale levels</span> (5: 1 = too little, 3 = just right, 5 = too much) and <span class="ui">Consumer threshold (%)</span> (20). The scale must have a center: 3, 5, 7 or 9 levels. With an even number, the app warns, in a box below those two fields, “With an even number of levels there is no center: use 3, 5, 7 or 9.”, and hides the results (which also leave the Block 9 report) until you write an odd number; the loaded data are not lost.</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b6-penalidades.png" alt="The Penalty analysis card with the reading of the six penalties that matter and the penalty plot: percentage of consumers against drop in liking, with triangles by product and attribute"></div>
+    <figcaption><b>Figure 6.7.</b> <span class="ui">Penalty analysis</span> with the example coffee. Each point is a product, an attribute and a direction (▲ too much, ▼ too little), labeled with its full name; the dotted lines mark the 20% threshold and a drop of one point, and the shaded zone, what is most urgent to correct.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · The drop and the weighted penalty</div>
+    <p>For each product and attribute, the consumers fall into three groups: below the center (too little), at the center (just right) and above it (too much). The <b>drop</b> of a group is the mean liking of the “just right” group minus that of the group off it, and it is tested with a pooled-variance two-sample t. The <b>weighted penalty</b> multiplies the drop by the proportion of consumers in that group: a drop of one point in 40% of the people weighs more than one of two points in 5%. A deviation “matters” when it gathers at least the consumer threshold (20%) and has a positive drop (Xiong and Meullenet 2006; Lawless and Heymann 2010).</p>
+  </div>
+  <p>The reading lists up to six penalties that matter, sorted by the weighted penalty, with the percentage, the drop and its p. The table (<code>jar_penalties.csv</code>) gives, by product and attribute, the % “low”, “JAR” and “high”, the two drops with their p and the larger of the two weighted penalties. In the <span class="ui">Penalty plot</span>, each label gives the product and the attribute in full, with “+” for too much and “−” for too little (“Comercial · amargor +”); the app places them so they do not overlap and, when a label has to move away from its point, joins them with a short leader line. The legend of the product colors goes outside the plot area, on the right, and the drop axis has ticks every half point (0, 0.5, 1 and 1.5 in the example); a negative drop (below zero) means that those off the just-right point rate <i>higher</i>. The second figure, <span class="ui">Distribution of just-about-right answers</span>, stacks the three percentages of each product and attribute, also with the full names.</p>
+  <figure class="w50">
+    <div class="marco"><img src="../img/en/b6-jar-dist.png" alt="Stacked horizontal bars of too little, just right and too much for the twelve product and attribute pairs"></div>
+    <figcaption><b>Figure 6.8.</b> <span class="ui">Distribution of just-about-right answers</span>. The bitterness of Comercial stands out: 66.3% find it too bitter and only 27.5% just right.</figcaption>
+  </figure>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Worked example · What to adjust in each coffee</div>
+    <p>The largest penalty is the acidity of Natural, too little for 41% (a drop of 0.72 points, p = 0.051, penalty 0.298). Next come the bitterness of Altura lavado, too little for 31% (−0.83 points, p = 0.008), the bitterness of Natural, too little for 23% (−0.95, p = 0.035), and the acidity of Altura lavado, too little for 21% (−0.94, p = 0.009). For Comercial, the acidity appears, too little for 30% (−0.61, p = 0.110), and the bitterness, too much for 66% but with a drop of only 0.27 points (p = 0.483): many people notice it, and yet those who find it just right do not rate it much higher. No point enters the shaded zone, which also requires a drop of more than one point. Conversely, too much bitterness in Altura lavado costs 1.32 points (p = 0.003), but only for 13.8%: it stays below the threshold and the reading does not mention it.</p>
+  </div>
+  <p>The reading flags by percentage and drop, not by p-value: a penalty with p = 0.483 appears if it gathers 20% of the consumers. Check the p in the table before recommending a change.</p>
+
+  <!-- 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>CATA</h2>
+  <p class="lead">In the check-all-that-apply (CATA) question, the consumer checks, from a list of terms, those that describe each product. It is quick and needs no training; the app tells which terms separate the products and draws the map that relates them.</p>
+  <p>The <span class="ui">Check all that apply</span> card asks for one row per consumer and product, with <span class="ui">Consumer</span>, <span class="ui">Product</span> and <span class="ui">Terms (0/1)</span>: the app proposes by itself the columns that contain only 0 and 1 (and at least one 1) and do not begin with <code>jar_</code>. In the example there are ten: Afrutado (fruity), Chocolate, Floral, Nuez (nutty), Tostado (roasted), Quemado (burnt), Ácido (acidic), Amargo (bitter), Dulce (sweet) and Astringente (astringent).</p>
+  <figure class="w55">
+    <div class="marco"><img src="../img/en/b6-cata.png" alt="The Frequencies, differences and map card with four tiles, the reading and the correspondence analysis with the four coffees and the ten terms"></div>
+    <figcaption><b>Figure 6.9.</b> <span class="ui">Frequencies, differences and map</span> with the example. The first dimension (82.6%) separates Comercial—bitter, burnt, astringent, roasted—from the other three; the second (12.0%), Altura lavado—acidic, floral—from Natural and Honey—sweet, chocolate.</figcaption>
+  </figure>
+  <p>The tiles give the <span class="ui">Complete consumers</span> (80: those who evaluated every product, the only ones that enter the tests), the <span class="ui">Terms</span> (10), how many <span class="ui">Discriminate products</span> (10, by Cochran’s Q with p &lt; 0.05) and the <span class="ui">Inertia on the plane</span> (94.6%, with the χ² of the table, 295.1). The reading names the discriminating terms and the three most checked in each product: Altura lavado, Afrutado 68%, Ácido 58% and Floral 43%; Comercial, Amargo 74%, Tostado 64% and Quemado 53%.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Cochran, McNemar and correspondence analysis</div>
+    <p>Because each consumer evaluates every product, the answers to a term are <b>paired</b>: they are not compared as independent proportions. <b>Cochran’s Q</b> tests, term by term, whether the proportion of checks differs between products, with each consumer as a block. If it does, <b>McNemar’s</b> test compares each pair of products and the p-values are adjusted by <b>Holm</b>, because with four products there are six pairs. <b>Correspondence analysis</b> summarizes the product × term frequency table in a symmetric map: a product near a term is described by it more than average (Meyners et al. 2013; Greenacre 2007).</p>
+  </div>
+  <p>The table (<code>cata.csv</code>) gives the percentage of each term in each product, Q, its p and the <span class="ui">Differing pairs (Holm)</span>; the rows of the discriminating terms are highlighted. The second figure, <span class="ui">Frequency of each term</span>, plots those percentages as grouped bars. A term can discriminate overall without any pair differing after the adjustment: this is the case of Chocolate (Q = 11.16, p = 0.011), between 25.0% in Comercial and 47.5% in Honey, whose pairs column says “—”. Dulce, in contrast, separates five of the six pairs.</p>
+
+  <!-- 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>Descriptive profile</h2>
+  <p class="lead">A trained panel rates the intensity of each attribute on a continuous scale, several times. It is the tool for describing precisely what a treatment changes: not whether it is liked, but how much more acidic, more bitter or fuller-bodied the product turns out.</p>
+  <p>The <span class="ui">Trained panel</span> card asks for one row per judge, product and session, with <span class="ui">Judge</span>, <span class="ui">Product</span>, <span class="ui">Session or replicate (optional)</span> and the <span class="ui">Attributes</span>. The example, “Coffee: quantitative descriptive profile” (64 rows, 10 columns), has eight judges who evaluate the four coffees in two sessions, with seven attributes from 0 to 10: Fragancia (fragrance), Acidez (acidity), Amargor (bitterness), Cuerpo (body), Dulzor (sweetness), Astringencia (astringency) and Residual (aftertaste). Its description warns of three weak judges: “Judge J6 was simulated with more noise (repeats poorly) and J8 with hardly any differences between coffees (barely discriminates); by chance, J4 also came out weak. The panel performance flags all three.” (Section 6.8). <span class="ui">Mean comparison</span> chooses between <span class="ui">Fisher's LSD</span> (the default) and <span class="ui">Tukey</span>.</p>
+  <figure class="w70">
+    <div class="marco"><img src="../img/en/b6-perfil.png" alt="The Product profile card with four tiles, the reading, the spider chart of the four coffees and the PCA product map with the attribute arrows"></div>
+    <figcaption><b>Figure 6.10.</b> <span class="ui">Product profile</span> with the example panel. All seven attributes discriminate; in the map (97.3% of the variation in two components), Comercial lies on the side of bitterness and astringency, Altura lavado toward acidity and Natural toward body.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Against the interaction</div>
+    <p>For each attribute, the app fits the ANOVA intensity = product + judge + [session] + product × judge + error. The judges were not chosen for their own sake: they are a sample of the judges who could have been there. That is why, when there are replicates, the product effect is tested <b>against the product × judge interaction</b> (mixed model), not against the error: the conclusion then holds for the panel and not only for those eight, as the reading recalls (“…not only for these 8 judges.”, with the number of judges in your data). If each judge evaluated each product only once, the interaction cannot be separated from the error and the test is the usual one (Stone et al. 1974; Næs et al. 2010).</p>
+  </div>
+  <p>The tiles give the <span class="ui">Judges</span> (8), the <span class="ui">Products</span> (4), the <span class="ui">Discriminating attributes</span> (7 / 7, “product against the interaction”) and the variation retained by <span class="ui">PCA: first two dimensions</span> (97.3%). The table (<code>descriptive_profile.csv</code>) gives, by attribute, the product F against the interaction, its p and the mean of each product with its letters, computed with the same interaction error:</p>
+  <table class="compacta">
+    <caption><b>Table 6.2.</b> Profile means of the example with Fisher’s LSD letters (α = 0.05)</caption>
+    <thead><tr><th>Attribute</th><th class="num">F</th><th class="num">Altura lavado</th><th class="num">Natural</th><th class="num">Honey</th><th class="num">Comercial</th></tr></thead>
+    <tbody>
+      <tr><td>Fragancia</td><td class="num">33.45</td><td class="num">7.36 a</td><td class="num">7.39 a</td><td class="num">6.76 a</td><td class="num">4.29 b</td></tr>
+      <tr><td>Acidez</td><td class="num">37.94</td><td class="num">7.04 a</td><td class="num">4.54 c</td><td class="num">5.84 b</td><td class="num">3.43 d</td></tr>
+      <tr><td>Amargor</td><td class="num">26.63</td><td class="num">4.11 c</td><td class="num">5.19 b</td><td class="num">3.87 c</td><td class="num">7.17 a</td></tr>
+      <tr><td>Cuerpo</td><td class="num">6.65</td><td class="num">5.96 b</td><td class="num">6.90 a</td><td class="num">6.57 a</td><td class="num">5.86 b</td></tr>
+      <tr><td>Dulzor</td><td class="num">25.51</td><td class="num">5.95 a</td><td class="num">6.12 a</td><td class="num">6.69 a</td><td class="num">3.61 b</td></tr>
+      <tr><td>Astringencia</td><td class="num">12.20</td><td class="num">3.60 b</td><td class="num">3.47 b</td><td class="num">2.85 b</td><td class="num">5.29 a</td></tr>
+      <tr><td>Residual</td><td class="num">17.71</td><td class="num">6.47 a</td><td class="num">6.58 a</td><td class="num">6.46 a</td><td class="num">4.39 b</td></tr>
+    </tbody>
+  </table>
+  <p>All p-values are &lt; 0.001 except that of Cuerpo (0.002). With <span class="ui">Tukey</span>, which is stricter, two letters change: the bitterness of Altura lavado becomes “bc” and the body of Honey “ab”. The LSD protects little when there are many products; with four, the two usually agree.</p>
+  <p>The figures are the <span class="ui">Sensory profile (spider chart)</span>, with one axis per attribute and one line per product, and the <span class="ui">Product map (PCA of the means)</span>: the principal component analysis of the product × attribute table of means, with the products as points and the attributes as arrows (their correlation with the components, rescaled). In the example, PC1 (81.3%) sets Comercial against the other three, and PC2 (16.0%) separates the acidity of Altura lavado from the body of Natural. The <span class="ui">Send to PCAPro (preference map) →</span> button passes those means to PCAPro, of the same suite, as <code>perfil_medias_productos</code>, to cross them with consumer liking.</p>
+
+  <!-- 6.8 -->
+  <h2 id="s6-8"><span class="num">6.8</span>Panel performance</h2>
+  <p class="lead">A profile is only as good as its panel. The second card checks each judge with three questions: does the judge tell the products apart? Repeat the rating? Agree with the others?</p>
+  <figure class="w60">
+    <div class="marco"><img src="../img/en/b6-panel.png" alt="The Panel performance card with the reading and the table of the eight judges: attributes discriminated, median p, repeatability, agreement and the Check column, which flags J4, J6 and J8"></div>
+    <figcaption><b>Figure 6.11.</b> <span class="ui">Panel performance</span> with the example: the app suggests checking J4, J6 and J8. Below, the <span class="ui">Detail of the attribute</span> selector.</figcaption>
+  </figure>
+  <p>For each judge and attribute, the app fits a one-way ANOVA with the judge’s own ratings (product, using the replicates) and summarizes the seven attributes in the table (<code>panel_performance.csv</code>):</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Column</th><th>What it measures</th><th style="width:1.6in">Flagged if…</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Attributes discriminated</span></td><td>In how many attributes the judge’s ANOVA by product gives p &lt; 0.05.</td><td>—</td></tr>
+      <tr><td><span class="ui">Median p</span></td><td><b>Discrimination</b>: the median of those p-values.</td><td>&gt; 0.20: “discriminates little”</td></tr>
+      <tr><td><span class="ui">Repeatability (residual SD)</span></td><td><b>Repeatability</b>: the mean residual deviation of the judge’s ANOVA; lower is better.</td><td>&gt; 1.5 times the panel median: “repeats poorly”</td></tr>
+      <tr><td><span class="ui">Agreement (median r)</span></td><td><b>Agreement</b>: the Pearson correlation between the judge’s means by product and the panel’s, median over the attributes.</td><td>&lt; 0.5: “disagrees with the panel”</td></tr>
+      <tr><td><span class="ui">Check</span></td><td>The flags that apply, or “—”.</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>The thresholds are lenient on purpose: with two sessions, the ANOVA of a single judge has very few degrees of freedom and little power. In the example, the reading says: “Consider retraining or checking: J4 (discriminates little, repeats poorly); J6 (discriminates little, repeats poorly); J8 (discriminates little). The least repeatable is J6 (mean residual SD 2.30).” J4 and J6 discriminate in no attribute (median p 0.268 and 0.460), and their residual SD (1.40 and 2.30) exceeds 1.5 times the panel median; J8 repeats well (0.60) and agrees with the panel (0.85), but discriminates in a single attribute. They are the three announced by the description of the example: J6 and J8 were simulated that way, and J4 came out weak by chance. All eight agree with the panel (median r between 0.84 and 0.97).</p>
+  <p><span class="ui">Detail of the attribute</span> chooses an attribute and shows two tables: its full ANOVA and the performance of each judge in it. With Fragancia, the ANOVA gives Product F = 17.20 against the error, Judge 2.00 (p = 0.088), Session 0.75 (p = 0.393) and Product × judge 0.51 (p = 0.942); the F of 33.45 in Table 6.2 is the product MS (34.385) divided by that of the interaction (1.028). In the second table, J6 has the largest residual SD in Fragancia (3.19).</p>
+
+  <!-- 6.9 -->
+  <h2 id="s6-9"><span class="num">6.9</span>Ballots</h2>
+  <p class="lead">The last tab prepares the session: in what order each judge receives the samples, with which three-digit code, and the printed ballots on which to answer. A poorly balanced order brings into the results the effect of position and that of the previous sample.</p>
+  <figure class="w55">
+    <div class="marco"><img src="../img/en/b6-fichas.png" alt="The Session design card with its fields and buttons, and the Serving plan card with the reading and the table of the judges with the code and product of each position"></div>
+    <figcaption><b>Figure 6.12.</b> <span class="ui">Ballots</span> after <span class="ui">Generate the plan</span> with the starting values: four coffees, twelve judges and the seed 2026. The plan is balanced and each coffee carries a fixed code (910, 846, 815 and 346); the crop shows the first five of the twelve judges.</figcaption>
+  </figure>
+  <h3>Session design</h3>
+  <p>The fields are in two rows: on top <span class="ui">Test</span>, <span class="ui">Judges</span>, <span class="ui">Seed</span> and <span class="ui">Ballot title</span>; below, wide so they can be read in full, <span class="ui">Products (comma separated)</span> and <span class="ui">Attributes (profile)</span>.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">Field</th><th style="width:1.35in">Default</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Test</span></td><td>9-point hedonic</td><td>The kind of ballot: <span class="ui">9-point hedonic</span>, <span class="ui">Profile (attributes)</span> or <span class="ui">Triangle</span>.</td></tr>
+      <tr><td><span class="ui">Judges</span></td><td>12</td><td>How many judges.</td></tr>
+      <tr><td><span class="ui">Seed</span></td><td>2026</td><td>The seed of the codes and of the order of the triads: the same seed always gives the same plan.</td></tr>
+      <tr><td><span class="ui">Ballot title</span></td><td>Coffee evaluation</td><td>The heading of each ballot.</td></tr>
+      <tr><td><span class="ui">Products (comma separated)</span></td><td>Altura lavado, Natural, Honey, Comercial</td><td>The products. In the triangle only the first two count.</td></tr>
+      <tr><td><span class="ui">Attributes (profile)</span></td><td>Fragrance, Acidity, Bitterness, Body, Sweetness</td><td>The line scales of the profile ballot.</td></tr>
+      <tr><td><span class="ui">A different code per judge for each product</span></td><td>unchecked</td><td>Unchecked, each product carries a single code for the whole session; checked, each judge receives their own codes (up to 900 in all).</td></tr>
+    </tbody>
+  </table>
+  <p><span class="ui">Generate the plan</span> builds the plan and enables the other two buttons. <span class="ui">Print the ballots</span> opens a window with one ballot per judge, on letter paper, and sends it to print: the hedonic ballot asks to mark the nine-point scale for each code, in the order shown, with the instruction to rinse between samples; the profile ballot, a line scale from “low” to “high” per attribute; the triangle ballot, to circle the code of the different sample. All carry the judge, a line for the date and another for comments. If the browser blocks the window, the app warns “The browser blocked the window: allow pop-ups to print.” <span class="ui">⤓ Serving plan (CSV)</span> downloads <code>serving_plan.csv</code>, with the columns <code>judge</code>, <code>position</code>, <code>product</code> and <code>code</code>, one row per sample served.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Williams squares</div>
+    <p>A Williams square is a Latin square in which, besides each product appearing once in each position, each product is <b>preceded</b> by each of the others the same number of times: it balances position and first-order carry-over. With an even number of products one square is enough (4 products, 4 orders); with an odd number two are needed, the second with the rows reversed (3 products, 6 orders). Judge <i>a</i> receives row <i>a</i> of the design, so the balance is complete only if the number of judges is a multiple of the number of orders (Williams 1949; MacFie et al. 1989). In the triangle, the orders are the six combinations AAB, ABA, BAA, BBA, BAB and ABB, shuffled with the seed, and each judge receives three different codes.</p>
+  </div>
+  <p>The <span class="ui">Serving plan</span> card says so in the reading—“The plan is balanced: 12 judges is a multiple of the 4 orders.”, or, with 10 judges, “With 10 judges the balance is not complete: use a multiple of 4 (for instance 12).”—, shows the table with the code and product of each position for each judge (also downloadable as CSV and XLSX) and a preview of the first four ballots, with the codes only.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>If</b> a difference test is significant…</td><td>read d′ and its interval: near 1, a small difference few notice; above 2, a clear one. Compare methods by d′, never by pd.</td></tr>
+      <tr><td><b>If</b> it is not significant…</td><td>do not conclude that they are the same: look at the power in Section 6.2 or run a <span class="ui">Similarity</span> test with a pd₀ decided beforehand.</td></tr>
+      <tr><td><b>If</b> the power with your judges is low…</td><td>get more judges or use a directional method (2-AFC, 3-AFC) if you know in which attribute they differ.</td></tr>
+      <tr><td><b>If</b> the hedonic test is significant…</td><td>compare by the letters; if you doubt the interval scale, confirm with Friedman.</td></tr>
+      <tr><td><b>If</b> a just-about-right deviation gathers ≥ 20% of consumers with a drop ≥ 1 point and p &lt; 0.05…</td><td>it is the first adjustment to make; with a small drop or a high p, it is an annoyance that costs no liking.</td></tr>
+      <tr><td><b>If</b> a CATA term discriminates but no pair differs…</td><td>the difference is diffuse: do not attribute it to a specific pair.</td></tr>
+      <tr><td><b>If</b> a judge is flagged…</td><td>retrain the judge on those attributes; if the flag recurs over several sessions, consider removing the judge from the panel.</td></tr>
+      <tr><td><b>If</b> the serving plan is not balanced…</td><td>use the multiple of orders the app proposes.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">These are guides for interpretation, not laws: what you know about the product, the panel and how the tasting was run always comes first.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>When something goes wrong</div>
+    <p><b>The results card of the discrimination tests does not appear:</b> no row has a valid method and integer correct and total with total &gt; 0. <b>d′ = 0:</b> the correct answers do not exceed those of guessing. <b>Infinite d′ or no interval:</b> everyone answered correctly. <b>A–not A without a result:</b> some proportion is 0 or 1. <b>“With an even number of levels there is no center…”:</b> write 3, 5, 7 or 9 in <span class="ui">Scale levels</span>. <b>CATA with no terms proposed:</b> the term columns must contain only 0 and 1 (not “yes”/“no”, nor empty cells throughout). <b>Few “complete consumers”:</b> in CATA and Friedman only those who evaluated every product count. <b>The profile has no test against the interaction:</b> each judge evaluated each product only once; the session is optional, but the replicates (two or more rows of the same judge and product) are not. <b>The ballots do not print:</b> allow pop-ups for the app’s page.</p>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PostHarvestPro · User’s Manual · Appendices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  table.ficheros code { white-space: nowrap; }
+  /* the 81 references and the long tables, a little tighter so the appendices stay in 17 sheets */
+  ul.refs { font-size: 9pt; }
+  ul.refs li { margin-bottom: 0.05in; }
+  table.apx { font-size: 8.5pt; line-height: 1.3; }
+  table.apx td { padding: 0.03in 0.07in; }
+  pre.archivo { font-family: var(--mono); font-size: 8.4pt; line-height: 1.4; background: #fbf6ef; border: 1px solid var(--linea); border-left: 3px solid var(--acento); border-radius: 0 4px 4px 0; padding: 0.07in 0.12in; margin: 0.05in 0 0.16in; white-space: pre-wrap; break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="apendices" data-pestana="Ap" data-orden="10" style="--acento: var(--bx)">
+  <div class="cap-apertura">
+    <div class="cap-num">A</div>
+    <div class="cap-etiqueta">Appendices</div>
+    <h1 data-corto="Appendices">Appendices</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">What is worth having at hand and did not fit in any chapter: which files the app reads and writes and how it reads them, the rules and formulas of the nine blocks gathered in one place, the postharvest and statistical vocabulary the manual uses, what to do when something does not work, the license of the tool with how to cite it, and the 81 references of the app.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><b>A</b>The files the app reads and writes</li>
+      <li><b>B</b>The rules and formulas, gathered</li>
+      <li><b>C</b>Glossary</li>
+      <li><b>D</b>When something does not work</li>
+      <li><b>E</b>The tool: license and how to cite it</li>
+      <li><b>F</b>References</li>
+    </ul>
+  </div>
+
+  <!-- ================================================================= A -->
+  <h2 id="ap-a"><span class="num">A</span>The files the app reads and writes</h2>
+  <p class="lead">PostHarvestPro runs in the browser and sends nothing to any server: the tables come in from your computer and what the app writes goes out to your downloads folder.</p>
+
+  <h3>A.1 · What the app reads</h3>
+  <p>Every tool that analyzes a table has the same data entry (Section 2.1): <span class="ui">Open file (CSV, TXT, XLSX, ODS)</span>, <span class="ui">Paste a table</span> or dropping the file on <span class="ui">…or drop the file here</span>. The project comes in through Block 9.</p>
+  <table class="compacta ficheros apx">
+    <thead><tr><th style="width:1.25in">What</th><th style="width:1.45in">Extension</th><th>How it is read</th></tr></thead>
+    <tbody>
+      <tr><td><b>Text table</b></td><td><code>.csv</code> <code>.tsv</code> <code>.txt</code></td><td>The separator is guessed from the first 20 lines: the tab, the semicolon or the comma, whichever appears the same number of times in all of them (quotes are respected). If the separator is not the comma, the <b>decimal comma</b> is accepted (<code>12,5</code>). The byte order mark at the beginning is ignored and empty lines are skipped.</td></tr>
+      <tr><td><b>Spreadsheet workbook</b></td><td><code>.xlsx</code> <code>.xlsm</code> <code>.ods</code></td><td>Read by the app’s own reader, without libraries. If the workbook has several sheets a selector appears and the first one opens. The old formats (<code>.xls</code>, <code>.xlsb</code>, <code>.xlt</code>, <code>.xla</code>) do not open: save them as <code>.xlsx</code>, <code>.ods</code> or <code>.csv</code>.</td></tr>
+      <tr><td><b>Pasted cells</b></td><td>—</td><td>Copied from a spreadsheet, with the column names in the first row; they are read as tab-separated text.</td></tr>
+      <tr><td><b>Project</b></td><td><code>.json</code></td><td><span class="ui">Open project…</span> in Block 9. Only a file written by the app, with <code>"app": "PostHarvestPro"</code> (Chapter 9).</td></tr>
+    </tbody>
+  </table>
+  <p>In every case the first row holds the column names (a column without a name is called <code>col1</code>, <code>col2</code>…, and a repeated name receives <code>_2</code>). A cell is a number if it looks like one (with sign, decimals or exponent); otherwise it is text. Empty cells, <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>-</code> and <code>—</code> are <b>missing</b>. Tables are always in <b>long format</b>: one row per observed unit (fruit, jar, consumer by product) and one column per variable.</p>
+  <p>After reading the table, the app proposes the column for each role by its name: it compares ignoring case, accents and signs, first the whole name and then as part of the name (<code>Temperatura (°C)</code> works for the temperature), in Spanish or in English. Roles marked <span class="ui">(optional)</span> may be left at <span class="ui">— none —</span>. Some lists are proposed by their content: the CATA terms are the columns with only 0 and 1, and the just-about-right attributes, those beginning with <code>jar_</code>. In <span class="ruta">Block 5<span class="sep">›</span>Mechanical damage</span>, <code>volumen_mm3</code> and <code>energia_J</code> fill <span class="ui">Bruise volume (mm³), for the susceptibility</span> and <span class="ui">Impact energy (J)</span>, and the mass (<span class="ui">Fruit mass (g), if there is no energy</span>) is used only when there is no energy. In <span class="ruta">Block 4<span class="sep">›</span>Climacteric</span>, the column name also proposes the units: <span class="ui">Time unit</span> (<span class="ui">days</span> or <span class="ui">hours</span>; <code>dia</code> gives days and a name ending in <code>_h</code>, hours) and <span class="ui">Respiration unit</span> (mg or mL CO₂ kg⁻¹ h⁻¹, depending on whether it contains <code>mg</code> or <code>ml</code>).</p>
+
+  <h4>The ten example datasets</h4>
+  <p>The same ones the app carries, in the <code>data/</code> folder and through <span class="ui">⤓ Example CSV</span> in each tool. All are <b>simulated</b> (<code>tools/generar_datos.R</code>, seed 20261004), with their file and column names in Spanish in both languages.</p>
+  <table class="compacta ficheros apx">
+    <thead><tr><th style="width:1.75in">File</th><th class="num" style="width:0.45in">Rows</th><th>Columns</th><th style="width:1.3in">Tools</th></tr></thead>
+    <tbody>
+      <tr><td><code>mango_temperaturas.csv</code></td><td class="num">72</td><td><code>temperatura</code>, <code>dia</code>, <code>fruto</code>, <code>peso_inicial_g</code>, <code>firmeza_N</code>, <code>L</code>, <code>a</code>, <code>b</code>, <code>sst</code>, <code>at</code>, <code>ph</code>, <code>perdida_peso</code>, <code>antracnosis</code></td><td>2 (the four with data), 3 › Kinetic models, 7 › Factorial</td></tr>
+      <tr><td><code>chayote_rechazo.csv</code></td><td class="num">90</td><td><code>fruto</code>, <code>tratamiento</code>, <code>dias</code>, <code>rechazado</code></td><td>3 › Time to rejection</td></tr>
+      <tr><td><code>chayote_peso.csv</code></td><td class="num">108</td><td><code>fruto</code>, <code>tratamiento</code>, <code>dia</code>, <code>perdida_peso</code></td><td>7 › Repeated measures, Slopes</td></tr>
+      <tr><td><code>aguacate_estatico.csv</code></td><td class="num">15</td><td><code>frasco</code>, <code>masa_kg</code>, <code>volumen_frasco_L</code>, <code>tiempo_h</code>, <code>co2_pct</code>, <code>o2_pct</code>, <code>etileno_ppm</code></td><td>4 › Static system</td></tr>
+      <tr><td><code>aguacate_climaterico.csv</code></td><td class="num">13</td><td><code>dia</code>, <code>respiracion_mg</code>, <code>etileno_ul</code></td><td>4 › Climacteric</td></tr>
+      <tr><td><code>jitomate_cadena.csv</code></td><td class="num">6</td><td><code>etapa</code>, <code>perdida_pct</code>, <code>precio_kg</code></td><td>5 › Losses by stage</td></tr>
+      <tr><td><code>jitomate_caidas.csv</code></td><td class="num">60</td><td><code>altura_cm</code>, <code>masa_g</code>, <code>energia_J</code>, <code>area_mm2</code>, <code>volumen_mm3</code>, <code>danado</code></td><td>5 › Mechanical damage</td></tr>
+      <tr><td><code>cafe_discriminativas.csv</code></td><td class="num">3</td><td><code>prueba</code>, <code>muestras</code>, <code>correctas</code>, <code>total</code></td><td>6 › Discrimination</td></tr>
+      <tr><td><code>cafe_consumidores.csv</code></td><td class="num">320</td><td><code>consumidor</code>, <code>cafe</code>, <code>agrado</code>, <code>jar_acidez</code>, <code>jar_amargor</code>, <code>jar_cuerpo</code> and ten 0/1 terms (<code>Afrutado</code> … <code>Astringente</code>)</td><td>6 › Hedonic, Just-about-right, CATA</td></tr>
+      <tr><td><code>cafe_descriptivo.csv</code></td><td class="num">64</td><td><code>juez</code>, <code>sesion</code>, <code>cafe</code>, <code>Fragancia</code>, <code>Acidez</code>, <code>Amargor</code>, <code>Cuerpo</code>, <code>Dulzor</code>, <code>Astringencia</code>, <code>Residual</code></td><td>6 › Descriptive profile</td></tr>
+    </tbody>
+  </table>
+  <p>An example of a long-format table, the mango one (the header and the first two rows):</p>
+  <pre class="archivo">"temperatura","dia","fruto","peso_inicial_g","firmeza_N","L","a","b","sst","at","ph","perdida_peso","antracnosis"
+13,0,1,346,106.9,60.8,-11.2,34.1,8.9,1.28,2.99,0,0
+13,0,2,294,128.7,61,-12.4,37,8.8,1.24,2.95,0,0</pre>
+
+  <h3>A.2 · What the app writes</h3>
+  <p>With the English interface, the downloads are named in English; the table below gives those names (with the Spanish interface the same files are named in Spanish, as in the Spanish edition of this manual).</p>
+  <table class="compacta ficheros apx">
+    <thead><tr><th style="width:0.5in">Block</th><th style="width:2.2in">File</th><th>What it contains</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td><code>quality_summary</code> · <code>color_by_group</code> · <code>scale_indices</code> · <code>size_grades</code></td><td>The result tables of the block (<span class="ui">⤓ CSV</span> or <span class="ui">⤓ XLSX</span>).</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><code>kinetics</code> · <code>kinetics_orders</code> · <code>arrhenius</code> · <code>time_to_rejection</code> · <code>survival_models</code></td><td>Ditto.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><code>respiration_static</code> · <code>respiration_flow</code> · <code>atmosphere_films</code></td><td>Ditto.</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><code>losses_by_stage</code> · <code>improvement_simulation</code> · <code>damage_curves</code></td><td>Ditto.</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><code>perdidas_cadena.csv</code></td><td>The chain, for EconomicsPro (<span class="ui">Send to EconomicsPro →</span>). This file keeps its Spanish name and columns in both languages.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>discrimination_tests</code> · <code>hedonic</code> · <code>jar_penalties</code> · <code>cata</code> · <code>descriptive_profile</code> · <code>panel_performance</code> · <code>serving_plan</code></td><td>The result tables of the block.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>serving_plan.csv</code></td><td><span class="ui">⤓ Serving plan (CSV)</span>: one row per sample served, with <code>judge</code>, <code>position</code>, <code>product</code> and <code>code</code>.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>perfil_medias_productos.csv</code></td><td>The product × attribute means of the profile, for PCAPro (<span class="ui">Send to PCAPro (preference map) →</span>): <code>product</code> and one column per attribute. The file keeps its Spanish name in both languages.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><code>means_by_time</code> · <code>factorial_anova</code> · <code>repeated_measures_anova</code> · <code>slopes</code></td><td>The result tables of the block.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><code>field_book.csv</code> · <code>.xlsx</code></td><td>The randomized field book: <code>Plot</code>, <code>Replicate</code> (or <code>Block</code>), <code>Treatment</code>, <code>Time</code> and one empty column per response variable.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><code>postharvestpro_report.html</code></td><td>The report: a single HTML file with the figures inside (Chapter 9).</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><code>postharvestpro_project_YYYY-MM-DD.json</code></td><td>The project: <code>app</code>, <code>version</code>, the date (<code>saved</code>), the language (<code>lang</code>), the loaded tables with their chosen columns (<code>inputs</code>), the editable tables (<code>edits</code>), the fields and checkboxes of every block (<code>forms</code>, with the climacteric units and the empty pallet weight) and the report data (<code>report</code>): title, author, crop and notes, and the lists of the sections you used (<code>used</code>), of the tools you worked in (<code>panes</code>) and of the sections you checked or unchecked by hand (<code>choice</code>), so that when it is opened the report has the same ones.</td></tr>
+      <tr><td>any</td><td><code>&lt;block&gt;-&lt;figure title&gt;.svg</code> · <code>.png</code></td><td>Each figure, named with its block and its English title (<code>b6-liking-by-product.png</code>; the Spanish interface uses the internal name seen in this manual, <code>b6-hedonica.png</code>), and with the colors of the light theme; the PNG 170 mm wide at 300 ppi, with the resolution written in the file. Four figures (<code>b2-calidad</code>, <code>b2-escala</code>, <code>b2-calibres</code> and <code>b3-cinetica</code>) also have <span class="ui">Figure data (CSV)</span>, whose columns keep their Spanish names. The figure studio exports PNG, SVG, PDF and TIFF.</td></tr>
+      <tr><td>any</td><td>the example file</td><td><span class="ui">⤓ Example CSV</span> downloads the CSV from <code>data/</code> as is.</td></tr>
+    </tbody>
+  </table>
+  <p>All CSV files use the <b>comma</b> as separator, the decimal <b>point</b> and Windows line breaks, and are in UTF-8 with a byte order mark so that a spreadsheet reads accents, the µ and the °. Result tables are written <b>as they are seen</b>: with the headers in the active language of the interface only (English with the English interface), the numbers already rounded and the intervals inside the same cell (<code>0.500 [0.342, 0.658]</code>); the sheet of the XLSX file carries the same name as the file. They are for reading or pasting into a document, not for computing again. The files that go to another app (the chain, the profile means, the serving plan, the field book) carry the full numbers.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>What the browser remembers</div>
+    <p>The browser keeps only preferences, not data: the language (<code>postharvestpro:lang</code>), the light or dark theme, the last tab opened in each block, the animations, the settings of the figure studio and the edits made with the ✎ editor. When you send a table to another app of the suite, it also leaves a copy in <code>labg:handoff</code> so that app can pick it up if you open it from the same site. To keep a piece of work, save the project.</p>
+  </div>
+
+  <!-- ================================================================= B -->
+  <h2 id="ap-b"><span class="num">B</span>The rules and formulas, gathered</h2>
+  <p class="lead">The formulas the app computes and the rules with which it warns, classifies or decides, with the block where they act and their default values. They are the ones each chapter explains; here they are together for consultation at a glance.</p>
+
+  <h3>B.1 · Quality, ripeness and color (Block 2)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Ripeness index</b></td><td>SSC/TA; <b>BrimA</b> = SSC − 2·TA (Jordan et al. 2001).</td></tr>
+      <tr><td><b>Titratable acidity</b></td><td>% = V<sub>NaOH</sub> (mL) · N · milliequivalent weight of the acid · (volume made up / aliquot) · 100 / sample; titration to pH 8.1. To express it as another acid, only the milliequivalent weight changes.</td></tr>
+      <tr><td><b>Moisture and dry matter</b></td><td>With the net masses (without the dish), wet basis = (fresh − dry) / fresh · 100; dry matter = dry / fresh · 100; dry basis = (fresh − dry) / dry · 100.</td></tr>
+      <tr><td><b>Firmness</b></td><td>1 kgf = 9.80665 N; pressure (kPa) = force (N) / plunger area (mm²) · 1000.</td></tr>
+      <tr><td><b>Weight loss</b></td><td>% = (initial − current) / initial · 100; the rate per day, by least squares through the origin. Warning on reaching <b>5%</b>: “near the limit at which many fruit shrivel”.</td></tr>
+      <tr><td><b>Chroma and hue</b></td><td>C* = √(a*² + b*²); h° = atan2(b*, a*), from 0 to 360°. Name of the hue: ≥ 105° green, 85–105 green-yellow, 70–85 yellow, 50–70 orange, 25–50 red-orange, below that red.</td></tr>
+      <tr><td><b>Color indices</b></td><td>a*/b*; CCI = 1000·a* / (L*·b*); the browning (BI), whiteness (WI), yellowness (YI) and tomato color (TCI) indices of the converter.</td></tr>
+      <tr><td><b>Color differences</b></td><td>ΔE*ab = √(ΔL*² + Δa*² + Δb*²); ΔE94 and ΔE00 (CIEDE2000). Reading of ΔE00 (Mokrzycki and Tatol 2011): &lt; 1 imperceptible; 1–2 only for a trained observer; 2–3.5 for any observer; 3.5–5 clear difference; ≥ 5 different colors. The figure of color over time draws the line at 3.5.</td></tr>
+      <tr><td><b>McKinney index</b></td><td>100 · Σ(class · n) / (N · highest class); it runs from 100 · lowest class / highest class (all in the lowest class: 0 if the scale starts at 0, 20 with a scale from 1 to 5) to 100, and the reading states that range. Marketable = % of units with class ≤ the <span class="ui">Market tolerance (highest class accepted)</span> (1 by default). Grades that are not a class are not counted, and a lot with none within the classes is left out, with a warning.</td></tr>
+      <tr><td><b>Size grades</b></td><td>Each class includes its minimum and excludes its maximum, except the last one. Fruit outside every class are counted apart (tile and reading); if none falls inside, there is no most frequent grade and the app warns.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.2 · Kinetics, shelf life and rejection (Block 3)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Reaction orders</b></td><td>Zero: C = C₀ − kt; first: C = C₀·e<sup>−kt</sup>; second: 1/C = 1/C₀ + kt. They are fitted by nonlinear least squares on the original scale (or linearized, if chosen) and compared by AIC and Akaike weight; by default <span class="ui">Lowest AIC</span> is used; an order that cannot be fitted is left out of the comparison, with a note. At least 3 observations at 2 times are needed.</td></tr>
+      <tr><td><b>Life to the limit</b></td><td>The time at which the model reaches the <span class="ui">Acceptance limit</span> (25 N in the example), with its confidence interval; half-life = the time to C₀/2.</td></tr>
+      <tr><td><b>Arrhenius</b></td><td>ln k = ln A − Eₐ/(RT), with T in kelvin and R = 8.314 J mol⁻¹ K⁻¹; weighted by the standard error of k if requested. At least 2 different temperatures. <span class="ruta">Block 3<span class="sep">›</span>Temperature</span> opens with the starting k values of the example mango, the same ones given by <span class="ui">Kinetic models</span> (0.06119, 0.1569 and 0.2508 at 13, 20 and 25 °C, with C₀ = 123.736): Eₐ = 84.2 kJ/mol. <span class="ui">Take the k values to the temperature analysis →</span> sets the order, C₀ and the limit before filling the table, and everything is recomputed at once.</td></tr>
+      <tr><td><b>Q10</b></td><td>(k₂/k₁)<sup>10/(T₂ − T₁)</sup> between two temperatures; from Eₐ, Q10 = exp(10·Eₐ / (R·T·(T + 10))): it is not constant, it falls as temperature rises.</td></tr>
+      <tr><td><b>Square root</b></td><td>√k = b·(T − Tmin).</td></tr>
+      <tr><td><b>Extrapolation</b></td><td>A storage temperature outside those tested is marked “extrapolation” in the tiles.</td></tr>
+      <tr><td><b>Accelerated test</b></td><td>ln θ against 1/T (Arrhenius) or against T (Q10), with the prediction interval at the storage temperature; at least 3 shelf lives at 2 temperatures.</td></tr>
+      <tr><td><b>Kaplan–Meier</b></td><td>Ŝ(t) = Π(1 − dᵢ/nᵢ); log interval with Var[log Ŝ] = Σ dᵢ / (nᵢ(nᵢ − dᵢ)) (Greenwood). Groups compared by the log-rank test.</td></tr>
+      <tr><td><b>Parametric models</b></td><td>Weibull, log-normal, log-logistic and exponential by maximum likelihood with right censoring, compared by AIC; the time to the <span class="ui">Tolerated rejection (%)</span> (10 by default) and the time ratios against the reference group. Without rejected fruit (status 1) no model is fitted; a model whose maximum likelihood does not converge is left with an approximate AIC and a note.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.3 · Respiration, ethylene and atmospheres (Block 4)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Static system</b></td><td>Rate = slope of the gas (% per hour) / 100 · free volume / molar volume · molar mass · 1000 / mass of produce (mg kg⁻¹ h⁻¹); the free volume is that of the jar minus that of the produce (mass / density). RQ = CO₂ produced / O₂ consumed; warning if RQ &gt; 1.3: “possible anaerobic respiration”.</td></tr>
+      <tr><td><b>Heat of respiration</b></td><td>10.67 J per mg of CO₂ (the oxidation of a hexose); W per tonne = r · 10.67 · 1000 / 3600.</td></tr>
+      <tr><td><b>Classes (Kader 2002)</b></td><td>Ethylene at 20 °C (µL kg⁻¹ h⁻¹): &lt; 0.1 very low, 0.1–1 low, 1–10 moderate, 10–100 high, ≥ 100 very high. Respiration at 5 °C (mg CO₂ kg⁻¹ h⁻¹): &lt; 5 very low, 5–10 low, 10–20 moderate, 20–40 high, 40–60 very high, above that extremely high.</td></tr>
+      <tr><td><b>Climacteric</b></td><td>Respiratory rise = peak / previous minimum ≥ <span class="ui">Minimum respiratory rise (×)</span> (1.5), with the peak before the last reading; ethylene burst = peak / previous minimum ≥ <span class="ui">Minimum ethylene rise (×)</span> (10) or peak ≥ <span class="ui">Minimum ethylene peak</span> (1 µL kg⁻¹ h⁻¹). Climacteric: both (or only the respiratory one if there is no ethylene); non-climacteric: neither, with flat or falling respiration; anything else, uncertain. Peaks and ethylene lead in the chosen <span class="ui">Time unit</span> (“day 6”, “1 day after”).</td></tr>
+      <tr><td><b>Equilibrium atmosphere</b></td><td>O₂ inside = O₂ outside − 100·r·W·24·L / (P·A); CO₂ analogous with the CO₂ permeability and RQ. With <span class="ui">O₂-limited respiration (Michaelis–Menten)</span>, r = Vm·[O₂] / (Km + [O₂]·(1 + [CO₂]/Ki)). β = P<sub>CO₂</sub>/P<sub>O₂</sub>; required β = RQ·(20.95 − O₂) / (CO₂ − 0.04).</td></tr>
+      <tr><td><b>Package limits</b></td><td>Inner O₂ &lt; <b>1%</b>: risk of anaerobiosis. A thickness outside <b>8–150 µm</b> cannot be manufactured or sealed as a bag.</td></tr>
+      <tr><td><b>Cooling</b></td><td>Y = (T − Tm)/(Ti − Tm) = j·e<sup>−Ct</sup>; half-cooling = ln(2j)/C; seven-eighths = ln(8j)/C.</td></tr>
+      <tr><td><b>Heat load</b></td><td>Field heat = m·cp·ΔT, with cp = 0.0335·water (%) + 0.837 kJ kg⁻¹ K⁻¹ (Siebel); plus the packaging and the respiration; 1 ton of refrigeration = 3.517 kW.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.4 · Losses and mechanical damage (Block 5)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>The chain</b></td><td>Each stage loses a % of what enters it (or some kilograms) and what is lost no longer reaches the next one; value lost = kilograms lost · price at that stage. Loss index = lost / initial · 100.</td></tr>
+      <tr><td><b>Critical points</b></td><td>Pareto: the stages, sorted from largest to smallest, that together add up to <b>80%</b> of the loss, in kilograms and in value.</td></tr>
+      <tr><td><b>Simulate improvements</b></td><td>The reduction is relative: 50% is losing half of what is lost today at that stage. With a new chain, it proposes the stage that loses the most value (in the example, <span class="ui">Venta al menudeo</span>, the retail stage of the Spanish example data).</td></tr>
+      <tr><td><b>Mechanical damage</b></td><td>Linear, quadratic, power (a·x<sup>b</sup>) and exponential (a·e<sup>bx</sup>) curves, the last two fitted on the log scale but with a (not ln a) in the table; compared by AIC. Energy = m·g·h.</td></tr>
+      <tr><td><b>Bruise susceptibility</b></td><td>Bruise volume (mm³) / energy (J), averaged over the fruit with a measured bruise and positive energy (Bajema and Hyde 1998): <b>mm³/J</b> (135 in the example, 60 fruit). The energy is that of its column, that of the x axis if it is an energy, or m·g·h with the mass and the height. With the area instead of the volume it comes out in mm²/J, with the tile marked as a warning and a caution in the reading: it is not comparable with published values. Volume of a spherical cap = πh(3w²/4 + h²)/6.</td></tr>
+      <tr><td><b>Incidence</b></td><td>Logistic regression of bruised (0/1) against height; the height that bruises 50% (e50) and 10% (e10), with Fieller interval and in the unit of the axis (26.9 and 15.3 cm in the example); the threshold of the straight line, also with its unit (3.5 cm).</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.5 · Sensory evaluation (Block 6)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Guessing and discriminators</b></td><td>p<sub>g</sub> = 1/3 (triangle, 3-AFC, tetrad) or 1/2 (duo-trio, 2-AFC); pd = (pc − p<sub>g</sub>) / (1 − p<sub>g</sub>).</td></tr>
+      <tr><td><b>Psychometric functions</b></td><td>2-AFC: Pc = Φ(d′/√2); duo-trio: 1 − Φ(d′/√2) − Φ(d′/√6) + 2Φ(d′/√2)Φ(d′/√6); triangle: 2∫₀^∞ [Φ(−z√3 + d′√(2/3)) + Φ(−z√3 − d′√(2/3))] φ(z) dz; 3-AFC: ∫ φ(z − d′) Φ(z)² dz; tetrad: 1 − 2∫ φ(z)[2Φ(z)Φ(z − d′) − Φ(z − d′)²] dz. d′ = 0 if pc ≤ p<sub>g</sub>.</td></tr>
+      <tr><td><b>Test</b></td><td>Difference: p = P(X ≥ x | pc₀); similarity: p = P(X ≤ x | pc₀), with pc₀ that of pd₀. Standard error of d′ by the delta method.</td></tr>
+      <tr><td><b>Planning</b></td><td>The smallest number of judges whose exact power exceeds the desired one (by default d′ 1.5, α 0.05, power 0.8); power &lt; 0.8 is marked “low”.</td></tr>
+      <tr><td><b>A–not A · preference</b></td><td>d′ = z(H) − z(F), one-sided Fisher p; preference: two-sided binomial with p₀ = ½. The “no preference” answers are excluded or split half and half; if they are odd, one is dropped.</td></tr>
+      <tr><td><b>Hedonic</b></td><td>Liking = product + consumer + error; Tukey–Kramer at 5%; Friedman with the complete consumers. Unbalanced: sequential table (product first) plus the <span class="ui">Product, adjusted for consumers</span> row (product last), which is the effect reported; observed means.</td></tr>
+      <tr><td><b>Just-about-right</b></td><td>Drop = ȳ<sub>just right</sub> − ȳ<sub>group</sub>; weighted penalty = drop · % of the group / 100; pooled-variance t. It matters if the group gathers ≥ the <span class="ui">Consumer threshold (%)</span> (20) and the drop is positive. Scale of 3, 5, 7 or 9 levels: with an even number, warning and hidden results (out of the report).</td></tr>
+      <tr><td><b>CATA</b></td><td>Q = (k − 1)[kΣC<sub>j</sub>² − N²] / (kN − ΣR<sub>i</sub>²), χ² with k − 1 df; pairwise McNemar with Holm; correspondence analysis of the frequency table.</td></tr>
+      <tr><td><b>Profile</b></td><td>Intensity = product + judge + [session] + product × judge + error; with replicates, product F = MS<sub>product</sub> / MS<sub>product×judge</sub>; means with LSD or Tukey with that error; PCA of the means.</td></tr>
+      <tr><td><b>Panel</b></td><td>A judge is flagged if their median p &gt; <b>0.20</b> (“discriminates little”), their median agreement &lt; <b>0.5</b> (“disagrees with the panel”) or their mean residual SD &gt; <b>1.5</b> times the panel median (“repeats poorly”).</td></tr>
+      <tr><td><b>Ballots</b></td><td>Williams square: t orders with t even, 2t with t odd; complete balance if the judges are a multiple of the orders (6 in the triangle). Three-digit codes (100–999) without repetition.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.6 · Trials (Block 7)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Factorial</b></td><td>Treatment × time with type III sums of squares (by default); if the interaction is significant, treatments are compared within each time. Tukey, LSD or Dunnett against the control.</td></tr>
+      <tr><td><b>Empty cells</b></td><td>If some treatment × time combination has no data, the app names it. With type III, the main effects are not estimable (df, SS, MS, F and p shown as a dash); the interaction, with fewer df, and the comparisons within each time remain valid. With type I, each effect is tested in order and the interaction loses degrees of freedom.</td></tr>
+      <tr><td><b>Repeated measures</b></td><td>Treatment against the between-units error; time and interaction against the within error. Sphericity by Mauchly; Greenhouse–Geisser ε = (Σλ)² / ((b − 1)Σλ²) and Huynh–Feldt ε; within each time, the pooled error with Satterthwaite degrees of freedom.</td></tr>
+      <tr><td><b>Slopes</b></td><td>One straight line per treatment; test of equal slopes and pairs with Holm.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.7 · Packaging and storage (Block 8) and report (Block 9)</h3>
+  <table class="compacta apx">
+    <tbody>
+      <tr><td style="width:1.9in"><b>Pallet and container</b></td><td>The load of each pallet is the produce and the boxes plus the <span class="ui">Empty pallet weight (kg)</span> (25); the pallets per container are limited by space or by weight.</td></tr>
+      <tr><td><b>Venting</b></td><td>Open area of each face (%): ≥ <b>5%</b> sufficient; 3–5% in yellow; &lt; 3% in red.</td></tr>
+      <tr><td><b>Psychrometrics</b></td><td>Saturation pressure over water (Wagner and Pruss 2002) and over ice (Wagner et al. 2011). Produce–air deficit = p<sub>ws</sub>(T<sub>produce</sub>) − RH·p<sub>ws</sub>(T<sub>air</sub>). The sentence “With RH at 95% instead of …” recomputes the deficit and the loss with the RH written.</td></tr>
+      <tr><td><b>Water loss</b></td><td>% per day = k (mg kg⁻¹ s⁻¹ MPa⁻¹) · deficit (MPa) · 86,400 / 10⁶ · 100. The report flags it if it exceeds <b>2% per week</b>.</td></tr>
+      <tr><td><b>Compatibility</b></td><td>Incompatible if the temperature ranges do not overlap, or if one produces much ethylene (high or very high class) and the other is very sensitive; warning if the humidities differ by more than 5 points, if there is a moderate ethylene risk or if one gives off odors. <span class="ui">Pairs at risk</span> counts every pair with some warning, even if it is also incompatible (it says so below: “3 also incompatible”).</td></tr>
+      <tr><td><b>Report recommendations</b></td><td>Only with the checked sections (by default, those you used; those that keep only the example values remain unchecked). Fixed rules: the life to the limit of each group; with Eₐ, the % of life lost per degree (between 10 and 11 °C); climacteric; respiration &gt; 40 mg CO₂ kg⁻¹ h⁻¹; package outside the window; the stage with the largest value lost; drops below the height that bruises 10% (with that of 50%, in its unit); the most liked product; water loss &gt; 2% per week; boxes with &lt; 5% open area; incompatible products.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= C -->
+  <h2 id="ap-c"><span class="num">C</span>Glossary</h2>
+  <p>The postharvest, sensory and statistical terms the manual uses, in the sense in which the app uses them.</p>
+  <table class="compacta apx">
+    <thead><tr><th style="width:1.6in">Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>A–not A</b></td><td>Test in which the judge learns sample “A” and then says, for each sample, whether it is “A” or not.</td></tr>
+      <tr><td><b>AIC</b></td><td>Akaike information criterion: compares models by their fit penalized by the number of parameters; the smallest is the best. The <b>Akaike weight</b> is the relative probability of each model.</td></tr>
+      <tr><td><b>Modified atmosphere</b></td><td>The mixture of O₂ and CO₂ that forms inside a closed package because the produce respires and the film lets the gases through at a certain rate.</td></tr>
+      <tr><td><b>β (beta)</b></td><td>The ratio of the permeabilities of a film to CO₂ and to O₂; it sets the slope of the atmospheres the film can give.</td></tr>
+      <tr><td><b>BrimA</b></td><td>Ripeness index that subtracts twice the acidity from the soluble solids: it weighs acidity as the tongue perceives it.</td></tr>
+      <tr><td><b>CATA</b></td><td>“Check all that apply”: the consumer checks, from a list, the terms that describe the product.</td></tr>
+      <tr><td><b>CCI</b></td><td>Citrus color index, 1000·a* / (L*·b*): negative in green, positive in orange.</td></tr>
+      <tr><td><b>Censoring</b></td><td>A fruit that was still acceptable when the trial ended: its time to rejection is known to be <i>longer</i> than the one observed, not what it is.</td></tr>
+      <tr><td><b>Climacteric</b></td><td>Produce whose ripening comes with a rise in respiration and a burst of ethylene; it can ripen after harvest.</td></tr>
+      <tr><td><b>Respiratory quotient (RQ)</b></td><td>CO₂ produced divided by O₂ consumed; near 1 with sugars as substrate; well above 1, possible anaerobiosis.</td></tr>
+      <tr><td><b>Chroma (C*) and hue (h°)</b></td><td>The vividness of the color and its angle on the CIELAB color wheel (0° red, 90° yellow, 180° green).</td></tr>
+      <tr><td><b>d′ (d prime)</b></td><td>The size of a sensory difference in standard deviations of the sensation (Thurstonian model); comparable across methods.</td></tr>
+      <tr><td><b>ΔE00</b></td><td>The difference between two colors by the CIEDE2000 formula, which corrects the distortions of the L*a*b* space.</td></tr>
+      <tr><td><b>Vapor pressure deficit</b></td><td>The difference between the vapor pressure at the surface of the produce and that of the air: the force that dehydrates it.</td></tr>
+      <tr><td><b>Unbalanced (design)</b></td><td>A design in which not every combination has the same number of data (a consumer who did not taste a product, an empty cell): the order of the effects changes the sums of squares.</td></tr>
+      <tr><td><b>e10 · e50</b></td><td>The drop height (or energy) that bruises 10% and 50% of the fruit, from the logistic regression of the incidence.</td></tr>
+      <tr><td><b>Activation energy (Eₐ)</b></td><td>How much temperature speeds up a reaction; with a high Eₐ, deterioration is more sensitive to cold and heat.</td></tr>
+      <tr><td><b>Sphericity · ε</b></td><td>Assumption of repeated measures: the differences between any pair of times have the same variance. ε (Greenhouse–Geisser, Huynh–Feldt) measures how far it departs, and corrects the degrees of freedom.</td></tr>
+      <tr><td><b>Steady state</b></td><td>In a package or a chamber with flow, the moment when the concentrations no longer change because what comes in equals what goes out or is consumed.</td></tr>
+      <tr><td><b>Hedonic (scale)</b></td><td>Nine-point liking scale, from “dislike extremely” (1) to “like extremely” (9).</td></tr>
+      <tr><td><b>Holm (adjustment)</b></td><td>Correction of the p-values when several tests are run at once.</td></tr>
+      <tr><td><b>McKinney index</b></td><td>The mean severity on a damage scale, as a % of the maximum possible.</td></tr>
+      <tr><td><b>Loss index</b></td><td>What is lost along the chain, as a % of what came in.</td></tr>
+      <tr><td><b>Cooling j and C</b></td><td>The lag factor (j) and the cooling coefficient (C) of the curve Y = j·e<sup>−Ct</sup>.</td></tr>
+      <tr><td><b>Kaplan–Meier</b></td><td>Estimator of the proportion of fruit still acceptable at each time that makes use of the censored ones.</td></tr>
+      <tr><td><b>Limit (of acceptance)</b></td><td>The value of an attribute beyond which the produce is no longer acceptable (25 N of firmness in the example).</td></tr>
+      <tr><td><b>LSD · Tukey · Dunnett</b></td><td>Mean comparisons: Fisher’s least significant difference (the least strict), Tukey’s (all pairs) and Dunnett’s (each treatment against a control).</td></tr>
+      <tr><td><b>Reaction order</b></td><td>The way the rate of deterioration depends on the attribute itself: constant (zero), proportional (first) or squared (second).</td></tr>
+      <tr><td><b>pc · pd</b></td><td>The proportion correct and the proportion of discriminators (those who really notice the difference) in a discrimination test.</td></tr>
+      <tr><td><b>Penalty (JAR)</b></td><td>The drop in liking of those who find an attribute “too little” or “too much”, weighted by how many they are.</td></tr>
+      <tr><td><b>Power</b></td><td>The probability that a test detects a difference that does exist.</td></tr>
+      <tr><td><b>Precooling</b></td><td>Removing the field heat from the produce as soon as possible after harvest.</td></tr>
+      <tr><td><b>Just-about-right (JAR)</b></td><td>Scale that asks whether an attribute is “too little”, “just right” or “too much”.</td></tr>
+      <tr><td><b>Q10</b></td><td>How many times deterioration speeds up with 10 °C more.</td></tr>
+      <tr><td><b>Cochran’s Q</b></td><td>Test of whether the proportion of “yes” answers to a question differs between several products evaluated by the same people.</td></tr>
+      <tr><td><b>Time ratio</b></td><td>How many times a treatment lengthens (or shortens) the time to rejection relative to the reference one.</td></tr>
+      <tr><td><b>SSC/TA</b></td><td>Soluble solids content (°Brix) divided by titratable acidity (%): the classic index of ripeness and flavor.</td></tr>
+      <tr><td><b>Type I and type III sums of squares</b></td><td>Sequential (each effect adjusted for the previous ones) or adjusted (each effect adjusted for all the others). They agree with balanced data; with empty cells, type III cannot test the main effects.</td></tr>
+      <tr><td><b>Bruise susceptibility</b></td><td>The bruise volume produced by each joule of impact, in mm³/J (Bajema and Hyde 1998); with the area instead of the volume, mm²/J, which is not comparable with published values.</td></tr>
+      <tr><td><b>Tmin</b></td><td>The theoretical temperature at which deterioration would stop, from the square-root model.</td></tr>
+      <tr><td><b>Shelf life</b></td><td>The time the produce stays acceptable under given conditions.</td></tr>
+      <tr><td><b>Williams (square)</b></td><td>Presentation order of the samples balanced for position and for the previous sample.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= D -->
+  <h2 id="ap-d"><span class="num">D</span>When something does not work</h2>
+  <p>The messages of the app, as they appear with the English interface, with what they usually mean and what to do. The ellipses stand for the part of the message that changes (a name, a number).</p>
+  <table class="compacta apx">
+    <thead><tr><th style="width:2.55in">Message</th><th>What is happening and what to do</th></tr></thead>
+    <tbody>
+      <tr><td colspan="2"><b>Opening a table (all tools)</b></td></tr>
+      <tr><td>“That old spreadsheet format cannot be opened; save it as .xlsx, .ods or .csv.”</td><td>An <code>.xls</code> or <code>.xlsb</code>. Save it again in a format the app reads.</td></tr>
+      <tr><td>“the file is not a spreadsheet in the .xlsx, .xlsm or .ods format” · “the workbook has no xl/workbook.xml: it is not an .xlsx or .xlsm file” · “the file has no content.xml: it is not an .ods spreadsheet”</td><td>The extension does not match the content (a renamed CSV, a damaged file). Open it in your spreadsheet and save it again.</td></tr>
+      <tr><td>“the workbook uses the ZIP64 layout, which this reader does not open” · “the workbook uses a compression method that this reader does not open” · “the file … inside the workbook is damaged”</td><td>A very large workbook or one written by an uncommon program. Save the sheet as <code>.csv</code>.</td></tr>
+      <tr><td>“this browser is too old to open .xlsx and .ods files; save the table as .csv”</td><td>Update the browser or use a CSV.</td></tr>
+      <tr><td>“the workbook has no readable sheets” · “The table has no rows with data.”</td><td>The sheet is empty or has only headers.</td></tr>
+      <tr><td>“Choose the column for: …”</td><td>A required role was left without a column; choose it in its selector.</td></tr>
+      <tr><td>“Could not analyze: …”</td><td>The chosen columns do not work for that analysis (text where a number goes, a single group, too few rows). Check the roles and the long format.</td></tr>
+      <tr><td colspan="2"><b>Quality and shelf life (Blocks 2 and 3)</b></td></tr>
+      <tr><td>“… grades match no class of the scale and are not counted.”</td><td>In <span class="ruta">Block 2<span class="sep">›</span>Ripeness and damage scales</span>, the column has values that are not classes of the chosen scale; change the template or correct the data.</td></tr>
+      <tr><td>“… lots have no grade within the classes of the scale and are left out: ….”</td><td>Those lots have no index. With the mango and the 1-to-5 ripeness template, six lots are left out: the scale does not match the column.</td></tr>
+      <tr><td>“The class column has no number at all.” · “The scale needs at least one class with its value.”</td><td>Choose the column of the grade, or write the value of each class of the scale.</td></tr>
+      <tr><td>“Write at least one lot.”</td><td>You pressed <span class="ui">Use the counts</span> without counts.</td></tr>
+      <tr><td>“No fruit falls inside the classes: the data run from … to … and the classes from … to …. Check the limits and the unit (weight or diameter).”</td><td>In <span class="ruta">Block 2<span class="sep">›</span>Size grades</span>, the classes do not match the column (grams against millimeters, for instance). If some fruit do fall inside, the reading ends with “· outside the classes …%”.</td></tr>
+      <tr><td>“…: could not be fitted and is left out of the comparison.”</td><td>In <span class="ui">Kinetic models</span>, that reaction order has no solution with those data; the others are compared without it.</td></tr>
+      <tr><td>“The nonlinear fit did not converge; results are approximate.” · “The linearization needs positive values of the attribute.”</td><td>Notes of the fit below the reading (preceded by the group if there are several): check the data and the chosen order.</td></tr>
+      <tr><td>“For Arrhenius the group must be the temperature (numbers).”</td><td>You pressed <span class="ui">Take the k values to the temperature analysis →</span> with a group that is not a numeric temperature.</td></tr>
+      <tr><td>Tile “Caution · extrapolation · outside …”</td><td>The storage temperature is outside those tested: the prediction is an extrapolation.</td></tr>
+      <tr><td>“No parametric model could be fitted: rejected fruit (status 1) are needed.”</td><td>In <span class="ui">Time to rejection</span> every fruit is censored: only Kaplan–Meier remains.</td></tr>
+      <tr><td>“…: maximum likelihood did not converge; its AIC is approximate.”</td><td>That parametric model is compared with an approximate AIC; do not choose it on that alone.</td></tr>
+      <tr><td colspan="2"><b>Respiration, losses and packaging (Blocks 4, 5 and 8)</b></td></tr>
+      <tr><td>“possible anaerobic respiration” (tile of the respiratory quotient)</td><td>RQ &gt; 1.3: check that the jar did not run out of O₂ and shorten the incubation.</td></tr>
+      <tr><td>“Risk of anaerobiosis: inner O₂ falls below 1%…”</td><td>The package is too closed: a more permeable film, less thickness, more area or less produce.</td></tr>
+      <tr><td>Climacteric “Uncertain”</td><td>Respiration is still rising at the last reading or the two signals do not agree: extend the follow-up. If the peaks come out in a unit that is not yours, correct <span class="ui">Time unit</span> or <span class="ui">Respiration unit</span>.</td></tr>
+      <tr><td>“First build the chain in «Losses by stage».”</td><td><span class="ruta">Block 5<span class="sep">›</span>Simulate improvements</span> needs the chain of the previous tab.</td></tr>
+      <tr><td>Susceptibility in mm²/J: “Bajema and Hyde (1998) define it with the bruise volume (mm³/J): this value is not comparable with those published in mm³/J; choose the volume column if you have it.”</td><td>In <span class="ui">Mechanical damage</span> there is no volume column and the area was used. Choose <span class="ui">Bruise volume (mm³), for the susceptibility</span>.</td></tr>
+      <tr><td colspan="2"><b>Sensory evaluation (Block 6)</b></td></tr>
+      <tr><td>“With an even number of levels there is no center: use 3, 5, 7 or 9.”</td><td>Correct <span class="ui">Scale levels</span>; meanwhile the results are hidden and leave the report.</td></tr>
+      <tr><td>“Unbalanced design (not every consumer scored every product): the ANOVA table is sequential…”</td><td>Some hedonic score is missing; the product effect reported is the <span class="ui">Product, adjusted for consumers</span> row (Section 6.4).</td></tr>
+      <tr><td>“"No preference" answers are left out of the test.” · “Odd number of "no preference" answers: one was left out when splitting them.”</td><td>Notes of the paired preference: they say what was done with the “no preference” answers.</td></tr>
+      <tr><td>“With … judges the balance is not complete: use a multiple of … (for instance …).”</td><td>In <span class="ui">Ballots</span>, change the number of judges to the proposed multiple.</td></tr>
+      <tr><td>“The browser blocked the window: allow pop-ups to print.”</td><td>Allow pop-ups for the app’s page and press <span class="ui">Print the ballots</span> again.</td></tr>
+      <tr><td colspan="2"><b>Trials (Block 7)</b></td></tr>
+      <tr><td>“One combination (… combinations) of … and … has (have) no data (…). With empty cells, type III sums of squares cannot test the main effects…”</td><td>In the factorial some treatment × time combination is missing; the tiles say “not estimable (empty cells)”. Look at the interaction and the comparisons within each time, or use type I.</td></tr>
+      <tr><td>“… With type I each effect is tested in order (… adjusted for …) and the interaction loses … degrees of freedom.”</td><td>The same case with type I: only a warning.</td></tr>
+      <tr><td colspan="2"><b>Report and project (Block 9)</b></td></tr>
+      <tr><td>“No sections yet: run some analysis in Blocks 2 to 8.”</td><td>You have not used any tool. Those that only have their example values appear below, unchecked; check them if you want them in.</td></tr>
+      <tr><td>“Pick at least one section (or run some analysis).”</td><td>No section is checked.</td></tr>
+      <tr><td>“The file is not valid JSON.” · “The file is not a PostHarvestPro project.”</td><td>Open a <code>postharvestpro_project_….json</code> saved by the app.</td></tr>
+      <tr><td>“Project opened: … data tables, … edited tables and … settings.”</td><td>Only a notice: the project was opened and everything was recomputed.</td></tr>
+      <tr><td>“Downloaded «….csv»: open it in … (data block).”</td><td>You sent a table to another app of the suite: the CSV was downloaded and that app opened in another tab; open it in its data block.</td></tr>
+    </tbody>
+  </table>
+  <p>If the app goes blank or a card does not respond, reload the page: the data are lost, but the saved project is not. If the problem persists, open the app with <code>Open PostHarvestPro.bat</code> instead of double-clicking <code>index.html</code>.</p>
+
+  <!-- ================================================================= E -->
+  <h2 id="ap-e"><span class="num">E</span>The tool: license and how to cite it</h2>
+  <h3>E.1 · What it is and what it is not</h3>
+  <p>PostHarvestPro is written for this program: the spreadsheet reader, the kinetic and survival models, the statistics, the psychrometrics, the figures, the report and the illustrations are in its own code, which can be read. It uses no third-party computing libraries, ships no typefaces (it uses the computer’s fonts), has no minified code or build steps and loads nothing from the network: that is why it opens with a double click and without a connection. The only links to the outside—the suite portal and the apps to which tables are sent—are followed only if you click them.</p>
+  <p>The only third-party elements are the line icons of the suite’s common modules (the block navigator, the figure studio and the animations button), taken from the Lucide project under the ISC license (and MIT for those Lucide inherited from the Feather project), both permissive and compatible with the GPL; the file <code>LICENSES-TERCEROS.md</code>, in the program folder, lists them with the text of their licenses. The example data are simulated (Appendix A). The app implements published methods, each one cited to its original source in the code, at the foot of each result, on the app’s home page and in the methods of the report (Appendix F).</p>
+  <h3>E.2 · License</h3>
+  <p>PostHarvestPro is distributed under the GNU General Public License, version 3 or later (GPL-3.0-or-later). The full text is in the <code>LICENSE</code> file, in the program folder.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Licensing is not giving up authorship</div>
+    <p>The license states what those who receive the program may do: use it for any purpose, study it, modify it and redistribute it. In return it asks that, if you distribute a modified version, you do so with the same freedoms and with its source code. Authorship is neither transferred nor waived. The program is provided without warranty, as the license says; this manual has its own rights, reserved by its author.</p>
+  </div>
+  <h3>E.3 · How to cite it</h3>
+  <p>The <span class="ui">How to cite</span> section of the app’s home page gives the citation ready to copy, with <span class="ui">Copy the citation</span> and <span class="ui">Copy BibTeX</span>; the <span class="ui">How to cite PostHarvestPro</span> card in Block 9 shows the same two.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">“</div>
+    <div class="dato-txt"><div class="caja-t">Suggested citation of the program</div>Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser</i> (Version 1.0.0) [Computer software]. https://luisangelbg.github.io/PostHarvestPro/</div>
+  </div>
+  <div class="caja dato">
+    <div class="dato-cifra">“</div>
+    <div class="dato-txt"><div class="caja-t">Suggested citation of this manual</div>Barrera-Guzmán, L. Á. (2026). <i>PostHarvestPro. User’s manual</i> (1st ed.). Distributed with PostHarvestPro, version 1.0.0. https://luisangelbg.github.io/PostHarvestPro/</div>
+  </div>
+  <pre class="archivo">@software{barreraguzman2026postharvestpro,
+  author  = {Barrera-Guzmán, Luis Ángel},
+  title   = {PostHarvestPro: postharvest physiology and technology, quality, shelf life and sensory evaluation in the browser},
+  version = {1.0.0},
+  year    = {2026},
+  license = {GPL-3.0-or-later},
+  url     = {https://luisangelbg.github.io/PostHarvestPro/}
+}</pre>
+  <p class="small">The digital object identifier (DOI) will be added to both citations when the program is published with one.</p>
+  <p>Also cite, in your methods, the works behind the methods you used. The methods of the report (Chapter 9) already cite them by author and year, and its references section gives the full entries for the blocks you used.</p>
+
+  <!-- ================================================================= F -->
+  <h2 id="ap-f"><span class="num">F</span>References</h2>
+  <p>The 81 works in the app’s catalog, grouped by the first block that cites them and, within each topic, in alphabetical order. They are the same as in the <span class="ui">References</span> section of the home page and of the report.</p>
+  <!-- REFERENCIAS -->
+  <h3>F.1 · Quality, ripeness and color</h3>
+  <ul class="refs">
+    <li>AOAC International. (2019). Method 942.15: Acidity (titratable) of fruit products. In Official methods of analysis (21st ed.).</li>
+    <li>CIE. (2018). Colorimetry (4th ed., CIE 015:2018). Commission Internationale de l'Éclairage.</li>
+    <li>Francis, F. J., &amp; Clydesdale, F. M. (1975). Food colorimetry: Theory and applications. AVI Publishing.</li>
+    <li>Hobson, G. E., Adams, P., &amp; Dixon, T. J. (1983). Assessing the colour of tomato fruit during ripening. Journal of the Science of Food and Agriculture, 34(3), 286–292.</li>
+    <li>Jiménez-Cuesta, M., Cuquerella, J., &amp; Martínez-Jávega, J. M. (1981). Determination of a color index for citrus fruit degreening. Proceedings of the International Society of Citriculture, 2, 750–753.</li>
+    <li>Jordan, R. B., Seelye, R. J., &amp; McGlone, V. A. (2001). A sensory-based alternative to Brix/acid ratio. Food Technology, 55(4), 36–44.</li>
+    <li>Judd, D. B., &amp; Wyszecki, G. (1975). Color in business, science, and industry (3rd ed.). Wiley.</li>
+    <li>Kader, A. A. (Ed.). (2002). Postharvest technology of horticultural crops (3rd ed., Publication 3311). University of California, Agriculture and Natural Resources.</li>
+    <li>McGuire, R. G. (1992). Reporting of objective color measurements. HortScience, 27(12), 1254–1255.</li>
+    <li>McKinney, H. H. (1923). Influence of soil temperature and moisture on infection of wheat seedlings by Helminthosporium sativum. Journal of Agricultural Research, 26, 195–218.</li>
+    <li>Mokrzycki, W. S., &amp; Tatol, M. (2011). Colour difference ΔE – a survey. Machine Graphics and Vision, 20(4), 383–411.</li>
+    <li>Palou, E., López-Malo, A., Barbosa-Cánovas, G. V., Welti-Chanes, J., &amp; Swanson, B. G. (1999). Polyphenoloxidase activity and color of blanched and high hydrostatic pressure treated banana puree. Journal of Food Science, 64(1), 42–45.</li>
+    <li>Sharma, G., Wu, W., &amp; Dalal, E. N. (2005). The CIEDE2000 color-difference formula: Implementation notes, supplementary test data, and mathematical observations. Color Research &amp; Application, 30(1), 21–30.</li>
+  </ul>
+  <h3>F.2 · Kinetics, shelf life and time to rejection</h3>
+  <ul class="refs">
+    <li>Akaike, H. (1974). A new look at the statistical model identification. IEEE Transactions on Automatic Control, 19(6), 716–723.</li>
+    <li>Arrhenius, S. (1889). Über die Reaktionsgeschwindigkeit bei der Inversion von Rohrzucker durch Säuren. Zeitschrift für Physikalische Chemie, 4, 226–248.</li>
+    <li>Bates, D. M., &amp; Watts, D. G. (1988). Nonlinear regression analysis and its applications. Wiley.</li>
+    <li>Burnham, K. P., &amp; Anderson, D. R. (2002). Model selection and multimodel inference (2nd ed.). Springer.</li>
+    <li>Greenwood, M. (1926). The natural duration of cancer. Reports on Public Health and Medical Subjects, 33, 1–26.</li>
+    <li>Hough, G., Langohr, K., Gómez, G., &amp; Curia, A. (2003). Survival analysis applied to sensory shelf life of foods. Journal of Food Science, 68(1), 359–362.</li>
+    <li>Kaplan, E. L., &amp; Meier, P. (1958). Nonparametric estimation from incomplete observations. Journal of the American Statistical Association, 53, 457–481.</li>
+    <li>Labuza, T. P. (1984). Application of chemical kinetics to deterioration of foods. Journal of Chemical Education, 61(4), 348–358.</li>
+    <li>Lawless, J. F. (2003). Statistical models and methods for lifetime data (2nd ed.). Wiley.</li>
+    <li>Mantel, N. (1966). Evaluation of survival data and two new rank order statistics arising in its consideration. Cancer Chemotherapy Reports, 50(3), 163–170.</li>
+    <li>Marquardt, D. W. (1963). An algorithm for least-squares estimation of nonlinear parameters. Journal of the Society for Industrial and Applied Mathematics, 11(2), 431–441.</li>
+    <li>Mizrahi, S. (2004). Accelerated shelf-life tests. In R. Steele (Ed.), Understanding and measuring the shelf-life of food (pp. 317–339). Woodhead.</li>
+    <li>Ratkowsky, D. A., Olley, J., McMeekin, T. A., &amp; Ball, A. (1982). Relationship between temperature and growth rate of bacterial cultures. Journal of Bacteriology, 149(1), 1–5.</li>
+    <li>Taoukis, P. S., &amp; Labuza, T. P. (1989). Applicability of time-temperature indicators as shelf life monitors of food products. Journal of Food Science, 54(4), 783–788.</li>
+    <li>van Boekel, M. A. J. S. (2008). Kinetic modeling of food quality: A critical review. Comprehensive Reviews in Food Science and Food Safety, 7(1), 144–158.</li>
+  </ul>
+  <h3>F.3 · Respiration, ethylene, atmospheres and cooling</h3>
+  <ul class="refs">
+    <li>Biale, J. B. (1964). Growth, maturation, and senescence in fruits. Science, 146(3646), 880–888.</li>
+    <li>Exama, A., Arul, J., Lencki, R. W., Lee, L. Z., &amp; Toupin, C. (1993). Suitability of plastic films for modified atmosphere packaging of fruits and vegetables. Journal of Food Science, 58(6), 1365–1370.</li>
+    <li>Fishman, S., Rodov, V., &amp; Ben-Yehoshua, S. (1996). Mathematical model for perforation effect on oxygen and water vapor dynamics in modified-atmosphere packages. Journal of Food Science, 61(5), 956–961.</li>
+    <li>Fonseca, S. C., Oliveira, F. A. R., &amp; Brecht, J. K. (2002). Modelling respiration rate of fresh fruits and vegetables for modified atmosphere packages: A review. Journal of Food Engineering, 52(2), 99–119.</li>
+    <li>Lee, D. S., Haggar, P. E., Lee, J., &amp; Yam, K. L. (1991). Model for fresh produce respiration in modified atmospheres based on principles of enzyme kinetics. Journal of Food Science, 56(6), 1580–1585.</li>
+    <li>Lelièvre, J.-M., Latché, A., Jones, B., Bouzayen, M., &amp; Pech, J.-C. (1997). Ethylene and fruit ripening. Physiologia Plantarum, 101(4), 727–739.</li>
+    <li>Mangaraj, S., Goswami, T. K., &amp; Mahajan, P. V. (2009). Applications of plastic films for modified atmosphere packaging of fruits and vegetables: A review. Food Engineering Reviews, 1(2), 133–158.</li>
+    <li>Saltveit, M. E. (2016). Respiratory metabolism. In K. C. Gross, C. Y. Wang, &amp; M. Saltveit (Eds.), Agriculture Handbook 66 (pp. 68–75). USDA.</li>
+    <li>Siebel, J. E. (1892). Specific heat of various products. Ice and Refrigeration, 2, 256–257.</li>
+    <li>Thompson, J. F., Mitchell, F. G., Rumsey, T. R., Kasmire, R. F., &amp; Crisosto, C. H. (2008). Commercial cooling of fruits, vegetables, and flowers (Publication 21567). University of California, Agriculture and Natural Resources.</li>
+  </ul>
+  <h3>F.4 · Losses and mechanical damage</h3>
+  <ul class="refs">
+    <li>Bajema, R. W., &amp; Hyde, G. M. (1998). Instrumented pendulum for impact characterization of whole fruit and vegetable specimens. Transactions of the ASAE, 41(5), 1399–1405.</li>
+    <li>FAO. (2019). The state of food and agriculture 2019: Moving forward on food loss and waste reduction. FAO.</li>
+    <li>Finney, D. J. (1971). Probit analysis (3rd ed.). Cambridge University Press.</li>
+    <li>La Gra, J., Kitinoja, L., &amp; Alpuche, K. (2016). Commodity systems assessment methodology for value chain problem and project identification. IICA.</li>
+    <li>Mohsenin, N. N. (1986). Physical properties of plant and animal materials (2nd ed.). Gordon and Breach.</li>
+  </ul>
+  <h3>F.5 · Sensory evaluation</h3>
+  <ul class="refs">
+    <li>Bi, J. (2006). Sensory discrimination tests and measurements: Statistical principles, procedures and tables. Blackwell.</li>
+    <li>Brockhoff, P. B., &amp; Christensen, R. H. B. (2010). Thurstonian models for sensory discrimination tests as generalized linear models. Food Quality and Preference, 21(3), 330–338.</li>
+    <li>Clopper, C. J., &amp; Pearson, E. S. (1934). The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika, 26(4), 404–413.</li>
+    <li>Cochran, W. G. (1950). The comparison of percentages in matched samples. Biometrika, 37(3–4), 256–266.</li>
+    <li>Ennis, D. M. (1993). The power of sensory discrimination methods. Journal of Sensory Studies, 8(4), 353–370.</li>
+    <li>Ennis, J. M., &amp; Jesionka, V. (2011). The power of sensory discrimination methods revisited. Journal of Sensory Studies, 26(5), 371–382.</li>
+    <li>Friedman, M. (1937). The use of ranks to avoid the assumption of normality implicit in the analysis of variance. Journal of the American Statistical Association, 32(200), 675–701.</li>
+    <li>Greenacre, M. (2007). Correspondence analysis in practice (2nd ed.). Chapman &amp; Hall/CRC.</li>
+    <li>Jolliffe, I. T. (2002). Principal component analysis (2nd ed.). Springer.</li>
+    <li>Lawless, H. T., &amp; Heymann, H. (2010). Sensory evaluation of food: Principles and practices (2nd ed.). Springer.</li>
+    <li>MacFie, H. J. H., Bratchell, N., Greenhoff, K., &amp; Vallis, L. V. (1989). Designs to balance the effect of order of presentation and first-order carry-over effects in hall tests. Journal of Sensory Studies, 4(2), 129–148.</li>
+    <li>McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12(2), 153–157.</li>
+    <li>Meyners, M., Castura, J. C., &amp; Carr, B. T. (2013). Existing and new approaches for the analysis of CATA data. Food Quality and Preference, 30(2), 309–319.</li>
+    <li>Næs, T., Brockhoff, P. B., &amp; Tomic, O. (2010). Statistics for sensory and consumer science. Wiley.</li>
+    <li>Peryam, D. R., &amp; Pilgrim, F. J. (1957). Hedonic scale method of measuring food preferences. Food Technology, 11(9), 9–14.</li>
+    <li>Stone, H., Sidel, J., Oliver, S., Woolsey, A., &amp; Singleton, R. C. (1974). Sensory evaluation by quantitative descriptive analysis. Food Technology, 28(11), 24–34.</li>
+    <li>Williams, E. J. (1949). Experimental designs balanced for the estimation of residual effects of treatments. Australian Journal of Scientific Research, Series A, 2(2), 149–168.</li>
+    <li>Xiong, R., &amp; Meullenet, J.-F. (2006). A PLS dummy variable approach to assess the impact of jar attributes on consumer acceptance. Food Quality and Preference, 17(3–4), 188–198.</li>
+  </ul>
+  <h3>F.6 · Design and analysis of trials</h3>
+  <ul class="refs">
+    <li>Copenhaver, M. D., &amp; Holland, B. (1988). Computation of the distribution of the maximum studentized range statistic with application to multiple significance testing of simple effects. Journal of Statistical Computation and Simulation, 30(1), 1–15.</li>
+    <li>Dunnett, C. W. (1955). A multiple comparison procedure for comparing several treatments with a control. Journal of the American Statistical Association, 50(272), 1096–1121.</li>
+    <li>Greenhouse, S. W., &amp; Geisser, S. (1959). On methods in the analysis of profile data. Psychometrika, 24(2), 95–112.</li>
+    <li>Holm, S. (1979). A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics, 6(2), 65–70.</li>
+    <li>Huynh, H., &amp; Feldt, L. S. (1976). Estimation of the Box correction for degrees of freedom from sample data in randomized block and split-plot designs. Journal of Educational Statistics, 1(1), 69–82.</li>
+    <li>Kramer, C. Y. (1956). Extension of multiple range tests to group means with unequal numbers of replications. Biometrics, 12(3), 307–310.</li>
+    <li>Lecoutre, B. (1991). A correction for the ε̃ approximate test in repeated measures designs with two or more independent groups. Journal of Educational Statistics, 16(4), 371–372.</li>
+    <li>Mauchly, J. W. (1940). Significance test for sphericity of a normal n-variate distribution. The Annals of Mathematical Statistics, 11(2), 204–209.</li>
+    <li>Piepho, H.-P. (2004). An algorithm for a letter-based representation of all-pairwise comparisons. Journal of Computational and Graphical Statistics, 13(2), 456–466.</li>
+    <li>Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components. Biometrics Bulletin, 2(6), 110–114.</li>
+    <li>Snedecor, G. W., &amp; Cochran, W. G. (1989). Statistical methods (8th ed.). Iowa State University Press.</li>
+    <li>Steel, R. G. D., Torrie, J. H., &amp; Dickey, D. A. (1997). Principles and procedures of statistics: A biometrical approach (3rd ed.). McGraw-Hill.</li>
+  </ul>
+  <h3>F.7 · Packaging, storage and psychrometrics</h3>
+  <ul class="refs">
+    <li>ASHRAE. (2017). Psychrometrics. In ASHRAE handbook — Fundamentals (ch. 1). ASHRAE.</li>
+    <li>Gross, K. C., Wang, C. Y., &amp; Saltveit, M. (Eds.). (2016). The commercial storage of fruits, vegetables, and florist and nursery stocks (Agriculture Handbook 66). USDA Agricultural Research Service.</li>
+    <li>McGregor, B. M. (1989). Tropical products transport handbook (Agriculture Handbook 668). USDA.</li>
+    <li>Sastry, S. K., Baird, C. D., &amp; Buffington, D. E. (1978). Transpiration rates of certain fruits and vegetables. ASHRAE Transactions, 84(1), 237–255.</li>
+    <li>Smith, A., &amp; De Cani, P. (1980). An algorithm to optimize the layout of boxes in pallets. Journal of the Operational Research Society, 31(7), 573–578.</li>
+    <li>Steudel, H. J. (1979). Generating pallet loading patterns: A special case of the two-dimensional cutting stock problem. Management Science, 25(10), 997–1004.</li>
+    <li>Wagner, W., &amp; Pruss, A. (2002). The IAPWS formulation 1995 for the thermodynamic properties of ordinary water substance for general and scientific use. Journal of Physical and Chemical Reference Data, 31(2), 387–535.</li>
+    <li>Wagner, W., Riethmann, T., Feistel, R., &amp; Harvey, A. H. (2011). New equations for the sublimation pressure and melting pressure of H₂O ice Ih. Journal of Physical and Chemical Reference Data, 40(4), 043103.</li>
+  </ul>
+  <!-- /REFERENCIAS -->
+</section>
+
+</body>
+</html>

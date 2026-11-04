@@ -28,7 +28,7 @@ const lang = en ? 'en' : 'es';
 
 /* el tema de cada obra: el primer bloque que la cita */
 const TEMAS = [
-  [2, 'Calidad, madurez y color', 'Quality, maturity and colour'],
+  [2, 'Calidad, madurez y color', 'Quality, ripeness and color'],
   [3, 'Cinética, vida de anaquel y tiempo hasta el rechazo', 'Kinetics, shelf life and time to rejection'],
   [4, 'Respiración, etileno, atmósferas y enfriamiento', 'Respiration, ethylene, atmospheres and cooling'],
   [5, 'Pérdidas y daño mecánico', 'Losses and mechanical damage'],
